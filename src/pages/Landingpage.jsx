@@ -233,25 +233,25 @@ const Landingpage = () => {
         <div className="right p-3 w-1/2">
           <h1 className=' change text-4xl w-[50%]'>Download
             The YouTooArt App</h1>
-            <p className=' change w-60% text-gray-500 mt-3'>Elevate your artistry with the YouTooArt app. Download now to explore casting calls, connect with fellow artists, and collaborate on the go. Your masterpiece awaits – take the first step.</p>
+          <p className=' change w-60% text-gray-500 mt-3'>Elevate your artistry with the YouTooArt app. Download now to explore casting calls, connect with fellow artists, and collaborate on the go. Your masterpiece awaits – take the first step.</p>
         </div>
       </div>
 
       <div className="land8 bg-[#F4F4F4]">
         <div className='md:m-20 m- flex justify-center items-center flex-col'>
-              <img className='w-[35%]' src={land8img} alt="" />
-              <div className='flex justify-center items-center flex-col mt-8'>
-                <h1 className=' change md:text-4xl text-2xl w-[70%] text-center'>Connect with Us – Let's Shape Your YouTooArt Experience.</h1>
-                <p className=' change mt-5 md:m-0 m-10 text-center md:text-start'>Have questions, suggestions, or need assistance? We're here for you!</p>
-              </div>
-              <div>
-              <button className=' change p-3 border rounded-3xl border-gray-600 mt-7 mb-20'>Contact Us</button>
-              </div>
+          <img className='w-[35%]' src={land8img} alt="" />
+          <div className='flex justify-center items-center flex-col mt-8'>
+            <h1 className=' change md:text-4xl text-2xl w-[70%] text-center'>Connect with Us – Let's Shape Your YouTooArt Experience.</h1>
+            <p className=' change mt-5 md:m-0 m-10 text-center md:text-start'>Have questions, suggestions, or need assistance? We're here for you!</p>
+          </div>
+          <div>
+            <button className=' change p-3 border rounded-3xl border-gray-600 mt-7 mb-20'>Contact Us</button>
+          </div>
         </div>
       </div>
 
       <div className="footer">
-        <Footer/>
+        <Footer />
       </div>
     </div>
   )

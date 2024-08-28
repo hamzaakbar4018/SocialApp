@@ -17,6 +17,7 @@ const Main = () => {
     const [postModel, setPostModel] = useState(false);
     const [tagPeople, setTagPeople] = useState(false);
     const [search, setSearch] = useState(false);
+   
     const handleTagPeople = () => {
         setTagPeople(!tagPeople);
         setPostModel(false);
@@ -29,6 +30,7 @@ const Main = () => {
         setPostModel(!postModel);
         setTagPeople(false);
     };
+
     const admin = [
         {
             image: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -179,6 +181,7 @@ const Main = () => {
             </div>
 
             {/* Models */}
+
 
 
             {showRightbar && (

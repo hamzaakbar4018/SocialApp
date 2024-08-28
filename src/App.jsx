@@ -5,17 +5,25 @@ import Login from './pages/Login/Login';
 import Verify from './pages/Login/Verify';
 import Home from './pages/Home';
 import './CSS/App.css';
+import Talent from './pages/Talent';
+import Transacction from './pages/Transaction';
+import Support from './pages/Support';
 
 const App = () => {
   return (
-    <div className='root'>
+    <>
+    <div className='routing'>
       <Routes>
         <Route path='/' element={<Landingpage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/verify' element={<Verify />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/talent' element={<Talent />} />
+        <Route path='/transaction' element={<Transacction />} />
+        <Route path='/support' element={<Support />} />
       </Routes>
     </div>
+    </>
   );
 }
 

@@ -1,3 +1,22 @@
 *{
     font-family: 'SF Pro Display', sans-serif;
 }
+
+/* Add this CSS to your CSS file */
+.swiper-container {
+  overflow: hidden; /* Prevent horizontal overflow */
+}
+
+.swiper-wrapper {
+  display: flex; /* Ensure swiper items are displayed horizontally */
+}
+
+.swiper-slide {
+  flex-shrink: 0; /* Prevent slides from shrinking */
+}
+/* Ensure the parent container is wide enough */
+.parent-container {
+    width: 100%;
+    overflow: hidden;
+  }
+  
