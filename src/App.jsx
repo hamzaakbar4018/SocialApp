@@ -30,7 +30,7 @@ const App = () => {
         <Route path='/about' element={<About />} />
         <Route path='/term-policy' element={<Term />} />
         <Route path='/privacy' element={<Privacy />} />
-        
+
         <Route path='/profile' element={<Profile />}>
           <Route path='profileactivity' element={<ProfileActivity />} />
           <Route path='profileabout' element={<ProfileAbout />} />
