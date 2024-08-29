@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom'; 
 import sidebarLogo from '../assets/Images/sidebarLogo.svg';
 import home from '../assets/Images/home.svg';
 import talent from '../assets/Images/talent.svg';
@@ -137,7 +137,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <NavLink
-                                to='/term-policy'
+                                to='/privacy'
                                 className={({ isActive }) =>
                                     `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-gradient-to-r from-[#c0d5ec] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                 }

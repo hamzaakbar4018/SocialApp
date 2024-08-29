@@ -3,8 +3,8 @@ import { CiSearch } from 'react-icons/ci';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import Rightbar from './Rightbar';
 import { FaArrowCircleRight } from 'react-icons/fa';
-import land6plus from '../assets/Images/land6plus.svg'
-import land6minus from '../assets/Images/land6minus.svg'
+import land6plus from '../assets/Images/down.svg'
+import land6minus from '../assets/Images/up.svg'
 const SupportMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
@@ -75,16 +75,16 @@ const SupportMain = () => {
                             <div className="details flex flex-col">
                                 <div className="one mt-7 border-b border-gray-300 flex w-full">
                    
-                                    <div className="data w-[60%]">
+                                    <div className="data w-full">
                                         <h1 className='changes text-xl mb-4'>What is youtooart.com about?</h1>
                                         {visibleSections[0] && <p className='changes text-sm mb-4 text-gray-500'>
                                             Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
                                         </p>}
                                     </div>
-                                    <div className="w-full flex justify-end items-start">
+                                    <div className="w-[20%] flex justify-end items-start">
                                         {!visibleSections[0] ?
-                                            <button onClick={() => handleVisible(0)} className='changes '><img className='w-[90%]' src={land6plus} alt="" /></button> :
-                                            <button onClick={() => handleVisible(0)} className='changes '><img className='w-[90%]' src={land6minus} alt="" /></button>
+                                            <button onClick={() => handleVisible(0)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
+                                            <button onClick={() => handleVisible(0)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
                                         }
                                     </div>
                                 </div>
@@ -99,8 +99,8 @@ const SupportMain = () => {
                                     </div>
                                     <div className="w-[20%] flex justify-end items-start">
                                         {!visibleSections[1] ?
-                                            <button onClick={() => handleVisible(1)} className='changes '><img className='w-[90%]' src={land6plus} alt="" /></button> :
-                                            <button onClick={() => handleVisible(1)} className='changes '><img className='w-[90%]' src={land6minus} alt="" /></button>
+                                            <button onClick={() => handleVisible(1)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
+                                            <button onClick={() => handleVisible(1)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
                                         }
                                     </div>
                                 </div>
@@ -115,8 +115,8 @@ const SupportMain = () => {
                                     </div>
                                     <div className="w-[20%] flex justify-end items-start">
                                         {!visibleSections[2] ?
-                                            <button onClick={() => handleVisible(2)} className='changes '><img className='w-[90%]' src={land6plus} alt="" /></button> :
-                                            <button onClick={() => handleVisible(2)} className='changes '><img className='w-[90%]' src={land6minus} alt="" /></button>
+                                            <button onClick={() => handleVisible(2)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
+                                            <button onClick={() => handleVisible(2)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
                                         }
                                     </div>
                                 </div>
@@ -131,8 +131,8 @@ const SupportMain = () => {
                                     </div>
                                     <div className="w-[20%] flex justify-end items-start">
                                         {!visibleSections[3] ?
-                                            <button onClick={() => handleVisible(3)} className='changes '><img className='w-[90%]' src={land6plus} alt="" /></button> :
-                                            <button onClick={() => handleVisible(3)} className='changes '><img className='w-[90%]' src={land6minus} alt="" /></button>
+                                            <button onClick={() => handleVisible(3)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
+                                            <button onClick={() => handleVisible(3)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
                                         }
                                     </div>
                                 </div>
@@ -147,8 +147,8 @@ const SupportMain = () => {
                                     </div>
                                     <div className="w-[20%] flex justify-end items-start">
                                         {!visibleSections[4] ?
-                                            <button onClick={() => handleVisible(4)} className='changes '><img className='w-[90%]' src={land6plus} alt="" /></button> :
-                                            <button onClick={() => handleVisible(4)} className='changes '><img className='w-[90%]' src={land6minus} alt="" /></button>
+                                            <button onClick={() => handleVisible(4)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
+                                            <button onClick={() => handleVisible(4)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
                                         }
                                     </div>
                                 </div>
