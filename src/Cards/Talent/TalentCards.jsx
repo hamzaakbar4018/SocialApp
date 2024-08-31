@@ -2,7 +2,7 @@ import { IoMailOutline } from "react-icons/io5";
 const TalentCards = ({ userpic, name, text }) => {
   return (
     <div className="overflow-hidden">
-      <div className="bg-white rounded-lg p-5 min-w-48 min-h-min h-[250px]">
+      <div className="bg-white rounded-lg p-5 w-[228px] min-h-min h-[250px]">
         <div className="flex flex-col justify-between space-y-2 h-full">
           <div>
             <img

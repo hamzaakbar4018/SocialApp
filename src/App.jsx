@@ -11,6 +11,7 @@ import Support from './pages/Support';
 import About from './pages/About';
 import Term from './pages/Term';
 import Privacy from './pages/Privacy';
+import Network from './pages/Network';
 import Profile from './pages/Profile';  // Import Profile page
 import ProfileActivity from './components/ProfileActivity';
 import ProfileAbout from './components/ProfileAbout';
@@ -18,13 +19,14 @@ import ProfileMywork from './components/ProfileMywork';
 
 const App = () => {
   return (
-    <div className='routing'>
+    <div className='routing bg-white'>
       <Routes>
         <Route path='/' element={<Landingpage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/verify' element={<Verify />} />
         <Route path='/home' element={<Home />} />
         <Route path='/talent' element={<Talent />} />
+        <Route path='/network' element={<Network />} />
         <Route path='/transaction' element={<Transacction />} />
         <Route path='/support' element={<Support />} />
         <Route path='/about' element={<About />} />

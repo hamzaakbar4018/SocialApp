@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-
+import '../CSS/Connections.css'
 const SwipingData = () => {
     const talentData = [
         {
@@ -60,27 +60,27 @@ const SwipingData = () => {
     ];
 
     return (
-        <>
-            
-            <h3 className="font-bold text-2xl">People in Drama Industry</h3>
-            <Swiper
-                modules={[Navigation, Pagination, Scrollbar, A11y]}
-                spaceBetween={10}
-                slidesPerView={5}
-                navigation
-                pagination={{ clickable: true }}
-                scrollbar={{ draggable: true }}
-                onSwiper={(swiper) => console.log(swiper)}
-                onSlideChange={() => console.log("slide change")}
-                className=" overflow-hidden"
-            >
-                {talentData.map((data) => (
-                    <SwiperSlide key={data.id}>
-                        <TalentCards  {...data}  className='min-w-min'/>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </>
+        <div className="container overflow-x-hidden">
+            <div className="swiper-grid-container">
+                <Swiper
+                    modules={[Navigation, Pagination, Scrollbar, A11y]}
+                    spaceBetween={10}
+                    slidesPerView={4}
+                    // navigation
+                    // pagination={{ clickable: false }}
+                    scrollbar={{ draggable: true }}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    onSlideChange={() => console.log("slide change")}
+                    className="swiper-container w-full overflow-hidden"
+                >
+                    {talentData.map((data) => (
+                        <SwiperSlide key={data.id}>
+                            <TalentCards {...data} className='min-w-min'/>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+        </div>
     );
 };
 

@@ -1,22 +1,29 @@
 *{
     font-family: 'SF Pro Display', sans-serif;
 }
-
-/* Add this CSS to your CSS file */
-.swiper-container {
-  overflow: hidden; /* Prevent horizontal overflow */
+.swiper-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+  overflow: hidden;
 }
 
-.swiper-wrapper {
-  display: flex; /* Ensure swiper items are displayed horizontally */
+.swiper-container {
+  grid-column: 1 / -1;
 }
 
 .swiper-slide {
-  flex-shrink: 0; /* Prevent slides from shrinking */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-/* Ensure the parent container is wide enough */
-.parent-container {
-    width: 100%;
-    overflow: hidden;
-  }
-  
+.swiper-scrollbar {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.min-w-min {
+  min-width: 0;
+}

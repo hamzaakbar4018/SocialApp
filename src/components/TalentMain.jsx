@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import Rightbar from "./Rightbar";
-import admin from "../assets/Images/photoadmin.svg";
 import { FaArrowCircleRight } from "react-icons/fa";
-import TalentCards from "../Cards/Talent/TalentCards";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import SwipingData from "../Cards/SwipingData";
+import IndustryData from "../Cards/IndustryData";
+import ProductionData from "../Cards/ProductionData";
 
 const TalentMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
@@ -80,7 +79,12 @@ const TalentMain = () => {
                 </div>
                 <div className="p-[5px]">
                     <div className="rounded bg-gray-100  p-4 space-y-2">
-                        <SwipingData/>
+                        <h3 className="font-bold text-2xl">People in Drama Industry</h3>
+                        <IndustryData />
+                    </div>
+                    <div className="rounded bg-gray-100  p-4 space-y-2">
+                        <h3 className="font-bold text-2xl">Popular Production houses</h3>
+                        <ProductionData />
                     </div>
                 </div>
             </div>

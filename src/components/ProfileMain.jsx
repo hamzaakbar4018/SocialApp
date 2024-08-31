@@ -31,7 +31,7 @@ const ProfileMain = () => {
         <div className='flex'>
             <div className='flex-grow'>
                 <div className='flex px-0 justify-between items-center border-b py-4'>
-                    <h1 className='text-xl p-3'>Terms & Conditions</h1>
+                    <h1 className='text-xl p-3'>My Profile</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
                             className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-[630px]' : 'w-[300px]'}`}
