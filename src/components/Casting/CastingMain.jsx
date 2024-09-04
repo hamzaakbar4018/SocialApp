@@ -1,43 +1,36 @@
 import React, { useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import Rightbar from './Rightbar';
+import Rightbar from '../Rightbar';
 import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';  // Import necessary components
 import { FaArrowCircleRight } from 'react-icons/fa';
-import ProfileCard from '../Cards/ProfileCard';
-import { CiBoxList } from "react-icons/ci";
-import { FaRegUser } from "react-icons/fa";
-import { AiOutlinePicture } from "react-icons/ai";
+import { FaChromecast } from "react-icons/fa6";
+import { BsPatchCheck } from "react-icons/bs";
 
-
-const ProfileMain = () => {
+const CastingMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
+
+    const location = useLocation();
 
     const handleBar = () => {
         setShowRightbar(!showRightbar);
     };
 
     const handleSearch = () => {
+        console.log("Search button clicked");
         setSearch(!search);
     };
-    // Get the current location to check the pathname
-    const location = useLocation();
-    if (location.pathname === '/profile') {
-        // Corrected redirection path
-        return <Navigate to="/profile/profileactivity" />;
-    }
-    const userData = [{
-        userImg: "https://randomuser.me/api/portraits/men/10.jpg",
-        username: "JohnDoe123",
-        description: "Actor | Director",
-    }];
 
+    if (location.pathname === '/casting') {
+        return <Navigate to="/casting/calls" />;
+    }
+    
     return (
         <div className='flex'>
             <div className='flex-grow'>
                 <div className='flex px-0 justify-between items-center border-b py-4'>
-                    <h1 className='text-xl p-3'>My Profile</h1>
+                    <h1 className='text-xl p-3'>Casting Calls</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
                             className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-[630px]' : 'w-[300px]'}`}
@@ -74,55 +67,53 @@ const ProfileMain = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? '' : 'mr-[1%]'}`}>
+                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[1%]'}`}>
                     <div className='p-[5px]'>
-                        <div className='bg-gray-100'>
-                            {userData.map((data, index) => (
-                                <ProfileCard key={index} {...data} />
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className='p-[5px]'>
-                        <div className='bg-gray-100 rounded p-6'>
-                            <ul className='flex gap-6 text-gray-400'>
+                        <div className="rounded bg-gray-100 py-6 px-4">
+                            <ul className='flex gap-4'>
                                 <li>
                                     <NavLink
-                                        to='/profile/profileactivity'
-                                        className={({ isActive }) =>
-                                            `flex gap-2 items-center ${isActive ? 'font-bold text-black' : ''}`
-                                        }
+                                        to='/casting/calls'
+                                        className='flex gap-2 items-center'
+                                        style={({ isActive }) => ({
+                                            fontWeight: isActive ? 'bold' : 'normal',
+                                            color: isActive ? '#000000' : 'inherit',
+                                        })}
                                     >
-                                        <CiBoxList className={`text-2xl ${isActive => isActive ? 'text-[#399AF3]' : 'text-gray-400'}`} />
-                                        Activity
+                                        <FaChromecast style={{ color: isActive => isActive ? '#399AF3' : '#CCCCCC' }} className='text-2xl' />
+                                        Casting Calls
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        to='/profile/profileabout'
-                                        className={({ isActive }) =>
-                                            `flex gap-2 items-center ${isActive ? 'font-bold text-black' : ''}`
-                                        }
+                                        to='/casting/applied'
+                                        className='flex gap-2 items-center'
+                                        style={({ isActive }) => ({
+                                            fontWeight: isActive ? 'bold' : 'normal',
+                                            color: isActive ? '#000000' : 'inherit',
+                                        })}
                                     >
-                                        <FaRegUser className={`text-xl ${isActive => isActive ? 'text-[#399AF3]' : 'text-gray-400'}`} />
-                                        About
+                                        <BsPatchCheck style={{ color: isActive => isActive ? '#399AF3' : '#CCCCCC' }} className='text-2xl' />
+                                        Applied
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        to='/profile/profilemywork'
-                                        className={({ isActive }) =>
-                                            `flex gap-2 items-center ${isActive ? 'font-bold text-black' : ''}`
-                                        }
+                                        to='/casting/mycalls'
+                                        className='flex gap-2 items-center'
+                                        style={({ isActive }) => ({
+                                            fontWeight: isActive ? 'bold' : 'normal',
+                                            color: isActive ? '#000000' : 'inherit',
+                                        })}
                                     >
-                                        <AiOutlinePicture className={`text-2xl ${isActive => isActive ? 'text-[#399AF3]' : 'text-gray-400'}`} />
-                                        My Work
+                                        <FaChromecast style={{ color: isActive => isActive ? '#399AF3' : '#CCCCCC' }} className='text-2xl' />
+                                        My Casting Calls
                                     </NavLink>
                                 </li>
                             </ul>
                         </div>
+                        <Outlet />
                     </div>
-                    <Outlet />
                 </div>
             </div>
 
@@ -136,4 +127,4 @@ const ProfileMain = () => {
     );
 };
 
-export default ProfileMain;
+export default CastingMain;

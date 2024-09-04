@@ -12,10 +12,15 @@ import About from './pages/About';
 import Term from './pages/Term';
 import Privacy from './pages/Privacy';
 import Network from './pages/Network';
-import Profile from './pages/Profile';  // Import Profile page
+import Profile from './pages/Profile';
 import ProfileActivity from './components/ProfileActivity';
 import ProfileAbout from './components/ProfileAbout';
 import ProfileMywork from './components/ProfileMywork';
+import Casting from './pages/Casting';
+import Calls from './components/Casting/Calls';
+import Applied from './components/Casting/Applied';
+import MyCasting from './components/Casting/MyCasting';
+import Chat from './pages/Chat';
 
 const App = () => {
   return (
@@ -32,11 +37,20 @@ const App = () => {
         <Route path='/about' element={<About />} />
         <Route path='/term-policy' element={<Term />} />
         <Route path='/privacy' element={<Privacy />} />
+        <Route path='/chat' element={<Chat />} />
 
+        {/* Profile Routes */}
         <Route path='/profile' element={<Profile />}>
           <Route path='profileactivity' element={<ProfileActivity />} />
           <Route path='profileabout' element={<ProfileAbout />} />
           <Route path='profilemywork' element={<ProfileMywork />} />
+        </Route>
+
+        {/* Casting Routes */}
+        <Route path='/casting' element={<Casting />}>
+          <Route path='calls' element={<Calls />} />
+          <Route path='applied' element={<Applied />} />
+          <Route path='mycalls' element={<MyCasting />} />
         </Route>
       </Routes>
     </div>

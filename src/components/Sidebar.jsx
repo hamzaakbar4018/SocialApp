@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
 import sidebarLogo from '../assets/Images/sidebarLogo.svg';
 import home from '../assets/Images/home.svg';
 import talent from '../assets/Images/talent.svg';
@@ -11,6 +11,7 @@ import transaction from '../assets/Images/transaction.svg';
 import support from '../assets/Images/support.svg';
 import about from '../assets/Images/about.svg';
 import termPolicy from '../assets/Images/termPolicy.svg';
+import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
 
 const Sidebar = () => {
     return (
@@ -75,8 +76,10 @@ const Sidebar = () => {
                                     `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-gradient-to-r from-[#c0d5ec] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                 }
                             >
-                                <img src={chat} alt="Chat" className='w-6' />
-                                Chat
+                                <div className='flex justify-start gap-2 items-center'>
+                                    <HiOutlineChatBubbleBottomCenterText className='text-2xl' />
+                                    Chat
+                                </div>
                             </NavLink>
                         </li>
                         <h2 className='text-gray-500 mx-3'>Account</h2>
@@ -149,7 +152,7 @@ const Sidebar = () => {
                     </ul>
                 </div>
             </div>
-            
+
         </div>
     );
 };

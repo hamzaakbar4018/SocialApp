@@ -1,0 +1,53 @@
+import React from 'react'
+import { HiOutlineDotsVertical } from "react-icons/hi";
+
+
+const UserCard = ({ title, img, type, shoot, budget, username, location}) => {
+    return (
+        <div className='p-4 bg-white rounded'>
+            <div className='flex justify-between'>
+                <div className='flex gap-2'>
+                    <div>
+                        <img src={img} className='w-12 h-12' alt="" />
+                    </div>
+                    <div>
+                        <h1 className='text-xl'>{title}</h1>
+                        <p className='text-gray-400'>{username}</p>
+                    </div>
+                </div>
+                <div className=' flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2  justify-center items-center'>
+                    <HiOutlineDotsVertical className="font-bold text-2xl"/>
+                </div>
+            </div>
+            <div className='flex gap-16 mt-3 justify-center items-center'>
+                <div>
+                    <div>
+                        <h2 className='text-gray-400'>Location</h2>
+                        <h1 className='font-bold'>{location}</h1>
+                    </div>
+                    <div>
+                        <h2 className='text-gray-400'>Type</h2>
+                        <h1 className='font-bold'>{type}</h1>
+
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h2 className='text-gray-400'>Shoot</h2>
+                        <h1 className='font-bold'>{shoot}</h1>
+
+                    </div>
+                    <div>
+                        <h2 className='text-gray-400'>Budget</h2>
+                        <h1 className='font-bold'>{budget}</h1>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+export default UserCard
