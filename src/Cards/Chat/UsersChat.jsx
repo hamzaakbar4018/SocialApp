@@ -21,43 +21,44 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
                 </div>
             </div>
 
-            {/* Chat Messages */}
-            <div className='bg-white rounded-t p-4 mt-1 h-screen overflow-y-auto'>
-                <div className='flex flex-col gap-2'>
-                    {received ? (
-                        <div className='flex flex-col'>
-                            <div className="chat chat-start">
-                                <div className="chat-bubble">{received.msg}</div>
-                            </div>
-                            <div className="chat chat-start">
-                                <div className="chat-header">
-                                    <time className="text-xs opacity-50">{time}</time>
+            <div className='flex flex-col flex-1 min-h-[70vh] md:min-h-[80vh]'>
+                <div className='bg-white rounded-t p-4 mt-1 overflow-y-auto flex-1'>
+                    <div className='flex flex-col gap-2'>
+                        {received ? (
+                            <div className='flex flex-col'>
+                                <div className="chat chat-start">
+                                    <div className="chat-bubble text-black" style={{ backgroundColor: '#E7E8E8' }}>{received.msg}</div>
+                                </div>
+                                <div className="chat chat-start">
+                                    <div className="chat-header">
+                                        <time className="text-xs opacity-50">{time}</time>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ):('')}
-                    {sent ? (
-                        <div className='flex flex-col items-end'>
-                            <div className="chat chat-end">
-                                <div className="chat-bubble">{sent.msg}</div>
-                            </div>
-                            <div className="chat chat-end">
-                                <div className="chat-header">
-                                    <time className="text-xs opacity-50">{time}</time>
+                        ) : ''}
+                        {sent ? (
+                            <div className='flex flex-col items-end'>
+                                <div className="chat chat-end">
+                                    <div className="chat-bubble" style={{ backgroundColor: '#399AF3', color: 'white' }}>{sent.msg}</div>
+                                </div>
+                                <div className="chat chat-end">
+                                    <div className="chat-header">
+                                        <time className="text-xs opacity-50">{time}</time>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ):''}
+                        ) : ''}
+                    </div>
+                </div>
+
+                <div className='send border-t border-gray-400 bg-white p-4 flex items-center gap-2'>
+                    <div className='bg-gray-100 w-full rounded-3xl'>
+                        <input type="text" placeholder='Enter the message' className='p-3 outline-none bg-transparent' />
+                    </div>
+                    <FaArrowCircleRight className='text-3xl cursor-pointer' />
                 </div>
             </div>
 
-            {/* Message Input */}
-            <div className='send border-t border-gray-400 bg-white p-4 flex items-center gap-2'>
-                <div className='bg-gray-100 p-3 w-full rounded-3xl'>
-                    <h1>Enter your message</h1>
-                </div>
-                <FaArrowCircleRight className='text-3xl cursor-pointer' />
-            </div>
         </div>
     )
 }
