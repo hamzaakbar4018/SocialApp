@@ -4,9 +4,7 @@ import TransacctionMain from '../components/TransacctionMain'
 const Transacction = () => {
   return (
     <div className='w-full'>
-            {/* <div className='min-w-[19%] sticky top-0 h-screen overflow-y-auto scrollbar-hide'>
-                <Sidebar />
-            </div> */}
+
             <div className='flex-grow'>
                 <TransacctionMain />
             </div>

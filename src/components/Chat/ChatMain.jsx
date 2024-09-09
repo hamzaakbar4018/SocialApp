@@ -9,7 +9,7 @@ import UsersChat from '../../Cards/Chat/UsersChat';
 const ChatMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
-    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+    const [selectedCardIndex, setSelectedCardIndex] = useState(0);
     const searchRef = useRef(null);
 
     useEffect(() => {

@@ -37,65 +37,80 @@ const NetworkMain = () => {
             userpic: "https://randomuser.me/api/portraits/men/1.jpg",
             name: "John Doe",
             text: "Actor | Model",
+            connect:true
+            
         },
         {
             id: 2,
             userpic: "https://randomuser.me/api/portraits/men/14.jpg",
             name: "Jane Smith",
             text: "Model | Director",
+            connect:true
         },
         {
             id: 3,
             userpic: "https://randomuser.me/api/portraits/men/12.jpg",
             name: "Michael Johnson",
             text: "Actor | Director",
+            connect:true
         },
         {
             id: 4,
             userpic: "https://randomuser.me/api/portraits/women/13.jpg",
             name: "Emily Davis",
             text: "Model",
+            connect:true
         },
         {
             id: 5,
             userpic: "https://randomuser.me/api/portraits/men/14.jpg",
             name: "Chris Brown",
             text: "Actor",
+            connect:true
         },
         {
             id: 6,
             userpic: "https://randomuser.me/api/portraits/women/15.jpg",
             name: "Sophia Wilson",
             text: "Director",
+            connect:true
         },
         {
             id: 7,
             userpic: "https://randomuser.me/api/portraits/men/16.jpg",
             name: "David Miller",
             text: "Actor | Model | Director",
+            connect:true
         },
         {
             id: 8,
             userpic: "https://randomuser.me/api/portraits/women/17.jpg",
             name: "Olivia Taylor",
             text: "Model | Actor",
+            connect:true
         },
     ];
     const reqData = [
         {
             "image": "https://randomuser.me/api/portraits/men/10.jpg",
             "username": "michael_scott",
-            "description": "1 day ago"
+            "description": "1 day ago",
+            network:true
+
         },
         {
             "image": "https://randomuser.me/api/portraits/women/20.jpg",
             "username": "pam_beesly",
-            "description": "Just Now"
+            "description": "Just Now",
+            network:true
+
         },
         {
             "image": "https://randomuser.me/api/portraits/men/30.jpg",
             "username": "jim_halpert",
-            "description": "2 hours ago"
+            "description": "2 hours ago",
+            network:true
+
         },
     ]
 
@@ -146,7 +161,7 @@ const NetworkMain = () => {
                     <div className='p-[5px]'>
                         <div className='rounded bg-gray-100 p-2'>
                             <h1 className='font-bold'>Requests ({reqData.length})</h1>
-                            <div className='flex flex-wrap gap-5 p-4  mt-4'>
+                            <div className='flex flex-wrap gap-5 mt-4'>
                                 {reqData.map((data, index) => (
                                     <Conneections key={index} {...data} />
 
@@ -157,7 +172,7 @@ const NetworkMain = () => {
                     <div className='p-[5px]'>
                         <div className='rounded bg-gray-100 p-2'>
                             <h1 className='font-bold'>Connections ({talentData.length})</h1>
-                            <div className='flex flex-wrap  gap-5'>
+                            <div className='flex flex-wrap gap-5'>
                                 {talentData.map((data, index) => (
                                     <TalentCards key={index} {...data} />
 

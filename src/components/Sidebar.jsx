@@ -35,7 +35,7 @@ const Sidebar = () => {
                             <NavLink
                                 to='/home'
                                 className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                    `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                 }
                             >
                                 <CgHomeAlt className='text-2xl ' />

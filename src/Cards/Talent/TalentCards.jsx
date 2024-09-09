@@ -1,9 +1,9 @@
 import { IoMailOutline } from "react-icons/io5";
-const TalentCards = ({ userpic, name, text }) => {
+const TalentCards = ({ userpic, name, text , connect }) => {
   return (
     <div className="overflow-hidden">
-      <div className="bg-white rounded-lg p-5 w-[228px] min-h-min h-[250px]">
-        <div className="flex flex-col justify-between space-y-2 h-full">
+      <div className={`bg-white rounded-lg p-5 w-[228px] ${connect && 'w-[222px] tracking-tighter'} min-h-min h-[250px]`}>
+        <div className="flex flex-col gap-3 space-y-2 h-full">
           <div>
             <img
               src={userpic}
@@ -14,10 +14,12 @@ const TalentCards = ({ userpic, name, text }) => {
             <p className="text-gray-400">{text}</p>
           </div>
           <div className="flex justify-start gap-3 items-center">
-            <button className="bg-black rounded-3xl text-white px-3 py-2">
-              Connect
+            <button className={`bg-black text-nowrap w-full  rounded-3xl text-white py-2`}>
+              {
+                !connect ? "Connect" : "Remove Connection"
+              }
             </button>
-            <IoMailOutline className="text-3xl" />
+            <IoMailOutline className="text-4xl" />
           </div>
         </div>
       </div>
