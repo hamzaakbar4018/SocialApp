@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import Rightbar from '../Rightbar';
-import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';  // Import necessary components
+import { PiStarFourBold } from "react-icons/pi";
+import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';
 import { FaArrowCircleRight } from 'react-icons/fa';
-import { FaChromecast } from "react-icons/fa6";
 import { BsPatchCheck } from "react-icons/bs";
 
 const CastingMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
+    const searchRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setSearch(false); // Close search bar if click is outside
+            }
+        };
 
+        // Bind the event listener
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [searchRef]);
     const location = useLocation();
 
     const handleBar = () => {
@@ -25,14 +39,15 @@ const CastingMain = () => {
     if (location.pathname === '/casting') {
         return <Navigate to="/casting/calls" />;
     }
-    
+
     return (
-        <div className='flex'>
+        <div className='main flex'>
             <div className='flex-grow'>
                 <div className='flex px-0 justify-between items-center border-b py-4'>
                     <h1 className='text-xl p-3'>Casting Calls</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
+                            ref={searchRef}
                             className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-[630px]' : 'w-[300px]'}`}
                         >
                             {search && (
@@ -74,39 +89,33 @@ const CastingMain = () => {
                                 <li>
                                     <NavLink
                                         to='/casting/calls'
-                                        className='flex gap-2 items-center'
-                                        style={({ isActive }) => ({
-                                            fontWeight: isActive ? 'bold' : 'normal',
-                                            color: isActive ? '#000000' : 'inherit',
-                                        })}
+                                        className={({ isActive }) =>
+                                            `flex gap-2 items-center ${isActive ? 'font-bold text-[#399AF3]' : 'font-normal text-inherit'}`
+                                        }
                                     >
-                                        <FaChromecast style={{ color: isActive => isActive ? '#399AF3' : '#CCCCCC' }} className='text-2xl' />
+                                        <PiStarFourBold className='text-2xl' />
                                         Casting Calls
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
                                         to='/casting/applied'
-                                        className='flex gap-2 items-center'
-                                        style={({ isActive }) => ({
-                                            fontWeight: isActive ? 'bold' : 'normal',
-                                            color: isActive ? '#000000' : 'inherit',
-                                        })}
+                                        className={({ isActive }) =>
+                                            `flex gap-2 items-center ${isActive ? 'font-bold text-[#399AF3]' : 'font-normal text-inherit'}`
+                                        }
                                     >
-                                        <BsPatchCheck style={{ color: isActive => isActive ? '#399AF3' : '#CCCCCC' }} className='text-2xl' />
+                                        <BsPatchCheck className='text-2xl' />
                                         Applied
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
                                         to='/casting/mycalls'
-                                        className='flex gap-2 items-center'
-                                        style={({ isActive }) => ({
-                                            fontWeight: isActive ? 'bold' : 'normal',
-                                            color: isActive ? '#000000' : 'inherit',
-                                        })}
+                                        className={({ isActive }) =>
+                                            `flex gap-2 items-center ${isActive ? 'font-bold text-[#399AF3]' : 'font-normal text-inherit'}`
+                                        }
                                     >
-                                        <FaChromecast style={{ color: isActive => isActive ? '#399AF3' : '#CCCCCC' }} className='text-2xl' />
+                                        <PiStarFourBold className='text-2xl' />
                                         My Casting Calls
                                     </NavLink>
                                 </li>

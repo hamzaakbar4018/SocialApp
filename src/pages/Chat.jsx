@@ -4,10 +4,7 @@ import ChatMain from '../components/Chat/ChatMain'
 
 const Chat = () => {
   return (
-    <div className='flex'>
-            <div className='min-w-[19%] sticky top-0 h-screen overflow-y-auto scrollbar-hide'>
-                <Sidebar />
-            </div>
+    <div className='w-full'>
             <div className='flex-grow'>
                 <ChatMain/>
             </div>

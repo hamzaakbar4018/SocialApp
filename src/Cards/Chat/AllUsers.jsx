@@ -1,10 +1,10 @@
 import React from 'react';
 
-const AllUsers = ({ userImg, username, msg, received, sent, time, isActive, onClick }) => {
+const AllUsers = ({ userImg, username, msg, time, isActive, isSelected, onClick }) => {
     return (
         <div
             onClick={onClick}
-            className={`p-2 cursor-pointer rounded transition-colors duration-300 ${isActive ? 'bg-brown-500' : 'bg-white'}`}
+            className={`p-2 cursor-pointer rounded transition-colors duration-300 ${isSelected ? 'bg-[#F5F5F5]' : (isActive ? 'bg-brown-500' : 'bg-white')}`}
         >
             <div className='flex border-b border-gray-300 justify-between gap-2'>
                 <div className='flex mt-2 gap-2'>
@@ -30,6 +30,6 @@ const AllUsers = ({ userImg, username, msg, received, sent, time, isActive, onCl
             </div>
         </div>
     );
-}
+};
 
 export default AllUsers;

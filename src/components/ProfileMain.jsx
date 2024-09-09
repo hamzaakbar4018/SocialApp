@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import Rightbar from './Rightbar';
@@ -13,7 +13,21 @@ import { AiOutlinePicture } from "react-icons/ai";
 const ProfileMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
+    const searchRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setSearch(false); // Close search bar if click is outside
+            }
+        };
 
+        // Bind the event listener
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [searchRef]);
     const handleBar = () => {
         setShowRightbar(!showRightbar);
     };
@@ -40,6 +54,7 @@ const ProfileMain = () => {
                     <h1 className='text-xl p-3'>My Profile</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
+                            ref={searchRef}
                             className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-[630px]' : 'w-[300px]'}`}
                         >
                             {search && (
