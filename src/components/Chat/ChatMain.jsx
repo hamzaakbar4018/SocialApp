@@ -27,17 +27,9 @@ const ChatMain = () => {
         };
     }, [searchRef]);
 
-    const handleBar = () => {
-        setShowRightbar(!showRightbar);
-    };
-
-    const handleSearch = () => {
-        console.log("Search button clicked");
-        setSearch(!search);
-    };
-
-    const dummyData = [
+    const staticChatData = [
         {
+            id: "1",
             userImg: "https://randomuser.me/api/portraits/men/1.jpg",
             username: "Muhammad Ali",
             msg: {
@@ -56,6 +48,7 @@ const ChatMain = () => {
             time: "2 hours ago",
         },
         {
+            id: "2",
             userImg: "https://randomuser.me/api/portraits/women/2.jpg",
             username: "Saira",
             msg: {
@@ -74,6 +67,7 @@ const ChatMain = () => {
             time: "30 minutes ago",
         },
         {
+            id: "3",
             userImg: "https://randomuser.me/api/portraits/men/3.jpg",
             username: "Abuzar",
             msg: {
@@ -92,6 +86,7 @@ const ChatMain = () => {
             time: "1 day ago",
         },
         {
+            id: "4",
             userImg: "https://randomuser.me/api/portraits/women/4.jpg",
             username: "Sara",
             msg: {
@@ -101,7 +96,7 @@ const ChatMain = () => {
             },
             received: {
                 received: false,
-                msg: ''
+                msg: 'ABC'
             },
             sent: {
                 sent: true,
@@ -110,6 +105,7 @@ const ChatMain = () => {
             time: "3 hours ago",
         },
         {
+            id: "5",
             userImg: "https://randomuser.me/api/portraits/men/5.jpg",
             username: "John Doe",
             msg: {
@@ -126,8 +122,188 @@ const ChatMain = () => {
                 msg: 'Sure, let\'s plan for it.'
             },
             time: "5 days ago",
-        }
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
+        {
+            id: "5",
+            userImg: "https://randomuser.me/api/portraits/men/5.jpg",
+            username: "John Doe",
+            msg: {
+                unread: false,
+                text: "Let’s catch up this weekend.",
+                totalmsg: '3',
+            },
+            received: {
+                received: true,
+                msg: 'Looking forward to it!'
+            },
+            sent: {
+                sent: true,
+                msg: 'Sure, let\'s plan for it.'
+            },
+            time: "5 days ago",
+        },
     ];
+
+    const handleBar = () => {
+        setShowRightbar(!showRightbar);
+    };
+
+    const handleSearch = () => {
+        console.log("Search button clicked");
+        setSearch(!search);
+    };
 
     return (
         <div className='flex'>
@@ -171,31 +347,37 @@ const ChatMain = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? 'mr-[26%]' : 'mr-0'}`}>
-                    <div className='p-[5px] bg-gray-100'>
-                        <div className="rounded gap-1 w-full flex">
-                            <div className='left bg-white min-w-[30%] rounded'>
-                                {dummyData.map((data, index) => (
-                                    <AllUsers
-                                        key={index}
-                                        {...data}
-                                        isActive={selectedCardIndex === index}
-                                        isSelected={selectedCardIndex === index}
-                                        onClick={() => setSelectedCardIndex(index)}
-                                    />
-                                ))}
-                            </div>
-                            <div className='right flex-shrink-0 rounded flex-grow'>
-                                {selectedCardIndex !== null && (
+                <div className={`showcard transition-all ${showRightbar ? 'mr-[1%]' : 'mr-0'} flex`}>
+                    <div className='p-[5px] bg-gray-100 flex-grow flex'>
+                        <div className='left bg-white min-w-[25%] min-h-screen rounded overflow-auto' style={{ maxHeight: 'calc(100vh - 4rem)' }}>
+                            {staticChatData.map((data, index) => (
+                                <AllUsers
+                                    key={data.id} // Use unique id for key
+                                    {...data}
+                                    isActive={selectedCardIndex === index}
+                                    isSelected={selectedCardIndex === index}
+                                    onClick={() => setSelectedCardIndex(index)}
+                                />
+                            ))}
+                        </div>
+                        <div className='right min-h-full flex-shrink flex-grow' style={{ maxHeight: 'calc(100vh - 4rem)' }}>
+                            {selectedCardIndex !== null && (
+                                <div>
                                     <UsersChat
-                                        userImg={dummyData[selectedCardIndex].userImg}
-                                        username={dummyData[selectedCardIndex].username}
-                                        sent={dummyData[selectedCardIndex].sent}
-                                        received={dummyData[selectedCardIndex].received}
-                                        time={dummyData[selectedCardIndex].time}
+                                        userImg={staticChatData[selectedCardIndex]?.userImg}
+                                        username={staticChatData[selectedCardIndex]?.username}
+                                        sent={staticChatData[selectedCardIndex]?.sent}
+                                        received={staticChatData[selectedCardIndex]?.received}
+                                        time={staticChatData[selectedCardIndex]?.time}
                                     />
-                                )}
-                            </div>
+                                    <div className={` w-[58%] fixed ${showRightbar ? 'mr-[22%] w-[36%]' : 'mr-0'} bottom-0 right-0 border-gray-400 bg-white p-4 flex items-center gap-2`}>
+                                        <div className='bg-gray-10 w-full bg-gray-100 rounded-3xl'>
+                                            <input type="text" placeholder='Enter the message' className='p-3 outline-none bg-transparent w-full' />
+                                        </div>
+                                        <FaArrowCircleRight className='text-3xl cursor-pointer' />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

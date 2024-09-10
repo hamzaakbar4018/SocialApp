@@ -6,7 +6,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import '../CSS/Connections.css'
+import '../CSS/Connections.css';
+
 const SwipingData = () => {
     const talentData = [
         {
@@ -65,17 +66,28 @@ const SwipingData = () => {
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={10}
-                    slidesPerView={4}
-                    // navigation
-                    // pagination={{ clickable: false }}
                     scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log("slide change")}
                     className="swiper-container w-full overflow-hidden"
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                        1280: {
+                            slidesPerView: 6,
+                        },
+                    }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id}>
-                            <TalentCards {...data} className='min-w-min'/>
+                        <SwiperSlide key={data.id} className="min-w-[228px]">
+                            <TalentCards {...data} />
                         </SwiperSlide>
                     ))}
                 </Swiper>

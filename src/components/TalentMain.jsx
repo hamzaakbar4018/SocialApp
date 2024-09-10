@@ -18,14 +18,12 @@ const TalentMain = () => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setSearch(false); // Close search bar if click is outside
+                setSearch(false); 
             }
         };
 
-        // Bind the event listener
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [searchRef]);
@@ -92,11 +90,11 @@ const TalentMain = () => {
                     </div>
                 </div>
                 <div className="p-[5px]">
-                    <div className="rounded bg-gray-100  p-4 space-y-2">
+                    <div className="rounded bg-white max-w-max p-4 space-y-2">
                         <h3 className="font-bold text-2xl">People in Drama Industry</h3>
                         <IndustryData />
                     </div>
-                    <div className="rounded bg-gray-100  p-4 space-y-2">
+                    <div className="rounded bg-white  p-4 space-y-2">
                         <h3 className="font-bold text-2xl">Popular Production houses</h3>
                         <ProductionData />
                     </div>

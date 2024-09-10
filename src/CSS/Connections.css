@@ -8,6 +8,7 @@
   overflow: hidden;
 }
 
+
 .swiper-container {
   grid-column: 1 / -1;
 }
@@ -25,5 +26,5 @@
 }
 
 .min-w-min {
-  min-width: 0;
+  min-width: 228px;
 }

@@ -31,7 +31,7 @@ const App = () => {
   return (
     <div className='routing flex bg-white'>
       {!isLandingPage && (
-        <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto scrollbar-hide'>
+        <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
           <Sidebar />
         </div>
       )}

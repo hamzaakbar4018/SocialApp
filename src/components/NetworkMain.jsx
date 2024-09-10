@@ -116,9 +116,9 @@ const NetworkMain = () => {
 
 
     return (
-        <div className='flex'>
-            <div className='flex-grow'>
-                <div className='flex px-0 justify-between items-center border-b py-4'>
+        <div className='flex bg-gray-100'>
+            <div className='flex-grow '>
+                <div className='flex bg-white px-0 justify-between items-center border-b py-4'>
                     <h1 className='text-xl p-3'>My Network</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
@@ -159,7 +159,7 @@ const NetworkMain = () => {
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[1%]'}`}>
                     <div className='p-[5px]'>
-                        <div className='rounded bg-gray-100 p-2'>
+                        <div className='rounded bg-white p-2'>
                             <h1 className='font-bold'>Requests ({reqData.length})</h1>
                             <div className='flex flex-wrap gap-5 mt-4'>
                                 {reqData.map((data, index) => (
@@ -170,9 +170,9 @@ const NetworkMain = () => {
                         </div>
                     </div>
                     <div className='p-[5px]'>
-                        <div className='rounded bg-gray-100 p-2'>
+                        <div className='rounded bg-white p-2'>
                             <h1 className='font-bold'>Connections ({talentData.length})</h1>
-                            <div className='flex flex-wrap gap-5'>
+                            <div className='flex mt-3 flex-wrap gap-5'>
                                 {talentData.map((data, index) => (
                                     <TalentCards key={index} {...data} />
 

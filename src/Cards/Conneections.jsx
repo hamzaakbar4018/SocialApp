@@ -3,7 +3,7 @@ import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
 import '../CSS/Connections.css'
 const Conneections = ({ image, username, description, network }) => {
   return (
-    <div className={`flex flex-col  gap-4 ${network && 'px-4 w-[228px]  min-h-min h-[250px] bg-white gap-6 rounded-xl py-8'}`}>
+    <div className={`flex flex-col  gap-4 ${network && 'px-4 w-[228px]  min-h-min h-[250px] bg-[#ECF5FE] gap-6 rounded-xl py-8'}`}>
       {
         network ? (
           <div className='network flex flex-col font-bold gap-2'>

@@ -13,92 +13,93 @@ import { PiUsersThreeLight } from "react-icons/pi";
 import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaAngleDown } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
-import { FaAngleUp } from "react-icons/fa6";
+
 const Sidebar = () => {
     const [account, setaccount] = useState(false);
     const openaccount = () => {
         setaccount(!account);
-        console.log(account)
     }
+    
     return (
-        <div className='flex'>
-            <div className='main w-full bg-gray-100 h-[95vh]  flex flex-col border-r border-gray-300'>
+        <div className='flex h-screen'>
+            <div className='w-full bg-gray-100 h-full flex flex-col border-r border-gray-300'>
                 <div className='logo p-5 flex gap-3 items-center'>
                     <img src={sidebarLogo} alt="Sidebar Logo" className='w-12' />
                     <h1 className='bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text text-xl'>
                         YOUTOOART
                     </h1>
                 </div>
-                <div className='menu flex-grow justify-between p-3'>
-                    <ul className='space-y-3 m-3'>
-                        <li>
-                            <NavLink
-                                to='/home'
-                                className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
-                                }
-                            >
-                                <CgHomeAlt className='text-2xl ' />
-                                Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to='/talent'
-                                className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
-                                }
-                            >
-                                <PiUsersThreeLight className='text-2xl' />
-                                Talent
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to='/network'
-                                className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
-                                }
-                            >
-                                <HiOutlineGlobeAlt className='text-2xl' />
-                                Network
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to='/casting'
-                                className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
-                                }
-                            >
-                                <PiStarFourBold className='text-2xl' />
-                                Casting
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to='/chat'
-                                className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
-                                }
-                            >
-                                <div className='flex justify-start gap-2 items-center'>
-                                    <HiOutlineChatBubbleBottomCenterText className='text-2xl' />
-                                    Chat
+                
+                <div className='flex-grow flex flex-col'>
+                    <div className='menu flex-grow justify-between p-3'>
+                        <ul className='space-y-3 m-3'>
+                            <li>
+                                <NavLink
+                                    to='/home'
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                    }
+                                >
+                                    <CgHomeAlt className='text-2xl ' />
+                                    Home
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to='/talent'
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                    }
+                                >
+                                    <PiUsersThreeLight className='text-2xl' />
+                                    Talent
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to='/network'
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                    }
+                                >
+                                    <HiOutlineGlobeAlt className='text-2xl' />
+                                    Network
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to='/casting'
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                    }
+                                >
+                                    <PiStarFourBold className='text-2xl' />
+                                    Casting
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to='/chat'
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                    }
+                                >
+                                    <div className='flex justify-start gap-2 items-center'>
+                                        <HiOutlineChatBubbleBottomCenterText className='text-2xl' />
+                                        Chat
+                                    </div>
+                                </NavLink>
+                            </li>
+                            <div onClick={openaccount} className='flex cursor-pointer justify-between items-center'>
+                                <h2 className='text-gray-500 mx-3'>Account</h2>
+                                <div
+                                    className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'
+                                        }`}
+                                >
+                                    <FaAngleDown />
                                 </div>
-                            </NavLink>
-                        </li>
-                        <div onClick={openaccount} className='flex cursor-pointer justify-between items-center'>
-                            <h2 className='text-gray-500 mx-3'>Account</h2>
-                            <div
-                                className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'
-                                    }`}
-                            >
-                                <FaAngleDown />
                             </div>
-                        </div>
-                        {
-                            account && (
+                            {account && (
                                 <div className='flex flex-col gap-2'>
                                     <li>
                                         <NavLink
@@ -167,17 +168,19 @@ const Sidebar = () => {
                                         </NavLink>
                                     </li>
                                 </div>
-                            )
-                        }
-                    </ul>
-                    <div className="flex items-center gap-2 text-[#FF4E4E] p-2 m-3 cursor-pointer hover:text-red-600 transition-colors duration-300">
+                            )}
+                        </ul>
+                    </div>
+                </div>
+                
+                {/* Logout Button */}
+                <div className="p-3 m-3 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
+                    <div className="flex items-center gap-2">
                         <CiLogout className="text-2xl font-bold" />
                         <h1 className="text-lg font-medium">Logout</h1>
                     </div>
-
                 </div>
             </div>
-
         </div>
     );
 };
