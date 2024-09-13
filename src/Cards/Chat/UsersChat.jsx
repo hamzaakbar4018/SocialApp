@@ -61,12 +61,12 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
             </div>
 
             {/* Input Section */}
-            {/* <div className='border-t border-gray-400 bg-white p-4 flex items-center gap-2'>
+            <div className='sticky bottom-0 border-t border-gray-400 bg-white p-4 flex items-center gap-2'>
                 <div className='bg-gray-100 w-full rounded-3xl'>
                     <input type="text" placeholder='Enter the message' className='p-3 outline-none bg-transparent w-full' />
                 </div>
                 <FaArrowCircleRight className='text-3xl cursor-pointer' />
-            </div> */}
+            </div>
         </div>
     );
 };

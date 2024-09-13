@@ -370,12 +370,6 @@ const ChatMain = () => {
                                         received={staticChatData[selectedCardIndex]?.received}
                                         time={staticChatData[selectedCardIndex]?.time}
                                     />
-                                    <div className={` w-[58%] fixed ${showRightbar ? 'mr-[22%] w-[36%]' : 'mr-0'} bottom-0 right-0 border-gray-400 bg-white p-4 flex items-center gap-2`}>
-                                        <div className='bg-gray-10 w-full bg-gray-100 rounded-3xl'>
-                                            <input type="text" placeholder='Enter the message' className='p-3 outline-none bg-transparent w-full' />
-                                        </div>
-                                        <FaArrowCircleRight className='text-3xl cursor-pointer' />
-                                    </div>
                                 </div>
                             )}
                         </div>
@@ -384,7 +378,7 @@ const ChatMain = () => {
             </div>
 
             {showRightbar && (
-                <div className='w-[26%]'>
+                <div className='w-[26%] lg:w-[22%]'>
                     <Rightbar />
                 </div>
             )}

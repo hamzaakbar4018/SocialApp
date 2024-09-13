@@ -21,6 +21,7 @@ import Calls from './components/Casting/Calls';
 import Applied from './components/Casting/Applied';
 import MyCasting from './components/Casting/MyCasting';
 import Chat from './pages/Chat';
+import Chatpopup from './components/Chatpopup';
 import Sidebar from './components/Sidebar';
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
       {!isLandingPage && (
         <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
           <Sidebar />
+          {/* <Chatpopup/> */}
         </div>
       )}
       <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
