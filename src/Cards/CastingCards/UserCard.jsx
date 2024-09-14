@@ -2,9 +2,9 @@ import React from 'react'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
 
-const UserCard = ({ title, img, type, shoot, budget, username, location}) => {
+const UserCard = ({ title, img, type, shoot, budget, username, location, isSelected }) => {
     return (
-        <div className='p-4 bg-white rounded'>
+        <div className={`p-4  rounded ${isSelected ?  'bg-[#ECF5FE]' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
                     <div>

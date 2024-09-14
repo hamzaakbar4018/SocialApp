@@ -206,7 +206,7 @@ const ChatMain = () => {
       </div>
 
       {showRightbar && (
-        <div className="w-[26%] lg:w-[22%] h-dvh">
+        <div className="w-[26%] h-dvh">
           <Rightbar />
         </div>
       )}

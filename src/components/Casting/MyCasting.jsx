@@ -41,7 +41,7 @@ const MyCasting = () => {
       
   ];
 
-  const [selectedCardIndex, setSelectedCardIndex] = useState([0]);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
 
   return (
     <div className='bg-gray-100 flex p-1 mt-1 rounded'>
@@ -50,7 +50,7 @@ const MyCasting = () => {
         {
           userdata.map((data, index) => (
             <div key={index} onClick={() => setSelectedCardIndex(index)}>
-              <UserCard {...data} />
+              <UserCard {...data} isSelected = {selectedCardIndex === index}/>
             </div>
           ))
         }
