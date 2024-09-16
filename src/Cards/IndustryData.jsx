@@ -58,6 +58,7 @@ const SwipingData = () => {
             name: "Olivia Taylor",
             text: "Model | Actor",
         },
+        
     ];
 
     return (
@@ -72,7 +73,7 @@ const SwipingData = () => {
                     className="swiper-container w-full overflow-hidden"
                     breakpoints={{
                         640: {
-                            slidesPerView: 1,
+                            slidesPerView: 2,
                         },
                         768: {
                             slidesPerView: 2,
@@ -86,7 +87,7 @@ const SwipingData = () => {
                     }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className="min-w-[228px]">
+                        <SwiperSlide key={data.id} className="md:min-w-[228px]">
                             <TalentCards {...data} />
                         </SwiperSlide>
                     ))}

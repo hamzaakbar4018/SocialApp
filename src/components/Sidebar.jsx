@@ -13,23 +13,25 @@ import { PiUsersThreeLight } from "react-icons/pi";
 import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaAngleDown } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
-
+import { Link } from 'react-router-dom'
 const Sidebar = () => {
     const [account, setaccount] = useState(false);
     const openaccount = () => {
         setaccount(!account);
     }
-    
+
     return (
         <div className='flex h-screen'>
             <div className='w-full bg-gray-100 h-full flex flex-col border-r border-gray-300'>
-                <div className='logo p-5 flex gap-3 items-center'>
-                    <img src={sidebarLogo} alt="Sidebar Logo" className='w-12' />
-                    <h1 className='bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text text-xl'>
-                        YOUTOOART
-                    </h1>
-                </div>
-                
+                <Link className='' to="/">
+                    <div className='logo p-5 flex gap-3 items-center'>
+                        <img src={sidebarLogo} alt="Sidebar Logo" className='w-12' />
+                        <h1 className='bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text text-xl'>
+                            YOUTOOART
+                        </h1>
+                    </div>
+                </Link>
+
                 <div className='flex-grow flex flex-col'>
                     <div className='menu flex-grow justify-between p-3'>
                         <ul className='space-y-3 m-3'>
@@ -172,7 +174,7 @@ const Sidebar = () => {
                         </ul>
                     </div>
                 </div>
-                
+
                 {/* Logout Button */}
                 <div className="p-3 m-3 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
                     <div className="flex items-center gap-2">

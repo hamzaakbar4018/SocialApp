@@ -1,10 +1,10 @@
 import React from 'react'
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import { Link } from 'react-router-dom'
 
-
-const UserCard = ({ title, img, type, shoot, budget, username, location, isSelected }) => {
+const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage }) => {
     return (
-        <div className={`p-4  rounded ${isSelected ?  'bg-[#ECF5FE]' : 'bg-white'}`}>
+        <div className={`p-4 ${landingpage && 'w-full min-h-full'} rounded ${isSelected ? 'bg-[#ECF5FE]' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
                     <div>
@@ -16,11 +16,19 @@ const UserCard = ({ title, img, type, shoot, budget, username, location, isSelec
                     </div>
                 </div>
                 <div className=' flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2  justify-center items-center'>
-                    <HiOutlineDotsVertical className="font-bold text-2xl"/>
+                    <HiOutlineDotsVertical className="font-bold text-2xl" />
                 </div>
             </div>
-            <div className='flex gap-16 mt-3 justify-center items-center'>
-                <div>
+            <div className='my-4 mx-2' >
+                {
+                    landingpage && (
+                        <p>{description}</p>
+                    )
+                }
+            </div>
+            <div className={`flex gap-16 mt-3 ${landingpage && 'gap-20 border-l-2 flex justify-start border-black'}  items-center`}>
+                <div className='md:ml-7 ml-4'>
+
                     <div>
                         <h2 className='text-gray-400'>Location</h2>
                         <h1 className='font-bold'>{location}</h1>
@@ -31,7 +39,7 @@ const UserCard = ({ title, img, type, shoot, budget, username, location, isSelec
 
                     </div>
                 </div>
-                <div>
+                <div className='md:ml-0 ml-4'>
                     <div>
                         <h2 className='text-gray-400'>Shoot</h2>
                         <h1 className='font-bold'>{shoot}</h1>
@@ -40,12 +48,18 @@ const UserCard = ({ title, img, type, shoot, budget, username, location, isSelec
                     <div>
                         <h2 className='text-gray-400'>Budget</h2>
                         <h1 className='font-bold'>{budget}</h1>
-
                     </div>
-
                 </div>
-
             </div>
+            {
+                landingpage && (
+                    <Link to="/casting/calls">
+                        <button className='p-3 rounded-3xl bg-black text-white mt-5'>
+                            Apply Now
+                        </button>
+                    </Link>
+                )
+            }
         </div>
     )
 }

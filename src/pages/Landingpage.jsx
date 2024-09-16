@@ -10,20 +10,23 @@ import land6minus from '../assets/Images/land6minus.svg'
 import land7img from '../assets/Images/land7img.png'
 import land8img from '../assets/Images/land8img.png'
 import Footer from '../components/Footer'
+import IndustryData from "../Cards/IndustryData";
 import '../CSS/Landingpage.css'
+import LandingPagetalent from '../Cards/LandingPagetalent'
 const Landingpage = () => {
-  const data = [
-    {
-      title: "Seeking Actor for a Short Film",
-      img: land4cardimg,
-      username: "Hamza Akbar",
-      description: "We're looking for the talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K"
-    }
-  ]
+  // const data = [
+  //   {
+  //     title: "Seeking Actor for a Short Film",
+  //     img: land4cardimg,
+  //     username: "Hamza Akbar",
+  //     description: "We're looking for the talented actors for our upcoming short film.",
+  //     location: "Islamabad",
+  //     type: "Short Film",
+  //     shoot: "25 Days",
+  //     budget: "$25K"
+  //   }
+  // ]
+
   const [visibleSections, setVisibleSections] = useState([false, false, false, false, false, false]);
 
   const handleVisible = (index) => {
@@ -52,53 +55,41 @@ const Landingpage = () => {
         </div>
       </div>
 
-      <div className="land2 flex flex-col justify-center items-center bg-[#F4F4F4]">
-        <div className="w-[70%] mt-10 md:mt-32">
+      <div className="land2 flex flex-col  bg-[#F4F4F4]">
+        <div className="w-[100%] mt-10 md:mt-32">
           <img src={land2} alt="image" />
           <div className='flex flex-col justify-center items-center mt-7'>
-            <div className='flex flex-col justify-center gap-4 items-center'>
+            {/* <div className='flex flex-col justify-center gap-4 items-center'>
               <h1 className=' change text-2xl md:text-4xl text-center md:text-start '>Welcome to YouTooArt Where</h1>
               <h1 className=' change text-4xl text-center md:text-start'>Creativity Finds Its Canvas</h1>
-            </div>
-            <p className=' change md:mt-10 mt-4 text-center'>
+            </div> */}
+            {/* <p className=' change md:mt-10 mt-4 text-center'>
               At YouTooArt, we believe that every artistic journey is unique and deserves a platform to flourish. Welcome to a community where creativity knows no bounds, and collaboration transforms dreams into masterpieces.
               Get Started
-            </p>
-            <button className='p-3 border rounded-3xl border-gray-600 mt-7 mb-10 md:mb-20'>Get Started</button>
+            </p> */}
+            {/* <button className='p-3 border rounded-3xl border-gray-600 mt-7 mb-10 md:mb-20'>Get Started</button> */}
           </div>
         </div>
       </div>
 
       <div className="land3">
-        <div className='m-20 md:w-[80%] md:mb-20 md:flex'>
-          <div className="left md:w-1/2">
-            <h1 className=' change text-4xl'>How it Works</h1>
-            <h1 className=' change text-base font-bold md:font-light mt-10'>Explore Collaborative Articles</h1>
-            <p className=' change mt-10 text-center md:text-start'>We’re unlocking community knowledge in a new way. Experts add insights directly into each article, started with the help of AI.</p>
+        <div className='m-20 md:w-[80%] md:mb-10 md:flex'>
+          <div className="">
+            <h1 className=' change text-4xl'>Find The Right Talent</h1>
+            <p className=' change mt-10 text-center md:text-start'>Find the right talent for your new project.</p>
           </div>
-          <div className="right hidden md:block md:w-1/2">
-            {/* remaining */}
-          </div>
+        </div> 
+        <div className='flex justify-center'>
+          <IndustryData/>
         </div>
       </div>
 
       <div className="land4 bg-[#F4F4F4]">
-        <div className='md:m-20 m-5 pt-8 pb-8 md:pb-0 md:pt-20 w-[80%] md:flex'>
-          <div className="left hidden md:block md:w-1/2">
-            <h1 className=' change text-4xl'>Find The Right</h1>
-            <h1 className=' change text-4xl mt-10'>Casting/Crew Calls</h1>
-            <p className=' change mt-10'>Find the latesst casting calls and apply for the roles that match your skills.</p>
-
-            <button className=' change p-3 border rounded-3xl border-gray-600 mt-7 mb-20'>Download Our App</button>
+        <div className='md:m-20 m-5 pt-8 pb-8 md:pb-0 md:pt-20 w-[80%]'>
+              <h1 className='text-4xl'>Find The Right Casting Call</h1>
+              <p className=' change mt-10 text-center md:text-start'>Find the latest casting calls and apply for the roles that match your skills.</p>
           </div>
-          <div className=" change right md:w-1/2">
-            <div className='md:px-20 '>
-              {data.map((item, index) => (
-                <Land4card key={index} {...item} />
-              ))}
-            </div>
-          </div>
-        </div>
+          <LandingPagetalent/>
       </div>
 
       <div className="land5">
