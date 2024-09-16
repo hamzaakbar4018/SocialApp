@@ -23,49 +23,52 @@ import MyCasting from './components/Casting/MyCasting';
 import Chat from './pages/Chat';
 import Chatpopup from './components/Chatpopup';
 import Sidebar from './components/Sidebar';
+// import TalentContextProvider from './context/TalentContexProvider';
 
 const App = () => {
   const location = useLocation();
-  
+
   const isLandingPage = location.pathname === '/';
 
   return (
-    <div className='routing flex bg-white'>
-      {!isLandingPage && (
-        <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
-          <Sidebar />
-          {/* <Chatpopup/> */}
+    // <TalentContextProvider>
+      <div className='routing flex bg-white'>
+        {!isLandingPage && (
+          <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
+            <Sidebar />
+            {/* <Chatpopup/> */}
+          </div>
+        )}
+        <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
+          <Routes>
+            <Route path='/' element={<Landingpage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/verify' element={<Verify />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/talent' element={<Talent />} />
+            <Route path='/network' element={<Network />} />
+            <Route path='/transaction' element={<Transacction />} />
+            <Route path='/support' element={<Support />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/term-policy' element={<Term />} />
+            <Route path='/privacy' element={<Privacy />} />
+            <Route path='/chat' element={<Chat />} />
+
+            <Route path='/profile' element={<Profile />}>
+              <Route path='profileactivity' element={<ProfileActivity />} />
+              <Route path='profileabout' element={<ProfileAbout />} />
+              <Route path='profilemywork' element={<ProfileMywork />} />
+            </Route>
+
+            <Route path='/casting' element={<Casting />}>
+              <Route path='calls' element={<Calls />} />
+              <Route path='applied' element={<Applied />} />
+              <Route path='mycalls' element={<MyCasting />} />
+            </Route>
+          </Routes>
         </div>
-      )}
-      <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
-        <Routes>
-          <Route path='/' element={<Landingpage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/verify' element={<Verify />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/talent' element={<Talent />} />
-          <Route path='/network' element={<Network />} />
-          <Route path='/transaction' element={<Transacction />} />
-          <Route path='/support' element={<Support />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/term-policy' element={<Term />} />
-          <Route path='/privacy' element={<Privacy />} />
-          <Route path='/chat' element={<Chat />} />
-
-          <Route path='/profile' element={<Profile />}>
-            <Route path='profileactivity' element={<ProfileActivity />} />
-            <Route path='profileabout' element={<ProfileAbout />} />
-            <Route path='profilemywork' element={<ProfileMywork />} />
-          </Route>
-
-          <Route path='/casting' element={<Casting />}>
-            <Route path='calls' element={<Calls />} />
-            <Route path='applied' element={<Applied />} />
-            <Route path='mycalls' element={<MyCasting />} />
-          </Route>
-        </Routes>
       </div>
-    </div>
+    // </TalentContextProvider>
   );
 };
 

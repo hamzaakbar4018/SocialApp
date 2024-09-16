@@ -89,7 +89,9 @@ const Landingpage = () => {
               <h1 className='text-4xl'>Find The Right Casting Call</h1>
               <p className=' change mt-10 text-center md:text-start'>Find the latest casting calls and apply for the roles that match your skills.</p>
           </div>
+          <div className='w-full flex justify-center'>
           <LandingPagetalent/>
+          </div>
       </div>
 
       <div className="land5">

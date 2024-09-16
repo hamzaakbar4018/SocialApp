@@ -26,10 +26,22 @@ const Navbar = () => {
                             <Link to="/home" className="hover:border-b-2  hover:border-[#C02C2C] transition-all">Home</Link>
                         </li>
                         <li>
-                            <Link to="/features" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Features</Link>
+                            <Link to="/talent" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Talent</Link>
+                        </li>
+                        <li>
+                            <Link to="/casting/calls" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Casting Calls</Link>
+                        </li>
+                        <li>
+                            <Link to="/categories" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Categories</Link>
+                        </li>
+                        <li>
+                            <Link to="/home" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Content</Link>
                         </li>
                         <li>
                             <Link to="/howitworks" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</Link>
+                        </li>
+                        <li>
+                            <Link to="/download" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Download</Link>
                         </li>
                         <li>
                             <Link to="/contactus" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Contact Us</Link>
