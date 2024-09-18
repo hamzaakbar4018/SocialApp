@@ -78,7 +78,7 @@ const Landingpage = () => {
       </div>
 
       <div className="land3 ">
-        <div className='m-20 md:w-[80%] md:mb-10 md:flex'>
+        <div className='m-20 pb-10 md:w-[80%] md:mb-10 md:flex'>
           <div className="">
             <h1 className=' change text-4xl lg:text-6xl'>Find The Right Talent</h1>
             <p className=' change mt-10 text-center md:text-start lg:text-xl'>Find the right talent for your new project.</p>
@@ -88,20 +88,20 @@ const Landingpage = () => {
           <IndustryData />
 
         </div>
-        <button className='p-3 rounded-3xl mt-14 border border-black ml-20'>Discover More</button>
+        <button className='p-3 mb-10 rounded-3xl mt-20 border border-black ml-20'>Discover More</button>
       </div>
 
       <div className="land4  flex flex-col justify-center bg-[#F4F4F4]">
-        <div className='m-20 pt-8 pb-8 md:pb-0 md:pt-20 lg:w-[80%]'>
+        <div className='mx-20 my-10 pt-8 pb-8 md:pb-0 md:pt-20 lg:w-[80%]'>
           <div className=''>
           <h1 className='text-4xl lg:text-6xl'>Find The Right Casting Call</h1>
           <p className='change  mt-10 lg:text-xl text-center md:text-start'>Find the latest casting calls and apply for the roles that match your skills.</p>
           </div>
         </div>
-        <div className='w-full lg:pl-20 flex justify-center'>
+        <div className='w-full md:p:0 p-10  lg:pl-20 flex justify-center'>
           <LandingPagetalent />
         </div>
-        <button className='p-3 rounded-3xl mt-14 border w-36 border-black ml-20'>Discover More</button>
+        <button className='p-3 mb-10 lg:mb-20 rounded-3xl lg:mt-14 border w-36  border-black ml-20'>Discover More</button>
 
 
       </div>
