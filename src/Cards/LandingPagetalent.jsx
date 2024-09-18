@@ -144,7 +144,7 @@ const LandingPagetalent = () => {
       ];
       
     return (
-        <div className="container min-w-full mb-20 overflow-x-hidden">
+        <div className="container min-w-full mb-20 overflow-x-auto">
             <div className="swiper-grid-container w-full">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}

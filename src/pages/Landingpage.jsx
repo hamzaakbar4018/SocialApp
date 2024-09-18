@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import land1 from '../assets/Images/land1.png'
 import land2 from '../assets/Images/land2.png'
-import land4cardimg from '../assets/Images/land4cardimg.png'
+import appstore from '../assets/Images/appstore.png'
+import playstore from '../assets/Images/playstore.png'
 import land5img from '../assets/Images/land5img.png'
 import Land4card from '../Cards/Land4card';
 import land6plus from '../assets/Images/land6plus.svg'
@@ -38,24 +39,28 @@ const Landingpage = () => {
     <div className='land md:w-full  '>
       <Navbar />
       <div className="land1 flex-col-reverse flex md:flex md:flex-row p-10 mt-5">
-        <div className="left md:w-1/2">
-          <h1 className='change text-xl text-center md:text-start md:text-4xl'>
+        <div className="left md:ml-8 md:w-1/2">
+          <h1 className='change text-xl mt-4 text-center md:text-start md:text-4xl lg:text-6xl'>
             Connect, Collaborate, Create:
           </h1>
-          <h1 className=' change text-3xl text-center md:text-start md:text-4xl mt-3'>
+          <h1 className=' change text-3xl text-center md:text-start md:text-4xl lg:text-6xl mt-3'>
             <span className='text-[#FC3F3F]'>
               YouTooArt
             </span>-Your Artistic Marketplace.
           </h1>
-          <p className=' change mt-5 text-center md:text-start text-[#252525]'>Empowering artistis to forge meaningful connections and bring creative visions to life.Join the artistic revolution at YouTooArt.</p>
+          <p className=' change mt-5 md:text-xl text-center md:text-start text-[#252525]'>Empowering artistis to forge meaningful connections and bring creative visions to life.Join the artistic revolution at YouTooArt.</p>
           <div className='flex justify-center items-center md:justify-start'><button className='p-3 border rounded-3xl border-gray-600 mt-7'>Get Started</button></div>
+          <div className='flex gap-4 mt-44'>
+            <img src={appstore} className='w-[18%]' alt="" />
+            <img src={playstore} className='w-[18%]' alt="" />
+          </div>
         </div>
         <div className="right md:w-1/2">
-          <img className='md:w-[90%]' src={land1} alt="" />
+          <img className='md:w-[88%]' src={land1} alt="" />
         </div>
       </div>
 
-      <div className="land2 flex flex-col  bg-[#F4F4F4]">
+      <div className="land2 flex flex-col">
         <div className="w-[100%] mt-10 md:mt-32">
           <img src={land2} alt="image" />
           <div className='flex flex-col justify-center items-center mt-7'>
@@ -72,37 +77,44 @@ const Landingpage = () => {
         </div>
       </div>
 
-      <div className="land3">
+      <div className="land3 ">
         <div className='m-20 md:w-[80%] md:mb-10 md:flex'>
           <div className="">
-            <h1 className=' change text-4xl'>Find The Right Talent</h1>
-            <p className=' change mt-10 text-center md:text-start'>Find the right talent for your new project.</p>
+            <h1 className=' change text-4xl lg:text-6xl'>Find The Right Talent</h1>
+            <p className=' change mt-10 text-center md:text-start lg:text-xl'>Find the right talent for your new project.</p>
           </div>
-        </div> 
-        <div className='flex justify-center'>
-          <IndustryData/>
         </div>
+        <div className='flex lg:pl-10'>
+          <IndustryData />
+
+        </div>
+        <button className='p-3 rounded-3xl mt-14 border border-black ml-20'>Discover More</button>
       </div>
 
-      <div className="land4 bg-[#F4F4F4]">
-        <div className='md:m-20 m-5 pt-8 pb-8 md:pb-0 md:pt-20 w-[80%]'>
-              <h1 className='text-4xl'>Find The Right Casting Call</h1>
-              <p className=' change mt-10 text-center md:text-start'>Find the latest casting calls and apply for the roles that match your skills.</p>
+      <div className="land4  flex flex-col justify-center bg-[#F4F4F4]">
+        <div className='m-20 pt-8 pb-8 md:pb-0 md:pt-20 lg:w-[80%]'>
+          <div className=''>
+          <h1 className='text-4xl lg:text-6xl'>Find The Right Casting Call</h1>
+          <p className='change  mt-10 lg:text-xl text-center md:text-start'>Find the latest casting calls and apply for the roles that match your skills.</p>
           </div>
-          <div className='w-full flex justify-center'>
-          <LandingPagetalent/>
-          </div>
+        </div>
+        <div className='w-full lg:pl-20 flex justify-center'>
+          <LandingPagetalent />
+        </div>
+        <button className='p-3 rounded-3xl mt-14 border w-36 border-black ml-20'>Discover More</button>
+
+
       </div>
 
       <div className="land5">
         <div className='m-20'>
-          <h1 className=' change  text-2xl text-center md:text-start md:text-4xl'>Key Features</h1>
+          <h1 className=' change  text-2xl lg:text-6xl text-center md:text-start md:text-4xl'>How it Works</h1>
         </div>
         <div className="data md:m-20 m-10 md:flex md:w-[80%]">
           <div className="left md:w-1/2">
             <img src={land5img} alt="" />
           </div>
-          <div className="right md:w-1/2 flex flex-col gap-5 ml-10">
+          <div className="right md:w-1/2 flex flex-col gap-5 lg:ml-10">
             <div className='border-b hidden md:block flex-col gap-2 border-gray-300'>
               <h1 className=' change text-2xl'>Craft Your Identity,Share Your Passion</h1>
               <p className=' change text-[#7E8B9A]  mb-4'>Your artistic journey begins with YouTooArt's personalized profile</p>
@@ -127,7 +139,7 @@ const Landingpage = () => {
           <h1>FAQ</h1>
         </div>
         <div className="details border-t flex flex-col border-gray-300 m-20">
-          <div className="one mt-7 border-b border-gray-300 flex w-full">
+          <div className="one mt-20 border-b border-gray-300 flex w-full">
             <div className="change number w-[20%]">
               01
             </div>
@@ -209,7 +221,7 @@ const Landingpage = () => {
                 Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
               </p>}
             </div>
-            <div className="w-[20%] flex justify-end items-start">
+            <div className="w-[20%] mb-20 flex justify-end items-start">
               {!visibleSections[4] ?
                 <button onClick={() => handleVisible(4)} className='change '><img className='w-[90%]' src={land6plus} alt="" /></button> :
                 <button onClick={() => handleVisible(4)} className='change '><img className='w-[90%]' src={land6minus} alt="" /></button>
@@ -223,23 +235,34 @@ const Landingpage = () => {
         <div className="left w-1/2">
           <img className='px-20 md:w-full w-20' src={land7img} alt="" />
         </div>
-        <div className="right p-3 w-1/2">
-          <h1 className=' change text-4xl w-[50%]'>Download
-            The YouTooArt App</h1>
-          <p className=' change w-60% text-gray-500 mt-3'>Elevate your artistry with the YouTooArt app. Download now to explore casting calls, connect with fellow artists, and collaborate on the go. Your masterpiece awaits – take the first step.</p>
+        <div className="right flex justify-center items-center p-3 w-1/2">
+          <div className='flex flex-col items-center text-center'>
+            <h1 className='change text-4xl lg:text-6xl w-[60%]'>
+              Download The YouTooArt App
+            </h1>
+            <p className='change lg:text-xl text-wrap w-[60%] text-gray-500 mt-3'>
+              Elevate your artistry with the YouTooArt app. Download now to explore casting calls, connect with fellow artists, and collaborate on the go. Your masterpiece awaits – take the first step.
+            </p>
+            <div className='flex justify-center w-[60%] gap-4 mt-8'>
+              <img src={appstore} className='w-[40%]' alt="" />
+              <img src={playstore} className='w-[40%]' alt="" />
+            </div>
+          </div>
         </div>
       </div>
+
 
       <div className="land8 bg-[#F4F4F4]">
         <div className='md:m-20 m- flex justify-center items-center flex-col'>
           <img className='w-[35%]' src={land8img} alt="" />
           <div className='flex justify-center items-center flex-col mt-8'>
             <h1 className=' change md:text-4xl text-2xl w-[70%] text-center'>Connect with Us – Let's Shape Your YouTooArt Experience.</h1>
-            <p className=' change mt-5 md:m-0 m-10 text-center md:text-start'>Have questions, suggestions, or need assistance? We're here for you!</p>
+            <p className=' change lg:mt-8 mt-5 md:m-0 m-10 text-center md:text-start'>Have questions, suggestions, or need assistance? We're here for you!</p>
           </div>
           <div>
             <button className=' change p-3 border rounded-3xl border-gray-600 mt-7 mb-20'>Contact Us</button>
           </div>
+
         </div>
       </div>
 

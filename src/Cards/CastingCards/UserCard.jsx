@@ -15,9 +15,15 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
                         <p className='text-gray-400'>{username}</p>
                     </div>
                 </div>
-                <div className=' flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2  justify-center items-center'>
-                    <HiOutlineDotsVertical className="font-bold text-2xl" />
-                </div>
+                {
+                    landingpage ? (
+                        ''
+                    ) : (
+                        <div className=' flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2  justify-center items-center'>
+                            <HiOutlineDotsVertical className="font-bold text-2xl" />
+                        </div>
+                    )
+                }
             </div>
             <div className='my-4 mx-2' >
                 {
@@ -26,7 +32,7 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
                     )
                 }
             </div>
-            <div className={`flex gap-16 mt-3 ${landingpage && 'gap-20 border-l-2 flex justify-start border-black'}  items-center`}>
+            <div className={`flex gap-16 mt-3 ${landingpage && 'gap-20 bg border-l-2 flex justify-start border-black'}  items-center`}>
                 <div className='md:ml-7 ml-4'>
 
                     <div>

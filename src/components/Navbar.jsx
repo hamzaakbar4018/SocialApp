@@ -17,7 +17,6 @@ const Navbar = () => {
                 <div className="logo px-3">
                     <div className=' flex gap-3 justify-center items-center'>
                         <img className='w-[40px] md:w-[100%]' src={logo} alt="" />
-                        <h1>YOUTOOART</h1>
                     </div>
                 </div>
                 <div className="pages hidden md:block">

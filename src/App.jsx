@@ -23,7 +23,6 @@ import MyCasting from './components/Casting/MyCasting';
 import Chat from './pages/Chat';
 import Chatpopup from './components/Chatpopup';
 import Sidebar from './components/Sidebar';
-// import TalentContextProvider from './context/TalentContexProvider';
 
 const App = () => {
   const location = useLocation();
@@ -31,7 +30,6 @@ const App = () => {
   const isLandingPage = location.pathname === '/';
 
   return (
-    // <TalentContextProvider>
       <div className='routing flex bg-white'>
         {!isLandingPage && (
           <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
@@ -68,7 +66,6 @@ const App = () => {
           </Routes>
         </div>
       </div>
-    // </TalentContextProvider>
   );
 };
 

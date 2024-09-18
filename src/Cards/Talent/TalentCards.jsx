@@ -2,7 +2,7 @@ import { IoMailOutline } from "react-icons/io5";
 const TalentCards = ({ userpic, name, text, connect, landingtalent }) => {
   return (
     <div className="overflow-hidden">
-      <div className={`bg-[#ECF5FE] rounded-lg p-5 w-[228px] ${connect && 'w-[222px] tracking-tighter'} min-h-min h-[250px]`}>
+      <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-[228px] ${connect && 'w-[222px] tracking-tighter'} min-h-min h-[250px]`}>
         <div className="flex flex-col gap-3 space-y-2 h-full">
           {
             landingtalent ? (
@@ -33,7 +33,16 @@ const TalentCards = ({ userpic, name, text, connect, landingtalent }) => {
                 !connect ? "Connect" : "Remove Connection"
               }
             </button>
-            <IoMailOutline className="text-4xl" />
+            {
+              landingtalent ? (
+                <div className="rounded-full border border-gray-400 p-2">
+              <IoMailOutline className="text-3xl" />
+            </div>
+              ) : (
+              <IoMailOutline className="text-4xl" />
+
+              )
+            }
           </div>
         </div>
       </div>

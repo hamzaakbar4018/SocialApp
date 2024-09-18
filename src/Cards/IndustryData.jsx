@@ -7,7 +7,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import '../CSS/Connections.css';
-
 const SwipingData = () => {
     const talentData = [
         {
@@ -72,7 +71,7 @@ const SwipingData = () => {
 
 
     return (
-        <div className="container overflow-x-hidden">
+        <div className="container min-w-full overflow-x-hidden">
             <div className="swiper-grid-container">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}

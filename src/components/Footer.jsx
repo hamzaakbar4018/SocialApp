@@ -14,7 +14,6 @@ const Footer = () => {
                 <div className="logo px-3">
                     <div className=' flex gap-3 justify-center items-center'>
                         <img src={logo} alt="" />
-                        <h1>YOUTOQART</h1>
                     </div>
                 </div>
                 <div className="pages hidden md:block">
