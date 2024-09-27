@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 
 const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage }) => {
     return (
-        <div className={`p-4 ${landingpage && 'w-full min-h-full'} rounded ${isSelected ? 'bg-[#ECF5FE]' : 'bg-white'}`}>
+        <div className={`p-4 ${landingpage && 'w-full rounded-2xl min-h-full'} rounded ${isSelected ? 'bg-[#ECF5FE]' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
                     <div>
                         <img src={img} className='w-12 h-12' alt="" />
                     </div>
                     <div>
-                        <h1 className='text-xl'>{title}</h1>
+                        <h1 className={`text-xl 2xl:text-2xl font-semibold`}>{title}</h1>
                         <p className='text-gray-400'>{username}</p>
                     </div>
                 </div>
@@ -25,14 +25,14 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
                     )
                 }
             </div>
-            <div className='my-4 mx-2' >
+            <div className='my-4 mx-2 2xl:mt-7 2xl:mb-7 2xl:text-xl' >
                 {
                     landingpage && (
                         <p>{description}</p>
                     )
                 }
             </div>
-            <div className={`flex gap-16 mt-3 ${landingpage && 'gap-20 bg border-l-2 flex justify-start border-black'}  items-center`}>
+            <div className={`flex gap-16 2xl:text-xl bg-gradient-to-r from-[#F4F4F4] to-[#FFFFFF00] mt-3 ${landingpage && 'gap-20 bg border-l-2 flex justify-start border-black'}  items-center`}>
                 <div className='md:ml-7 ml-4'>
 
                     <div>

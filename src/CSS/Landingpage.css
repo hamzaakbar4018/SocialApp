@@ -1,3 +1,20 @@
-.change{
-  font-family: 'Raleway', sans-serif;
+.change {
+  font-family: 'Raleway', sans-serif; /* This will keep your other text in Raleway */
+}
+
+.abe {
+  font-family: 'ABeeZee', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('../Fonts/Segoe UI.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.segoe {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

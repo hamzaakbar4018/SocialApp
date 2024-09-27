@@ -169,7 +169,7 @@ const LandingPagetalent = () => {
                     }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className="md:min-w-[350px] md:min-h-[300px]">
+                        <SwiperSlide key={data.id} className="md:min-w-[350px] 2xl:min-w-[400px] 2xl:min-h-[400px] md:min-h-[300px]">
                             <UserCard {...data} />
                         </SwiperSlide>
                     ))}

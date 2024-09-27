@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/Images/logo.svg'
+// import logo from '../assets/Images/logof.svg'
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaTwitterSquare } from "react-icons/fa";
@@ -9,7 +10,6 @@ import '../CSS/Navbar.css'
 const Footer = () => {
     return (
         <div className="main w-full  bg-[#1C1C1C]  p-8" >
-
             <div className='border-b w-full flex justify-between text-white border-gray-600'>
                 <div className="logo px-3">
                     <div className=' flex gap-3 justify-center items-center'>
@@ -36,14 +36,14 @@ const Footer = () => {
                     <button className='p-3 border rounded-3xl border-gray-600'>Sign Up</button>
                 </div>
             </div>
-            <div className='flex mt-7 w-full md:gap-0 gap-5 text-white justify-between'>
+            <div className='flex text-gray-400 mt-7 w-full md:gap-0 gap-5 justify-between'>
                 <div className="copy">
                     <h1 className='md:text-base text-sm'>&copy;YouTooArt - All Rights Reserved</h1>
                 </div>
                 <div className="term">
                     <h1 className='md:text-base text-sm'>Privacy  .  Terms & Conditions</h1>
                 </div>
-                <div className="icon">
+                <div className="icon text-white">
                     <ul className='flex md:text-2xl gap-3  md:gap-5'>
                         <li><FaSquareFacebook/></li>
                         <li><FaSquareInstagram/></li>
