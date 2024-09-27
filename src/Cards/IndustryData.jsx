@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext } from 'react';
 import TalentCards from './Talent/TalentCards';
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import '../CSS/Connections.css';
-const SwipingData = ({landingtalent}) => {
+const SwipingData = ({ landingtalent }) => {
     const talentData = [
         {
             id: 1,
@@ -65,10 +65,10 @@ const SwipingData = ({landingtalent}) => {
             text: "Model | Actor",
             landingtalent
         },
-        
+
     ];
 
-    
+
 
     return (
         <div className="container min-w-full overflow-x-hidden">
@@ -96,9 +96,13 @@ const SwipingData = ({landingtalent}) => {
                     }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className="max-w-[27%]">
+                        <SwiperSlide
+                            className={`max-w-[28%] ${landingtalent ? 'hover:scale-105 transition-transform duration-300' : ''}`}
+                            key={data.id}
+                        >
                             <TalentCards {...data} />
                         </SwiperSlide>
+
                     ))}
                 </Swiper>
             </div>

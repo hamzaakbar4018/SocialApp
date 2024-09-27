@@ -101,7 +101,7 @@ const Landingpage = () => {
           </div>
         </div>
         <div className='w-full md:p:0 p-10  lg:pl-20 flex justify-center'>
-          <LandingPagetalent />
+          <LandingPagetalent landingpage={landingtalent}/>
         </div>
         <button className='segoe p-3 mb-10 lg:mb-20 rounded-3xl mt-[-60px]  border w-36  border-black ml-20'>Discover More</button>
 

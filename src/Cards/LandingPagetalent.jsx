@@ -11,7 +11,7 @@ import "swiper/css/scrollbar";
 import '../CSS/Connections.css';
 import UserCard from './CastingCards/UserCard';
 
-const LandingPagetalent = () => {
+const LandingPagetalent = ({landingpage}) => {
     const talentData = [
         {
           title: "Short Film",
@@ -27,7 +27,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -43,7 +43,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -59,7 +59,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -75,7 +75,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -91,7 +91,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -107,7 +107,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -123,7 +123,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         },
         {
           title: "Short Film",
@@ -139,7 +139,7 @@ const LandingPagetalent = () => {
           gender: "Male",
           shootdays: "30",
           crew: "1",
-          landingpage: true // Added field
+          landingpage
         }
       ];
       
@@ -148,7 +148,7 @@ const LandingPagetalent = () => {
             <div className="swiper-grid-container w-full">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
+                    spaceBetween={16}
                     scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log("slide change")}
@@ -169,7 +169,7 @@ const LandingPagetalent = () => {
                     }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className="md:min-w-[350px] 2xl:min-w-[400px] 2xl:min-h-[400px] md:min-h-[300px]">
+                        <SwiperSlide key={data.id} className={`md:min-w-[350px] 2xl:min-w-[440px] 2xl:min-h-[400px] md:min-h-[300px] ${landingpage ? 'hover:scale-105 hover-rounded-2xl transition-transform duration-300' : ''}`}>
                             <UserCard {...data} />
                         </SwiperSlide>
                     ))}
