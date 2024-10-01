@@ -35,9 +35,9 @@ const TalentCards = ({ userpic, name, text, connect, landingtalent }) => {
                 <IoMailOutline className="2xl:text-4xl text-3xl" />
               </div>
             ) : (
-              <div className="ml-3 p-1 border border-gray-400 rounded-full flex justify-center items-center">
+              <div className="ml-3 mr-3 p-2 border border-gray-400 rounded-full flex justify-center items-center">
 
-                <IoMailOutline className="text-4xl " />
+                <IoMailOutline className="text-2xl  " />
               </div>
             )}
           </div>
