@@ -22,7 +22,7 @@ const Navbar = () => {
                 <div className="pages hidden md:block">
                     <ul className='flex gap-8 underline-offset-4 p-3'>
                         <li>
-                            <Link to="/home" className="border-b-2  border-[#C02C2C] transition-all">Home</Link>
+                            <Link to="/" className="border-b-2  border-[#C02C2C] transition-all">Home</Link>
                         </li>
                         <li>
                             <Link to="/talent" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Talent</Link>
@@ -37,7 +37,7 @@ const Navbar = () => {
                             <Link to="/home" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Content</Link>
                         </li>
                         <li>
-                            <Link to="/howitworks" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</Link>
+                            <Link to="/about" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</Link>
                         </li>
                         <li>
                             <Link to="/download" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Download</Link>

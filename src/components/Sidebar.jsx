@@ -29,7 +29,7 @@ const Sidebar = () => {
                 <Link className='' to="/">
                     <div className='logo p-5 mx-3 flex gap-3 items-center'>
                         <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />
-        
+
                     </div>
                 </Link>
 
@@ -91,7 +91,7 @@ const Sidebar = () => {
                                     }
                                 >
                                     <div className='flex justify-start gap-2 items-center'>
-                                    <img src={Chat} alt="" />
+                                        <img src={Chat} alt="" />
 
                                         Chat
                                     </div>
@@ -198,8 +198,10 @@ const Sidebar = () => {
                                     <p className="py-4">Are you sure you want to log out?</p>
                                     <p className='text-[#9B9B9B]'>Loggin out will end your current session and require you to sign in again the next time you access the app.</p>
                                     <div className='flex mt-3 gap-3 justify-end items-center'>
-                                        <button className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
-                                        <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes,Logout</button>
+                                        <button onClick={handleLog} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
+                                        <Link to="/">
+                                            <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes,Logout</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </dialog>
