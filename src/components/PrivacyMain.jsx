@@ -34,8 +34,8 @@ const PrivacyMain = () => {
 
     return (
         <div className='flex'>
-            <div className='flex-grow'>
-                <div className='flex px-0 justify-between items-center border-b py-4'>
+            <div className='flex-grow p-[2px] bg-gray-100'>
+                <div className='flex  px-0 justify-between bg-white items-center border-b py-4'>
                     <h1 className='text-xl p-3'>Privacy Policy</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
@@ -69,14 +69,14 @@ const PrivacyMain = () => {
                                 <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
                             )}
                         </div>
-                        <div onClick={handleBar} className='rounded-full cursor-pointer bg-[#F5F5F5] p-3 mr-4 border border-gray-300'>
+                        <div onClick={handleBar} className='rounded-full cursor-pointer p-3 mr-4 border border-gray-300'>
                             <IoMdNotificationsOutline className='cursor-pointer' />
                         </div>
                     </div>
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[1%]'}`}>
-                    <div className='p-[5px]'>
-                        <div className='rounded bg-gray-100 p-4'>
+                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
+                    <div className='mt-[2px]'>
+                        <div className='bg-white p-4'>
                             <div>
                                 <h1 className=' font-bold'>Privacy Policy</h1>
                                 <div className='mt-3'>

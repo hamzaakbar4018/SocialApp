@@ -3,12 +3,12 @@ import { FaPen, FaPlus } from 'react-icons/fa';
 
 const MyWorkPictures = ({ pictures }) => {
     return (
-        <div className='alldata w-full bg-gray-100 m-1 rounded p-6'>
+        <div className='alldata w-full bg-white m-[2px] rounded p-6'>
             {/* Pictures Section */}
             <div className="pictures">
                 <div className='flex justify-between items-center mb-4'>
                     <div className='flex-1'>
-                        <h1 className='text-xl'>Pictures ({pictures.length})</h1>
+                        <h1 className='text-xl font-semibold'>Pictures ({pictures.length})</h1>
                         <p className='text-sm text-gray-400'>1 Hour ago</p>
                     </div>
                     <div className='text-blue-500 cursor-pointer'>
@@ -27,12 +27,12 @@ const MyWorkPictures = ({ pictures }) => {
                 <div className="carousel flex gap-4 overflow-x-auto">
                     {pictures.length > 0 ? (
                         pictures.map((picture, index) => (
-                            <div key={index} className="carousel-item w-1/3 p-2 flex-shrink-0">
+                            <div key={index} className="carousel-item border rounded-lg w-1/3 p-2 flex-shrink-0">
                                 <div className='flex flex-col items-start'>
                                     <img src={picture.thumbnail} alt={picture.title} className='w-full h-auto object-cover rounded mb-4' />
                                     <div>
-                                        <h2 className='text-lg font-bold mb-2'>{picture.title}</h2>
-                                        <a href={picture.pictureLink} target="_blank" rel="noopener noreferrer" className='text-blue-400 underline'>
+                                        <h2 className='text-lg 2xl:text-2xl font-semibold mb-2'>{picture.title}</h2>
+                                        <a href={picture.pictureLink} target="_blank" rel="noopener noreferrer" className='text-blue-400 2xl:text-2xl underline'>
                                             picture.pictureLink
                                         </a>
                                     </div>

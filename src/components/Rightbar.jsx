@@ -8,26 +8,31 @@ const Rightbar = () => {
       image: "https://randomuser.me/api/portraits/men/1.jpg",
       username: "john_doe",
       text: "Great post! Keep it up!",
+      time: "Just Now"
     },
     {
       image: "https://randomuser.me/api/portraits/women/2.jpg",
       username: "jane_smith",
       text: "Loved this! Can't wait for more.",
+      time: "1 Day Ago"
     },
     {
       image: "https://randomuser.me/api/portraits/men/3.jpg",
       username: "mark_twain",
       text: "This was really insightful, thank you.",
+      time: "24 hours ago"
     },
     {
       image: "https://randomuser.me/api/portraits/women/4.jpg",
       username: "emily_rose",
       text: "Your content is always so inspiring!",
+      time: "Just Now"
     },
     {
       image: "https://randomuser.me/api/portraits/men/5.jpg",
-      username: "alexander_hamilton",
+      username: "alexander",
       text: "Great read! Thanks for sharing.",
+      time: "1 Day Ago"
     },
   ];
   const reqData = [
@@ -107,9 +112,9 @@ const Rightbar = () => {
   };
 
   return (
-    <div className="border-l px-3 h-full overflow-y-scroll">
+    <div className=" bg-white border-l px-3 h-full overflow-y-auto">
       <div className="py-8 px-2">
-        <h1>Notifications</h1>
+        <h1 className="font-semibold">Notifications</h1>
       </div>
       <div className="px-2 flex flex-col gap-3">
         {notifyData.slice(0, visibleNotifyCount).map((data, index) => (
@@ -118,20 +123,21 @@ const Rightbar = () => {
             image={data.image}
             username={data.username}
             text={data.text}
+            {...data}
           />
         ))}
       </div>
-      <div className="px-2 flex justify-center items-center py-4">
+      <div className="px-2 bg-[#E6E7E854] flex justify-center items-center py-2 mt-3">
         <button
           onClick={toggleNotifyShowMore}
-          className="text-blue-500 hover:underline"
+          className="text-blue-500   hover:underline"
         >
           {isNotifyExpanded ? "Show Less" : "Show All"}
         </button>
       </div>
 
       <div className="connections px-2 flex flex-col gap-3 mt-8">
-        <h1>Connections Requests</h1>
+        <h1 className="font-semibold">Connections Requests</h1>
         {reqData.slice(0, visibleConnCount).map((data, index) => (
           <Conneections
             key={index}
@@ -141,10 +147,10 @@ const Rightbar = () => {
           />
         ))}
       </div>
-      <div className="px-2 flex justify-center items-center py-4">
+      <div className="px-2 flex justify-center items-center bg-[#E6E7E854] py-2 mt-3">
         <button
           onClick={toggleConnShowMore}
-          className="text-blue-500 hover:underline"
+          className="text-blue-500  hover:underline"
         >
           {isConnExpanded ? "Show Less" : "Show All"}
         </button>

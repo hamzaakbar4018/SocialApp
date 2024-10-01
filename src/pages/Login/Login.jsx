@@ -25,25 +25,25 @@ const Login = () => {
             <div className='flex h-screen'>
                 <div className='md:w-[30%] left py-4'>
                     <div className='flex md:justify-start justify-center gap-2 items-center'>
-                        <img className='md:pl-10' src={logo} alt="" />
-                        <h1 className='text-2xl bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text'>
+                        <img className='md:pl-10 w-60' src={logo} alt="" />
+                        {/* <h1 className='text-2xl bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text'>
                             YOUTOOART
-                        </h1>
+                        </h1> */}
                     </div>
 
                     <div className="middle px-10 mt-32 md:mt-64">
                         <div>
                             <h1 className='font-bold text-2xl'>Login</h1>
-                            <h2 className='mt-6'>Contact Number</h2>
+                            <h2 className='mt-6 font-semibold'>Contact Number</h2>
                         </div>
-                        <div className=''>
+                        <div className=' mt-2 '>
                             <PhoneInput
                                 country={'us'}
                                 value={phoneNumber}
                                 onChange={handleChange}
                                 placeholder='Enter Contact'
                                 inputStyle={{ borderColor: valid ? 'black' : 'red' }}
-                                className=''
+                                className='bg-[#1C1C1C14] '
                             />
                             {!valid && <p style={{ color: 'red' }}>Please enter a valid 10-digit phone number.</p>}
                         </div>
@@ -53,7 +53,9 @@ const Login = () => {
                             </Link>
                         </div>
                         <div>
-                            <h1 className='text-[#262626] text-xl mt-4'>Don't have an account yet?<span className='text-[#399AF3] font-bold'> Create Account</span></h1>
+                            <h1 className='text-[#262626] text-xl mt-4'>Don't have an account yet?<Link to="/signup">
+                            <span className='text-[#399AF3] font-bold'> Create Account</span>
+                            </Link></h1>
                         </div>
                     </div>
                     <div className="last px-10 mt-20 md:mt-52">

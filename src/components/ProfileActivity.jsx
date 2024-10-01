@@ -56,7 +56,7 @@ const postData = [
 ];
 const ProfileActivity = () => {
   return (
-    <div className='p-1'>
+    <div className='p-[2px]'>
         {postData.map((data,index)=>(
             <Post key={index} {...data}/>
         ))}

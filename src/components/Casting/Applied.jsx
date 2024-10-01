@@ -43,7 +43,7 @@ const Applied = () => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
 
   return (
-    <div className='bg-gray-100 flex p-1 mt-1 rounded'>
+    <div className='bg-gray-100 flex mt-1 '>
       <div className='left flex flex-col gap-2 w-1/3'>
         {
           userdata.map((data, index) => (

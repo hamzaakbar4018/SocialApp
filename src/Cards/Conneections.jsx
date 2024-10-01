@@ -3,7 +3,7 @@ import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
 import '../CSS/Connections.css'
 const Conneections = ({ image, username, description, network }) => {
   return (
-    <div className={`flex flex-col  gap-4 ${network && 'px-4 w-[228px]  min-h-min h-[250px] bg-[#ECF5FE] gap-6 rounded-xl py-8'}`}>
+    <div className={`flex flex-col  gap-4 ${network && 'px-4 w-[222px]  max-h-[230px] bg-[#ECF5FE] gap-6 rounded-xl py-8'}`}>
       {
         network ? (
           <div className='network flex flex-col font-bold gap-2'>
@@ -23,12 +23,12 @@ const Conneections = ({ image, username, description, network }) => {
           </div>
         )
       }
-      <div className='flex justify-start items-center gap-4 mt-'>
-        <button className='flex items-center gap-1 bg-[#B3FCE2] text-[#008F5C] py-1 px-3 rounded-3xl hover:bg-[#B3FCE2]'>
+      <div className='flex justify-center items-center gap-4 mt-'>
+        <button className='flex items-center gap-1 bg-[#B3FCE2] text-[#008F5C] py-2 px-3 rounded-3xl hover:bg-[#B3FCE2]'>
           <AiOutlineCheck size={16} />
           Accept
         </button>
-        <button className='flex items-center gap-1 bg-[#FFE5E5] text-[#FF4E4E] py-1 px-3 rounded-3xl hover:bg-[#FFE5E5]'>
+        <button className='flex items-center gap-1 bg-[#FFE5E5] text-[#FF4E4E] py-2 px-3 rounded-3xl hover:bg-[#FFE5E5]'>
           <AiOutlineClose size={16} />
           Reject
         </button>

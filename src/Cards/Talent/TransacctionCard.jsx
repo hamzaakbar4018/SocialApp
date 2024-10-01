@@ -4,7 +4,7 @@ import { TiTick } from "react-icons/ti";
 
 const TransacctionCard = ({ approve, date, price, title, id, time }) => {
     return (
-        <div className="rounded-lg bg-white p-4">
+        <div className=" bg-white p-4">
             <div className="flex justify-between items-center text-gray-400">
                 <h1>{date}</h1>
                 <h1 className='text-[#http://54.153.208.108]'>{price}</h1>

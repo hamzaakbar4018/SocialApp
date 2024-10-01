@@ -40,9 +40,9 @@ const TalentMain = () => {
 
     return (
         <div className={`flex ${showRightbar ? "col-span-8" : "col-span-10"} transition-all`}>
-            <div className="flex-grow w-full">
-                <div className="flex px-0 justify-between items-center border-b py-4">
-                    <h1 className="text-xl p-3">Talent</h1>
+            <div className="flex-grow w-full p-[2px] bg-gray-100">
+                <div className="flex px-0 justify-between bg-white items-center border-b py-4">
+                    <h1 className="text-xl font-bold p-3">Talent</h1>
                     <div className="flex justify-center gap-5 items-center">
                         <div
                             ref={searchRef}
@@ -83,19 +83,19 @@ const TalentMain = () => {
                         </div>
                         <div
                             onClick={handleBar}
-                            className="rounded-full cursor-pointer bg-[#F5F5F5] p-3 mr-4 border border-gray-300"
+                            className="rounded-full cursor-pointer p-3 mr-4 border border-gray-300"
                         >
                             <IoMdNotificationsOutline className="cursor-pointer" />
                         </div>
                     </div>
                 </div>
-                <div className="p-[5px]">
-                    <div className="rounded bg-white max-w-max p-4 space-y-2">
-                        <h3 className="font-bold text-2xl">People in Drama Industry</h3>
+                <div className="p-[2px]">
+                    <div className=" bg-white flex-grow-0 p-4 space-y-2">
+                        <h3 className="text-2xl">People in Drama Industry</h3>
                         <IndustryData />
                     </div>
-                    <div className="rounded bg-white  p-4 space-y-2">
-                        <h3 className="font-bold text-2xl">Popular Production houses</h3>
+                    <div className=" bg-white  p-4 space-y-2">
+                        <h3 className="text-2xl">Popular Production houses</h3>
                         <ProductionData />
                     </div>
                 </div>

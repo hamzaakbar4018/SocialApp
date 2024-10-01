@@ -84,8 +84,8 @@ const TransacctionMain = () => {
 
     return (
         <div className='flex'>
-            <div className='flex-grow'>
-                <div className='flex px-0 justify-between items-center border-b py-4'>
+            <div className='flex-grow p-[2px] bg-gray-100'>
+                <div className='flex px-0 justify-between bg-white items-center border-b py-4'>
                     <h1 className='text-xl p-3'>Transaction History</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
@@ -119,15 +119,15 @@ const TransacctionMain = () => {
                                 <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
                             )}
                         </div>
-                        <div onClick={handleBar} className='rounded-full cursor-pointer bg-[#F5F5F5] p-3 mr-4 border border-gray-300'>
+                        <div onClick={handleBar} className='rounded-full cursor-pointer p-3 mr-4 border border-gray-300'>
                             <IoMdNotificationsOutline className='cursor-pointer' />
                         </div>
                     </div>
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[1%]'}`}>
-                    <div className='p-[5px]'>
-                        <div className='rounded bg-gray-100 p-2'>
-                            <div className='flex flex-col gap-2'>
+                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
+                    <div className=''>
+                        <div className='bg-gray-100 mt-1'>
+                            <div className='flex flex-col gap-1'>
                             {history.map((data, index) => (
                                 <TransacctionCard key={index} {...data} />
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProfileAbout = () => {
     return (
-        <div className='m-1 rounded  bg-gray-100'>
+        <div className='m-[2px] bg-white'>
             <div className=''>
                 <div className='border-b border-gray-400 p-4'>
                     <h2 className='text-gray-400'>Bio</h2>

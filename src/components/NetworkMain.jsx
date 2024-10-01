@@ -117,7 +117,7 @@ const NetworkMain = () => {
 
     return (
         <div className='flex bg-gray-100'>
-            <div className='flex-grow '>
+            <div className='flex-grow p-[2px] bg-gray-100 '>
                 <div className='flex bg-white px-0 justify-between items-center border-b py-4'>
                     <h1 className='text-xl p-3'>My Network</h1>
                     <div className='flex justify-center gap-5 items-center'>
@@ -152,16 +152,16 @@ const NetworkMain = () => {
                                 <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
                             )}
                         </div>
-                        <div onClick={handleBar} className='rounded-full cursor-pointer bg-[#F5F5F5] p-3 mr-4 border border-gray-300'>
+                        <div onClick={handleBar} className='rounded-full cursor-pointer p-3 mr-4 border border-gray-300'>
                             <IoMdNotificationsOutline className='cursor-pointer' />
                         </div>
                     </div>
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[1%]'}`}>
-                    <div className='p-[5px]'>
-                        <div className='rounded bg-white p-2'>
+                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
+                    <div className='p-[2px]'>
+                        <div className=' bg-white p-4'>
                             <h1 className='font-bold'>Requests ({reqData.length})</h1>
-                            <div className='flex flex-wrap gap-5 mt-4'>
+                            <div className='flex flex-wrap gap-3 mt-4'>
                                 {reqData.map((data, index) => (
                                     <Conneections key={index} {...data} />
 
@@ -169,8 +169,8 @@ const NetworkMain = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='p-[5px]'>
-                        <div className='rounded bg-white p-2'>
+                    <div className='p-[2px]'>
+                        <div className=' bg-white p-4'>
                             <h1 className='font-bold'>Connections ({talentData.length})</h1>
                             <div className='flex mt-3 flex-wrap gap-5'>
                                 {talentData.map((data, index) => (

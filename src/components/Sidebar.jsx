@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import sidebarLogo from '../assets/Images/sidebarLogo.svg';
-import { PiStarFourBold } from "react-icons/pi";
-import { PiNewspaperLight } from "react-icons/pi";
-import { FaRegUser } from "react-icons/fa6";
-import { TbArrowsRightLeft } from "react-icons/tb";
-import { HiOutlineSupport } from "react-icons/hi";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { CgHomeAlt } from "react-icons/cg";
-import { HiOutlineGlobeAlt } from "react-icons/hi2";
-import { PiUsersThreeLight } from "react-icons/pi";
-import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
+import { NavLink, Link } from 'react-router-dom';
+import sidebarLogo from '../assets/Images/logo.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
-import { Link } from 'react-router-dom'
+import Home from '../assets/Icons SVG/Home.svg';
+import Talent from '../assets/Icons SVG/Talent.svg';
+import Network from '../assets/Icons SVG/Network.svg';
+import Casting from '../assets/Icons SVG/Casting.svg';
+import Chat from '../assets/Icons SVG/Chat.svg';
+import Profile from '../assets/Icons SVG/Profile.svg';
+import Terms_Conditon from '../assets/Icons SVG/Terms_Conditions.svg';
+import Transaction_History from '../assets/Icons SVG/Transaction_History.svg';
+import Support from '../assets/Icons SVG/Support.svg';
+import Aboutus from '../assets/Icons SVG/Aboutus.svg';
+
 const Sidebar = () => {
-    const [account, setaccount] = useState(false);
-    const openaccount = () => {
-        setaccount(!account);
+    const [account, setAccount] = useState(false);
+    const openAccount = () => {
+        setAccount(!account);
+    }
+
+    const [logout, setLogout] = useState(false);
+    const handleLog = () => {
+        setLogout(!logout);
     }
 
     return (
         <div className='flex h-screen'>
-            <div className='w-full bg-gray-100 h-full flex flex-col border-r border-gray-300'>
+            <div className='w-full bg-[#FFFFFF] h-full flex flex-col border-r border-gray-300'>
                 <Link className='' to="/">
-                    <div className='logo p-5 flex gap-3 items-center'>
-                        <img src={sidebarLogo} alt="Sidebar Logo" className='w-12' />
-                        <h1 className='bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text text-xl'>
-                            YOUTOOART
-                        </h1>
+                    <div className='logo p-5 mx-3 flex gap-3 items-center'>
+                        <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />
                     </div>
                 </Link>
 
@@ -39,10 +41,14 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/home'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                     }
                                 >
-                                    <CgHomeAlt className='text-2xl ' />
+                                    <img
+                                        src={Home}
+                                        alt="Home"
+                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                    />
                                     Home
                                 </NavLink>
                             </li>
@@ -50,10 +56,14 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/talent'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                     }
                                 >
-                                    <PiUsersThreeLight className='text-2xl' />
+                                    <img
+                                        src={Talent}
+                                        alt="Talent"
+                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                    />
                                     Talent
                                 </NavLink>
                             </li>
@@ -61,10 +71,14 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/network'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                     }
                                 >
-                                    <HiOutlineGlobeAlt className='text-2xl' />
+                                    <img
+                                        src={Network}
+                                        alt="Network"
+                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                    />
                                     Network
                                 </NavLink>
                             </li>
@@ -72,10 +86,14 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/casting'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                     }
                                 >
-                                    <PiStarFourBold className='text-2xl' />
+                                    <img
+                                        src={Casting}
+                                        alt="Casting"
+                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                    />
                                     Casting
                                 </NavLink>
                             </li>
@@ -83,21 +101,22 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/chat'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                     }
                                 >
                                     <div className='flex justify-start gap-2 items-center'>
-                                        <HiOutlineChatBubbleBottomCenterText className='text-2xl' />
+                                        <img
+                                            src={Chat}
+                                            alt="Chat"
+                                            className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                        />
                                         Chat
                                     </div>
                                 </NavLink>
                             </li>
-                            <div onClick={openaccount} className='flex cursor-pointer justify-between items-center'>
+                            <div onClick={openAccount} className='flex cursor-pointer justify-between items-center'>
                                 <h2 className='text-gray-500 mx-3'>Account</h2>
-                                <div
-                                    className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'
-                                        }`}
-                                >
+                                <div className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'}`}>
                                     <FaAngleDown />
                                 </div>
                             </div>
@@ -107,10 +126,14 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/profile'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                             }
                                         >
-                                            <FaRegUser className='text-xl' />
+                                            <img
+                                                src={Profile}
+                                                alt="Profile"
+                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                            />
                                             Profile
                                         </NavLink>
                                     </li>
@@ -118,10 +141,14 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/transaction'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                             }
                                         >
-                                            <TbArrowsRightLeft className='text-2xl' />
+                                            <img
+                                                src={Transaction_History}
+                                                alt="Transactions"
+                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                            />
                                             Transactions
                                         </NavLink>
                                     </li>
@@ -129,10 +156,14 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/support'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                             }
                                         >
-                                            <HiOutlineSupport className='text-2xl' />
+                                            <img
+                                                src={Support}
+                                                alt="Support"
+                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                            />
                                             Support
                                         </NavLink>
                                     </li>
@@ -140,10 +171,14 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/about'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                             }
                                         >
-                                            <AiOutlineExclamationCircle className='text-2xl' />
+                                            <img
+                                                src={Aboutus}
+                                                alt="About"
+                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                            />
                                             About
                                         </NavLink>
                                     </li>
@@ -151,21 +186,14 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/term-policy'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
                                             }
                                         >
-                                            <PiNewspaperLight className='text-2xl' />
-                                            Terms & Conditions
-                                        </NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink
-                                            to='/privacy'
-                                            className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
-                                            }
-                                        >
-                                            <PiNewspaperLight className='text-2xl' />
+                                            <img
+                                                src={Terms_Conditon}
+                                                alt="Terms & Conditions"
+                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
+                                            />
                                             Privacy Policy
                                         </NavLink>
                                     </li>
@@ -175,16 +203,24 @@ const Sidebar = () => {
                     </div>
                 </div>
 
-                {/* Logout Button */}
-                <div className="p-3 m-3 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
-                    <div className="flex items-center gap-2">
-                        <CiLogout className="text-2xl font-bold" />
-                        <h1 className="text-lg font-medium">Logout</h1>
+                <div className='flex justify-between items-center p-3'>
+                    <div className='flex gap-3 items-center cursor-pointer' onClick={handleLog}>
+                        <CiLogout />
+                        <span>Logout</span>
                     </div>
                 </div>
+                {logout && (
+                    <div className="bg-gray-200 p-4 rounded-md">
+                        <p>Are you sure you want to log out?</p>
+                        <div className="flex justify-end mt-2">
+                            <button className="text-red-500 mr-3">Yes</button>
+                            <button className="text-gray-500">No</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
-};
+}
 
 export default Sidebar;

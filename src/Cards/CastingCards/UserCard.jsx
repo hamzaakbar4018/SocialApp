@@ -2,24 +2,24 @@ import React from 'react'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Link } from 'react-router-dom'
 
-const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage }) => {
+const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage,apply }) => {
     return (
-        <div className={`p-4 ${landingpage && 'w-full rounded-2xl min-h-full'} rounded ${isSelected ? 'bg-[#ECF5FE]' : 'bg-white'}`}>
+        <div className={`p-4 ${apply && '!bg-gray-100'} ${landingpage && 'w-full min-h-full rounded'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
                     <div>
                         <img src={img} className='w-12 h-12' alt="" />
                     </div>
                     <div>
-                        <h1 className={`text-xl 2xl:text-2xl font-semibold`}>{title}</h1>
+                        <h1 className={`text-xl 2xl:text-xl font-semibold`}>{title}</h1>
                         <p className='text-gray-400'>{username}</p>
                     </div>
                 </div>
                 {
-                    landingpage ? (
+                    landingpage || apply ? (
                         ''
                     ) : (
-                        <div className=' flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2  justify-center items-center'>
+                        <div className=' flex border border-gray-400 rounded-full w-[33px] h-[33px] p-2  justify-center items-center'>
                             <HiOutlineDotsVertical className="font-bold text-2xl" />
                         </div>
                     )

@@ -2,45 +2,90 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginPageimg from '../../assets/Images/loginPageimg.png';
 import logo from '../../assets/Images/logo.svg';
-import verifyTick from '../../assets/Images/verifytick.svg'
+import verifyTick from '../../assets/Images/verifytick.svg';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import upload from '../../assets/Icons SVG/Upload.svg';
 
 const Verify = () => {
     const [verified, setVerified] = useState(false);
+    const [account, setAccount] = useState(false);
+    const [complete, setcomplete] = useState(false);
+    const [createProfile, setCreateProfile] = useState(false);
+    const [createProfile2, setCreateProfile2] = useState(false);
 
     const handleVerify = () => {
         setVerified(true);
-    }
+    };
+    const handlecomplete = () => {
+        setCreateProfile2(false);
+        setcomplete(true);
+    };
+
+    const handleCreateProfile = () => {
+        setCreateProfile(true);
+        setAccount(false); // Close account creation modal
+    };
+
+    const handleCreateProfile2 = () => {
+        setCreateProfile2(true);
+        setCreateProfile(false);
+    };
+
+    const handleAccount = () => {
+        setAccount(!account);
+        setVerified(false); // Close verification modal when toggling account
+    };
 
     const handleCloseModal = () => {
         setVerified(false);
-    }
+        setAccount(false);
+        setCreateProfile(false);
+        setCreateProfile2(false);
+    };
+
+
+
+    // Categories array for Step 1
+    const categories = [
+        { category: 'Director' },
+        { category: 'Singer' },
+        { category: 'Actor' },
+        { category: 'Writer' },
+        { category: 'Producer' },
+        { category: 'Dancer' },
+        { category: 'Photographer' },
+        { category: 'Artist' },
+        { category: 'Musician' },
+        { category: 'Designer' },
+    ];
 
     return (
         <>
             <div className='flex h-screen'>
                 <div className='md:w-[30%] left py-4'>
                     <div className='flex md:justify-start justify-center gap-2 items-center'>
-                        <img className='md:pl-10' src={logo} alt="Logo" />
-                        <h1 className='text-2xl bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text'>
-                            YOUTOOART
-                        </h1>
+                        <img className='md:pl-10 w-60' src={logo} alt="Logo" />
                     </div>
 
                     <div className="middle relative px-10 md:mt-48">
                         <div>
                             <Link to='/login'>
-                                <h1 className='font-bold text-2xl'><IoMdArrowRoundBack className='mb-6' /></h1>
+                                <h1 className='font-bold text-2xl'>
+                                    <IoMdArrowRoundBack className='mb-6' />
+                                </h1>
                             </Link>
                             <h1 className='text-xl font-bold mt-3'>Verify Your Account</h1>
-                            <h2 className='mt-3 font-light'>Please enter 6 digits OTP you received on your registered phone <span className='text-[#399AF3]'>+91325*****41</span></h2>
+                            <h2 className='mt-3 font-light'>
+                                Please enter 6 digits OTP you received on your registered phone{' '}
+                                <span className='text-[#399AF3]'>+91325*****41</span>
+                            </h2>
                         </div>
                         <div className='mt-6 flex flex-col'>
                             <label htmlFor="otp" className='font-bold'>Enter OTP</label>
-                            <input type="number" name="otp" id="otp" placeholder='0 0 0 0' className='text-center mt-3 text-xl' />
+                            <input type="number" name="otp" id="otp" placeholder='0 0 0 0' className='text-center mt-3 text-xl bg-[#1C1C1C14] p-2 rounded-full' />
                         </div>
                         <div>
-                            <button onClick={handleVerify} className='bg-black w-full text-white p-3 rounded-3xl mt-6'>Verify</button>
+                            <button onClick={handleAccount} className='bg-black w-full text-white p-3 rounded-3xl mt-6'>Verify</button>
                         </div>
                     </div>
                     <div className="last px-10 mt-20 md:mt-52">
@@ -53,9 +98,9 @@ const Verify = () => {
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* Verification Modal */}
             {verified && (
-                <dialog id="my_modal_3" className="modal modal-open">
+                <dialog className="modal modal-open">
                     <div className="modal-box md:w-1/3">
                         <form method="dialog">
                             <button
@@ -67,19 +112,196 @@ const Verify = () => {
                             </button>
                         </form>
                         <div className='justify-center flex flex-col items-center mt-5'>
-                            <img src={verifyTick} alt="" />
+                            <img src={verifyTick} alt="Verification Success" />
+                            <h1 className='text-xl font-bold'>Verification Successful</h1>
+                        </div>
+                    </div>
+                </dialog>
+            )}
+
+            {/* Account Creation Modal */}
+            {account && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box md:w-1/3">
+                        <form method="dialog">
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onClick={handleCloseModal}
+                            >
+                                ✕
+                            </button>
+                        </form>
+                        <div className='justify-center flex flex-col items-center mt-5'>
+                            <img src={verifyTick} alt="Account Created" />
                             <h1 className='text-xl font-bold'>Account Created</h1>
                             <h1 className='text-center'>Your account was created, you can now start exploring Talent and post Casting Calls.</h1>
-                            <div className='flex gap-10 mt-8'>
-                                <button className=' p-3 rounded-3xl bg-[#E2E2E2]'>SkipFor Now</button>
-                                <button className='bg-black text-white p-3 rounded-3xl'>Create Profile</button>
+                            <div className='flex w-full gap-3 mt-8'>
+                                <button onClick={handleCloseModal} className=' w-full p-3 rounded-3xl bg-[#E2E2E2]'>Skip For Now</button>
+                                <button onClick={handleCreateProfile} className='bg-black w-full text-white p-3 rounded-3xl'>Create Profile</button>
                             </div>
                         </div>
                     </div>
                 </dialog>
             )}
+
+            {/* Profile Creation Modal */}
+            {createProfile && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box p-0 h-[80%] 2xl:h-[50%] 2xl:min-w-[45%] min-w-[60%] overflow-hidden relative">
+                        <form method="dialog" className="relative">
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCloseModal}>✕</button>
+                        </form>
+                        <h3 className="font-bold px-6 pt-4 text-lg">Complete Profile</h3>
+                        <div className='pb-2 border-b border-gray-400'>
+                            <h1 className='px-6 text-sm text-[#399AF3]'>Step 1 of 2</h1>
+                        </div>
+                        <div className='px-6 py-2'>
+                            <h1 className='font-semibold'>Choose Category</h1>
+                        </div>
+                        <div className='px-6 flex flex-wrap gap-1 py-2 overflow-y-auto max-h-[70%]'>
+                            {categories.map((data, index) => (
+                                <div key={index} className="flex items-center w-[49.7%] border border-[#399AF3] p-3 rounded gap-2">
+                                    <input className='w-6 h-6' type="radio" name="category" id={`category-${index}`} />
+                                    <label htmlFor={`category-${index}`} className='cursor-pointer font-semibold'>{data.category}</label>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='absolute bottom-0 right-0 p-4 w-full flex gap-2 justify-end bg-white'>
+                            <button onClick={() => setCreateProfile(false)} className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300'>Skip For Now</button>
+                            <button onClick={handleCreateProfile2} className='px-4 py-2 rounded-full text-white font-semibold bg-black'>Save and Next</button>
+                        </div>
+                    </div>
+                </dialog>
+            )}
+
+            {/* Profile Creation Step 2 Modal */}
+            {createProfile2 && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box p-0 h-[80%] 2xl:h-[60%] 2xl:min-w-[50%] overflow-hidden relative">
+                        <form method="dialog" className="relative">
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCloseModal}>✕</button>
+                        </form>
+                        <h3 className="font-bold px-6 pt-4 text-lg">Complete Profile</h3>
+                        <div className='pb-2 border-b border-gray-400'>
+                            <h1 className='px-6 text-sm text-[#399AF3]'>Step 2 of 2</h1>
+                        </div>
+                        <div className='px-6 py-2'>
+                            <h1 className='font-semibold'>Upload Your Image</h1>
+                        </div>
+                        <div className='px-6 overflow-y-auto max-h-[70%] py-2'>
+                            <div>
+                                <FileUpload />
+                            </div>
+                            <div className='flex gap-2 mt-2 '>
+                                <div className='flex flex-col gap-2 w-full'>
+                                    <label className='font-semibold' htmlFor="">First Name</label>
+                                    <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" />
+                                </div>
+                                <div className='flex flex-col gap-2 w-full'>
+                                    <label className='font-semibold' htmlFor="">Last Name</label>
+                                    <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" />
+                                </div>
+                            </div>
+
+                            <div className='flex gap-2 mt-2 '>
+                                <div className='flex flex-col gap-2 w-full'>
+                                    <label className='font-semibold' htmlFor="">Country</label>
+                                    {/* <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" /> */}
+                                    <select className='px-3 mt-1 py-3 rounded-full bg-[#1C1C1C14]' name="" id="">
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </div>
+                                <div className='flex flex-col gap-2 w-full'>
+                                    <label className='font-semibold' htmlFor="">City</label>
+                                    {/* <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" /> */}
+                                    <select className='px-3 mt-1 py-3 rounded-full bg-[#1C1C1C14]' name="" id="">
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='flex flex-col gap-2 mt-2 '>
+                                <label className='font-semibold' htmlFor="">Short Bio</label>
+                                <textarea placeholder='Enter Bio' className='bg-[#1C1C1C14] px-3 py-2 rounded-xl h-32' name="" id=""></textarea>
+
+                            </div>
+                        </div>
+                        <div className='absolute bottom-0 right-0 p-4 w-full flex gap-2 justify-end bg-white'>
+                            <button onClick={handleCloseModal} className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300'>Skip For Now</button>
+                            <button onClick={handlecomplete} className='px-4 py-2 rounded-full text-white font-semibold bg-black'>Submit</button>
+                        </div>
+                    </div>
+                </dialog>
+            )}
+
+            {complete && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box md:w-1/3">
+                        <form method="dialog">
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onClick={()=>{setcomplete(false)}}
+                            >
+                                ✕
+                            </button>
+                        </form>
+                        <div className='justify-center flex flex-col items-center mt-5'>
+                            <img src={verifyTick} alt="Account Created" />
+                            <h1 className='text-xl font-bold'>Profile Completed!</h1>
+                            <h1 className='text-center font-semibold'>Congrats!You just completed your profile.</h1>
+                            <div className='flex justify-center w-full mt-8'>
+                                <Link to="/home" className='w-full'>
+                                    <button onClick={handleCreateProfile} className='bg-black w-full text-white p-3 rounded-3xl'>Proceed to Home</button>
+                                </Link>
+                            </div>
+
+                        </div>
+                    </div>
+                </dialog>
+            )}
         </>
-    )
-}
+    );
+};
+
+const FileUpload = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
+    const handleImageClick = () => {
+        document.getElementById('fileInput').click();
+    };
+
+    return (
+        <div className="flex bg-[#399AF31A] py-5 rounded flex-col items-center justify-center gap-2">
+            <img
+                className="w-[18%] h-[18%] cursor-pointer"
+                src={upload}
+                alt="Upload"
+                onClick={handleImageClick}
+            />
+            <p className='text-sm'>Drag and Drop or <span className='text-[#399AF3]'>Browse</span> an image </p>
+
+            <input
+                id="fileInput"
+                type="file"
+                onChange={handleFileChange}
+                className="hidden"
+            />
+            {selectedFile && (
+                <p className="text-xs font-bold">
+                    {selectedFile.name} Uploaded successfully!
+                </p>
+            )}
+        </div>
+    );
+};
 
 export default Verify;

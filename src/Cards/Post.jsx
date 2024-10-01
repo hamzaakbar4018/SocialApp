@@ -45,7 +45,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
 
     return (
         <div>
-            <div className="main bg-gray-100 rounded-lg">
+            <div className="main bg-white ">
                 <div className='flex p-3'>
                     <div className='flex justify-between'>
                         <div className='flex gap-2 items-center'>

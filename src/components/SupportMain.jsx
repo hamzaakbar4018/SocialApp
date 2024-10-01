@@ -41,8 +41,8 @@ const SupportMain = () => {
 
     return (
         <div className='flex'>
-            <div className='flex-grow'>
-                <div className='flex px-0 justify-between items-center border-b py-4'>
+            <div className='flex-grow p-[2px] bg-gray-100'>
+                <div className='flex px-0 justify-between bg-white items-center border-b py-4'>
                     <h1 className='text-xl p-3'>Help & Support</h1>
                     <div className='flex justify-center gap-5 items-center'>
                         <div
@@ -76,19 +76,19 @@ const SupportMain = () => {
                                 <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
                             )}
                         </div>
-                        <div onClick={handleBar} className='rounded-full cursor-pointer bg-[#F5F5F5] p-3 mr-4 border border-gray-300'>
+                        <div onClick={handleBar} className='rounded-full cursor-pointer p-3 mr-4 border border-gray-300'>
                             <IoMdNotificationsOutline className='cursor-pointer' />
                         </div>
                     </div>
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[1%]'}`}>
-                    <div className='p-[5px]'>
-                        <div className='rounded bg-gray-100 p-4'>
+                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
+                    <div className='p-[2px]'>
+                        <div className=' bg-white p-4'>
                             <h1 className='font-bold text-gray-400'>Frequently Asked Questions</h1>
 
 
                             <div className="details flex flex-col">
-                                <div className="one mt-7 border-b border-gray-300 flex w-full">
+                                <div onClick={() => handleVisible(0)} className="one mt-7 border-b border-gray-300 flex w-full">
                    
                                     <div className="data w-full">
                                         <h1 className='changes text-xl mb-4'>What is youtooart.com about?</h1>
@@ -96,7 +96,7 @@ const SupportMain = () => {
                                             Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
                                         </p>}
                                     </div>
-                                    <div className="w-[20%] flex justify-end items-start">
+                                    <div  className="w-[20%] flex justify-end items-start">
                                         {!visibleSections[0] ?
                                             <button onClick={() => handleVisible(0)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
                                             <button onClick={() => handleVisible(0)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
@@ -104,7 +104,7 @@ const SupportMain = () => {
                                     </div>
                                 </div>
 
-                                <div className="two mt-7 border-b border-gray-300 flex w-full">
+                                <div onClick={() => handleVisible(1)} className="two mt-7 border-b border-gray-300 flex w-full">
                      
                                     <div className="data w-full">
                                         <h1 className='changes text-xl mb-4'>How does youtooart.com work?</h1>
@@ -120,7 +120,7 @@ const SupportMain = () => {
                                     </div>
                                 </div>
 
-                                <div className="three mt-7 border-b border-gray-300 flex w-full">
+                                <div onClick={() => handleVisible(2)} className="three mt-7 border-b border-gray-300 flex w-full">
                            
                                     <div className="data w-full">
                                         <h1 className='changes text-xl mb-4'>How does youtooart.com help a certain user with a particular interest in some art category?</h1>
@@ -136,7 +136,7 @@ const SupportMain = () => {
                                     </div>
                                 </div>
 
-                                <div className="four mt-7 border-b border-gray-300 flex w-full">
+                                <div onClick={() => handleVisible(3)} className="four mt-7 border-b border-gray-300 flex w-full">
                       
                                     <div className="data w-full">
                                         <h1 className='changes text-xl mb-4'>How does youtooart.com help people who are trying to perceive a full-time career in arts?</h1>
@@ -152,7 +152,7 @@ const SupportMain = () => {
                                     </div>
                                 </div>
 
-                                <div className="five mt-7 border-b border-gray-300 flex w-full">
+                                <div onClick={() => handleVisible(4)} className="five mt-7 border-b border-gray-300 flex w-full">
                       
                                     <div className="data w-full">
                                         <h1 className='changes text-xl mb-4'>Anything else from Youtooart.com?</h1>
