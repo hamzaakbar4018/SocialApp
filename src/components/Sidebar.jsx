@@ -1,36 +1,35 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import sidebarLogo from '../assets/Images/logo.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
-import Home from '../assets/Icons SVG/Home.svg';
-import Talent from '../assets/Icons SVG/Talent.svg';
-import Network from '../assets/Icons SVG/Network.svg';
-import Casting from '../assets/Icons SVG/Casting.svg';
-import Chat from '../assets/Icons SVG/Chat.svg';
-import Profile from '../assets/Icons SVG/Profile.svg';
-import Terms_Conditon from '../assets/Icons SVG/Terms_Conditions.svg';
-import Transaction_History from '../assets/Icons SVG/Transaction_History.svg';
-import Support from '../assets/Icons SVG/Support.svg';
-import Aboutus from '../assets/Icons SVG/Aboutus.svg';
-
+import { Link } from 'react-router-dom'
+import Home from '../assets/Icons SVG/Home.svg'
+import Talent from '../assets/Icons SVG/Talent.svg'
+import Network from '../assets/Icons SVG/Network.svg'
+import Casting from '../assets/Icons SVG/Casting.svg'
+import Chat from '../assets/Icons SVG/Chat.svg'
+import Profile from '../assets/Icons SVG/Profile.svg'
+import Terms_Conditon from '../assets/Icons SVG/Terms_Conditions.svg'
+import Transaction_History from '../assets/Icons SVG/Transaction_History.svg'
+import Support from '../assets/Icons SVG/Support.svg'
+import Aboutus from '../assets/Icons SVG/Aboutus.svg'
 const Sidebar = () => {
-    const [account, setAccount] = useState(false);
-    const openAccount = () => {
-        setAccount(!account);
+    const [account, setaccount] = useState(false);
+    const openaccount = () => {
+        setaccount(!account);
     }
-
     const [logout, setLogout] = useState(false);
     const handleLog = () => {
         setLogout(!logout);
     }
-
     return (
         <div className='flex h-screen'>
             <div className='w-full bg-[#FFFFFF] h-full flex flex-col border-r border-gray-300'>
                 <Link className='' to="/">
                     <div className='logo p-5 mx-3 flex gap-3 items-center'>
                         <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />
+        
                     </div>
                 </Link>
 
@@ -41,14 +40,10 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/home'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                     }
                                 >
-                                    <img
-                                        src={Home}
-                                        alt="Home"
-                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                    />
+                                    <img src={Home} alt="" />
                                     Home
                                 </NavLink>
                             </li>
@@ -56,14 +51,11 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/talent'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                     }
                                 >
-                                    <img
-                                        src={Talent}
-                                        alt="Talent"
-                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                    />
+                                    <img src={Talent} alt="" />
+
                                     Talent
                                 </NavLink>
                             </li>
@@ -71,14 +63,11 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/network'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                     }
                                 >
-                                    <img
-                                        src={Network}
-                                        alt="Network"
-                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                    />
+                                    <img src={Network} alt="" />
+
                                     Network
                                 </NavLink>
                             </li>
@@ -86,14 +75,11 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/casting'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                     }
                                 >
-                                    <img
-                                        src={Casting}
-                                        alt="Casting"
-                                        className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                    />
+                                    <img src={Casting} alt="" />
+
                                     Casting
                                 </NavLink>
                             </li>
@@ -101,22 +87,22 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/chat'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                     }
                                 >
                                     <div className='flex justify-start gap-2 items-center'>
-                                        <img
-                                            src={Chat}
-                                            alt="Chat"
-                                            className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                        />
+                                    <img src={Chat} alt="" />
+
                                         Chat
                                     </div>
                                 </NavLink>
                             </li>
-                            <div onClick={openAccount} className='flex cursor-pointer justify-between items-center'>
+                            <div onClick={openaccount} className='flex cursor-pointer justify-between items-center'>
                                 <h2 className='text-gray-500 mx-3'>Account</h2>
-                                <div className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'}`}>
+                                <div
+                                    className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'
+                                        }`}
+                                >
                                     <FaAngleDown />
                                 </div>
                             </div>
@@ -126,14 +112,10 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/profile'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                             }
                                         >
-                                            <img
-                                                src={Profile}
-                                                alt="Profile"
-                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                            />
+                                            <img src={Profile} alt="" />
                                             Profile
                                         </NavLink>
                                     </li>
@@ -141,14 +123,10 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/transaction'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                             }
                                         >
-                                            <img
-                                                src={Transaction_History}
-                                                alt="Transactions"
-                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                            />
+                                            <img src={Transaction_History} alt="" />
                                             Transactions
                                         </NavLink>
                                     </li>
@@ -156,14 +134,10 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/support'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                             }
                                         >
-                                            <img
-                                                src={Support}
-                                                alt="Support"
-                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                            />
+                                            <img src={Support} alt="" />
                                             Support
                                         </NavLink>
                                     </li>
@@ -171,14 +145,10 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/about'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                             }
                                         >
-                                            <img
-                                                src={Aboutus}
-                                                alt="About"
-                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                            />
+                                            <img src={Aboutus} alt="" />
                                             About
                                         </NavLink>
                                     </li>
@@ -186,14 +156,22 @@ const Sidebar = () => {
                                         <NavLink
                                             to='/term-policy'
                                             className={({ isActive }) =>
-                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-gray-700 hover:bg-gray-200'}`
+                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
                                             }
                                         >
-                                            <img
-                                                src={Terms_Conditon}
-                                                alt="Terms & Conditions"
-                                                className={`w-6 transition-all duration-300 ${({ isActive }) => (isActive ? 'filter hue-rotate(180deg) brightness(0) invert(1)' : 'filter brightness(1)')}`}
-                                            />
+                                            <img src={Terms_Conditon} alt="" />
+                                            Terms & Conditions
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to='/privacy'
+                                            className={({ isActive }) =>
+                                                `flex items-center gap-2 p-2 rounded-md transition-colors duration-300 ${isActive ? 'bg-[#E7F3FE] text-[#227BCD]' : 'text- hover:bg-gray-200'}`
+                                            }
+                                        >
+                                            {/* <PiNewspaperLight className='text-2xl' /> */}
+                                            <img src={Terms_Conditon} alt="" />
                                             Privacy Policy
                                         </NavLink>
                                     </li>
@@ -203,24 +181,34 @@ const Sidebar = () => {
                     </div>
                 </div>
 
-                <div className='flex justify-between items-center p-3'>
-                    <div className='flex gap-3 items-center cursor-pointer' onClick={handleLog}>
-                        <CiLogout />
-                        <span>Logout</span>
+                {/* Logout Button */}
+                <div className="p-3 m-3 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
+                    <div onClick={handleLog} className="flex items-center gap-2">
+                        <CiLogout className="text-2xl font-bold" />
+                        <h1 className="text-lg font-medium">Logout</h1>
                     </div>
+                    {
+                        logout && (
+                            <dialog id="my_modal_3" className="modal text-black" open>
+                                <div className="modal-box">
+                                    <form method="dialog">
+                                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                    </form>
+                                    <h3 className="font-bold text-lg">Logout?</h3>
+                                    <p className="py-4">Are you sure you want to log out?</p>
+                                    <p className='text-[#9B9B9B]'>Loggin out will end your current session and require you to sign in again the next time you access the app.</p>
+                                    <div className='flex mt-3 gap-3 justify-end items-center'>
+                                        <button className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
+                                        <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes,Logout</button>
+                                    </div>
+                                </div>
+                            </dialog>
+                        )
+                    }
                 </div>
-                {logout && (
-                    <div className="bg-gray-200 p-4 rounded-md">
-                        <p>Are you sure you want to log out?</p>
-                        <div className="flex justify-end mt-2">
-                            <button className="text-red-500 mr-3">Yes</button>
-                            <button className="text-gray-500">No</button>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );
-}
+};
 
 export default Sidebar;
