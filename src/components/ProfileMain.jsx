@@ -8,7 +8,8 @@ import ProfileCard from '../Cards/ProfileCard';
 import { CiBoxList } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
-
+import searchi from '../assets/Icons SVG/Search.svg'
+import Notifications from '../assets/Icons SVG/Notifications.svg'
 
 // Change the icons only
 
@@ -74,7 +75,8 @@ const ProfileMain = () => {
                                     </div>
                                 </div>
                             )}
-                            <CiSearch className='cursor-pointer font-bold' />
+                            {/* <CiSearch className='cursor-pointer font-bold' /> */}
+                            <img src={searchi} alt="" />
                             <input
                                 onClick={handleSearch}
                                 type="search"
@@ -86,7 +88,8 @@ const ProfileMain = () => {
                             )}
                         </div>
                         <div onClick={handleBar} className='rounded-full cursor-pointer  p-3 mr-4 border border-gray-300'>
-                            <IoMdNotificationsOutline className='cursor-pointer' />
+                            {/* <IoMdNotificationsOutline className='cursor-pointer' /> */}
+                            <img src={Notifications} alt="" />
                         </div>
                     </div>
                 </div>

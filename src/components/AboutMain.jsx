@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CiSearch } from 'react-icons/ci';
-import { IoMdNotificationsOutline } from 'react-icons/io';
+import searchi from '../assets/Icons SVG/Search.svg'
+import Notifications from '../assets/Icons SVG/Notifications.svg'
 import Rightbar from './Rightbar';
 import { FaArrowCircleRight } from 'react-icons/fa';
-import TransacctionCard from '../Cards/Talent/TransacctionCard';
 const AboutMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
@@ -59,7 +58,8 @@ const AboutMain = () => {
                                     </div>
                                 </div>
                             )}
-                            <CiSearch className='cursor-pointer font-bold' />
+                            {/* <CiSearch className='cursor-pointer font-bold' /> */}
+                            <img src={searchi} alt="" />
                             <input
                                 onClick={handleSearch}
                                 type="search"
@@ -71,7 +71,8 @@ const AboutMain = () => {
                             )}
                         </div>
                         <div onClick={handleBar} className='rounded-full cursor-pointer p-3 mr-4 border border-gray-300'>
-                            <IoMdNotificationsOutline className='cursor-pointer' />
+                            {/* <IoMdNotificationsOutline className='cursor-pointer' /> */}
+                            <img src={Notifications} alt="" />
                         </div>
                     </div>
                 </div>

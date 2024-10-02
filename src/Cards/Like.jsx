@@ -31,7 +31,7 @@ const UserDummy = () => {
       ];
 
     return (
-        <div>
+        <div className='px-6'>
             {
                 users.map((data, index) => (
                     <div key={index} className='flex mt-4 justify-start items-center mb-4'>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CiSearch } from 'react-icons/ci';
+import searchi from '../assets/Icons SVG/Search.svg'
+import Notifications from '../assets/Icons SVG/Notifications.svg'
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import Rightbar from './Rightbar';
 import photoadmin from '../assets/Images/photoadmin.svg';
@@ -147,7 +148,7 @@ const Main = () => {
                                     </div>
                                 </div>
                             )}
-                            <CiSearch className='cursor-pointer font-bold'/>
+                            <img src={searchi} alt="" />
                             <input
                             onClick={handleSearch}
                                 type="search"
@@ -159,7 +160,7 @@ const Main = () => {
                             )}
                         </div>
                         <div onClick={handleBar} className='rounded-full cursor-pointer  p-3 mr-4 border border-gray-300'>
-                            <IoMdNotificationsOutline className='cursor-pointer' />
+                            <img src={Notifications} alt="" />
                         </div>
                     </div>
                 </div>

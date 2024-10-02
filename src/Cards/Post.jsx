@@ -41,6 +41,26 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
             userimage: 'https://randomuser.me/api/portraits/women/3.jpg',
             comment: 'I really enjoyed this post. The details are well-presented and easy to follow.',
         },
+        {
+            username: 'BobBrown',
+            userimage: 'https://randomuser.me/api/portraits/men/3.jpg',
+            comment: 'Excellent work! The layout is clean and the content is engaging.',
+        },
+        {
+            username: 'EmilyDavis',
+            userimage: 'https://randomuser.me/api/portraits/women/3.jpg',
+            comment: 'I really enjoyed this post. The details are well-presented and easy to follow.',
+        },
+        {
+            username: 'BobBrown',
+            userimage: 'https://randomuser.me/api/portraits/men/3.jpg',
+            comment: 'Excellent work! The layout is clean and the content is engaging.',
+        },
+        {
+            username: 'EmilyDavis',
+            userimage: 'https://randomuser.me/api/portraits/women/3.jpg',
+            comment: 'I really enjoyed this post. The details are well-presented and easy to follow.',
+        },
     ];
 
     return (
@@ -86,11 +106,11 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
             </div>
             {likes && (
                 <dialog id="my_modal_3" className="modal" open>
-                    <div className="modal-box">
+                    <div className="modal-box p-0">
                         <form method="dialog">
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                         </form>
-                        <div className='border-b border-gray-400'>
+                        <div className='border-b px-6 pt-6 border-gray-400'>
                             <h3 className="font-bold mb-4 text-lg">Post Likes(141.2k)</h3>
                         </div>
                         <UserDummy />
@@ -100,11 +120,11 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
             {comments && (
                 <dialog id="my_modal_3" className="modal" open>
                     <div
-                        className="modal-box"
+                        className="modal-box h-full 2xl:max-h-[48vh]"
                         style={{
                             boxSizing: "border-box",
                             padding: '0',
-                            width: '80vw',
+                            maxwidth: '80vw',
                             maxWidth: '850px',
                         }}
                     >
@@ -112,17 +132,17 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                         </form>
 
-                        <div className='flex '>
-                            <div className="left max-w-lg border-r border-gray-400 mb-4">
+                        <div className='flex'>
+                            <div className="left overflow-hidden h-[calc(100vh-0px)] max-w-lg border-r border-gray-400 mb-4">
                                 <div className='flex justify-between'>
                                     <div className='flex p-4 gap-2'>
                                         <img className='rounded-full w-16 h-16' src={userimage} alt="User Image" />
                                         <div>
-                                            <h2 className='font-bold'>{username}</h2>
+                                            <h2 className='font-bold text-xl'>{username}</h2>
                                             <p className='text-gray-400'>{lastActiveTime}</p>
                                         </div>
                                     </div>
-                                    <div className='flex m-4 px-3 bg-gray-100 cursor-pointer rounded-full justify-center items-center'>
+                                    <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
                                         <HiOutlineDotsVertical className='text-lg' />
                                     </div>
                                 </div>
@@ -132,7 +152,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                                 </div>
 
                                 <div>
-                                    <img src={postimage} className='w-full h-[400px] object-cover' alt="Post Image" />
+                                    <img src={postimage} className='w-full h-[350px] object-cover' alt="Post Image" />
                                 </div>
                                 <div className='p-3 mt-4 items-center flex gap-5'>
                                     <div className='flex gap-1'>
@@ -150,12 +170,12 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                                 </div>
                             </div>
 
-                            <div className='right w-1/2'>
+                            <div className='right w-1/2 h-[calc(100vh-0px)] overflow-y-auto'>
                                 <div className='border-b border-gray-400'>
                                     <h3 className="font-bold p-4 text-lg">Post Comments (14k)</h3>
                                 </div>
-                                <div className='flex flex-col h-full'>
-                                    <div className='flex-1 p-4 overflow-y-auto'>
+                                <div className='flex flex-col'>
+                                    <div className='flex-1 p-4'>
                                         {commentsData.map((data, index) => (
                                             <div key={index} className='mb-4'>
                                                 <div className='flex items-center font-bold gap-2'>
@@ -178,9 +198,8 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+
                     </div>
                 </dialog>
             )}
