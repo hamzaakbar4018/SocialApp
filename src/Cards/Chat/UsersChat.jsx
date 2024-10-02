@@ -6,9 +6,9 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
-      <div className="bg-white rounded-t p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="bg-white rounded-t">
+        <div className="flex border-b border-gray-400 p-4 items-center justify-between">
+          <div className="flex  items-center gap-2">
             <img
               src={userImg}
               className="rounded-full w-14 h-14"
@@ -25,16 +25,14 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
         </div>
       </div>
 
-      {/* Chat Section */}
-      <div className="flex flex-col flex-1 overflow-y-auto bg-white">
+      <div className="flex flex-col flex-1 overflow-y-auto  bg-white">
         <div className="p-4 flex-1">
           <div className="flex flex-col gap-2">
-            {/* Display received messages */}
             {received && received.msg && (
               <div className="flex flex-col">
-                <div className="chat chat-start">
+                <div className="">
                   <div
-                    className="chat-bubble text-black"
+                    className="p-2 inline-block rounded-tr-xl rounded-br-xl rounded-bl-xl text-black"
                     style={{ backgroundColor: "#E7E8E8" }}
                   >
                     {received.msg}
@@ -42,7 +40,7 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
                 </div>
                 <div className="chat chat-start">
                   <div className="chat-header">
-                    <time className="text-xs opacity-50">{received.time}</time>
+                    <time className="text-xs opacity-50">{time}</time>
                   </div>
                 </div>
               </div>
@@ -51,9 +49,9 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
             {/* Display sent messages */}
             {sent && sent.msg && (
               <div className="flex flex-col items-end">
-                <div className="chat chat-end">
+                <div className="">
                   <div
-                    className="chat-bubble"
+                    className="p-2 rounded-tl-xl rounded-br-xl rounded-bl-xl"
                     style={{ backgroundColor: "#399AF3", color: "white" }}
                   >
                     {sent.msg}
@@ -61,7 +59,7 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
                 </div>
                 <div className="chat chat-end">
                   <div className="chat-header">
-                    <time className="text-xs opacity-50">{sent.time}</time>
+                    <time className="text-xs opacity-50">{time}</time>
                   </div>
                 </div>
               </div>
@@ -79,7 +77,7 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
             className="p-3 outline-none bg-transparent w-full"
           />
         </div>
-        <FaArrowCircleRight className="text-3xl cursor-pointer" />
+        <FaArrowCircleRight className="text-4xl cursor-pointer" />
       </div>
     </div>
   );

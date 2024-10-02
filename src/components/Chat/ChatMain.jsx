@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { CiSearch } from "react-icons/ci";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { useEffect, useRef, useState } from "react";;
 import Rightbar from "../Rightbar";
 import { FaArrowCircleRight } from "react-icons/fa";
 import AllUsers from "../../Cards/Chat/AllUsers";
 import UsersChat from "../../Cards/Chat/UsersChat";
 import searchi from '../../assets/Icons SVG/Search.svg'
+import Edit from '../../assets/Icons SVG/Edit.svg'
 import Notifications from '../../assets/Icons SVG/Notifications.svg'
 const ChatMain = () => {
   const [showRightbar, setShowRightbar] = useState(false);
@@ -124,9 +123,8 @@ const ChatMain = () => {
           <div className="flex justify-center gap-5 items-center">
             <div
               ref={searchRef}
-              className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${
-                search ? "w-[630px]" : "w-[300px]"
-              }`}
+              className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? "w-[630px]" : "w-[300px]"
+                }`}
             >
               {search && (
                 <div className="bg-white absolute top-full mt-2 w-[97%] rounded-lg p-4">
@@ -146,7 +144,6 @@ const ChatMain = () => {
                   </div>
                 </div>
               )}
-              {/* <CiSearch className="cursor-pointer font-bold" /> */}
               <img src={searchi} alt="" />
               <input
                 onClick={handleSearch}
@@ -154,6 +151,7 @@ const ChatMain = () => {
                 placeholder="Search"
                 className="outline-none bg-transparent rounded px-2 py-1 w-full"
               />
+
               {search && (
                 <FaArrowCircleRight
                   onClick={handleSearch}
@@ -161,26 +159,27 @@ const ChatMain = () => {
                 />
               )}
             </div>
-            <div
+            <button className="bg-black mr-4 flex items-center gap-1 text-white font-semibold rounded-full py-3 px-3">
+              <img src={Edit} className="filter invert brightness-0 w-6 h-6" alt="Edit Icon" />
+              New Chat
+            </button>
+            {/* <div
               onClick={handleBar}
               className="rounded-full cursor-pointer p-3 mr-4 border border-gray-300"
             >
-              {/* <IoMdNotificationsOutline className="cursor-pointer" /> */}
               <img src={Notifications} alt="" />
-            </div>
+            </div> */}
           </div>
         </div>
         <div
-          className={`showcard transition-all flex-1 overflow-hidden ${
-            showRightbar ? "mr-[1%]" : "mr-0"
-          } flex`}
+          className={`showcard transition-all flex-1 overflow-hidden ${showRightbar ? "mr-[1%]" : "mr-0"
+            } flex`}
           style={{ height: "calc(100dvh - 5.2rem)" }}
         >
-          {/* chat side/all chats */}
           <div className="left bg-white min-w-[25%] rounded overflow-y-auto border-r">
             {staticChatData.map((data, index) => (
               <AllUsers
-                key={data.id} // Use unique id for key
+                key={data.id} 
                 {...data}
                 isActive={selectedCardIndex === index}
                 isSelected={selectedCardIndex === index}
