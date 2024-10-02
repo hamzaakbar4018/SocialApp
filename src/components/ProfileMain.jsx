@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CiSearch } from 'react-icons/ci';
-import { IoMdNotificationsOutline } from 'react-icons/io';
 import Rightbar from './Rightbar';
-import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';  // Import necessary components
+import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import ProfileCard from '../Cards/ProfileCard';
 import { CiBoxList } from "react-icons/ci";
@@ -10,8 +8,6 @@ import { FaRegUser } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
 import searchi from '../assets/Icons SVG/Search.svg'
 import Notifications from '../assets/Icons SVG/Notifications.svg'
-
-// Change the icons only
 
 
 const ProfileMain = () => {
@@ -25,10 +21,8 @@ const ProfileMain = () => {
             }
         };
 
-        // Bind the event listener
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [searchRef]);
@@ -114,7 +108,7 @@ const ProfileMain = () => {
                                     >
                                         <CiBoxList
                                             className={`text-2xl transition-all ${isActive =>
-                                                isActive ? 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)]' : 'text-gray-400'
+                                                isActive ? 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)] text-[#399AF3]' : 'text-gray-400'
                                             }`}
                                         />
                                         Activity

@@ -14,6 +14,7 @@ import Terms_Conditon from '../assets/Icons SVG/Terms_Conditions.svg'
 import Transaction_History from '../assets/Icons SVG/Transaction_History.svg'
 import Support from '../assets/Icons SVG/Support.svg'
 import Aboutus from '../assets/Icons SVG/Aboutus.svg'
+import { BsChatSquareText } from "react-icons/bs";
 const Sidebar = () => {
     const [account, setaccount] = useState(false);
     const openaccount = () => {
@@ -91,8 +92,8 @@ const Sidebar = () => {
                                     }
                                 >
                                     <div className='flex justify-start gap-2 items-center'>
-                                        <img src={Chat} alt="" />
-
+                                        {/* <img src={Chat} alt="" /> */}
+                                        <BsChatSquareText className='w-5 h-5' />
                                         Chat
                                     </div>
                                 </NavLink>
