@@ -109,7 +109,7 @@ const Sidebar = () => {
                                 <NavLink
                                     to='/casting'
                                     className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD]' : 'text-lg hover:bg-gray-200'}`
+                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
                                     }
                                 >
                                     {({ isActive }) => (

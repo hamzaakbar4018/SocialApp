@@ -43,7 +43,7 @@ const Login = () => {
                                 onChange={handleChange}
                                 placeholder='Enter Contact'
                                 inputStyle={{ borderColor: valid ? 'black' : 'red' }}
-                                className='bg-[#1C1C1C14] '
+                                // className='bg-[#1C1C1C14] '
                             />
                             {!valid && <p style={{ color: 'red' }}>Please enter a valid 10-digit phone number.</p>}
                         </div>

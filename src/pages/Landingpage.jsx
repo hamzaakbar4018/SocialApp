@@ -146,7 +146,7 @@ const Landingpage = () => {
             <div className="change number w-[20%]">
               01
             </div>
-            <div className="data w-[60%]">
+            <div className="data w-[60%] cursor-pointer">
               <h1 className='segoe text-xl font-semibold mb-4'>What is youtooart.com about?</h1>
               {visibleSections[0] && <p className='segoe 2xl:text-xl change text-sm mb-4 text-gray-500'>
                 Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
@@ -160,7 +160,7 @@ const Landingpage = () => {
             </div>
           </div>
 
-          <div onClick={() => handleVisible(1)} className="two mt-7 border-b border-gray-300 flex w-full">
+          <div onClick={() => handleVisible(1)} className="cursor-pointer two mt-7 border-b border-gray-300 flex w-full">
             <div className="change number w-[20%]">
               02
             </div>
@@ -174,11 +174,11 @@ const Landingpage = () => {
               {!visibleSections[1] ?
                 <button onClick={() => handleVisible(1)} className='change '><img className='w-[90%]' src={land6plus} alt="" /></button> :
                 <button onClick={() => handleVisible(1)} className='change '><img className='w-[90%]' src={land6minus} alt="" /></button>
-              }
+              } 
             </div>
           </div>
 
-          <div onClick={() => handleVisible(2)} className="three mt-7 border-b border-gray-300 flex w-full">
+          <div onClick={() => handleVisible(2)} className="cursor-pointer three mt-7 border-b border-gray-300 flex w-full">
             <div className=" number w-[20%]">
               03
             </div>
@@ -196,7 +196,7 @@ const Landingpage = () => {
             </div>
           </div>
 
-          <div onClick={() => handleVisible(3)} className="four mt-7 border-b border-gray-300 flex w-full">
+          <div onClick={() => handleVisible(3)} className="cursor-pointer four mt-7 border-b border-gray-300 flex w-full">
             <div className=" number w-[20%]">
               04
             </div>
@@ -214,7 +214,7 @@ const Landingpage = () => {
             </div>
           </div>
 
-          <div onClick={() => handleVisible(4)} className="five mt-7 border-b border-gray-300 flex w-full">
+          <div onClick={() => handleVisible(4)} className="cursor-pointer five mt-7 border-b border-gray-300 flex w-full">
             <div className=" number w-[20%]">
               05
             </div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage,apply }) => {
     return (
-        <div className={`p-4 ${apply && '!bg-gray-100'} ${landingpage && 'w-full min-h-full rounded'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
+        <div className={`cursor-pointer p-4 ${apply && '!bg-gray-100'} ${landingpage && 'w-full min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
                     <div>
