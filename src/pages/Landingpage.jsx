@@ -86,7 +86,7 @@ const Landingpage = () => {
             <p className='change mt-10 text-center md:text-start lg:text-xl'>Find the right talent for your new project.</p>
           </div>
         </div>
-        <div className='flex pl-6'>
+        <div className='flex'>
           <IndustryData landingtalent={landingtalent} />
         </div>
         <button className='p-3 mb-10 rounded-3xl mt-20 border border-black ml-20'>Discover More</button>

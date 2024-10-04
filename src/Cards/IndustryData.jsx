@@ -97,7 +97,7 @@ const SwipingData = ({ landingtalent }) => {
                 >
                     {talentData.map((data) => (
                         <SwiperSlide
-                            className={`max-w-[17%] min-w-[228px] ${landingtalent ? 'max-w-[29.5%] hover:scale-105 transition-transform duration-300' : ''}`}
+                            className={`max-w-[17%] p-4 min-w-[260px] ${landingtalent ? 'max-w-[29.5%] hover:scale-105 transition-transform duration-300' : ''}`}
                             key={data.id}
                         >
                             <TalentCards {...data} />

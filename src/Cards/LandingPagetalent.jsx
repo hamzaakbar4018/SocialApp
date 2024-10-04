@@ -169,7 +169,7 @@ const LandingPagetalent = ({landingpage}) => {
                     }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className={`md:min-w-[350px] 2xl:min-w-[440px] 2xl:min-h-[400px] md:min-h-[300px] ${landingpage ? 'hover:scale-105 hover-rounded-2xl transition-transform duration-300' : ''}`}>
+                        <SwiperSlide key={data.id} className={`md:min-w-[350px] 2xl:min-w-[440px] 2xl:min-h-[400px] md:min-h-[300px] ${landingpage ? 'p-4 hover:scale-105 hover-rounded-2xl transition-transform duration-300' : ''}`}>
                             <UserCard {...data} />
                         </SwiperSlide>
                     ))}

@@ -85,7 +85,7 @@ const ProductionData = () => {
                     }}
                 >
                     {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className="min-w-[228px]">
+                        <SwiperSlide key={data.id} className="max-w-[17%] min-w-[260px]">
                             <TalentCards {...data} />
                         </SwiperSlide>
                     ))}
