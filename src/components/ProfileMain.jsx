@@ -8,6 +8,9 @@ import { FaRegUser } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
 import searchi from '../assets/Icons SVG/Search.svg'
 import Notifications from '../assets/Icons SVG/Notifications.svg'
+import Activity from '../assets/Icons SVG/Activity.svg'
+import About from '../assets/Icons SVG/About.svg'
+import MyWork from '../assets/Icons SVG/MyWork.svg'
 
 
 const ProfileMain = () => {
@@ -43,18 +46,34 @@ const ProfileMain = () => {
         description: "Actor | Director",
     }];
 
+    const activeStyle = 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)] text-[#399AF3]'
+
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
                 <div className='flex px-0 justify-between bg-white items-center border-b py-4'>
-                    <h1 className='text-xl p-3'>My Profile</h1>
-                    <div className='flex justify-center gap-5 items-center'>
+                    <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>My Profile</h1>
+                    {search && (
+                        <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
+                    )}
+                    <div className={`flex justify-end gap-5 items-center w-full z-50`}>
                         <div
                             ref={searchRef}
-                            className={`relative flex items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-[630px]' : 'w-[300px]'}`}
+                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full' : 'w-[300px]'}`}
                         >
+
+                            <img src={searchi} alt="" />
+                            <input
+                                onClick={handleSearch}
+                                type="search"
+                                placeholder='Search'
+                                className='outline-none bg-transparent rounded px-2 py-1 w-full'
+                            />
                             {search && (
-                                <div className='bg-white absolute top-full mt-2 w-[97%] rounded-lg p-4'>
+                                <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
+                            )}
+                            {search && (
+                                <div className='bg-white absolute top-full mt-2 w-[98%] rounded-lg p-4'>
                                     <div className="recent flex items-center justify-between mx-1">
                                         <div>
                                             <h2 className='text-gray-400 text-sm'>Recent</h2>
@@ -69,20 +88,8 @@ const ProfileMain = () => {
                                     </div>
                                 </div>
                             )}
-                            {/* <CiSearch className='cursor-pointer font-bold' /> */}
-                            <img src={searchi} alt="" />
-                            <input
-                                onClick={handleSearch}
-                                type="search"
-                                placeholder='Search'
-                                className='outline-none bg-transparent rounded px-2 py-1 w-full'
-                            />
-                            {search && (
-                                <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
-                            )}
                         </div>
-                        <div onClick={handleBar} className='rounded-full cursor-pointer  p-3 mr-4 border border-gray-300'>
-                            {/* <IoMdNotificationsOutline className='cursor-pointer' /> */}
+                        <div onClick={handleBar} className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}>
                             <img src={Notifications} alt="" />
                         </div>
                     </div>
@@ -99,6 +106,8 @@ const ProfileMain = () => {
                     <div className='p-[2px]'>
                         <div className='bg-white  p-6'>
                             <ul className='flex gap-6 text-gray-400'>
+                                {/* Activity */}
+                                {/* Activity */}
                                 <li>
                                     <NavLink
                                         to='/profile/profileactivity'
@@ -106,14 +115,20 @@ const ProfileMain = () => {
                                             `flex gap-2 items-center ${isActive ? 'font-bold text-black' : ''}`
                                         }
                                     >
-                                        <CiBoxList
-                                            className={`text-2xl transition-all ${isActive =>
-                                                isActive ? 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)] text-[#399AF3]' : 'text-gray-400'
-                                            }`}
-                                        />
-                                        Activity
+                                        {({ isActive }) => (
+                                            <>
+                                                <CiBoxList
+                                                    src={Activity}
+                                                    className={`text-2xl transition-all ${isActive ? '' : 'text-gray-400'}`}
+                                                    alt="Activity"
+                                                />
+                                                Activity
+                                            </>
+                                        )}
                                     </NavLink>
                                 </li>
+
+                                {/* About */}
                                 <li>
                                     <NavLink
                                         to='/profile/profileabout'
@@ -121,14 +136,20 @@ const ProfileMain = () => {
                                             `flex gap-2 items-center ${isActive ? 'font-bold text-black' : ''}`
                                         }
                                     >
-                                        <FaRegUser
-                                            className={`text-xl transition-all ${isActive =>
-                                                isActive ? 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)]' : 'text-gray-400'
-                                            }`}
-                                        />
-                                        About
+                                        {({ isActive }) => (
+                                            <>
+                                                <img
+                                                    src={About}
+                                                    className={`text-xl transition-all ${isActive ? activeStyle : 'text-gray-400'}`}
+                                                    alt="About"
+                                                />
+                                                About
+                                            </>
+                                        )}
                                     </NavLink>
                                 </li>
+
+                                {/* My Work */}
                                 <li>
                                     <NavLink
                                         to='/profile/profilemywork'
@@ -136,15 +157,21 @@ const ProfileMain = () => {
                                             `flex gap-2 items-center ${isActive ? 'font-bold text-black' : ''}`
                                         }
                                     >
-                                        <AiOutlinePicture
-                                            className={`text-2xl transition-all ${isActive =>
-                                                isActive ? 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)]' : 'text-gray-400'
-                                            }`}
-                                        />
-                                        My Work
+                                        {({ isActive }) => (
+                                            <>
+                                                <img
+                                                    src={MyWork}
+                                                    className={`text-2xl transition-all ${isActive ? activeStyle : 'text-gray-400'}`}
+                                                    alt="My Work"
+                                                />
+                                                My Work
+                                            </>
+                                        )}
                                     </NavLink>
                                 </li>
+
                             </ul>
+
                         </div>
                     </div>
                     <Outlet />

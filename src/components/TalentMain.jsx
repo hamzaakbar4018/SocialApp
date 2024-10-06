@@ -44,7 +44,7 @@ const TalentMain = () => {
         <div className={`flex ${showRightbar ? "col-span-8" : "col-span-10"} transition-all`}>
             <div className="flex-grow w-full p-[2px] bg-gray-100">
                 <div className="flex px-0 justify-between bg-white items-center border-b py-4">
-                    <h1 className={`${search ? 'hidden' : 'text-xl font-bold p-3'}`}>Talent</h1>
+                    <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Talent</h1>
                     {search && (
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}

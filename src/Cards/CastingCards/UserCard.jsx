@@ -2,17 +2,26 @@ import React from 'react'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Link } from 'react-router-dom'
 
-const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage,apply }) => {
+const UserCard = ({ title, img, type, shoot, budget, description, username, location, isSelected, landingpage, apply, mycasting, date, castingtab, age, day, crew,
+    height,
+    gender,
+    des, }) => {
     return (
-        <div className={`cursor-pointer p-4 ${apply && '!bg-gray-100'} ${landingpage && 'w-full min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
+        <div className={`cursor-pointer p-4 ${castingtab ? '!bg-[#E6E7E854]' : ''} ${apply && '!bg-gray-100'} ${landingpage && 'w-full min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
-                    <div>
+                    <div className={`${mycasting && 'hidden'}`}>
                         <img src={img} className='w-12 h-12' alt="" />
                     </div>
                     <div>
                         <h1 className={`text-xl 2xl:text-xl font-semibold`}>{title}</h1>
-                        <p className='text-gray-400'>{username}</p>
+                        {
+                            mycasting ? (
+                                <p className='text-gray-400'>Published, {date}</p>
+                            ) : (
+                                <p className='text-gray-400'>{username}</p>
+                            )
+                        }
                     </div>
                 </div>
                 {
@@ -32,8 +41,8 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
                     )
                 }
             </div>
-            <div className={`flex gap-16 2xl:text-xl bg-gradient-to-r from-[#F4F4F4] to-[#FFFFFF00] mt-3 ${landingpage && 'gap-20 bg border-l-2 flex justify-start border-black'}  items-center`}>
-                <div className='md:ml-7 ml-4'>
+            <div className={`flex gap-16 2xl:text-xl  mt-3 ${landingpage && 'bg-gradient-to-r from-[#F4F4F4] to-[#FFFFFF00] gap-20 bg border-l-2 flex justify-start border-black'}  items-center`}>
+                <div className={` ${mycasting ? 'md:ml-0' : 'md:ml-7 ml-4'}`}>
 
                     <div>
                         <h2 className='text-gray-400'>Location</h2>
@@ -45,7 +54,7 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
 
                     </div>
                 </div>
-                <div className='md:ml-0 ml-4'>
+                <div className={` ${mycasting ? 'md:ml-0' : 'md:ml-0 ml-4'}`}>
                     <div>
                         <h2 className='text-gray-400'>Shoot</h2>
                         <h1 className='font-bold'>{shoot}</h1>

@@ -6,7 +6,7 @@ import land4cardimg from '../../assets/Images/land4cardimg.png';
 const MyCasting = () => {
   const userdata = [
     {
-      title: "Short Film",
+      title: "The Short Film",
       img: land4cardimg,
       username: "Hamza Akbar",
       description: "We're looking for the talented actors for our upcoming short film.",
@@ -19,7 +19,8 @@ const MyCasting = () => {
       gender: "Male",
       shootdays: "30",
       crew: "1",
-      casting:"true"
+      casting:"true",
+      date:"2 days ago",
     },
     {
       title: "Short Film",
@@ -35,43 +36,56 @@ const MyCasting = () => {
       gender: "Male",
       shootdays: "30",
       crew: "1",
-      cast:"true"
+      cast:"true",
+      date:"1 hour ago",
 
     }
       
   ];
 
-  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const handleDataSend = (data) => {
+    console.log(data);
+  };
 
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const mycasting = true;
   return (
     <div className='bg-gray-100 flex mt-1 '>
-        <h1></h1>
-      <div className='left flex flex-col gap-2 w-1/3'>
+      <div className='left flex flex-col gap-1 md:w-1/3 w-full'>
+        <div className='bg-white p-3'>
+          <button className='bg-black px2 py-3 flex justify-center items-center gap-2 rounded-full text-white font-semibold w-full'><span className='text-3xl font-light'>+</span> Create Casting Call</button>
+        </div>
         {
+          
           userdata.map((data, index) => (
             <div key={index} onClick={() => setSelectedCardIndex(index)}>
-              <UserCard {...data} isSelected = {selectedCardIndex === index}/>
+              <UserCard {...data} mycasting = {mycasting} isSelected = {selectedCardIndex === index}/>
             </div>
           ))
         }
       </div>
-      <div className='right flex-grow'>
-        <div className="px-2">
+      <div className='right md:block hidden flex-grow'>
+        <div className="px-1">
           {
             selectedCardIndex !== null && (
               <UserDescription
-                title={userdata[selectedCardIndex].title}
-                img={userdata[selectedCardIndex].img}
-                des={userdata[selectedCardIndex].description}
-                budget={userdata[selectedCardIndex].budget}
-                age={userdata[selectedCardIndex].age}
-                height={userdata[selectedCardIndex].height}
-                gender={userdata[selectedCardIndex].gender}
-                location={userdata[selectedCardIndex].location}
-                day={userdata[selectedCardIndex].shootdays}
-                crew={userdata[selectedCardIndex].crew}
-                username={userdata[selectedCardIndex].username}
-                cast={userdata[selectedCardIndex].username}
+                // {...userdata}
+                // title={userdata[selectedCardIndex].title}
+                // img={userdata[selectedCardIndex].img}
+                // des={userdata[selectedCardIndex].description}
+                // budget={userdata[selectedCardIndex].budget}
+                // age={userdata[selectedCardIndex].age}
+                // height={userdata[selectedCardIndex].height}
+                // gender={userdata[selectedCardIndex].gender}
+                // location={userdata[selectedCardIndex].location}
+                // day={userdata[selectedCardIndex].shootdays}
+                // crew={userdata[selectedCardIndex].crew}
+                // username={userdata[selectedCardIndex].username}
+                // cast={userdata[selectedCardIndex].username}
+                // date={userdata[selectedCardIndex].date}
+                {...userdata[selectedCardIndex]}
+                mycasting={mycasting}
+                sendData={handleDataSend}
               />
             )
           }

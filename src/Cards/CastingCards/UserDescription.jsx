@@ -4,9 +4,23 @@ import { BsPatchCheck } from "react-icons/bs";
 import UserCard from './UserCard';
 import { FaRegTrashAlt } from "react-icons/fa";
 import land4cardimg from '../../assets/Images/land4cardimg.png';
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import Posts from '../../assets/Icons SVG/Posts.svg'
+import AppliedCastingCalls from '../../assets/Icons SVG/AppliedCastingCalls.svg'
+import { NavLink, Outlet } from 'react-router-dom';
 
+const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
 
-const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location }) => {
+  const defaultStyle = {
+    color: 'gray',
+    filter: 'brightness(0.8)', // Optional: apply brightness filter for the default state
+  };
+
+  const activeStyle = {
+    color: '#399AF3',
+    filter: 'none', // Remove filter for active state
+  };
+
   const [apply, setApply] = useState(false);
   const [casting, setcasting] = useState(false);
 
@@ -26,14 +40,18 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
     type: "Short Film",
     budget: "$25K"
   };
-
+  const [applicants, setApplicants] = useState(false);
+  const seeApplicants = () => {
+    setApplicants(!applicants)
+  }
+  const castingtab = true;
   return (
     <>
       <div className='bg-white rounded p-4'>
         <div className='flex justify-between'>
           <div>
             <h1 className='text-xl font-bold'>{title}</h1>
-            <p className='text-gray-400'>Published on <span className='text-[#399AF3]'>24th April 2001</span></p>
+            <p className='text-gray-400'>Published <span className='text-[#399AF3]'></span>{date}</p>
           </div>
           <div className='flex justify-center items-center gap-3'>
             {applied ? (
@@ -46,11 +64,13 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                 <button className='bg-black text-white rounded-3xl px-3 py-2'>Withdraw</button>
               </div>
             ) : cast ? (
-              <div className='flex gap-2'>
-                <button onClick={handlecasting} className='bg-[#FFE5E5] text-[#FF0000] flex gap-1 justify-center items-center rounded-3xl px-3 py-2'>
-                  <FaRegTrashAlt />
-                  Delete</button>
-              </div>
+              <>
+                <div className='flex gap-2'>
+                  <button onClick={handlecasting} className='bg-[#FFE5E5] text-[#FF0000] flex gap-1 justify-center items-center rounded-3xl px-3 py-2'>
+                    <FaRegTrashAlt />
+                    Delete</button>
+                </div>
+              </>
             ) : (
               <button className='bg-black text-white rounded-3xl px-3 py-2' onClick={handleApplyClick}>
                 Apply Now
@@ -62,6 +82,95 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
           </div>
         </div>
       </div>
+      {
+        mycasting && (
+          <div className='bg-[#E7F3FE] mt-1 p-4'>
+            <div className='flex justify-between items-center '>
+              <div>
+                <h1 className='text-lg'>Applicants</h1>
+                <h2 className='text-[#399AF3] text-xl font-bold'>520</h2>
+              </div>
+              <div onClick={seeApplicants} className='flex cursor-pointer items-center gap-1'>
+                <h1 className='text-xl text-[#399AF3] font-semibold'>View Applications </h1>
+                <img className="filter grayscale contrast-0" src={Arrow} alt="" />
+              </div>
+            </div>
+          </div>
+        )
+      }
+      {
+        applicants && (
+          <div className="fixed z-40 rounded-l-xl p-0 top-0 right-0 bg-white w-[400px] 2xl:w-[500px] h-screen transition-all duration-1000 overflow-y-auto ease-in-out">
+            <div className='w-full  border-b border-gray-300'>
+              <div className='p-3 mb-4 mt-3 flex justify-between'>
+                <div>
+                  <h1 className='text-lg'>Applications</h1>
+                  <p className='text-lg font-semibold text-[#399AF3]'>520 Applicants</p>
+                </div>
+                <div>
+                  <button onClick={seeApplicants} className="btn btn-sm border border-gray-300 btn-circle btn-ghost">✕</button>
+                </div>
+              </div>
+            </div>
+
+
+            <div>
+              {
+                <UserCard img={img} username={username} age={age} day={day} crew={crew} height={height} gender={gender} des={des} title={title} budget={budget} location={location} mycasting={mycasting} date={date} castingtab={castingtab} type={type} shoot={shoot}
+                />
+              }
+
+<div className='border-gray-300 px-3 py-4 border-b border-t'>
+  <ul className='flex justify-between items-center'>
+    <li>
+      <NavLink
+        to="/casting/calls/received" // Updated path
+        className='flex gap-1 font-semibold'
+        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+      >
+        <img src={Posts} alt="" />
+        <h1>Received</h1>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/casting/calls/rejected" // Updated path
+        className='flex gap-1 font-semibold'
+        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+      >
+        <img src={AppliedCastingCalls} alt="" />
+        <h1>Rejected</h1>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/casting/calls/wishlist" // Updated path
+        className='flex gap-1 font-semibold'
+        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+      >
+        <img src={Posts} alt="" />
+        <h1>Wishlist</h1>
+      </NavLink>
+    </li>
+  </ul>
+  <Outlet /> {/* This should render the matched child route component */}
+</div>
+
+
+
+
+
+              <div className='bg-white fixed w-full bottom-0 p-3'>
+                <button onClick={handlecasting} className='bg-[#FFE5E5] w-[380px] 2xl:w-[480px]  text-[#FF0000] flex gap-2   justify-center items-center rounded-3xl px-3 py-2'>
+                  <FaRegTrashAlt />
+                  Delete This Call</button>
+              </div>
+            </div>
+
+          </div>
+        )
+      }
+
 
       {/* User Details */}
       <div className='bg-white  rounded mt-1 '>
@@ -123,7 +232,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
       {casting && (
         <div className="modal" open>
           <div className="modal-box flex flex-col w-[35%]">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleApplyClick}>✕</button>
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setcasting(false)}>✕</button>
             <h3 className="font-bold text-lg mb-4">Apply to Call</h3>
             <div className="flex-grow overflow-auto">
               <UserCard
@@ -137,14 +246,14 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
             <p className='font-bold'>
               Delete a casting call is an irreversible action and will remove all associated information and submissions.</p>
             <div className='flex items-end justify-end gap-3 mt-4'>
-              <div className='bg-[#FFE5E5] text-[#FF0000] px-4 py-2 rounded-3xl'>
-                <button onClick={handlecasting}>
-                  Cancel
+              <div className='bg-[#E7F3FE] text-[#399AF3] px-4 py-2 rounded-3xl'>
+                <button>
+                  Keep
                 </button>
               </div>
-              <div className='bg-black text-white px-4 py-2 rounded-3xl'>
-                <button>
-                  Apply
+              <div className='bg-[#FFE5E5] text-[#FF0000] px-4 py-2 rounded-3xl'>
+                <button onClick={handlecasting}>
+                  Delete
                 </button>
               </div>
             </div>
@@ -154,7 +263,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
 
       {apply && (
         <div className="modal" open>
-          <div className="modal-box flex p-0 flex-col h-[60%] w-[40%]">
+          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] w-[40%]">
             <div className='px-5 pt-6'>
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleApplyClick}>✕</button>
               <h3 className="font-bold text-lg mb-4">Apply to Call</h3>
@@ -178,12 +287,13 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                   <label htmlFor="">Contact Email</label>
                   <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Email' />
                 </div>
-                <div className='flex flex-col gap-2 mt-3'>
+                <div className='flex flex-col mb-32 2xl:mb-0 gap-2 mt-3'>
                   <label htmlFor="">Note to Makers</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Write your note' />
+
+                  <textarea name="" className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl' placeholder='' id="">Write your note</textarea>
                 </div>
               </div>
-              <div className='flex px-5 pt-4 items-end justify-end gap-3 mt-4'>
+              <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-end gap-3 mt-4'>
                 <div className='bg-[#FFE5E5] text-[#FF0000] px-4 py-2 rounded-3xl'>
                   <button onClick={handleApplyClick}>
                     Cancel

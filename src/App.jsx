@@ -21,54 +21,56 @@ import Calls from './components/Casting/Calls';
 import Applied from './components/Casting/Applied';
 import MyCasting from './components/Casting/MyCasting';
 import Chat from './pages/Chat';
-import Chatpopup from './components/Chatpopup';
 import Sidebar from './components/Sidebar';
 import Signup from './pages/Signup/Signup';
+import ReceivedCasting from './components/Casting/ReceivedCasting';
 
 const App = () => {
   const location = useLocation();
 
   const isLandingPage = location.pathname === '/';
-  const islog = location.pathname === '/login' || location.pathname === '/verify' || location.pathname === '/signup' ;
+  const isLog = location.pathname === '/login' || location.pathname === '/verify' || location.pathname === '/signup';
 
   return (
-      <div className='routing flex bg-white'>
-        {!(isLandingPage || islog) &&  (
-          <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
-            <Sidebar />
-            {/* <Chatpopup/> */}
-          </div>
-        )}
-        <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
-          <Routes>
-            <Route path='/' element={<Landingpage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/verify' element={<Verify />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/talent' element={<Talent />} />
-            <Route path='/network' element={<Network />} />
-            <Route path='/transaction' element={<Transacction />} />
-            <Route path='/support' element={<Support />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/term-policy' element={<Term />} />
-            <Route path='/privacy' element={<Privacy />} />
-            <Route path='/chat' element={<Chat />} />
-
-            <Route path='/profile' element={<Profile />}>
-              <Route path='profileactivity' element={<ProfileActivity />} />
-              <Route path='profileabout' element={<ProfileAbout />} />
-              <Route path='profilemywork' element={<ProfileMywork />} />
-            </Route>
-
-            <Route path='/casting' element={<Casting />}>
-              <Route path='calls' element={<Calls />} />
-              <Route path='applied' element={<Applied />} />
-              <Route path='mycalls' element={<MyCasting />} />
-            </Route>
-          </Routes>
+    <div className='routing flex bg-white'>
+      {!(isLandingPage || isLog) && (
+        <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
+          <Sidebar />
         </div>
+      )}
+      <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
+        <Routes>
+          <Route path='/' element={<Landingpage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/verify' element={<Verify />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/talent' element={<Talent />} />
+          <Route path='/network' element={<Network />} />
+          <Route path='/transaction' element={<Transacction />} />
+          <Route path='/support' element={<Support />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/term-policy' element={<Term />} />
+          <Route path='/privacy' element={<Privacy />} />
+          <Route path='/chat' element={<Chat />} />
+
+          <Route path='/profile' element={<Profile />}>
+            <Route path='profileactivity' element={<ProfileActivity />} />
+            <Route path='profileabout' element={<ProfileAbout />} />
+            <Route path='profilemywork' element={<ProfileMywork />} />
+          </Route>
+
+          <Route path='/casting' element={<Casting />}>
+            <Route path='calls' element={<Calls />}>
+              <Route path='received' element={<ReceivedCasting />} />
+              <Route path='rejected' element={<ReceivedCasting />} />
+            </Route>
+            <Route path='applied' element={<Applied />} />
+            <Route path='mycalls' element={<MyCasting />} />
+          </Route>
+        </Routes>
       </div>
+    </div>
   );
 };
 

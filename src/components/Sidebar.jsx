@@ -214,11 +214,7 @@ const Sidebar = () => {
                                             )}
                                         </NavLink>
                                     </li>
-                                </div>
-                            )}
-
-                            {/* Additional Routes */}
-                            <li>
+                                    <li>
                                 <NavLink
                                     to='/about'
                                     className={({ isActive }) =>
@@ -278,6 +274,11 @@ const Sidebar = () => {
                                     )}
                                 </NavLink>
                             </li>
+                                </div>
+                            )}
+
+                            {/* Additional Routes */}
+                            
 
                         </ul>
                     </div>

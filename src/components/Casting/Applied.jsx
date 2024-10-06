@@ -54,7 +54,7 @@ const Applied = () => {
         }
       </div>
       <div className='right flex-grow'>
-        <div className="px-2">
+        <div className="px-1">
           {
             selectedCardIndex !== null && (
               <UserDescription

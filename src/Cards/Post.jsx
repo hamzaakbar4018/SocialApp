@@ -14,6 +14,13 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
     const handleComments = () => {
         setComments(!comments)
     }
+    const closeLikes = () => {
+        setlikes(false);
+    }
+
+    const closeComments = () => {
+        setComments(false);
+    }
 
     const commentsData = [
         {
@@ -105,22 +112,27 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                 </div>
             </div>
             {likes && (
-                <dialog id="my_modal_3" className="modal" open>
-                    <div className="modal-box p-0">
-                        <form method="dialog">
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
-                        <div className='border-b px-6 pt-6 border-gray-400'>
-                            <h3 className="font-bold mb-4 text-lg">Post Likes(141.2k)</h3>
-                        </div>
-                        <UserDummy />
+                <div  className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
+                    <div className='z-40'>
+                        <dialog id="my_modal_3" className="modal " open>
+                            <div className="modal-box p-0">
+                                <form method="dialog">
+                                    <button onClick={() => setlikes(false)} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                </form>
+                                <div className='border-b px-6 pt-6 border-gray-300'>
+                                    <h3 className="font-bold mb-4 text-lg">Post Likes(141.2k)</h3>
+                                </div>
+                                <UserDummy />
+                            </div>
+                        </dialog>
                     </div>
-                </dialog>
+                </div>
             )}
             {comments && (
-                <dialog id="my_modal_3" className="modal" open>
+                <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
+                <dialog id="my_modal_3" className="modal z-40" open>
                     <div
-                        className="modal-box h-full 2xl:max-h-[48vh]"
+                        className="modal-box h-full 2xl:max-h-[50%]"
                         style={{
                             boxSizing: "border-box",
                             padding: '0',
@@ -129,11 +141,11 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                         }}
                     >
                         <form method="dialog">
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            <button onClick={() => setComments(false)} className="btn btn-sm btn-circle z-30 btn-ghost absolute right-2 top-2">✕</button>
                         </form>
 
                         <div className='flex'>
-                            <div className="left overflow-hidden h-[calc(100vh-0px)] max-w-lg border-r border-gray-400 mb-4">
+                            <div className="left fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
                                 <div className='flex justify-between'>
                                     <div className='flex p-4 gap-2'>
                                         <img className='rounded-full w-16 h-16' src={userimage} alt="User Image" />
@@ -170,7 +182,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                                 </div>
                             </div>
 
-                            <div className='right w-1/2 h-[calc(100vh-0px)] overflow-y-auto'>
+                            <div className='right fixed top-0 right-0 w-[40%] h-full overflow-y-auto bg-white p-4'>
                                 <div className='border-b border-gray-400'>
                                     <h3 className="font-bold p-4 text-lg">Post Comments (14k)</h3>
                                 </div>
@@ -202,6 +214,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
 
                     </div>
                 </dialog>
+                </div>
             )}
 
         </div>

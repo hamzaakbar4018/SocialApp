@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaPen, FaPlus } from 'react-icons/fa';
-
+import Edit from '../assets/Icons SVG/Edit.svg'
+import Add from '../assets/Icons SVG/Add.svg'
 const MyWorkCard = ({ videos }) => {
   return (
     <div className='alldata w-full bg-white m-[2px] p-6'>
@@ -12,11 +13,11 @@ const MyWorkCard = ({ videos }) => {
           </div>
           <div className='text-blue-500 cursor-pointer'>
             <div className='flex gap-2'>
-              <div className='rounded-full p-3 bg-[#D6EBFF]'>
-                <FaPen className='text-[#399AF3]' />
+              <div className='rounded-full flex justify-center items-center  p-3 bg-[#D6EBFF]'>
+                <img src={Edit} className='w-7 h-7' />
               </div>
-              <div className='bg-[#B3FCE2] rounded-full p-3'>
-                <FaPlus className='text-[#008F5C]' />
+              <div className='bg-[#B3FCE2] rounded-full flex justify-center items-center p-3'>
+                <img src={Add} className='w-7 h-7' />
               </div>
             </div>
           </div>
@@ -28,8 +29,8 @@ const MyWorkCard = ({ videos }) => {
               <div className='flex flex-col items-start'>
                 <img src={video.thumbnail} alt={video.title} className='w-full h-auto object-cover rounded mb-4' />
                 <div >
-                  <h2 className='text-lg 2xl:text-2xl font-semibold mb-2'>{video.title}</h2>
-                  <a href={video.videoLink} target="_blank" rel="noopener noreferrer" className='text-blue-400 underline 2xl:text-2xl'>
+                  <h2 className='text-lg 2xl:text-xl font-semibold mb-2'>{video.title}</h2>
+                  <a href={video.videoLink} target="_blank" rel="noopener noreferrer" className='text-blue-400 underline 2xl:text-xl'>
                     {video.videoLink}
                   </a>
                 </div>

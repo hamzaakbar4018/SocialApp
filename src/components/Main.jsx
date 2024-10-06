@@ -127,14 +127,14 @@ const Main = () => {
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
                 <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
-                <h1 className={`${search ? 'hidden' : 'text-xl font-bold p-3'}`}>Talent</h1>
+                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Hi Ali!</h1>
                     {search && (
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
-                    <div className={`flex justify-end gap-5 items-center w-full z-50`}>
+                    <div className={`flex justify-end gap-5 items-center w-full z-20`}>
                         <div
                             ref={searchRef}
-                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full' : 'w-[300px]'}`}
+                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full rounded-xl' : 'w-[300px]'}`}
                         >
 
                             <img src={searchi} alt="" />

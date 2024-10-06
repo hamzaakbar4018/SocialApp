@@ -41,8 +41,8 @@ const Calls = () => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
 
   return (
-    <div className='bg-white flex mt-1'>
-      <div className='left flex flex-col gap-2 w-1/3'>
+    <div className=' flex  mt-1'>
+      <div className='left flex bg-white flex-col gap-2 w-1/3'>
         {
           userdata.map((data, index) => (
             <div key={index} onClick={() => setSelectedCardIndex(index)}>
@@ -52,7 +52,7 @@ const Calls = () => {
         }
       </div>
       <div className='right flex-grow'>
-        <div className="px-2">
+        <div className="px-1">
           {
             selectedCardIndex !== null && (
               <UserDescription

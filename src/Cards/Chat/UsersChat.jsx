@@ -1,6 +1,7 @@
 import React from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaArrowCircleRight } from "react-icons/fa";
+import newArrow from '../../assets/Icons SVG/Arrow.svg'
 
 const UsersChat = ({ userImg, username, time, sent, received }) => {
   return (
@@ -77,7 +78,10 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
             className="p-3 outline-none bg-transparent w-full"
           />
         </div>
-        <FaArrowCircleRight className="text-4xl cursor-pointer" />
+        {/* <FaArrowCircleRight className="text-4xl cursor-pointer" /> */}
+        <div className="bg-black rounded-full p-1 flex justify-center items-center cursor-pointer">
+              <img src={newArrow} alt="" className="w-10 h-10" />
+        </div>
       </div>
     </div>
   );
