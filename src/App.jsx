@@ -24,6 +24,8 @@ import Chat from './pages/Chat';
 import Sidebar from './components/Sidebar';
 import Signup from './pages/Signup/Signup';
 import ReceivedCasting from './components/Casting/ReceivedCasting';
+import RejectedCasting from './components/Casting/RejectedCasting';
+import WishlistCasting from './components/Casting/WishlistCasting';
 
 const App = () => {
   const location = useLocation();
@@ -61,12 +63,15 @@ const App = () => {
           </Route>
 
           <Route path='/casting' element={<Casting />}>
-            <Route path='calls' element={<Calls />}>
-              <Route path='received' element={<ReceivedCasting />} />
-              <Route path='rejected' element={<ReceivedCasting />} />
-            </Route>
+            <Route path='calls' element={<Calls />} />
+
             <Route path='applied' element={<Applied />} />
-            <Route path='mycalls' element={<MyCasting />} />
+            <Route path='mycalls' element={<MyCasting />} >
+              <Route path='received' element={<ReceivedCasting />} />
+              <Route path='rejected' element={<RejectedCasting />} />
+              <Route path='wishlist' element={<WishlistCasting />} />
+            </Route>
+
           </Route>
         </Routes>
       </div>

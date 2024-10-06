@@ -52,7 +52,7 @@ const Calls = () => {
         }
       </div>
       <div className='right flex-grow'>
-        <div className="px-1">
+        <div className="pl-1">
           {
             selectedCardIndex !== null && (
               <UserDescription

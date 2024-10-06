@@ -1,7 +1,7 @@
 import React from 'react'
 import ApplicantsCard from '../../Cards/ApplicantsCard';
 
-const RejectedCasting = () => {
+const WishlistCasting = () => {
     const dummyDataArray = [
         {
             name: "John Doe",
@@ -49,17 +49,16 @@ const RejectedCasting = () => {
             image: "https://randomuser.me/api/portraits/men/3.jpg"
         }
     ];
-
-    const rejected = true;
+    const isWishlistCasting = true;
     return (
             <div className='mb-20'>
                 {
                     dummyDataArray.map((data, index) => (
-                        <ApplicantsCard {...data} rejected={rejected} />
+                        <ApplicantsCard {...data} WishlistCasting={isWishlistCasting} />
                     ))
                 }
             </div>
     )
 }
 
-export default RejectedCasting
+export default WishlistCasting

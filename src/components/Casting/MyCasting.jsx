@@ -49,6 +49,8 @@ const MyCasting = () => {
 
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const mycasting = true;
+
+  
   return (
     <div className='bg-gray-100 flex mt-1 '>
       <div className='left flex flex-col gap-1 md:w-1/3 w-full'>
@@ -65,24 +67,10 @@ const MyCasting = () => {
         }
       </div>
       <div className='right md:block hidden flex-grow'>
-        <div className="px-1">
+        <div className="pl-1">
           {
             selectedCardIndex !== null && (
               <UserDescription
-                // {...userdata}
-                // title={userdata[selectedCardIndex].title}
-                // img={userdata[selectedCardIndex].img}
-                // des={userdata[selectedCardIndex].description}
-                // budget={userdata[selectedCardIndex].budget}
-                // age={userdata[selectedCardIndex].age}
-                // height={userdata[selectedCardIndex].height}
-                // gender={userdata[selectedCardIndex].gender}
-                // location={userdata[selectedCardIndex].location}
-                // day={userdata[selectedCardIndex].shootdays}
-                // crew={userdata[selectedCardIndex].crew}
-                // username={userdata[selectedCardIndex].username}
-                // cast={userdata[selectedCardIndex].username}
-                // date={userdata[selectedCardIndex].date}
                 {...userdata[selectedCardIndex]}
                 mycasting={mycasting}
                 sendData={handleDataSend}

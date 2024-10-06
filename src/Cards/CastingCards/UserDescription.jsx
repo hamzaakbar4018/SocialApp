@@ -5,20 +5,20 @@ import UserCard from './UserCard';
 import { FaRegTrashAlt } from "react-icons/fa";
 import land4cardimg from '../../assets/Images/land4cardimg.png';
 import Arrow from '../../assets/Icons SVG/Arrow.svg'
-import Posts from '../../assets/Icons SVG/Posts.svg'
+import Posts from '../../assets/Icons SVG/Terms_Conditions.svg'
 import AppliedCastingCalls from '../../assets/Icons SVG/AppliedCastingCalls.svg'
-import { NavLink, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
 
 const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
 
-  const defaultStyle = {
-    color: 'gray',
-    filter: 'brightness(0.8)', // Optional: apply brightness filter for the default state
-  };
-
   const activeStyle = {
     color: '#399AF3',
-    filter: 'none', // Remove filter for active state
+    filter: 'none',
+  };
+  
+  const defaultStyle = {
+    color: 'gray',
+    filter: 'brightness(100%)',
   };
 
   const [apply, setApply] = useState(false);
@@ -44,6 +44,12 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
   const seeApplicants = () => {
     setApplicants(!applicants)
   }
+//  const locationn = useLocation();
+//   useEffect(() => {
+//     if (locationn.pathname === '/casting/mycalls') {
+//       return <Navigate to="/casting/mycalls/received" />;
+//     }
+//   }, [location.pathname]);
   const castingtab = true;
   return (
     <>
@@ -120,41 +126,41 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                 />
               }
 
-<div className='border-gray-300 px-3 py-4 border-b border-t'>
-  <ul className='flex justify-between items-center'>
-    <li>
-      <NavLink
-        to="/casting/calls/received" // Updated path
-        className='flex gap-1 font-semibold'
-        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-      >
-        <img src={Posts} alt="" />
-        <h1>Received</h1>
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/casting/calls/rejected" // Updated path
-        className='flex gap-1 font-semibold'
-        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-      >
-        <img src={AppliedCastingCalls} alt="" />
-        <h1>Rejected</h1>
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/casting/calls/wishlist" // Updated path
-        className='flex gap-1 font-semibold'
-        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-      >
-        <img src={Posts} alt="" />
-        <h1>Wishlist</h1>
-      </NavLink>
-    </li>
-  </ul>
-  <Outlet /> {/* This should render the matched child route component */}
-</div>
+              <div className='border-gray-300 border-b border-t'>
+                <ul className='flex py-4 px-3 border-gray-300 border-b justify-between items-center'>
+                  <li>
+                    <NavLink
+                      to="/casting/mycalls/received"
+                      className='flex gap-1 font-semibold'
+                      style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                    >
+                      <img src={Posts} className='w-6' alt="" />
+                      <h1>Received</h1>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/casting/mycalls/rejected"
+                      className='flex gap-1 font-semibold'
+                      style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                    >
+                      <img src={AppliedCastingCalls} className='w-6' alt="" />
+                      <h1>Rejected</h1>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/casting/mycalls/wishlist"
+                      className='flex gap-1 font-semibold'
+                      style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                    >
+                      <img src={Posts} className='w-6' alt="" />
+                      <h1>Wishlist</h1>
+                    </NavLink>
+                  </li>
+                </ul>
+                <Outlet />
+              </div>
 
 
 
