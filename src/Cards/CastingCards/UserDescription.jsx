@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { BsPatchCheck } from "react-icons/bs";
 import UserCard from './UserCard';
@@ -7,7 +7,7 @@ import land4cardimg from '../../assets/Images/land4cardimg.png';
 import Arrow from '../../assets/Icons SVG/Arrow.svg'
 import Posts from '../../assets/Icons SVG/Terms_Conditions.svg'
 import AppliedCastingCalls from '../../assets/Icons SVG/AppliedCastingCalls.svg'
-import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
 
@@ -44,12 +44,15 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
   const seeApplicants = () => {
     setApplicants(!applicants)
   }
-//  const locationn = useLocation();
-//   useEffect(() => {
-//     if (locationn.pathname === '/casting/mycalls') {
-//       return <Navigate to="/casting/mycalls/received" />;
-//     }
-//   }, [location.pathname]);
+  const navigate = useNavigate(); // Use navigate instead of Navigate component
+  const locationn = useLocation();
+
+  useEffect(() => {
+    if (locationn.pathname === '/casting/mycalls') {
+      // Programmatically navigate to "/casting/mycalls/received"
+      navigate('/casting/mycalls/received');
+    }
+  }, [locationn.pathname, navigate]);
   const castingtab = true;
   return (
     <>
