@@ -4,10 +4,15 @@ import { BsPatchCheck } from "react-icons/bs";
 import UserCard from './UserCard';
 import { FaRegTrashAlt } from "react-icons/fa";
 import land4cardimg from '../../assets/Images/land4cardimg.png';
-import Arrow from '../../assets/Icons SVG/Arrow.svg'
-import Posts from '../../assets/Icons SVG/Terms_Conditions.svg'
-import AppliedCastingCalls from '../../assets/Icons SVG/AppliedCastingCalls.svg'
-import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import Arrow from '../../assets/Icons SVG/Arrow2.svg'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import ReceivedBlue from '../../assets/Icons SVG/ReceivedBlue.svg'
+import ReceivedGrey from '../../assets/Icons SVG/ReceivedGrey.svg'
+import RejectedBlue from '../../assets/Icons SVG/RejectedBlue.svg'
+import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
+import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
+import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
+
 
 const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
 
@@ -15,7 +20,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
     color: '#399AF3',
     filter: 'none',
   };
-  
+
   const defaultStyle = {
     color: 'gray',
     filter: 'brightness(100%)',
@@ -101,7 +106,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
               </div>
               <div onClick={seeApplicants} className='flex cursor-pointer items-center gap-1'>
                 <h1 className='text-xl text-[#399AF3] font-semibold'>View Applications </h1>
-                <img className="filter grayscale contrast-0" src={Arrow} alt="" />
+                <img className="" src={Arrow} alt="" />
               </div>
             </div>
           </div>
@@ -137,18 +142,33 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                       className='flex gap-1 font-semibold'
                       style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
                     >
-                      <img src={Posts} className='w-6' alt="" />
-                      <h1>Received</h1>
+                      {({ isActive }) => (
+                        <>
+                          <img
+                            src={isActive ? ReceivedBlue : ReceivedGrey}
+                            alt="Received Icon"
+                          />
+                          <h1>Received</h1>
+                        </>
+                      )}
                     </NavLink>
                   </li>
+
                   <li>
                     <NavLink
                       to="/casting/mycalls/rejected"
                       className='flex gap-1 font-semibold'
                       style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
                     >
-                      <img src={AppliedCastingCalls} className='w-6' alt="" />
-                      <h1>Rejected</h1>
+                      {({ isActive }) => (
+                        <>
+                          <img
+                            src={isActive ? RejectedBlue : RejectedGrey}
+                            alt="Received Icon"
+                          />
+                          <h1>Rejected</h1>
+                        </>
+                      )}
                     </NavLink>
                   </li>
                   <li>
@@ -157,8 +177,15 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                       className='flex gap-1 font-semibold'
                       style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
                     >
-                      <img src={Posts} className='w-6' alt="" />
-                      <h1>Wishlist</h1>
+                      {({ isActive }) => (
+                        <>
+                          <img
+                            src={isActive ? WishlistBlue : WishlistGrey}
+                            alt="Received Icon"
+                          />
+                          <h1>Received</h1>
+                        </>
+                      )}
                     </NavLink>
                   </li>
                 </ul>

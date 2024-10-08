@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CiSearch } from "react-icons/ci";
 import searchi from '../assets/Icons SVG/Search.svg'
 import Notifications from '../assets/Icons SVG/Notifications.svg'
-import { IoMdNotificationsOutline } from "react-icons/io";
 import Rightbar from "./Rightbar";
 import { FaArrowCircleRight } from "react-icons/fa";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import IndustryData from "../Cards/IndustryData";
 import ProductionData from "../Cards/ProductionData";
+import IndustryPage from './IndustryPage';
 
 const TalentMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
@@ -89,7 +86,7 @@ const TalentMain = () => {
                 <div className="p-[2px]">
                     <div className=" bg-white flex-grow-0 p-4 space-y-2">
                         <h3 className="text-2xl">People in Drama Industry</h3>
-                        <IndustryData />
+                        <IndustryPage />
                     </div>
                     <div className=" bg-white flex-grow-0  p-4 space-y-2">
                         <h3 className="text-2xl">Popular Production houses</h3>

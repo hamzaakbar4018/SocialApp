@@ -3,6 +3,7 @@ import { HiOutlineDotsVertical } from 'react-icons/hi'
 import { CiBookmarkPlus } from 'react-icons/ci'
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
+import WishlistBlue from '../assets/Icons SVG/WishlistBlue.svg'
 
 const ApplicantsCard = ({ name, applied, age, height, gender, experience, image, rejected,WishlistCasting }) => {
     return (
@@ -19,7 +20,7 @@ const ApplicantsCard = ({ name, applied, age, height, gender, experience, image,
                     </div>
                     <div className='flex items-center gap-2 text-2xl'>
                         <div className='text-[#399AF3] bg-[#399AF31F] rounded-full p-2' >
-                            <CiBookmarkPlus />
+                            <img src={WishlistBlue} alt="" />
                         </div>
                         <div className='border border-gray-300 rounded-full p-2'>
                             <HiOutlineDotsVertical className='text-xl' />

@@ -1,113 +1,104 @@
-import React, { useContext } from 'react';
-import TalentCards from './Talent/TalentCards';
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import TalentCards from "./Talent/TalentCards";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import '../CSS/Connections.css';
+import "../CSS/Connections.css";
+import { useContext } from "react";
+import { IndustryData } from "../Context/IndustryContext";
 const SwipingData = ({ landingtalent }) => {
-    const talentData = [
-        {
-            id: 1,
-            userpic: "https://randomuser.me/api/portraits/men/1.jpg",
-            name: "John Doe",
-            text: "Actor | Model",
-            landingtalent
-        },
-        {
-            id: 2,
-            userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-            name: "Jane Smith",
-            text: "Model | Director",
-            landingtalent
-        },
-        {
-            id: 3,
-            userpic: "https://randomuser.me/api/portraits/men/12.jpg",
-            name: "Michael Johnson",
-            text: "Actor | Director",
-            landingtalent
-        },
-        {
-            id: 4,
-            userpic: "https://randomuser.me/api/portraits/women/13.jpg",
-            name: "Emily Davis",
-            text: "Model",
-            landingtalent
-        },
-        {
-            id: 5,
-            userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-            name: "Chris Brown",
-            text: "Actor",
-            landingtalent
-        },
-        {
-            id: 6,
-            userpic: "https://randomuser.me/api/portraits/women/15.jpg",
-            name: "Sophia Wilson",
-            text: "Director",
-            landingtalent
-        },
-        {
-            id: 7,
-            userpic: "https://randomuser.me/api/portraits/men/16.jpg",
-            name: "David Miller",
-            text: "Actor | Model | Director",
-            landingtalent
-        },
-        {
-            id: 8,
-            userpic: "https://randomuser.me/api/portraits/women/17.jpg",
-            name: "Olivia Taylor",
-            text: "Model | Actor",
-            landingtalent
-        },
-
-    ];
+//   const talentData = [
+//     {
+//       id: 1,
+//       userpic: "https://randomuser.me/api/portraits/men/1.jpg",
+//       name: "John Doe",
+//       text: "Actor | Model",
+//     },
+//     {
+//       id: 2,
+//       userpic: "https://randomuser.me/api/portraits/men/14.jpg",
+//       name: "Jane Smith",
+//       text: "Model | Director",
+//       landingtalent,
+//     },
+//     {
+//       id: 3,
+//       userpic: "https://randomuser.me/api/portraits/men/12.jpg",
+//       name: "Michael Johnson",
+//       text: "Actor | Director",
+//       landingtalent,
+//     },
+//     {
+//       id: 4,
+//       userpic: "https://randomuser.me/api/portraits/women/13.jpg",
+//       name: "Emily Davis",
+//       text: "Model",
+//       landingtalent,
+//     },
+//     {
+//       id: 5,
+//       userpic: "https://randomuser.me/api/portraits/men/14.jpg",
+//       name: "Chris Brown",
+//       text: "Actor",
+//       landingtalent,
+//     },
+//     {
+//       id: 6,
+//       userpic: "https://randomuser.me/api/portraits/women/15.jpg",
+//       name: "Sophia Wilson",
+//       text: "Director",
+//       landingtalent,
+//     },
+//     {
+//       id: 7,
+//       userpic: "https://randomuser.me/api/portraits/men/16.jpg",
+//       name: "David Miller",
+//       text: "Actor | Model | Director",
+//       landingtalent,
+//     },
+//     {
+//       id: 8,
+//       userpic: "https://randomuser.me/api/portraits/women/17.jpg",
+//       name: "Olivia Taylor",
+//       text: "Model | Actor",
+//       landingtalent,
+//     },
+//   ];
 
 
-
-    return (
-        <div className="container min-w-full overflow-x-hidden">
-            <div className="swiper-grid-container">
-                <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={`${landingtalent ? '-100' : '10'}`}
-                    scrollbar={{ draggable: true }}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log("slide change")}
-                    className="swiper-container w-full overflow-hidden"
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 2,
-                        },
-                        768: {
-                            slidesPerView: 2,
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                        },
-                        1280: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                >
-                    {talentData.map((data) => (
-                        <SwiperSlide
-                            className={`max-w-[17%] p-4 min-w-[260px] ${landingtalent ? 'max-w-[29.5%] hover:scale-105 transition-transform duration-300' : ''}`}
-                            key={data.id}
-                        >
-                            <TalentCards {...data} />
-                        </SwiperSlide>
-
-                    ))}
-                </Swiper>
-            </div>
-        </div>
-    );
+const talentData = useContext(IndustryData);
+  return (
+    <>
+      <Swiper
+        slidesPerView={1}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+          1280 : {
+            slidesPerView : 6,
+          }
+        }}
+        spaceBetween={50}
+        draggable={true}
+        pagination={false}
+        modules={[Pagination]}
+        className={`mySwiper mx-20 `}
+      >
+        {talentData.map((talent) => (
+          <SwiperSlide className={`${landingtalent ? 'py-4 min-w-min hover:scale-105 duration-300 transition-all': 'min-w-min'}`} key={talent.id}>
+            <TalentCards {...talent} landingtalent={landingtalent}/>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </>
+  );
 };
 
 export default SwipingData;

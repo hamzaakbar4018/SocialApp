@@ -134,7 +134,7 @@ const Main = () => {
                     <div className={`flex justify-end gap-5 items-center w-full z-20`}>
                         <div
                             ref={searchRef}
-                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full rounded-xl' : 'w-[300px]'}`}
+                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full rounded-3xl' : 'w-[300px]'}`}
                         >
 
                             <img src={searchi} alt="" />
