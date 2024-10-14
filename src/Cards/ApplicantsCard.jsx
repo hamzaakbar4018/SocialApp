@@ -4,7 +4,7 @@ import { CiBookmarkPlus } from 'react-icons/ci'
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
 import WishlistBlue from '../assets/Icons SVG/WishlistBlue.svg'
-
+import '../CSS/Landingpage.css'
 const ApplicantsCard = ({ name, applied, age, height, gender, experience, image, rejected,WishlistCasting }) => {
     return (
         <div className='border-b border-gray-300'>
@@ -27,14 +27,14 @@ const ApplicantsCard = ({ name, applied, age, height, gender, experience, image,
                         </div>
                     </div>
                 </div>
-                <div className='flex ml-10 items-center'>
-                    <table>
+                <div className='ml-10 mt-2 items-center'>
+                    {/* <table>
                         <thead>
                             <tr>
-                                <th className='text-[#676767] px-2 font-semilight py-1'>Age</th>
-                                <th className='text-[#676767] px-2 font-semilight py-1'>Height</th>
-                                <th className='text-[#676767] px-2 font-semilight py-1'>Gender</th>
-                                <th className='text-[#676767] px-2 font-semilight py-1'>Experience</th>
+                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Age</td>
+                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Height</td>
+                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Gender</td>
+                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Experience</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,7 +45,25 @@ const ApplicantsCard = ({ name, applied, age, height, gender, experience, image,
                                 <td className='px-3 font-bold '>{experience}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> */}
+                    <div className='flex gap-6 items-center'>
+                        <div>
+                            <h2 className='text-[#9B9B9B] segoe text-sm font-semibold'>Age</h2>
+                            <h1 className='font-bold text-lg '>{age}</h1>
+                        </div>
+                        <div>
+                            <h2 className='text-[#9B9B9B] segoe segoe text-sm font-semibold'>Height</h2>
+                            <h1 className='font-bold text-lg '>{height}</h1>
+                        </div>
+                        <div>
+                            <h2 className='text-[#9B9B9B] segoe text-sm font-semibold'>Gender</h2>
+                            <h1 className='font-bold text-lg '>{gender}</h1>
+                        </div>
+                        <div>
+                            <h2 className='text-[#9B9B9B] segoe text-sm font-semibold'>Experience</h2>
+                            <h1 className='font-bold text-lg '>{experience   }</h1>
+                        </div>
+                    </div>
 
                 </div>
                 {

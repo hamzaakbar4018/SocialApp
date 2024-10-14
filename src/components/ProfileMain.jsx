@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Rightbar from './Rightbar';
 import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';
-import { FaArrowCircleRight } from 'react-icons/fa';
+import Arrow from '../assets/Icons SVG/Arrow.svg'
 import ProfileCard from '../Cards/ProfileCard';
 import { CiBoxList } from "react-icons/ci";
-import { FaRegUser } from "react-icons/fa";
-import { AiOutlinePicture } from "react-icons/ai";
 import searchi from '../assets/Icons SVG/Search.svg'
 import Notifications from '../assets/Icons SVG/Notifications.svg'
 import Activity from '../assets/Icons SVG/Activity.svg'
+import activityblue from '../assets/Icons SVG/activityblue.svg'
+import aboutblue from '../assets/Icons SVG/aboutblue.svg'
 import About from '../assets/Icons SVG/About.svg'
+import myworkblue from '../assets/Icons SVG/myworkblue.svg'
 import MyWork from '../assets/Icons SVG/MyWork.svg'
 
 
@@ -20,7 +21,7 @@ const ProfileMain = () => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setSearch(false); // Close search bar if click is outside
+                setSearch(false);
             }
         };
 
@@ -57,12 +58,12 @@ const ProfileMain = () => {
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
                     <div className={`flex justify-end gap-5 items-center w-full z-50`}>
-                        <div
+                    <div
                             ref={searchRef}
-                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full' : 'w-[300px]'}`}
+                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full rounded-3xl' : 'w-[300px]'}`}
                         >
 
-                            <img src={searchi} alt="" />
+                            <img src={searchi} className='w-6 h-6' alt="" />
                             <input
                                 onClick={handleSearch}
                                 type="search"
@@ -70,7 +71,7 @@ const ProfileMain = () => {
                                 className='outline-none bg-transparent rounded px-2 py-1 w-full'
                             />
                             {search && (
-                                <FaArrowCircleRight onClick={handleSearch} className='text-2xl cursor-pointer' />
+                                <img src={Arrow} onClick={handleSearch} className='w-9 p-1 h-9 bg-black rounded-full cursor-pointer' />
                             )}
                             {search && (
                                 <div className='bg-white absolute top-full mt-2 w-[98%] rounded-lg p-4'>
@@ -84,7 +85,7 @@ const ProfileMain = () => {
                                     </div>
                                     <div className="users flex justify-between items-center m-1">
                                         <h1>Hamza Akbar</h1>
-                                        <h1 className='cursor-pointer'>X</h1>
+                                        <h1 className='cursor-pointer'>✕</h1>
                                     </div>
                                 </div>
                             )}
@@ -105,9 +106,7 @@ const ProfileMain = () => {
 
                     <div className='p-[2px]'>
                         <div className='bg-white  p-6'>
-                            <ul className='flex gap-6 text-gray-400'>
-                                {/* Activity */}
-                                {/* Activity */}
+                        <ul className='flex gap-6 text-gray-400'>
                                 <li>
                                     <NavLink
                                         to='/profile/profileactivity'
@@ -117,8 +116,8 @@ const ProfileMain = () => {
                                     >
                                         {({ isActive }) => (
                                             <>
-                                                <CiBoxList
-                                                    src={Activity}
+                                                <img
+                                                    src={isActive ? activityblue : Activity}
                                                     className={`text-2xl transition-all ${isActive ? '' : 'text-gray-400'}`}
                                                     alt="Activity"
                                                 />
@@ -128,7 +127,6 @@ const ProfileMain = () => {
                                     </NavLink>
                                 </li>
 
-                                {/* About */}
                                 <li>
                                     <NavLink
                                         to='/profile/profileabout'
@@ -139,7 +137,7 @@ const ProfileMain = () => {
                                         {({ isActive }) => (
                                             <>
                                                 <img
-                                                    src={About}
+                                                    src={isActive ? aboutblue : About}
                                                     className={`text-xl transition-all ${isActive ? activeStyle : 'text-gray-400'}`}
                                                     alt="About"
                                                 />
@@ -149,7 +147,6 @@ const ProfileMain = () => {
                                     </NavLink>
                                 </li>
 
-                                {/* My Work */}
                                 <li>
                                     <NavLink
                                         to='/profile/profilemywork'
@@ -160,7 +157,7 @@ const ProfileMain = () => {
                                         {({ isActive }) => (
                                             <>
                                                 <img
-                                                    src={MyWork}
+                                                    src={isActive ? myworkblue : MyWork}
                                                     className={`text-2xl transition-all ${isActive ? activeStyle : 'text-gray-400'}`}
                                                     alt="My Work"
                                                 />
@@ -169,7 +166,6 @@ const ProfileMain = () => {
                                         )}
                                     </NavLink>
                                 </li>
-
                             </ul>
 
                         </div>
@@ -178,7 +174,6 @@ const ProfileMain = () => {
                 </div>
             </div>
 
-            {/* Right Sidebar */}
             {showRightbar && (
                 <div className='w-[26%]'>
                     <Rightbar />

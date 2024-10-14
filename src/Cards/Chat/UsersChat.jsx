@@ -80,7 +80,7 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
         </div>
         {/* <FaArrowCircleRight className="text-4xl cursor-pointer" /> */}
         <div className="bg-black rounded-full p-1 flex justify-center items-center cursor-pointer">
-              <img src={newArrow} alt="" className="w-10 h-10" />
+              <img src={newArrow} alt="" className="w-10 p-1 h-10" />
         </div>
       </div>
     </div>

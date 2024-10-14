@@ -132,7 +132,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                 <dialog id="my_modal_3" className="modal z-40" open>
                     <div
-                        className="modal-box h-full 2xl:max-h-[50%]"
+                        className="modal-box h-full 2xl:max-h-[80vh]"
                         style={{
                             boxSizing: "border-box",
                             padding: '0',

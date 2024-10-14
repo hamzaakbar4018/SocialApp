@@ -161,31 +161,34 @@ const Verify = () => {
                         <div className='px-6 py-2'>
                             <h1 className='font-semibold'>Choose Category</h1>
                         </div>
-                        <div className='px-6 flex flex-wrap gap-1 py-2 overflow-y-auto max-h-[70%]'>
+                        <div className="px-6 flex flex-wrap gap-2 py-2">
     {categories.map((data, index) => (
-        <div 
-            onClick={() => handleCategorySelect(data.category)}
-            key={index} 
-            className={`flex items-center w-[49.7%] border p-3 rounded gap-2 ${
-                SelectedCategory === data.category
-                ? 'border-[#399AF3] bg-[#E7F3FF]'  // Highlight when selected
-                : 'border-gray-300'  // Default style
+        <div
+            onClick={() => handleSelectedCaegory(data.category)}  // This triggers the radio button change
+            key={index}
+            className={`flex items-center min-w-[49%] border p-3 rounded gap-2 ${SelectedCategory === data.category
+                ? 'border-[#399AF3] bg-[#E7F3FF]' // Highlight when selected
+                : 'border-gray-300' // Default style
             }`}
         >
-            <input 
-                className='w-6 h-6' 
-                type="radio" 
-                name="category" 
-                id={`category-${index}`} 
+            <input
+                className="w-6 h-6"
+                type="radio"
+                name="category"
+                id={`category-${index}`}
                 checked={SelectedCategory === data.category} // Bind checked state
                 onChange={() => handleSelectedCaegory(data.category)} // Update state on change
+                onClick={(e) => e.stopPropagation()} // Prevent input click event from triggering parent div click
             />
-            <label htmlFor={`category-${index}`} className='cursor-pointer font-semibold'>
+            <label htmlFor={`category-${index}`} className="cursor-pointer font-semibold">
                 {data.category}
             </label>
         </div>
     ))}
 </div>
+
+
+
 
                         <div className='absolute bottom-0 right-0 p-4 w-full flex gap-2 justify-end bg-white'>
                             <button onClick={() => setCreateProfile(false)} className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300'>Skip For Now</button>
@@ -258,7 +261,7 @@ const Verify = () => {
                                         handleCreateProfile(true);
                                     }}
 
-                                    className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 text-[#399AF3] font-semibold transition duration-300'>Back</button>
+                                    className='px-4 py-2 rounded-full bg-[#399AF31A] hover:bg-gray-300 text-[#399AF3] font-semibold transition duration-300'>Back</button>
                                 <div className='flex gap-2 items-center'>
                                     <button onClick={handleCloseModal} className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300'>Skip For Now</button>
                                     <button onClick={handlecomplete} className='px-4 py-2 rounded-full text-white font-semibold bg-black'>Submit</button>

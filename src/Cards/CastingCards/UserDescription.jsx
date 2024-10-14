@@ -12,6 +12,7 @@ import RejectedBlue from '../../assets/Icons SVG/RejectedBlue.svg'
 import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
 import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
 import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
+import { div } from 'framer-motion/client';
 
 
 const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
@@ -54,11 +55,11 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
 
   useEffect(() => {
     if (locationn.pathname === '/casting/mycalls') {
-      // Programmatically navigate to "/casting/mycalls/received"
       navigate('/casting/mycalls/received');
     }
   }, [locationn.pathname, navigate]);
   const castingtab = true;
+  const deletepop = true;
   return (
     <>
       <div className='bg-white rounded p-4'>
@@ -77,7 +78,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                 </button>
                 <button className='bg-black text-white rounded-3xl px-3 py-2'>Withdraw</button>
               </div>
-            ) : cast ? (
+            ) : mycasting ? (
               <>
                 <div className='flex gap-2'>
                   <button onClick={handlecasting} className='bg-[#FFE5E5] text-[#FF0000] flex gap-1 justify-center items-center rounded-3xl px-3 py-2'>
@@ -114,95 +115,97 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
       }
       {
         applicants && (
-          <div className="fixed z-40 rounded-l-xl p-0 top-0 right-0 bg-white w-[400px] 2xl:w-[500px] h-screen transition-all duration-1000 overflow-y-auto ease-in-out">
-            <div className='w-full  border-b border-gray-300'>
-              <div className='p-3 mb-4 mt-3 flex justify-between'>
-                <div>
-                  <h1 className='text-lg'>Applications</h1>
-                  <p className='text-lg font-semibold text-[#399AF3]'>520 Applicants</p>
+          <div className='bg-black bg-opacity-50 inset-0 fixed z-40 ease-in-out duration-500 transition-opacity transform-gpu'>
+            <div className="fixed z-40 rounded-l-xl p-0 top-0 right-0 bg-white w-[400px] 2xl:w-[500px] h-screen transition-all duration-1000 overflow-y-auto ease-in-out">
+              <div className='w-full  border-b border-gray-300'>
+                <div className='p-3 mb-4 mt-3 flex justify-between'>
+                  <div>
+                    <h1 className='text-lg'>Applications</h1>
+                    <p className='text-lg font-semibold text-[#399AF3]'>520 Applicants</p>
+                  </div>
+                  <div>
+                    <button onClick={seeApplicants} className="btn btn-sm border border-gray-300 btn-circle btn-ghost">✕</button>
+                  </div>
                 </div>
-                <div>
-                  <button onClick={seeApplicants} className="btn btn-sm border border-gray-300 btn-circle btn-ghost">✕</button>
+              </div>
+
+
+              <div>
+                {
+                  <UserCard img={img} username={username} age={age} day={day} crew={crew} height={height} gender={gender} des={des} title={title} budget={budget} location={location} mycasting={mycasting} date={date} castingtab={castingtab} type={type} shoot={shoot}
+                  />
+                }
+
+                <div className='border-gray-300 border-b border-t'>
+                  <ul className='flex py-4 px-3 border-gray-300 border-b justify-between items-center'>
+                    <li>
+                      <NavLink
+                        to="/casting/mycalls/received"
+                        className='flex gap-1 font-semibold'
+                        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <img
+                              src={isActive ? ReceivedBlue : ReceivedGrey}
+                              alt="Received Icon"
+                            />
+                            <h1>Received</h1>
+                          </>
+                        )}
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/casting/mycalls/rejected"
+                        className='flex gap-1 font-semibold'
+                        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <img
+                              src={isActive ? RejectedBlue : RejectedGrey}
+                              alt="Received Icon"
+                            />
+                            <h1>Rejected</h1>
+                          </>
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/casting/mycalls/wishlist"
+                        className='flex gap-1 font-semibold'
+                        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <img
+                              src={isActive ? WishlistBlue : WishlistGrey}
+                              alt="Received Icon"
+                            />
+                            <h1>Received</h1>
+                          </>
+                        )}
+                      </NavLink>
+                    </li>
+                  </ul>
+                  <Outlet />
+                </div>
+
+
+
+
+
+                <div className='bg-white fixed w-full bottom-0 p-3'>
+                  <button onClick={handlecasting} className='bg-[#FFE5E5] w-[380px] 2xl:w-[480px]  text-[#FF0000] flex gap-2   justify-center items-center rounded-3xl px-3 py-2'>
+                    <FaRegTrashAlt />
+                    Delete This Call</button>
                 </div>
               </div>
+
             </div>
-
-
-            <div>
-              {
-                <UserCard img={img} username={username} age={age} day={day} crew={crew} height={height} gender={gender} des={des} title={title} budget={budget} location={location} mycasting={mycasting} date={date} castingtab={castingtab} type={type} shoot={shoot}
-                />
-              }
-
-              <div className='border-gray-300 border-b border-t'>
-                <ul className='flex py-4 px-3 border-gray-300 border-b justify-between items-center'>
-                  <li>
-                    <NavLink
-                      to="/casting/mycalls/received"
-                      className='flex gap-1 font-semibold'
-                      style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <img
-                            src={isActive ? ReceivedBlue : ReceivedGrey}
-                            alt="Received Icon"
-                          />
-                          <h1>Received</h1>
-                        </>
-                      )}
-                    </NavLink>
-                  </li>
-
-                  <li>
-                    <NavLink
-                      to="/casting/mycalls/rejected"
-                      className='flex gap-1 font-semibold'
-                      style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <img
-                            src={isActive ? RejectedBlue : RejectedGrey}
-                            alt="Received Icon"
-                          />
-                          <h1>Rejected</h1>
-                        </>
-                      )}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/casting/mycalls/wishlist"
-                      className='flex gap-1 font-semibold'
-                      style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <img
-                            src={isActive ? WishlistBlue : WishlistGrey}
-                            alt="Received Icon"
-                          />
-                          <h1>Received</h1>
-                        </>
-                      )}
-                    </NavLink>
-                  </li>
-                </ul>
-                <Outlet />
-              </div>
-
-
-
-
-
-              <div className='bg-white fixed w-full bottom-0 p-3'>
-                <button onClick={handlecasting} className='bg-[#FFE5E5] w-[380px] 2xl:w-[480px]  text-[#FF0000] flex gap-2   justify-center items-center rounded-3xl px-3 py-2'>
-                  <FaRegTrashAlt />
-                  Delete This Call</button>
-              </div>
-            </div>
-
           </div>
         )
       }
@@ -267,9 +270,9 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
 
       {casting && (
         <div className="modal" open>
-          <div className="modal-box flex flex-col w-[35%]">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setcasting(false)}>✕</button>
-            <h3 className="font-bold text-lg mb-4">Apply to Call</h3>
+          <div className="modal-box p-0 flex flex-col w-[35%]">
+            <button className="btn px-6 py-4 btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setcasting(false)}>✕</button>
+            <h3 className="font-bold px-6 py-4 text-lg mb-4">Apply to Call</h3>
             <div className="flex-grow overflow-auto">
               <UserCard
                 title={userdata.title}
@@ -277,11 +280,12 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                 type={userdata.type}
                 budget={userdata.budget}
                 username={userdata.username}
+                deletepop={deletepop}
               />
             </div>
-            <p className='font-bold'>
+            <p className='font-bold  p-6'>
               Delete a casting call is an irreversible action and will remove all associated information and submissions.</p>
-            <div className='flex items-end justify-end gap-3 mt-4'>
+            <div className='flex px-6 py-4 items-end justify-end gap-3 mt-4'>
               <div className='bg-[#E7F3FE] text-[#399AF3] px-4 py-2 rounded-3xl'>
                 <button>
                   Keep

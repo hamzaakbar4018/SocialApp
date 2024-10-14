@@ -36,17 +36,27 @@ const Login = () => {
                             <h1 className='font-bold text-2xl'>Create Account</h1>
                             <h2 className='mt-6 font-semibold'>Contact Number</h2>
                         </div>
-                        <div className=' mt-2 '>
-                            <PhoneInput
-                                country={'us'}
-                                value={phoneNumber}
-                                onChange={handleChange}
-                                placeholder='Enter Contact'
-                                inputStyle={{ borderColor: valid ? 'black' : 'red' }}
-                                className='bg-[#1C1C1C14] '
-                            />
-                            {!valid && <p style={{ color: 'red' }}>Please enter a valid 10-digit phone number.</p>}
-                        </div>
+                        <div className="mt-2 flex w-full items-center bg-[#EDEDED] rounded-full px-4 py-2">
+        <PhoneInput className='w-full'
+            country={'in'}  // Set to India (+91) for example
+            value={phoneNumber}
+            onChange={handleChange}
+            placeholder="Enter Contact"
+            inputStyle={{
+                backgroundColor: 'transparent',  // Transparent so it blends with the parent background
+                border: 'none',  // Remove default border
+                outline: 'none',  // Remove outline when focused
+                boxShadow: 'none',  // Remove shadow
+                width: '150px',  // Adjust width
+                fontSize: '16px',  // Match text size
+            }}
+            buttonStyle={{
+                backgroundColor: 'transparent',  // Transparent for the flag section
+                border: 'none',  // Remove button border
+                paddingLeft: '0',  // Remove extra padding
+            }}
+        />
+    </div>
                         <div>
                             <Link to='/verify'>
                                 <button className='bg-black w-full text-white p-3 rounded-3xl mt-6'>Send OTP</button>
