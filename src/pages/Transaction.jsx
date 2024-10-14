@@ -1,6 +1,5 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
-import TransacctionMain from '../components/TransacctionMain'
+import TransacctionMain from '../components/Mainpages/TransacctionMain'
 const Transacction = () => {
   return (
     <div className='w-full'>

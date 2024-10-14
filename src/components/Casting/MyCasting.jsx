@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
-import land4cardimg from '../../assets/Images/land4cardimg.png';
+import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
 
 const MyCasting = () => {
   const userdata = [

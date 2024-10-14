@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Rightbar from './Rightbar';
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import { FaArrowCircleRight } from 'react-icons/fa';
-import TransacctionCard from '../Cards/Talent/TransacctionCard';
-const TransacctionMain = () => {
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Rightbar from '../Rightbar';
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+const AboutMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
     const searchRef = useRef(null);
@@ -31,63 +29,14 @@ const TransacctionMain = () => {
         console.log("Search button clicked");
         setSearch(!search);
     };
-    const history = [
-        {
-            approve:true,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:true,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        }
-    ]
+
 
 
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
                 <div className='flex px-0 justify-between bg-white items-center border-b py-4'>
-                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Transaction History</h1>
+                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>About Us</h1>
                     {search && (
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
@@ -130,15 +79,39 @@ const TransacctionMain = () => {
                     </div>
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
-                    <div className=''>
-                        <div className='bg-gray-100 mt-1'>
-                            <div className='flex flex-col gap-1'>
-                            {history.map((data, index) => (
-                                <TransacctionCard key={index} {...data} />
+                    <div className='mt-[2px]'>
+                        <div className=' bg-white p-4'>
+                            <div>
+                                <h1 className=' font-bold'>About Us</h1>
+                                <div className='mt-3'>
+                                    <h2 className='font-bold'>Our Vision</h2>
+                                    <p className='text-gray-400 mt-2'>
+                                        At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey.
+                                    </p>
 
-                            ))}
+                                </div>
+                                
+                            </div>
+                            <div className='mt-5'>
+                                <div className='mt-3'>
+                                    <h2 className='font-bold'>What We Offer</h2>
+                                    <p className='text-gray-400 mt-2'>
+                                        At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey.
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div className='mt-5'>
+                                <div className='mt-3'>
+                                    <h2 className='font-bold'>Who We Are</h2>
+                                    <p className='text-gray-400 mt-2'>
+                                        At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey.
+                                    </p>
+
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -153,4 +126,4 @@ const TransacctionMain = () => {
     );
 };
 
-export default TransacctionMain;
+export default AboutMain;

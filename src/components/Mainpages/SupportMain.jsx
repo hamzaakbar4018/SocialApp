@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CiSearch } from 'react-icons/ci';
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import { IoMdNotificationsOutline } from 'react-icons/io';
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Rightbar from './Rightbar';
-import { FaArrowCircleRight } from 'react-icons/fa';
-import land6plus from '../assets/Images/down.svg'
-import land6minus from '../assets/Images/up.svg'
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Rightbar from '../Rightbar';
+import land6plus from '../../assets/Icons SVG/down.svg'
+import land6minus from '../../assets/Icons SVG/up.svg'
 const SupportMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);

@@ -3,7 +3,7 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { BsPatchCheck } from "react-icons/bs";
 import UserCard from './UserCard';
 import { FaRegTrashAlt } from "react-icons/fa";
-import land4cardimg from '../../assets/Images/land4cardimg.png';
+import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
 import Arrow from '../../assets/Icons SVG/Arrow2.svg'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import ReceivedBlue from '../../assets/Icons SVG/ReceivedBlue.svg'
@@ -12,7 +12,6 @@ import RejectedBlue from '../../assets/Icons SVG/RejectedBlue.svg'
 import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
 import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
 import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
-import { div } from 'framer-motion/client';
 
 
 const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
@@ -271,7 +270,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
       {casting && (
         <div className="modal" open>
           <div className="modal-box p-0 flex flex-col w-[35%]">
-            <button className="btn px-6 py-4 btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setcasting(false)}>✕</button>
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => setcasting(false)}>✕</button>
             <h3 className="font-bold px-6 py-4 text-lg mb-4">Apply to Call</h3>
             <div className="flex-grow overflow-auto">
               <UserCard

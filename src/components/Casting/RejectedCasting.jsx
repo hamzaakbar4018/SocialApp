@@ -1,5 +1,5 @@
 import React from 'react'
-import ApplicantsCard from '../../Cards/ApplicantsCard';
+import ApplicantsCard from '../../Cards/CastingCards/ApplicantsCard';
 
 const RejectedCasting = () => {
     const dummyDataArray = [

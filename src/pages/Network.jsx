@@ -1,6 +1,5 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
-import NetworkMain from '../components/NetworkMain'
+import NetworkMain from '../components/Mainpages/NetworkMain'
 const Talent = () => {
   return (
     <div className='flex'>

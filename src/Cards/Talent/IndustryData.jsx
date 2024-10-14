@@ -1,11 +1,11 @@
-import TalentCards from "./Talent/TalentCards";
+import TalentCards from "./TalentCards";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "../CSS/Connections.css";
+import "../../CSS/Connections.css";
 import { useContext } from "react";
-import { IndustryData } from "../Context/IndustryContext";
+import { IndustryData } from "../../Context/IndustryContext";
 const SwipingData = ({ landingtalent }) => {
 //   const talentData = [
 //     {

@@ -1,6 +1,5 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
-import ChatMain from '../components/Chat/ChatMain'
+import ChatMain from '../components/Mainpages/ChatMain'
 
 const Chat = () => {
   return (

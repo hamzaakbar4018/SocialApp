@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Rightbar from './Rightbar';
+import Rightbar from '../Rightbar';
 import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import ProfileCard from '../Cards/ProfileCard';
-import { CiBoxList } from "react-icons/ci";
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Activity from '../assets/Icons SVG/Activity.svg'
-import activityblue from '../assets/Icons SVG/activityblue.svg'
-import aboutblue from '../assets/Icons SVG/aboutblue.svg'
-import About from '../assets/Icons SVG/About.svg'
-import myworkblue from '../assets/Icons SVG/myworkblue.svg'
-import MyWork from '../assets/Icons SVG/MyWork.svg'
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import ProfileCard from '../../Cards/ProfileCards/ProfileCard';
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Activity from '../../assets/Icons SVG/Activity.svg'
+import activityblue from '../../assets/Icons SVG/activityblue.svg'
+import aboutblue from '../../assets/Icons SVG/aboutblue.svg'
+import About from '../../assets/Icons SVG/About.svg'
+import myworkblue from '../../assets/Icons SVG/myworkblue.svg'
+import MyWork from '../../assets/Icons SVG/MyWork.svg'
 
 
 const ProfileMain = () => {

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Link } from 'react-router-dom';
-import loginPageimg from '../../assets/Images/loginPageimg.png'
-import logo from '../../assets/Images/logo.svg'
+import loginPageimg from '../../assets/Icons SVG/loginPageimg.png'
+import logo from '../../assets/Icons SVG/logo.svg'
 
 const Login = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -25,7 +25,9 @@ const Login = () => {
             <div className='flex h-screen'>
                 <div className='md:w-[30%] left py-4'>
                     <div className='flex md:justify-start justify-center gap-2 items-center'>
+                        <Link to='/'>
                         <img className='md:pl-10 w-60' src={logo} alt="" />
+                        </Link>
                         {/* <h1 className='text-2xl bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text'>
                             YOUTOOART
                         </h1> */}

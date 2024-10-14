@@ -1,7 +1,7 @@
 import React from 'react';
-import MyWorkCard from '../Cards/MyWorkVideos';
-import image from '../assets/Images/land2.png';
-import MyWorkPictures from '../Cards/MyWorkPictures';
+import MyWorkCard from '../../Cards/ProfileCards/MyWorkVideos';
+import image from '../../assets/Icons SVG/land2.png';
+import MyWorkPictures from '../../Cards/ProfileCards/MyWorkPictures';
 
 const ProfileMyWork = () => {
   const videos = [

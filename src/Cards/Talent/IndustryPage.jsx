@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
-import { IndustryData } from '../Context/IndustryContext'
+import { IndustryData } from '../../Context/IndustryContext'
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import '../CSS/Connections.css'
-import TalentCards from '../Cards/Talent/TalentCards';
+import '../../CSS/Connections.css'
+import TalentCards from './TalentCards';
 const IndustryPage = () => {
     const talentData = useContext(IndustryData)
   return (

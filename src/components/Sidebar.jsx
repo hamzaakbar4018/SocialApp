@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import sidebarLogo from '../assets/Images/logo.svg';
+import sidebarLogo from '../assets/Icons SVG/logo.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import { Link } from 'react-router-dom';
@@ -8,14 +8,12 @@ import Home from '../assets/Icons SVG/Home.svg';
 import Talent from '../assets/Icons SVG/Talent.svg';
 import Network from '../assets/Icons SVG/Network.svg';
 import Casting from '../assets/Icons SVG/Casting.svg';
-import Chat from '../assets/Icons SVG/Chat.svg';
 import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
 import Profile from '../assets/Icons SVG/Profile.svg';
 import Terms_Condition from '../assets/Icons SVG/Terms_Conditions.svg';
 import Transaction_History from '../assets/Icons SVG/Transaction_History.svg';
 import Support from '../assets/Icons SVG/Support.svg';
 import Aboutus from '../assets/Icons SVG/Aboutus.svg';
-import { BsChatSquareText } from "react-icons/bs";
 
 const activeIconFilter = 'invert(32%) sepia(80%) saturate(462%) hue-rotate(169deg) brightness(94%) contrast(101%)';
 
@@ -41,7 +39,6 @@ const Sidebar = () => {
                     </div>
                 </Link>
 
-                {/* Sidebar Links */}
                 <div className='flex-grow flex flex-col'>
                     <div className='menu flex-grow justify-between p-3'>
                         <ul className='space-y-3 m-3'>

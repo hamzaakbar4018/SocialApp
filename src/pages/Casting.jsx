@@ -1,6 +1,5 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
-import CastingMain from '../components/Casting/CastingMain'
+import CastingMain from '../components/Mainpages/CastingMain'
 
 const Casting = () => {
   return (

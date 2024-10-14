@@ -1,6 +1,6 @@
 import React from 'react'
-import postpic from '../assets/Images/postpic.png';
-import Post from '../Cards/Post'
+import postpic from '../../assets/Icons SVG/postpic.png';
+import Post from '../../Cards/Post'
 const postData = [
     {
         userimage: "https://randomuser.me/api/portraits/men/1.jpg",

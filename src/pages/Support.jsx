@@ -1,5 +1,5 @@
 import React from 'react'
-import SupportMain from '../components/SupportMain'
+import SupportMain from '../components/Mainpages/SupportMain'
 const Talent = () => {
   return (
     <div className='w-full'>

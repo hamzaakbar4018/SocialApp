@@ -1,7 +1,6 @@
 import React from 'react';
-import { FaPen, FaPlus } from 'react-icons/fa';
-import Edit from '../assets/Icons SVG/Edit.svg'
-import Add from '../assets/Icons SVG/Add.svg'
+import Edit from '../../assets/Icons SVG/Edit.svg'
+import Add from '../../assets/Icons SVG/Add.svg'
 const MyWorkCard = ({ videos }) => {
   return (
     <div className='alldata w-full bg-white m-[2px] p-6'>

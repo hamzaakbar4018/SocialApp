@@ -1,29 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Rightbar from "./Rightbar";
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import { FaArrowCircleRight } from "react-icons/fa";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import ProductionData from "../Cards/ProductionData";
-import IndustryPage from './IndustryPage';
-
-const TalentMain = () => {
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Rightbar from '../Rightbar';
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import TransacctionCard from '../../Cards/TransacctionCard';
+const TransacctionMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
     const searchRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setSearch(false);
+                setSearch(false); // Close search bar if click is outside
             }
         };
 
+        // Bind the event listener
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
+            // Unbind the event listener on clean up
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [searchRef]);
@@ -35,14 +30,63 @@ const TalentMain = () => {
         console.log("Search button clicked");
         setSearch(!search);
     };
-
+    const history = [
+        {
+            approve:true,
+            date: "Date",
+            price: "500$",
+            title: "6 Months Subscription",
+            id: '#12342',
+            time: '12:00 Am'
+        },
+        {
+            approve:false,
+            date: "Date",
+            price: "500$",
+            title: "6 Months Subscription",
+            id: '#12342',
+            time: '12:00 Am'
+        },
+        {
+            approve:true,
+            date: "Date",
+            price: "500$",
+            title: "6 Months Subscription",
+            id: '#12342',
+            time: '12:00 Am'
+        },
+        {
+            approve:false,
+            date: "Date",
+            price: "500$",
+            title: "6 Months Subscription",
+            id: '#12342',
+            time: '12:00 Am'
+        },
+        {
+            approve:false,
+            date: "Date",
+            price: "500$",
+            title: "6 Months Subscription",
+            id: '#12342',
+            time: '12:00 Am'
+        },
+        {
+            approve:false,
+            date: "Date",
+            price: "500$",
+            title: "6 Months Subscription",
+            id: '#12342',
+            time: '12:00 Am'
+        }
+    ]
 
 
     return (
-        <div className={`flex ${showRightbar ? "col-span-8" : "col-span-10"} transition-all`}>
-            <div className="flex-grow w-full p-[2px] bg-gray-100">
-                <div className="flex px-0 justify-between bg-white items-center border-b py-4">
-                    <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Talent</h1>
+        <div className='flex'>
+            <div className='flex-grow p-[2px] bg-gray-100'>
+                <div className='flex px-0 justify-between bg-white items-center border-b py-4'>
+                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Transaction History</h1>
                     {search && (
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
@@ -84,20 +128,23 @@ const TalentMain = () => {
                         </div>
                     </div>
                 </div>
-                <div className="p-[2px]">
-                    <div className=" bg-white flex-grow-0 p-4 space-y-2">
-                        <h3 className="text-2xl">People in Drama Industry</h3>
-                        <IndustryPage />
-                    </div>
-                    <div className=" bg-white flex-grow-0  p-4 space-y-2">
-                        <h3 className="text-2xl">Popular Production houses</h3>
-                        <ProductionData />
+                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
+                    <div className=''>
+                        <div className='bg-gray-100 mt-1'>
+                            <div className='flex flex-col gap-1'>
+                            {history.map((data, index) => (
+                                <TransacctionCard key={index} {...data} />
+
+                            ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            {/* Right Sidebar */}
             {showRightbar && (
-                <div className="w-[26%]">
+                <div className='w-[26%]'>
                     <Rightbar />
                 </div>
             )}
@@ -105,4 +152,4 @@ const TalentMain = () => {
     );
 };
 
-export default TalentMain;
+export default TransacctionMain;

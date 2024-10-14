@@ -1,10 +1,9 @@
 import React from 'react'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
-import { CiBookmarkPlus } from 'react-icons/ci'
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
-import WishlistBlue from '../assets/Icons SVG/WishlistBlue.svg'
-import '../CSS/Landingpage.css'
+import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
+import '../../CSS/Landingpage.css'
 const ApplicantsCard = ({ name, applied, age, height, gender, experience, image, rejected,WishlistCasting }) => {
     return (
         <div className='border-b border-gray-300'>

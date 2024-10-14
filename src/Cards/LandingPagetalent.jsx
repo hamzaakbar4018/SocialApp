@@ -1,6 +1,5 @@
 import React from 'react';
-import TalentCards from './Talent/TalentCards';
-import land4cardimg from '../assets/Images/land4cardimg.png';
+import land4cardimg from '../assets/Icons SVG/land4cardimg.png';
 
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";

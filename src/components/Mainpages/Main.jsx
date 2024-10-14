@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import Rightbar from './Rightbar';
-import photoadmin from '../assets/Images/photoadmin.svg';
-import textadmin from '../assets/Images/textadmin.svg';
-import tag from '../assets/Images/tag.svg';
-import Post from '../Cards/Post';
-import '../CSS/Connections.css';
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import Rightbar from '../Rightbar';
+import photoadmin from '../../assets/Icons SVG/photoadmin.svg';
+import textadmin from '../../assets/Icons SVG/textadmin.svg';
+import tag from '../../assets/Icons SVG/tag.svg';
+import Post from '../../Cards/Post';
+import '../../CSS/Connections.css';
 import { IoIosSearch } from "react-icons/io";
 import { IoMdArrowBack } from "react-icons/io";
-import postpic from '../assets/Images/postpic.png';
-import { FaArrowCircleRight } from "react-icons/fa";
+import postpic from '../../assets/Icons SVG/postpic.png';
 
 const Main = () => {
     const [showRightbar, setShowRightbar] = useState(false);

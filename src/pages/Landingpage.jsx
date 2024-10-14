@@ -1,34 +1,20 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import land1 from "../assets/Images/land1.png";
-import land2 from "../assets/Images/land2.png";
-import appstore from "../assets/Images/appstore.png";
-import playstore from "../assets/Images/playstore.png";
-import land5img from "../assets/Images/land5img.png";
-import Land4card from "../Cards/Land4card";
-import land6plus from "../assets/Images/land6plus.svg";
-import land6minus from "../assets/Images/land6minus.svg";
-import land7img from "../assets/Images/land7img.png";
-import land8img from "../assets/Images/land8img.png";
+import land1 from "../assets/Icons SVG/land1.png";
+import land2 from "../assets/Icons SVG/land2.png";
+import appstore from "../assets/Icons SVG/appstore.png";
+import playstore from "../assets/Icons SVG/playstore.png";
+import land5img from "../assets/Icons SVG/land5img.png";
+import land6plus from "../assets/Icons SVG/land6plus.svg";
+import land6minus from "../assets/Icons SVG/land6minus.svg";
+import land8img from "../assets/Icons SVG/land8img.png";
+import land7img from "../assets/Icons SVG/land7img.png";
 import Footer from "../components/Footer";
-import IndustryData from "../Cards/IndustryData";
+import IndustryData from "../Cards/Talent/IndustryData";
 import "../CSS/Landingpage.css";
 import LandingPagetalent from "../Cards/LandingPagetalent";
 const Landingpage = () => {
   const landingtalent = true;
-  // const data = [
-  //   {
-  //     title: "Seeking Actor for a Short Film",
-  //     img: land4cardimg,
-  //     username: "Hamza Akbar",
-  //     description: "We're looking for the talented actors for our upcoming short film.",
-  //     location: "Islamabad",
-  //     type: "Short Film",
-  //     shoot: "25 Days",
-  //     budget: "$25K"
-  //   }
-  // ]
-
   const [visibleSections, setVisibleSections] = useState([
     false,
     false,

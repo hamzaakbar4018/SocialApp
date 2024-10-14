@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/Images/logo.svg'
+import logo from '../assets/Icons SVG/logo.svg'
 import { HiMenu, HiX } from 'react-icons/hi';
 import '../CSS/Navbar.css'
 const Navbar = () => {

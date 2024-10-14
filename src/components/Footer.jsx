@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logof from '../assets/Images/logof.svg'
-import logo from '../assets/Images/logo.svg'
+import logof from '../assets/Icons SVG/logof.svg'
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaTwitterSquare } from "react-icons/fa";

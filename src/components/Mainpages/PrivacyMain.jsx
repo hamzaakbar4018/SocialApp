@@ -1,10 +1,9 @@
 import React, { useState,useEffect,useRef } from 'react';
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Rightbar from './Rightbar';
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import { FaArrowCircleRight } from 'react-icons/fa';
-const TermMain = () => {
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import Rightbar from '../Rightbar';
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+const PrivacyMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
     const searchRef = useRef(null);
@@ -36,8 +35,8 @@ const TermMain = () => {
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
-                <div className='flex px-0 justify-between bg-white items-center border-b py-4'>
-                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Terms & Conditions</h1>
+                <div className='flex  px-0 justify-between bg-white items-center border-b py-4'>
+                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Privicy Policy</h1>
                     {search && (
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
@@ -83,7 +82,7 @@ const TermMain = () => {
                     <div className='mt-[2px]'>
                         <div className='bg-white p-4'>
                             <div>
-                                <h1 className=' font-bold'>Terms & Conditions</h1>
+                                <h1 className=' font-bold'>Privacy Policy</h1>
                                 <div className='mt-3'>
                                     <h2 className='font-bold'>1.Introduction</h2>
                                     <p className='text-gray-400 mt-2'>
@@ -127,4 +126,4 @@ const TermMain = () => {
     );
 };
 
-export default TermMain;
+export default PrivacyMain;

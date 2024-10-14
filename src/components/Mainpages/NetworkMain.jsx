@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import searchi from '../assets/Icons SVG/Search.svg'
-import Notifications from '../assets/Icons SVG/Notifications.svg'
-import Arrow from '../assets/Icons SVG/Arrow.svg'
-import { CiSearch } from 'react-icons/ci';
-import { IoMdNotificationsOutline } from 'react-icons/io';
-import Rightbar from './Rightbar';
-import { FaArrowCircleRight } from 'react-icons/fa';
-import TalentCards from '../Cards/Talent/TalentCards';
-import Conneections from '../Cards/Conneections';
+import searchi from '../../assets/Icons SVG/Search.svg'
+import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Arrow from '../../assets/Icons SVG/Arrow.svg'
+import Rightbar from '../Rightbar';
+import TalentCards from '../../Cards/Talent/TalentCards';
+import Conneections from '../../Cards/Conneections';
 const NetworkMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);

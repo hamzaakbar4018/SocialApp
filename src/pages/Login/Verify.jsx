@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import loginPageimg from '../../assets/Images/loginPageimg.png';
-import logo from '../../assets/Images/logo.svg';
-import verifyTick from '../../assets/Images/verifytick.svg';
+import loginPageimg from '../../assets/Icons SVG/loginPageimg.png';
+import logo from '../../assets/Icons SVG/logo.svg';
+import verifyTick from '../../assets/Icons SVG/verifytick.svg';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import upload from '../../assets/Icons SVG/Upload.svg';
 
@@ -66,7 +66,9 @@ const Verify = () => {
             <div className='flex h-screen'>
                 <div className='md:w-[30%] left py-4'>
                     <div className='flex md:justify-start justify-center gap-2 items-center'>
+                        <Link to='/'>
                         <img className='md:pl-10 w-60' src={logo} alt="Logo" />
+                        </Link>
                     </div>
 
                     <div className="middle relative px-10 md:mt-48">

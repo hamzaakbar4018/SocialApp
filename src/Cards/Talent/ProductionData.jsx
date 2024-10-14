@@ -1,12 +1,12 @@
 import React from 'react';
-import TalentCards from './Talent/TalentCards';
+import TalentCards from './TalentCards';
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import '../CSS/Connections.css'
+import '../../CSS/Connections.css'
 const ProductionData = () => {
     const talentData = [
         {
