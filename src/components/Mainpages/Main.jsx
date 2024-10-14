@@ -5,7 +5,7 @@ import Arrow from '../../assets/Icons SVG/Arrow.svg'
 import Rightbar from '../Rightbar';
 import photoadmin from '../../assets/Icons SVG/photoadmin.svg';
 import textadmin from '../../assets/Icons SVG/textadmin.svg';
-import tag from '../../assets/Icons SVG/tag.svg';
+import tag from '../../assets/Icons SVG/Tag.svg';
 import Post from '../../Cards/Post';
 import '../../CSS/Connections.css';
 import { IoIosSearch } from "react-icons/io";
