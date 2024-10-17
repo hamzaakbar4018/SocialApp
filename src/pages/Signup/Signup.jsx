@@ -23,42 +23,39 @@ const Login = () => {
     return (
         <>
             <div className='flex h-screen'>
-                <div className='md:w-[30%] left py-4'>
-                    <div className='flex md:justify-start justify-center gap-2 items-center'>
+                <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
+                    <div className='flex md:justify-start md:ml-0 ml-5 gap-2 items-center'>
                         <Link to='/'>
-                        <img className='md:pl-10 w-60' src={logo} alt="" />
+                            <img className='md:pl-10 md:w-60 w-52' src={logo} alt="Logo" />
                         </Link>
-                        {/* <h1 className='text-2xl bg-gradient-to-r from-[#000000] to-[#656565] text-transparent bg-clip-text'>
-                            YOUTOOART
-                        </h1> */}
                     </div>
 
-                    <div className="middle px-10 mt-32 md:mt-64">
+                    <div className="middle px-5 md:px-10 mt-32 md:mt-64">
                         <div>
                             <h1 className='font-bold text-2xl'>Create Account</h1>
                             <h2 className='mt-6 font-semibold'>Contact Number</h2>
                         </div>
                         <div className="mt-2 flex w-full items-center bg-[#EDEDED] rounded-full px-4 py-2">
-        <PhoneInput className='w-full'
-            country={'in'}  // Set to India (+91) for example
-            value={phoneNumber}
-            onChange={handleChange}
-            placeholder="Enter Contact"
-            inputStyle={{
-                backgroundColor: 'transparent',  // Transparent so it blends with the parent background
-                border: 'none',  // Remove default border
-                outline: 'none',  // Remove outline when focused
-                boxShadow: 'none',  // Remove shadow
-                width: '150px',  // Adjust width
-                fontSize: '16px',  // Match text size
-            }}
-            buttonStyle={{
-                backgroundColor: 'transparent',  // Transparent for the flag section
-                border: 'none',  // Remove button border
-                paddingLeft: '0',  // Remove extra padding
-            }}
-        />
-    </div>
+                            <PhoneInput className='w-full'
+                                country={'in'}  // Set to India (+91) for example
+                                value={phoneNumber}
+                                onChange={handleChange}
+                                placeholder="Enter Contact"
+                                inputStyle={{
+                                    backgroundColor: 'transparent',  // Transparent so it blends with the parent background
+                                    border: 'none',  // Remove default border
+                                    outline: 'none',  // Remove outline when focused
+                                    boxShadow: 'none',  // Remove shadow
+                                    width: '150px',  // Adjust width
+                                    fontSize: '16px',  // Match text size
+                                }}
+                                buttonStyle={{
+                                    backgroundColor: 'transparent',  // Transparent for the flag section
+                                    border: 'none',  // Remove button border
+                                    paddingLeft: '0',  // Remove extra padding
+                                }}
+                            />
+                        </div>
                         <div>
                             <Link to='/verify'>
                                 <button className='bg-black w-full text-white p-3 rounded-3xl mt-6'>Send OTP</button>
@@ -66,11 +63,11 @@ const Login = () => {
                         </div>
                         <div>
                             <h1 className='text-[#262626] text-xl mt-4'>Already have an account yet?<Link to="/login">
-                            <span className='text-[#399AF3] font-bold'> Login</span>
+                                <span className='text-[#399AF3] font-bold'> Login</span>
                             </Link></h1>
                         </div>
                     </div>
-                    <div className="last px-10 mt-20 md:mt-52">
+                    <div className="last px-5 md:px-10 mt-20 md:mt-52">
                         <p><span className='text-gray-500'>by</span> <span className='font-bold'>Signing In</span>, <span className='text-gray-500'>you agree with the </span><span className='text-[#399AF3] font-bold'>Terms & Conditions </span> <span className='text-gray-500'>of You2Art</span></p>
                     </div>
                 </div>

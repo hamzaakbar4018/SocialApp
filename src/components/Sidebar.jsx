@@ -31,8 +31,7 @@ const Sidebar = () => {
 
     return (
         <div className='flex h-screen'>
-            <div className='w-full bg-[#FFFFFF] h-full flex flex-col border-r border-gray-300'>
-                {/* Sidebar Logo */}
+            <div className='w-full bg-[#FFFFFF] h-full flex flex-col md:border-r md:border-gray-300'>
                 <Link className='' to="/">
                     <div className='logo p-5 mx-3 flex gap-3 items-center'>
                         <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />

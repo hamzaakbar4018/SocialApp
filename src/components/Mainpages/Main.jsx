@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Sidebar from '../Sidebar.jsx'
 import searchi from '../../assets/Icons SVG/Search.svg'
 import Notifications from '../../assets/Icons SVG/Notifications.svg'
 import Arrow from '../../assets/Icons SVG/Arrow.svg'
@@ -11,6 +12,7 @@ import '../../CSS/Connections.css';
 import { IoIosSearch } from "react-icons/io";
 import { IoMdArrowBack } from "react-icons/io";
 import postpic from '../../assets/Icons SVG/postpic.png';
+import { FiMenu } from 'react-icons/fi';
 
 const Main = () => {
     const [showRightbar, setShowRightbar] = useState(false);
@@ -117,6 +119,11 @@ const Main = () => {
         }
     ]
 
+    const [showSidebar, setShowSidebar] = useState(false);
+    const handleSidebarToggle = () => {
+        setShowSidebar(!showSidebar);
+    };
+
     const handleSearch = () => {
         console.log("Search button clicked");
         setSearch(!search);
@@ -125,28 +132,44 @@ const Main = () => {
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
                 <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
-                <h1 className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold p-3'}`}>Hi Ali!</h1>
+                    <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span> Hi Ali!</h1>
+                    {showSidebar && (
+                        <dialog id="my_modal_3" className="modal" open>
+                            <div className="w-full h-full ">
+                                <form method="dialog">
+                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-5 top-5 border-gray-300">✕</button>
+                                </form>
+                                <Sidebar />
+                            </div>
+                        </dialog>
+                    )}
                     {search && (
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
-                    <div className={`flex justify-end gap-5 items-center w-full z-20`}>
+                    <div className={`flex justify-end gap-2 md:gap-5 items-center w-full z-20`}>
                         <div
                             ref={searchRef}
-                            className={`relative  flex justify-end items-center bg-[#F5F5F5] rounded-3xl px-3 py-2 space-x-2 transition-all duration-300 ease-in-out ${search ? ' w-full rounded-3xl' : 'w-[300px]'}`}
+                            className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
                         >
+                            {/* Search Icon */}
+                            <img onClick={handleSearch} src={searchi} className='w-5 h-5 md:w-6 md:h-6 cursor-pointer' alt="Search" />
 
-                            <img src={searchi} className='w-6 h-6' alt="" />
+                            {/* Search Input - Visible on all screen sizes */}
                             <input
                                 onClick={handleSearch}
                                 type="search"
                                 placeholder='Search'
-                                className='outline-none bg-transparent rounded px-2 py-1 w-full'
+                                className={`outline-none flex bg-transparent rounded px-2 py-1 w-full transition-all duration-300 ease-in-out ${search ? 'block' : 'hidden md:flex'}`}
                             />
+
+                            {/* Arrow Icon (when search is active) */}
                             {search && (
                                 <img src={Arrow} onClick={handleSearch} className='w-9 p-1 h-9 bg-black rounded-full cursor-pointer' />
                             )}
+
+                            {/* Search Results Dropdown */}
                             {search && (
-                                <div className='bg-white absolute top-full mt-2 w-[98%] rounded-lg p-4'>
+                                <div className='bg-white absolute md:right-2 right-0 top-full mt-3 w-full md:w-[98%] rounded-lg p-4'>
                                     <div className="recent flex items-center justify-between mx-1">
                                         <div>
                                             <h2 className='text-gray-400 text-sm'>Recent</h2>
@@ -162,10 +185,13 @@ const Main = () => {
                                 </div>
                             )}
                         </div>
+
+                        {/* Notification Icon (hidden when search is active) */}
                         <div onClick={handleBar} className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}>
-                            <img src={Notifications} alt="" />
+                            <img src={Notifications} alt="Notifications" />
                         </div>
                     </div>
+
 
                 </div>
                 <div className={`transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
@@ -235,7 +261,7 @@ const Main = () => {
                                             <div className='mt-5 h-48'>
                                                 <h1 className='text-gray-400'>Write your thoughts here...</h1>
                                             </div>
-                                            <div className='flex gap-3'>
+                                            <div className='flex flex-wrap md:flex-row gap-3'>
                                                 <div className='flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-1'>
                                                     <img className='w-5' src={photoadmin} alt="" />
                                                     <button>
@@ -244,12 +270,12 @@ const Main = () => {
                                                 </div>
                                                 <div className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl gap-1'>
                                                     <img className='w-5' src={tag} alt="" />
-                                                    <button>
+                                                    <button className='text-nowrap'>
                                                         Tag People
                                                     </button>
                                                 </div>
-                                                <div onClick={handleTagPeople} className='flex-grow flex justify-end'>
-                                                    <button className='p-3 rounded-3xl bg-black text-white'>Post Now</button>
+                                                <div onClick={handleTagPeople} className='flex-grow flex md:justify-end w-full md:w-auto'>
+                                                    <button className='p-3 rounded-3xl bg-black text-white w-full md:w-auto'>Post Now</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -262,7 +288,9 @@ const Main = () => {
                 </div>
             )}
 
-            {tagPeople && <dialog id="my_modal_3" className="modal" open>
+            {tagPeople && 
+            <div className='bg-black bg-opacity-50 z-40 inset-0 fixed top-0 right-0'>
+                <dialog id="my_modal_3" className="modal" open>
                 <div className="modal-box h-80 w-96">
                     <form method="dialog">
                         <button onClick={handleTagPeople} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -279,7 +307,9 @@ const Main = () => {
                     </div>
 
                 </div>
-            </dialog>}
+            </dialog>
+            </div>
+            }
         </div>
     );
 };

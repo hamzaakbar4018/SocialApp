@@ -54,8 +54,12 @@ const Verify = () => {
         { category: 'Actor' },
         { category: 'Writer' },
         { category: 'Producer' },
+        { category: 'Artist' },
         { category: 'Dancer' },
-        { category: 'Photographer' },
+        { category: 'Musician' },
+        { category: 'Designer' },
+        { category: 'Producer' },
+        { category: 'Dancer' },
         { category: 'Artist' },
         { category: 'Musician' },
         { category: 'Designer' },
@@ -64,14 +68,14 @@ const Verify = () => {
     return (
         <>
             <div className='flex h-screen'>
-                <div className='md:w-[30%] left py-4'>
-                    <div className='flex md:justify-start justify-center gap-2 items-center'>
+                <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
+                    <div className='flex md:justify-start ml-5 md:ml-0 gap-2 items-center'>
                         <Link to='/'>
-                        <img className='md:pl-10 w-60' src={logo} alt="Logo" />
+                            <img className='md:pl-10 md:w-60 w-52' src={logo} alt="Logo" />
                         </Link>
                     </div>
 
-                    <div className="middle relative px-10 md:mt-48">
+                    <div className="middle px-5 relative md:px-10 md:mt-48">
                         <div>
                             <Link to='/login'>
                                 <h1 className='font-bold text-2xl'>
@@ -92,7 +96,7 @@ const Verify = () => {
                             <button onClick={handleAccount} className='bg-black w-full text-white p-3 rounded-3xl mt-6'>Verify</button>
                         </div>
                     </div>
-                    <div className="last px-10 mt-20 md:mt-52">
+                    <div className="last px-5 md:px-10 mt-20 md:mt-52">
                         <p><span className='text-gray-500'>by</span> <span className='font-bold'>Signing In</span>, <span className='text-gray-500'>you agree with the </span><span className='text-[#399AF3] font-bold'>Terms & Conditions </span> <span className='text-gray-500'>of You2Art</span></p>
                     </div>
                 </div>
@@ -152,53 +156,67 @@ const Verify = () => {
             {/* Profile Creation Modal */}
             {createProfile && (
                 <dialog className="modal modal-open">
-                    <div className="modal-box p-0 h-[80%] 2xl:h-[70%] 2xl:min-w-[45%] min-w-[60%] overflow-hidden relative">
+                    <div className="modal-box overflow-y-auto p-0 h-[90%] sm:h-[80%] md:min-h-[70%] lg:h-[60%] xl:h-[50%] w-[90%] sm:w-[80%] md:w-[80%] lg:w-[70%] xl:min-w-[45%] overflow-hidden relative">
                         <form method="dialog" className="relative">
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCloseModal}>✕</button>
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onClick={handleCloseModal}
+                            >
+                                ✕
+                            </button>
                         </form>
-                        <h3 className="font-bold px-6 pt-4 text-lg">Complete Profile</h3>
-                        <div className='pb-2 border-b border-gray-300'>
-                            <h1 className='px-6 text-sm text-[#399AF3]'>Step 1 of 2</h1>
+                            <h3 className="font-bold px-4 sm:px-6 pt-4 text-lg">Complete Profile</h3>
+                            <div className="pb-2 border-b border-gray-300">
+                                <h1 className="px-4 sm:px-6 text-sm text-[#399AF3]">Step 1 of 2</h1>
+                            </div>
+                        <div className='overflow-y-auto h-full pb-2'>
+                            <div className="px-4 sm:px-6 py-2">
+                                <h1 className="font-semibold">Choose Category</h1>
+                            </div>
+                            <div className="px-4 sm:px-6 py-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                {categories.map((data, index) => (
+                                    <div
+                                        onClick={() => handleSelectedCaegory(data.category)}
+                                        key={index}
+                                        className={`flex items-center border p-3 rounded gap-2 ${SelectedCategory === data.category
+                                            ? 'border-[#399AF3] bg-[#E7F3FF]'
+                                            : 'border-gray-300'
+                                            }`}
+                                    >
+                                        <input
+                                            className="w-6 h-6"
+                                            type="radio"
+                                            name="category"
+                                            id={`category-${index}`}
+                                            checked={SelectedCategory === data.category}
+                                            onChange={() => handleSelectedCaegory(data.category)}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                        <label htmlFor={`category-${index}`} className="cursor-pointer font-semibold">
+                                            {data.category}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        <div className='px-6 py-2'>
-                            <h1 className='font-semibold'>Choose Category</h1>
-                        </div>
-                        <div className="px-6 flex flex-wrap gap-2 py-2">
-    {categories.map((data, index) => (
-        <div
-            onClick={() => handleSelectedCaegory(data.category)}  // This triggers the radio button change
-            key={index}
-            className={`flex items-center min-w-[49%] border p-3 rounded gap-2 ${SelectedCategory === data.category
-                ? 'border-[#399AF3] bg-[#E7F3FF]' // Highlight when selected
-                : 'border-gray-300' // Default style
-            }`}
-        >
-            <input
-                className="w-6 h-6"
-                type="radio"
-                name="category"
-                id={`category-${index}`}
-                checked={SelectedCategory === data.category} // Bind checked state
-                onChange={() => handleSelectedCaegory(data.category)} // Update state on change
-                onClick={(e) => e.stopPropagation()} // Prevent input click event from triggering parent div click
-            />
-            <label htmlFor={`category-${index}`} className="cursor-pointer font-semibold">
-                {data.category}
-            </label>
-        </div>
-    ))}
-</div>
-
-
-
-
-                        <div className='absolute bottom-0 right-0 p-4 w-full flex gap-2 justify-end bg-white'>
-                            <button onClick={() => setCreateProfile(false)} className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300'>Skip For Now</button>
-                            <button onClick={handleCreateProfile2} className='px-4 py-2 rounded-full text-white font-semibold bg-black'>Save and Next</button>
+                        <div className="absolute bottom-0 left-0 p-4 w-full flex md:flex-row gap-2 justify-center md:justify-end bg-white">
+                            <button
+                                onClick={() => setCreateProfile(false)}
+                                className="px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300"
+                            >
+                                Skip For Now
+                            </button>
+                            <button
+                                onClick={handleCreateProfile2}
+                                className="px-4 py-2 rounded-full text-white font-semibold bg-black"
+                            >
+                                Save and Next
+                            </button>
                         </div>
                     </div>
-                </dialog >
+                </dialog>
             )}
+
+
 
             {/* Profile Creation Step 2 Modal */}
             {
@@ -219,18 +237,18 @@ const Verify = () => {
                                 <div>
                                     <FileUpload />
                                 </div>
-                                <div className='flex gap-2 mt-2 '>
+                                <div className='flex flex-wrap gap-2 mt-2 '>
                                     <div className='flex flex-col gap-2 w-full'>
                                         <label className='font-semibold' htmlFor="">First Name</label>
                                         <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" />
                                     </div>
                                     <div className='flex flex-col gap-2 w-full'>
                                         <label className='font-semibold' htmlFor="">Last Name</label>
-                                        <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" />
+                                        <input className='px-2 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" />
                                     </div>
                                 </div>
 
-                                <div className='flex gap-2 mt-2 '>
+                                <div className='md:flex gap-2 mt-2 '>
                                     <div className='flex flex-col gap-2 w-full'>
                                         <label className='font-semibold' htmlFor="">Country</label>
                                         {/* <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" /> */}
@@ -240,7 +258,7 @@ const Verify = () => {
                                             <option value="">3</option>
                                         </select>
                                     </div>
-                                    <div className='flex flex-col gap-2 w-full'>
+                                    <div className='flex flex-col mt-2 md:mt-0 gap-2 w-full'>
                                         <label className='font-semibold' htmlFor="">City</label>
                                         {/* <input className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]' type="text" placeholder='Enter Project Title' name="" id="" /> */}
                                         <select className='px-3 mt-1 py-3 rounded-full bg-[#1C1C1C14]' name="" id="">
@@ -250,7 +268,7 @@ const Verify = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className='flex flex-col gap-2 mt-2 '>
+                                <div className='flex md:mb-0 mb-10 flex-col gap-2 mt-2 '>
                                     <label className='font-semibold' htmlFor="">Short Bio</label>
                                     <textarea placeholder='Enter Bio' className='bg-[#1C1C1C14] px-3 py-2 rounded-xl h-32' name="" id=""></textarea>
 

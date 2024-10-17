@@ -145,7 +145,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                         </form>
 
                         <div className='flex'>
-                            <div className="left fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
+                            <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
                                 <div className='flex justify-between'>
                                     <div className='flex p-4 gap-2'>
                                         <img className='rounded-full w-16 h-16' src={userimage} alt="User Image" />
@@ -182,7 +182,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                                 </div>
                             </div>
 
-                            <div className='right fixed top-0 right-0 w-[40%] h-full overflow-y-auto bg-white p-4'>
+                            <div className='right md:fixed top-0 right-0 md:w-[40%] h-full overflow-y-auto bg-white p-4'>
                                 <div className='border-b border-gray-400'>
                                     <h3 className="font-bold p-4 text-lg">Post Comments (14k)</h3>
                                 </div>
