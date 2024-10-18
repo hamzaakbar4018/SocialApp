@@ -49,57 +49,57 @@ const NetworkMain = () => {
             userpic: "https://randomuser.me/api/portraits/men/1.jpg",
             name: "John Doe",
             text: "Actor | Model",
-            connect:true
-            
+            connect: true
+
         },
         {
             id: 2,
             userpic: "https://randomuser.me/api/portraits/men/14.jpg",
             name: "Jane Smith",
             text: "Model | Director",
-            connect:true
+            connect: true
         },
         {
             id: 3,
             userpic: "https://randomuser.me/api/portraits/men/12.jpg",
             name: "Michael Johnson",
             text: "Actor | Director",
-            connect:true
+            connect: true
         },
         {
             id: 4,
             userpic: "https://randomuser.me/api/portraits/women/13.jpg",
             name: "Emily Davis",
             text: "Model",
-            connect:true
+            connect: true
         },
         {
             id: 5,
             userpic: "https://randomuser.me/api/portraits/men/14.jpg",
             name: "Chris Brown",
             text: "Actor",
-            connect:true
+            connect: true
         },
         {
             id: 6,
             userpic: "https://randomuser.me/api/portraits/women/15.jpg",
             name: "Sophia Wilson",
             text: "Director",
-            connect:true
+            connect: true
         },
         {
             id: 7,
             userpic: "https://randomuser.me/api/portraits/men/16.jpg",
             name: "David Miller",
             text: "Actor | Model | Director",
-            connect:true
+            connect: true
         },
         {
             id: 8,
             userpic: "https://randomuser.me/api/portraits/women/17.jpg",
             name: "Olivia Taylor",
             text: "Model | Actor",
-            connect:true
+            connect: true
         },
     ];
     const reqData = [
@@ -107,7 +107,7 @@ const NetworkMain = () => {
             "image": "https://randomuser.me/api/portraits/men/10.jpg",
             "username": "michael_scott",
             "description": "1 day ago",
-            network:true
+            network: true
 
         }
     ]
@@ -116,7 +116,7 @@ const NetworkMain = () => {
     return (
         <div className='flex bg-gray-100'>
             <div className='flex-grow p-[2px] bg-gray-100 '>
-            <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
+                <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
                     <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>My Network</h1>
                     {showSidebar && (
                         <dialog id="my_modal_3" className="modal" open>
@@ -233,15 +233,15 @@ const NetworkMain = () => {
                         </div>
                     </div>
                     <div className='md:p-[2px]'>
-                        <div className=' bg-white md:p-4 p-2'>
-                            <h1 className='font-bold'>Connections ({talentData.length})</h1>
-                            <div className='flex justify-center md:justify-start mt-3 flex-wrap md:gap-5 gap-2'>
+                        <div className="bg-white md:p-4 p-2">
+                            <h1 className="font-bold">Connections ({talentData.length})</h1>
+                            <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3">
                                 {talentData.map((data, index) => (
-                                    <TalentCards key={index} network = {network} {...data} />
-
+                                    <TalentCards key={index} network={network} {...data} />
                                 ))}
                             </div>
                         </div>
+
 
                     </div>
                 </div>
