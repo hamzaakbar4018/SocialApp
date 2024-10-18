@@ -18,6 +18,7 @@ import Aboutus from '../assets/Icons SVG/Aboutus.svg';
 const activeIconFilter = 'invert(32%) sepia(80%) saturate(462%) hue-rotate(169deg) brightness(94%) contrast(101%)';
 
 const Sidebar = () => {
+    // const [account, setAccount] = useState(window.innerWidth < 640);
     const [account, setAccount] = useState(false);
     const [logout, setLogout] = useState(false);
 
@@ -31,7 +32,7 @@ const Sidebar = () => {
 
     return (
         <div className='flex h-screen'>
-            <div className='w-full bg-[#FFFFFF] h-full flex flex-col md:border-r md:border-gray-300'>
+            <div className='w-full bg-[#FFFFFF] h-full overflow-y-auto flex flex-col md:border-r md:border-gray-300'>
                 <Link className='' to="/">
                     <div className='logo p-5 mx-3 flex gap-3 items-center'>
                         <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />
@@ -130,8 +131,8 @@ const Sidebar = () => {
                                 >
                                     {({ isActive }) => (
                                         <>
-                                        
-                                            <HiOutlineChatBubbleBottomCenterText 
+
+                                            <HiOutlineChatBubbleBottomCenterText
                                                 style={{ filter: isActive ? activeIconFilter : '' }}
                                                 className='w-7 h-6'
                                             />
@@ -142,7 +143,18 @@ const Sidebar = () => {
                             </li>
 
                             {/* Account Section */}
-                            <div onClick={openAccount} className='flex cursor-pointer justify-between items-center'>
+                            <div 
+                            onClick={() => {
+                                console.log('window width:', window.innerWidth);
+                                if (window.innerWidth < 640) {
+                                    console.log('Setting account to true');
+                                    setAccount(true);
+                                } else {
+                                    console.log('Opening account');
+                                    openAccount();
+                                }
+                            }}
+                                className='flex cursor-pointer justify-between items-center'>
                                 <h2 className='text-gray-500 mx-3'>Account</h2>
                                 <div className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'}`}>
                                     <FaAngleDown />
@@ -211,77 +223,73 @@ const Sidebar = () => {
                                         </NavLink>
                                     </li>
                                     <li>
-                                <NavLink
-                                    to='/about'
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
-                                    }
-                                >
-                                    {({ isActive }) => (
-                                        <>
-                                            <img
-                                                src={Aboutus}
-                                                alt="About Us"
-                                                style={{ filter: isActive ? activeIconFilter : '' }}
-                                                className='w-6 h-6 mb-1'
-                                            />
-                                            About Us
-                                        </>
-                                    )}
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to='/term-policy'
-                                    className={({ isActive }) =>
-                                        `flex items-center tracking-tight gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
-                                    }
-                                >
-                                    {({ isActive }) => (
-                                        <>
-                                            <img
-                                                src={Terms_Condition}
-                                                alt="Terms & Conditions"
-                                                style={{ filter: isActive ? activeIconFilter : '' }}
-                                                className='w-6 h-6 mb-1'
-                                            />
-                                            Terms & Conditions
-                                        </>
-                                    )}
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to='/privacy'
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
-                                    }
-                                >
-                                    {({ isActive }) => (
-                                        <>
-                                            <img
-                                                src={Terms_Condition}
-                                                alt="Terms & Conditions"
-                                                style={{ filter: isActive ? activeIconFilter : '' }}
-                                                className='w-6 h-6 mb-1'
-                                            />
-                                            Privacy Policy
-                                        </>
-                                    )}
-                                </NavLink>
-                            </li>
+                                        <NavLink
+                                            to='/about'
+                                            className={({ isActive }) =>
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                            }
+                                        >
+                                            {({ isActive }) => (
+                                                <>
+                                                    <img
+                                                        src={Aboutus}
+                                                        alt="About Us"
+                                                        style={{ filter: isActive ? activeIconFilter : '' }}
+                                                        className='w-6 h-6 mb-1'
+                                                    />
+                                                    About Us
+                                                </>
+                                            )}
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to='/term-policy'
+                                            className={({ isActive }) =>
+                                                `flex items-center tracking-tight gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                            }
+                                        >
+                                            {({ isActive }) => (
+                                                <>
+                                                    <img
+                                                        src={Terms_Condition}
+                                                        alt="Terms & Conditions"
+                                                        style={{ filter: isActive ? activeIconFilter : '' }}
+                                                        className='w-6 h-6 mb-1'
+                                                    />
+                                                    Terms & Conditions
+                                                </>
+                                            )}
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to='/privacy'
+                                            className={({ isActive }) =>
+                                                `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                            }
+                                        >
+                                            {({ isActive }) => (
+                                                <>
+                                                    <img
+                                                        src={Terms_Condition}
+                                                        alt="Terms & Conditions"
+                                                        style={{ filter: isActive ? activeIconFilter : '' }}
+                                                        className='w-6 h-6 mb-1'
+                                                    />
+                                                    Privacy Policy
+                                                </>
+                                            )}
+                                        </NavLink>
+                                    </li>
                                 </div>
                             )}
-
-                            {/* Additional Routes */}
-                            
-
                         </ul>
                     </div>
                 </div>
 
                 {/* Logout */}
-                <div className="p-3 m-3 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
+                <div className="p-3 m-3 mx-5 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
                     <div onClick={handleLog} className="flex items-center gap-2">
                         <CiLogout className="text-2xl font-bold" />
                         <h1 className="text-lg font-medium">Logout</h1>

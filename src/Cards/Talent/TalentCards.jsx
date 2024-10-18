@@ -1,9 +1,8 @@
 import { IoMailOutline } from "react-icons/io5";
-
-const TalentCards = ({ userpic, name, text, connect, landingtalent }) => {
+const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) => {
   return (
     <div className="overflow-hidden">
-      <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-[255px] ${landingtalent && '2xl:min-h-[433px] 2xl:min-w-[356px]'} ${connect && 'w-[222px] tracking-tighter'} min-h-min h-[250px]`}>
+      <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-[255px] ${network && 'md:min-w-[255px] max-w-[170px]'} ${landingtalent && '2xl:min-h-[433px] 2xl:min-w-[356px]'} ${connect && 'w-[222px] tracking-tighter'} min-h-min h-[250px]`}>
         <div className="flex flex-col gap-3 space-y-2 h-full">
           {landingtalent ? (
             <div className="flex flex-col mt-3 justify-center items-center">
@@ -28,7 +27,7 @@ const TalentCards = ({ userpic, name, text, connect, landingtalent }) => {
           )}
           <div className="flex justify-between items-center mt-auto">
             <button className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}>
-              {!connect ? "Connect" : "Remove Connection"}
+              {!connect ? "Connect" : "Remove"}
             </button>
             {landingtalent ? (
               <div className="rounded-full border 2xl:mt-5 p-2 ml-3">

@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Sidebar from '../Sidebar.jsx'
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import searchi from '../../assets/Icons SVG/Search.svg'
 import Notifications from '../../assets/Icons SVG/Notifications.svg'
 import Arrow from '../../assets/Icons SVG/Arrow.svg'
@@ -12,9 +11,20 @@ import '../../CSS/Connections.css';
 import { IoIosSearch } from "react-icons/io";
 import { IoMdArrowBack } from "react-icons/io";
 import postpic from '../../assets/Icons SVG/postpic.png';
+import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
+import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 
 const Main = () => {
+    const notifyData = useContext(NotificatinData);
+    const [popup, setpopup] = useState(false);
+    const handlePopup = () => {
+        setpopup(!popup)
+    }
+    const [showSidebar, setShowSidebar] = useState(false);
+    const handleSidebarToggle = () => {
+        setShowSidebar(!showSidebar);
+    };
     const [showRightbar, setShowRightbar] = useState(false);
     const [postModel, setPostModel] = useState(false);
     const [tagPeople, setTagPeople] = useState(false);
@@ -24,14 +34,11 @@ const Main = () => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setSearch(false); // Close search bar if click is outside
+                setSearch(false);
             }
         };
-
-        // Bind the event listener
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [searchRef]);
@@ -119,15 +126,14 @@ const Main = () => {
         }
     ]
 
-    const [showSidebar, setShowSidebar] = useState(false);
-    const handleSidebarToggle = () => {
-        setShowSidebar(!showSidebar);
-    };
 
+    
     const handleSearch = () => {
         console.log("Search button clicked");
         setSearch(!search);
     }
+
+
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
@@ -151,10 +157,8 @@ const Main = () => {
                             ref={searchRef}
                             className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
                         >
-                            {/* Search Icon */}
                             <img onClick={handleSearch} src={searchi} className='w-5 h-5 md:w-6 md:h-6 cursor-pointer' alt="Search" />
 
-                            {/* Search Input - Visible on all screen sizes */}
                             <input
                                 onClick={handleSearch}
                                 type="search"
@@ -162,12 +166,10 @@ const Main = () => {
                                 className={`outline-none flex bg-transparent rounded px-2 py-1 w-full transition-all duration-300 ease-in-out ${search ? 'block' : 'hidden md:flex'}`}
                             />
 
-                            {/* Arrow Icon (when search is active) */}
                             {search && (
                                 <img src={Arrow} onClick={handleSearch} className='w-9 p-1 h-9 bg-black rounded-full cursor-pointer' />
                             )}
 
-                            {/* Search Results Dropdown */}
                             {search && (
                                 <div className='bg-white absolute md:right-2 right-0 top-full mt-3 w-full md:w-[98%] rounded-lg p-4'>
                                     <div className="recent flex items-center justify-between mx-1">
@@ -186,10 +188,55 @@ const Main = () => {
                             )}
                         </div>
 
-                        {/* Notification Icon (hidden when search is active) */}
-                        <div onClick={handleBar} className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}>
+                        <div
+                            onClick={() => {
+                                if (window.innerWidth <= 640) {
+                                    handlePopup();
+                                } else {
+                                    handleBar();
+                                }
+                            }}
+                            className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}
+                        >
                             <img src={Notifications} alt="Notifications" />
                         </div>
+                        {
+                            popup && (
+                                <div className='bg-black bg-opacity-50 inset-0 fixed top-0'>
+                                    <dialog className="modal" open>
+                                        <div className="modal-box p-0">
+                                            <button
+                                                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                                onClick={handlePopup}
+                                            >
+                                                ✕
+                                            </button>
+                                            <div className="border-b mb-3 px-6 pt-6 border-gray-400">
+                                                <h3 className="font-bold mb-4 text-lg">Notifications</h3>
+                                            </div>
+                                            <div className="px-6 flex mb-2 flex-col justify-center gap-2">
+                                                {notifyData.map((data, index) => (
+                                                    <div className="flex items-center gap-2" key={index}>
+                                                        <img
+                                                            className="w-12 h-12 rounded-full"
+                                                            src={data.image}
+                                                            alt="image"
+                                                        />
+                                                        <div className="flex flex-col justify-center">
+                                                            <h1 className="font-semibold">
+                                                                {data.username} <span className="font-light">{data.text}</span>
+                                                            </h1>
+                                                            <p className="text-[#9B9B9B] text-sm">{data.time}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </dialog>
+                                </div>
+                            )
+                        }
+
                     </div>
 
 
@@ -288,27 +335,27 @@ const Main = () => {
                 </div>
             )}
 
-            {tagPeople && 
-            <div className='bg-black bg-opacity-50 z-40 inset-0 fixed top-0 right-0'>
-                <dialog id="my_modal_3" className="modal" open>
-                <div className="modal-box h-80 w-96">
-                    <form method="dialog">
-                        <button onClick={handleTagPeople} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                    </form>
-                    <div className='flex gap-1'>
-                        <button onClick={handlePostModel}>
-                            <IoMdArrowBack className='text-2xl' />
-                        </button>
-                        <h3 className="font-bold text-lg">Tag People</h3>
-                    </div>
-                    <div className='flex justify-start mt-2 bg-gray-100  rounded-xl items-center'>
-                        <IoIosSearch className='ml-3' />
-                        <input className='outline-none w-full bg-transparent p-2' type="search" name="" placeholder='Search' id="" />
-                    </div>
+            {tagPeople &&
+                <div className='bg-black bg-opacity-50 z-40 inset-0 fixed top-0 right-0'>
+                    <dialog id="my_modal_3" className="modal" open>
+                        <div className="modal-box h-80 w-96">
+                            <form method="dialog">
+                                <button onClick={handleTagPeople} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
+                            <div className='flex gap-1'>
+                                <button onClick={handlePostModel}>
+                                    <IoMdArrowBack className='text-2xl' />
+                                </button>
+                                <h3 className="font-bold text-lg">Tag People</h3>
+                            </div>
+                            <div className='flex justify-start mt-2 bg-gray-100  rounded-xl items-center'>
+                                <IoIosSearch className='ml-3' />
+                                <input className='outline-none w-full bg-transparent p-2' type="search" name="" placeholder='Search' id="" />
+                            </div>
 
+                        </div>
+                    </dialog>
                 </div>
-            </dialog>
-            </div>
             }
         </div>
     );
