@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
 import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
+import { IoMdArrowBack } from "react-icons/io";
 
 const Applied = () => {
   const userdata = [
@@ -19,7 +20,7 @@ const Applied = () => {
       gender: "Male",
       shootdays: "30",
       crew: "1",
-      applied:true
+      applied: true
     },
     {
       title: "Short Film",
@@ -35,26 +36,65 @@ const Applied = () => {
       gender: "Male",
       shootdays: "30",
       crew: "1",
-      applied:true
+      applied: true
     }
-      
   ];
 
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const [isSheetOpen, setIsSheetOpen] = useState(false); // State to handle sheet visibility
 
   return (
-    <div className='bg-gray-100 flex mt-1 '>
-      <div className='left flex flex-col gap-2 w-1/3'>
+    <div className='bg-gray-100 flex mt-1'>
+      {/* Left Section (Card List) */}
+      <div className='left flex flex-col gap-2 w-full md:w-1/3'>
         {
           userdata.map((data, index) => (
-            <div key={index} onClick={() => setSelectedCardIndex(index)}>
-              <UserCard {...data} isSelected = {selectedCardIndex === index} />
+            <div
+              key={index}
+              onClick={() => {
+                setSelectedCardIndex(index);
+                setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
+              }}
+            >
+              <UserCard {...data} isSelected={selectedCardIndex === index} />
             </div>
           ))
         }
       </div>
-      <div className='right flex-grow'>
+
+      {/* Right Section (UserDescription for md/lg screens) */}
+      <div className='right md:block hidden flex-grow'>
         <div className="pl-1">
+          {
+            selectedCardIndex !== null && (
+              <UserDescription
+                title={userdata[selectedCardIndex].title}
+                img={userdata[selectedCardIndex].img}
+                des={userdata[selectedCardIndex].description}
+                budget={userdata[selectedCardIndex].budget}
+                age={userdata[selectedCardIndex].age}
+                height={userdata[selectedCardIndex].height}
+                gender={userdata[selectedCardIndex].gender}
+                location={userdata[selectedCardIndex].location}
+                day={userdata[selectedCardIndex].shootdays}
+                crew={userdata[selectedCardIndex].crew}
+                username={userdata[selectedCardIndex].username}
+                applied={userdata[selectedCardIndex].applied}
+              />
+            )
+          }
+        </div>
+      </div>
+
+      <div className={`fixed z-40 top-0 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
+      <button 
+          className="absolute top-3 left-0 bg-white w-full p-4 text-black" 
+          onClick={() => setIsSheetOpen(false)}
+        >
+          <IoMdArrowBack className='text-2xl mb-1 mt-3'/>
+        </button>
+
+        <div className="py-4">
           {
             selectedCardIndex !== null && (
               <UserDescription

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
 import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
+import { IoMdArrowBack } from "react-icons/io";
 
 const MyCasting = () => {
   const userdata = [
@@ -19,8 +20,8 @@ const MyCasting = () => {
       gender: "Male",
       shootdays: "30",
       crew: "1",
-      casting:"true",
-      date:"2 days ago",
+      casting: "true",
+      date: "2 days ago",
     },
     {
       title: "Short Film",
@@ -36,11 +37,11 @@ const MyCasting = () => {
       gender: "Male",
       shootdays: "30",
       crew: "1",
-      cast:"true",
-      date:"1 hour ago",
+      cast: "true",
+      date: "1 hour ago",
 
     }
-      
+
   ];
 
   const handleDataSend = (data) => {
@@ -50,12 +51,14 @@ const MyCasting = () => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const mycasting = true;
 
-  const [createCast,setCreateCasting] = useState(false);
+  const [createCast, setCreateCasting] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false); 
+
 
   const handleCasting = () => {
     setCreateCasting(!createCast);
   }
-  
+
   return (
     <div className='bg-gray-100 flex mt-1 '>
       <div className='left flex flex-col gap-1 md:w-1/3 w-full'>
@@ -63,10 +66,13 @@ const MyCasting = () => {
           <button onClick={handleCasting} className='bg-black px2 py-3 flex justify-center items-center gap-2 rounded-full text-white font-semibold w-full'><span className='text-3xl font-light'>+</span> Create Casting Call</button>
         </div>
         {
-          
+
           userdata.map((data, index) => (
-            <div key={index} onClick={() => setSelectedCardIndex(index)}>
-              <UserCard {...data} mycasting = {mycasting} isSelected = {selectedCardIndex === index}/>
+            <div key={index} onClick={() => {
+              setSelectedCardIndex(index);
+              setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
+            }}>
+              <UserCard {...data} mycasting={mycasting} isSelected={selectedCardIndex === index} />
             </div>
           ))
         }
@@ -84,9 +90,29 @@ const MyCasting = () => {
           }
         </div>
       </div>
+      <div className={`fixed z-40 top-0 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
+        <button
+          className="absolute top-3 left-[-1] bg-white w-full p-4 text-black"
+          onClick={() => setIsSheetOpen(false)}
+        >
+          <IoMdArrowBack className='text-2xl mb-1 mt-3' />
+        </button>
+
+        <div className="py-4">
+          {
+            selectedCardIndex !== null && (
+              <UserDescription
+                {...userdata[selectedCardIndex]}
+                mycasting={mycasting}
+                sendData={handleDataSend}
+              />
+            )
+          }
+        </div>
+      </div>
       {createCast && (
         <div className="modal" open>
-          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] h-auto w-[40%]">
+          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] h-auto md:w-[40%]">
             <div className='px-5 pt-6'>
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCasting}>✕</button>
               <h3 className="font-bold text-lg mb-4">Create Casting Call</h3>
