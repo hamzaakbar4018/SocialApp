@@ -65,6 +65,9 @@ const Navbar = () => {
                         <Link to="/home" className=" hover:border-b-2 hover:border-[#C02C2C] transition-all">Home</Link>
                     </li>
                     <li>
+                            <Link to="/home" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Content</Link>
+                        </li>
+                    <li>
                         <Link to="/features" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Features</Link>
                     </li>
                     <li>
