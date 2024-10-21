@@ -147,7 +147,7 @@ const LandingPagetalent = ({landingpage}) => {
             <div className={`swiper-grid-container  ${landingpage && 'min-w-full'} w-full`}>
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={16}
+                    spaceBetween={10}
                     scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log("slide change")}

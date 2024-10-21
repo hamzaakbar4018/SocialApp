@@ -28,14 +28,14 @@ const talentData = useContext(IndustryData);
             slidesPerView : 6,
           }
         }}
-        spaceBetween={50}
+        spaceBetween={20}
         draggable={true}
         pagination={false}
         modules={[Pagination]}
-        className={`mySwiper ${landingtalent && ' min-w-[300px] mx-0'} mx-20 `}
+        className={`mySwiper md:mx-20  ${landingtalent && 'min-w-[300px] mx-0'}`}
       >
         {talentData.map((talent) => (
-          <SwiperSlide className={`${landingtalent ? 'py-4 min-w-[400px] hover:scale-105 duration-300 transition-all': 'min-w-min'}`} key={talent.id}>
+          <SwiperSlide className={`${landingtalent ? 'py-4 min-w-min hover:scale-105 duration-300 transition-all': 'min-w-min'}`} key={talent.id}>
             <TalentCards {...talent} landingtalent={landingtalent}/>
           </SwiperSlide>
         ))}
