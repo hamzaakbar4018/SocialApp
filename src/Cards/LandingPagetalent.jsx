@@ -144,14 +144,14 @@ const LandingPagetalent = ({landingpage}) => {
       
     return (
         <div className="container min-w-full mb-20 overflow-x-auto">
-            <div className="swiper-grid-container w-full">
+            <div className={`swiper-grid-container  ${landingpage && 'min-w-full'} w-full`}>
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={16}
                     scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log("slide change")}
-                    className="swiper-container w-full overflow-hidden"
+                    className={`swiper-container ${landingpage && 'min-w-[300px]'} w-full overflow-hidden`}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,

@@ -7,63 +7,6 @@ import "../../CSS/Connections.css";
 import { useContext } from "react";
 import { IndustryData } from "../../Context/IndustryContext";
 const SwipingData = ({ landingtalent }) => {
-//   const talentData = [
-//     {
-//       id: 1,
-//       userpic: "https://randomuser.me/api/portraits/men/1.jpg",
-//       name: "John Doe",
-//       text: "Actor | Model",
-//     },
-//     {
-//       id: 2,
-//       userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-//       name: "Jane Smith",
-//       text: "Model | Director",
-//       landingtalent,
-//     },
-//     {
-//       id: 3,
-//       userpic: "https://randomuser.me/api/portraits/men/12.jpg",
-//       name: "Michael Johnson",
-//       text: "Actor | Director",
-//       landingtalent,
-//     },
-//     {
-//       id: 4,
-//       userpic: "https://randomuser.me/api/portraits/women/13.jpg",
-//       name: "Emily Davis",
-//       text: "Model",
-//       landingtalent,
-//     },
-//     {
-//       id: 5,
-//       userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-//       name: "Chris Brown",
-//       text: "Actor",
-//       landingtalent,
-//     },
-//     {
-//       id: 6,
-//       userpic: "https://randomuser.me/api/portraits/women/15.jpg",
-//       name: "Sophia Wilson",
-//       text: "Director",
-//       landingtalent,
-//     },
-//     {
-//       id: 7,
-//       userpic: "https://randomuser.me/api/portraits/men/16.jpg",
-//       name: "David Miller",
-//       text: "Actor | Model | Director",
-//       landingtalent,
-//     },
-//     {
-//       id: 8,
-//       userpic: "https://randomuser.me/api/portraits/women/17.jpg",
-//       name: "Olivia Taylor",
-//       text: "Model | Actor",
-//       landingtalent,
-//     },
-//   ];
 
 
 const talentData = useContext(IndustryData);
@@ -89,10 +32,10 @@ const talentData = useContext(IndustryData);
         draggable={true}
         pagination={false}
         modules={[Pagination]}
-        className={`mySwiper mx-20 `}
+        className={`mySwiper ${landingtalent && ' min-w-[300px] mx-0'} mx-20 `}
       >
         {talentData.map((talent) => (
-          <SwiperSlide className={`${landingtalent ? 'py-4 min-w-min hover:scale-105 duration-300 transition-all': 'min-w-min'}`} key={talent.id}>
+          <SwiperSlide className={`${landingtalent ? 'py-4 min-w-[400px] hover:scale-105 duration-300 transition-all': 'min-w-min'}`} key={talent.id}>
             <TalentCards {...talent} landingtalent={landingtalent}/>
           </SwiperSlide>
         ))}

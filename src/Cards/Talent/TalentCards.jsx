@@ -1,8 +1,8 @@
 import { IoMailOutline } from "react-icons/io5";
 const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) => {
   return (
-    <div className="overflow-hidden">
-      <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-auto md:w-[255px] 
+    <div className="md:overflow-hidden">
+      <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-[255px] 
         ${network && 'md:min-w-[255px] h-auto w-[92%]'} 
         ${landingtalent && '2xl:min-h-[433px] 2xl:min-w-[356px]'} 
         ${connect && 'w-[222px] tracking-tighter'} 
