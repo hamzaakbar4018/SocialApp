@@ -41,10 +41,10 @@ const ProfileMyWork = () => {
 
   return (
     <>
-      <div className="containerVideos ">
+      <div className="containerVideos w-screen ">
         <MyWorkCard videos={videos} />
       </div>
-      <div className="containerPictures ">
+      <div className="containerPictures w-screen ">
         <MyWorkPictures pictures={pictures} />
       </div>
     </>

@@ -155,7 +155,7 @@ const Sidebar = () => {
                                 }
                             }}
                                 className='flex cursor-pointer justify-between items-center'>
-                                <h2 className='text-gray-500 mx-3'>Account</h2>
+                                <h2 className='text-gray-500 mx-3'>My Account</h2>
                                 <div className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'}`}>
                                     <FaAngleDown />
                                 </div>
@@ -177,7 +177,7 @@ const Sidebar = () => {
                                                         style={{ filter: isActive ? activeIconFilter : '' }}
                                                         className='w-6 h-6 mb-1'
                                                     />
-                                                    Profile
+                                                   My Profile
                                                 </>
                                             )}
                                         </NavLink>

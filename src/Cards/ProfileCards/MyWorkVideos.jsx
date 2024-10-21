@@ -1,6 +1,7 @@
 import React from 'react';
-import Edit from '../../assets/Icons SVG/Edit.svg'
-import Add from '../../assets/Icons SVG/Add.svg'
+import Edit from '../../assets/Icons SVG/Edit.svg';
+import Add from '../../assets/Icons SVG/Add.svg';
+
 const MyWorkCard = ({ videos }) => {
   return (
     <div className='alldata w-full bg-white m-[2px] p-6'>
@@ -22,14 +23,27 @@ const MyWorkCard = ({ videos }) => {
           </div>
         </div>
 
-        <div className="carousel w-full flex gap-4 overflow-x-auto">
+        {/* Carousel with increased image height and gap */}
+        <div className="carousel flex gap-4 overflow-x-auto">
           {videos.map((video, index) => (
-            <div key={index} className="carousel-item border rounded-lg w-1/3 p-2 flex-shrink-0">
+            <div
+              key={index}
+              className="carousel-item border rounded-lg w-full md:w-1/2 lg:w-1/3 p-2 flex-shrink-0"
+            >
               <div className='flex flex-col items-start'>
-                <img src={video.thumbnail} alt={video.title} className='w-full h-auto object-cover rounded mb-4' />
-                <div >
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  className='w-full h-40 md:h-auto object-cover rounded mb-4'
+                />
+                <div>
                   <h2 className='text-lg 2xl:text-xl font-semibold mb-2'>{video.title}</h2>
-                  <a href={video.videoLink} target="_blank" rel="noopener noreferrer" className='text-blue-400 underline 2xl:text-xl'>
+                  <a
+                    href={video.videoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className='text-blue-400 underline 2xl:text-xl'
+                  >
                     {video.videoLink}
                   </a>
                 </div>
@@ -37,6 +51,7 @@ const MyWorkCard = ({ videos }) => {
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );

@@ -6,8 +6,7 @@ const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) =
         ${network && 'md:min-w-[255px] h-auto w-[92%]'} 
         ${landingtalent && '2xl:min-h-[433px] 2xl:min-w-[356px]'} 
         ${connect && 'w-[222px] tracking-tighter'} 
-        min-h-min h-[250px] 
-        sm:w-[calc(50%-0.5rem)]`}> {/* Adjust for small screens */}
+        min-h-min h-[250px] `}>
         <div className="flex flex-col gap-3 space-y-2 h-full">
           {landingtalent ? (
             <div className="flex flex-col mt-3 justify-center items-center">

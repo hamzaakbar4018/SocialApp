@@ -191,7 +191,7 @@ const CastingMain = () => {
                                         }
                                     >
                                         <PiStarFourBold className='text-2xl' />
-                                        <h1 className='text-nowrap'>My Casting</h1>
+                                        <h1 className='text-nowrap'>Casting</h1>
                                     </NavLink>
                                 </li>
                             </ul>
