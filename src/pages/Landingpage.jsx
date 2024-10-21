@@ -82,9 +82,9 @@ const Landingpage = () => {
       </div>
 
       <div className="land3">
-        <div className="md:m-20 m-5 pb-10 md:w-[80%] md:mb-10 md:flex">
+        <div className="md:m-20 mx-10 pb-10 md:w-[80%] md:mb-10 md:flex">
           <div className="">
-            <h1 className="segoe change text-4xl lg:text-6xl">
+            <h1 className="segoe change text-4xl text-center md:text-start lg:text-6xl">
               Find The Right Talent
             </h1>
             <p className="change mt-10 text-center md:text-start lg:text-xl">
@@ -99,9 +99,9 @@ const Landingpage = () => {
       </div>
 
       <div className="land4  flex flex-col justify-center bg-[#F4F4F4]">
-        <div className="mx-20 my-10 pt-8 pb-8 md:pb-0 md:pt-20 lg:w-[80%]">
+        <div className="md:mx-20 mx-10 my-10 md:w-[80%] pt-8 pb-8 md:pb-0 md:pt-20 lg:w-[80%]">
           <div className="">
-            <h1 className="segoe text-4xl lg:text-6xl">
+            <h1 className="segoe text-4xl text-center md:text-start lg:text-6xl">
               Find The Right Casting Call
             </h1>
             <p className="change  mt-10 lg:text-xl text-center md:text-start">

@@ -7,7 +7,7 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
     gender,
     des,deletepop }) => {
     return (
-        <div className={`cursor-pointer p-4 ${deletepop ? '!bg-[#E6E7E854] p-0' : ''} ${castingtab ? '!bg-[#E6E7E854]' : ''} ${apply && '!bg-gray-100'} ${landingpage && 'w-full min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
+        <div className={`cursor-pointer p-4 ${deletepop ? '!bg-[#E6E7E854] p-0' : ''} ${castingtab ? '!bg-[#E6E7E854]' : ''} ${apply && '!bg-gray-100'} ${landingpage && 'md:w-full w-auto min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>
                 <div className='flex gap-2'>
                     <div className={`${mycasting && 'hidden'}`}>
