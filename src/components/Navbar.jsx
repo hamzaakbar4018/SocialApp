@@ -16,7 +16,7 @@ const Navbar = () => {
 
                 <div className="logo px-3">
                     <div className=' flex gap-3 justify-center items-center'>
-                        <img className='w-40 ' src={logo} alt="" />
+                        <img className='md:w-40 w-36 ' src={logo} alt="" />
                     </div>
                 </div>
                 <div className="pages hidden md:block">
@@ -50,9 +50,9 @@ const Navbar = () => {
                 <div className="hidden md:block signup px-3">
                     <Link to="/login"><button className='p-3 mr-5 border rounded-3xl border-gray-600'>Sign Up</button></Link>
                 </div>
-                <div className='block p-3 md:hidden'>
+                <div className='flex items-center justify-center px-3 md:hidden'>
                     {
-                        !isOpen ? <HiMenu onClick={toggleMenu} className='' /> : <HiX onClick={toggleMenu} className='' />
+                        !isOpen ? <HiMenu onClick={toggleMenu} className='text-2xl' /> : <HiX onClick={toggleMenu} className='text-2xl' />
                     }
                 </div>
 
@@ -62,19 +62,28 @@ const Navbar = () => {
             >
                 <ul className='flex flex-col justify-center items-center gap-8 underline-offset-4 p-3'>
                     <li>
-                        <Link to="/home" className=" hover:border-b-2 hover:border-[#C02C2C] transition-all">Home</Link>
+                        <Link to="/" className="border-b-2  border-[#C02C2C] transition-all">Home</Link>
                     </li>
                     <li>
-                            <Link to="/home" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Content</Link>
-                        </li>
-                    <li>
-                        <Link to="/features" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Features</Link>
+                        <Link to="/talent" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Talent</Link>
                     </li>
                     <li>
-                        <Link to="/howitworks" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>How it Works</Link>
+                        <Link to="/casting/calls" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Casting Calls</Link>
                     </li>
                     <li>
-                        <Link to="/contactus" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Contact Us</Link>
+                        <Link to="/categories" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Categories</Link>
+                    </li>
+                    <li>
+                        <Link to="/home" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Content</Link>
+                    </li>
+                    <li>
+                        <Link to="/about" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</Link>
+                    </li>
+                    <li>
+                        <Link to="/download" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Download</Link>
+                    </li>
+                    <li>
+                        <Link to="/contactus" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Contact Us</Link>
                     </li>
                 </ul>
             </div>

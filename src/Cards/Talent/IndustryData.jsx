@@ -73,7 +73,7 @@ const talentData = useContext(IndustryData);
         slidesPerView={1}
         breakpoints={{
           640: {
-            slidesPerView: 2,
+            slidesPerView: 3,
           },
           768: {
             slidesPerView: 2,

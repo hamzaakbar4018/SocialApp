@@ -20,7 +20,7 @@ const Landingpage = () => {
     false,
     false,
     false,
-    false,
+    false,  
     false,
   ]);
 
@@ -32,7 +32,7 @@ const Landingpage = () => {
   return (
     <div className="land md:w-full  ">
       <Navbar className="" />
-      <div className="abe flex-col-reverse flex md:flex md:flex-row pt-10 pl-10 mt-5">
+      <div className="abe flex-col-reverse flex md:flex md:flex-row pt-10 md:pl-10 mt-5">
         <div className="left md:ml-8 md:w-1/2">
           <h1 className="abe text-xl tracking-tight mt-4 text-center md:text-start md:text-4xl lg:text-6xl">
             Connect, Collaborate, Create:
@@ -50,7 +50,7 @@ const Landingpage = () => {
               Get Started
             </button>
           </div>
-          <div className="flex gap-4 mt-44">
+          <div className="flex gap-4 mt-10 md:mt-44">
             <img src={appstore} className="w-[25%] shadow-xl" alt="App Store" />
             <img
               src={playstore}
@@ -82,7 +82,7 @@ const Landingpage = () => {
       </div>
 
       <div className="land3">
-        <div className="m-20 pb-10 md:w-[80%] md:mb-10 md:flex">
+        <div className="md:m-20 m-5 pb-10 md:w-[80%] md:mb-10 md:flex">
           <div className="">
             <h1 className="segoe change text-4xl lg:text-6xl">
               Find The Right Talent
@@ -168,7 +168,7 @@ const Landingpage = () => {
         <div className="m-20 pt-7 text-4xl">
           <h1 className="segoe">FAQ</h1>
         </div>
-        <div className="details border-t flex flex-col border-gray-300 m-20">
+        <div className="details border-t flex flex-col border-gray-300 md:m-20">
           <div
             onClick={() => handleVisible(0)}
             className="one mt-20 border-b border-gray-300 flex w-full"
