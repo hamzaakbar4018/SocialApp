@@ -50,7 +50,7 @@ const Landingpage = () => {
               Get Started
             </button>
           </div>
-          <div className="flex gap-4 mt-10 md:mt-44">
+          <div className="flex justify-center md:justify-start gap-4 mt-10 md:mt-44">
             <img src={appstore} className="w-[25%] shadow-xl" alt="App Store" />
             <img
               src={playstore}
