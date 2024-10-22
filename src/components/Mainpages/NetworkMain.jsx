@@ -4,7 +4,7 @@ import Notifications from '../../assets/Icons SVG/Notifications.svg'
 import Arrow from '../../assets/Icons SVG/Arrow.svg'
 import Rightbar from '../Rightbar';
 import TalentCards from '../../Cards/Talent/TalentCards';
-import Conneections from '../../Cards/Conneections';
+import IndustryPage from '../../Cards/Talent/IndustryPage'
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
@@ -47,7 +47,7 @@ const NetworkMain = () => {
         {
             id: 1,
             userpic: "https://randomuser.me/api/portraits/men/1.jpg",
-            name: "John Doe",
+            name: "Hamza",
             text: "Actor | Model",
             connect: true
 
@@ -55,14 +55,14 @@ const NetworkMain = () => {
         {
             id: 2,
             userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-            name: "Jane Smith",
+            name: "Ali",
             text: "Model | Director",
             connect: true
         },
         {
             id: 3,
             userpic: "https://randomuser.me/api/portraits/men/12.jpg",
-            name: "Michael Johnson",
+            name: "Akbar",
             text: "Actor | Director",
             connect: true
         },
@@ -103,6 +103,48 @@ const NetworkMain = () => {
         },
     ];
     const reqData = [
+        {
+            "image": "https://randomuser.me/api/portraits/men/10.jpg",
+            "username": "Hamza",
+            "description": "1 day ago",
+            network: true
+
+        },
+        {
+            "image": "https://randomuser.me/api/portraits/men/10.jpg",
+            "username": "Req",
+            "description": "1 day ago",
+            network: true
+
+        },
+        {
+            "image": "https://randomuser.me/api/portraits/men/10.jpg",
+            "username": "michael_scott",
+            "description": "1 day ago",
+            network: true
+
+        },
+        {
+            "image": "https://randomuser.me/api/portraits/men/10.jpg",
+            "username": "michael_scott",
+            "description": "1 day ago",
+            network: true
+
+        },
+        {
+            "image": "https://randomuser.me/api/portraits/men/10.jpg",
+            "username": "michael_scott",
+            "description": "1 day ago",
+            network: true
+
+        },
+        {
+            "image": "https://randomuser.me/api/portraits/men/10.jpg",
+            "username": "michael_scott",
+            "description": "1 day ago",
+            network: true
+
+        },
         {
             "image": "https://randomuser.me/api/portraits/men/10.jpg",
             "username": "michael_scott",
@@ -225,16 +267,23 @@ const NetworkMain = () => {
                         <div className=' bg-white md:p-4 p-2'>
                             <h1 className='font-bold'>Requests ({reqData.length})</h1>
                             <div className='flex flex-wrap md:gap-3 gap-2 mt-4'>
-                                {reqData.map((data, index) => (
+                                {/* {reqData.map((data, index) => (
                                     <Conneections key={index} {...data} />
 
-                                ))}
+                                ))} */}
+                                {
+                                    // reqData.map((data, index) => (
+                                        <div className=" bg-white flex-grow-0 space-y-2">
+                                            <IndustryPage network={network}  reqData={reqData} />
+                                        </div>
+                                    // ))
+                                }
                             </div>
                         </div>
                     </div>
                     <div className='md:p-[2px]'>
                         <div className="bg-white md:p-4 p-2">
-                            <h1 className="font-bold">Connections ({talentData.length})</h1>
+                            <h1 className="font-bold">My Connections ({talentData.length})</h1>
                             <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3">
                                 {talentData.map((data, index) => (
                                     <TalentCards key={index} network={network} {...data} />

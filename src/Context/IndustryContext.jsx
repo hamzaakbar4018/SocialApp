@@ -5,7 +5,7 @@ const IndustryContext = ({children  }) => {
         {
             id: 1,
             userpic: "https://randomuser.me/api/portraits/men/1.jpg",
-            name: "John Doe",
+            name: "Nabeel",
             text: "Actor | Model",
         },
         {

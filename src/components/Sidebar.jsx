@@ -117,7 +117,7 @@ const Sidebar = () => {
                                                 style={{ filter: isActive ? activeIconFilter : '' }}
                                                 className='w-6 h-6 mb-1'
                                             />
-                                            Casting
+                                            Casting Calls
                                         </>
                                     )}
                                 </NavLink>
