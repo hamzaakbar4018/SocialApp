@@ -147,7 +147,7 @@ const ChatMain = () => {
           {search && (
             <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
           )}
-          <div className={`flex justify-end gap-2 md:gap-5 items-center w-full z-20`}>
+          <div className={`flex ${search && 'm-3'} justify-end gap-2 md:gap-5 items-center w-full z-20`}>
             <div
               ref={searchRef}
               className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
@@ -199,9 +199,9 @@ const ChatMain = () => {
               popup && (
                 <div className='bg-black bg-opacity-50 inset-0 fixed top-0'>
                   <dialog className="modal" open>
-                    <div className="modal-box p-0">
+                    <div className="bg-white h-screen p-0">
                       <button
-                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                        className="btn btn-sm btn-circle btn-ghost absolute right-4 top-5 border border-gray-300"
                         onClick={handlePopup}
                       >
                         ✕
@@ -209,11 +209,11 @@ const ChatMain = () => {
                       <div className="border-b mb-3 px-6 pt-6 border-gray-400">
                         <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                       </div>
-                      <div className="px-6 flex mb-2 flex-col justify-center gap-2">
+                      <div className="px-6 flex mb-2 flex-col justify-center gap-3">
                         {notifyData.map((data, index) => (
                           <div className="flex items-center gap-2" key={index}>
                             <img
-                              className="w-12 h-12 rounded-full"
+                              className="w-14 h-14 rounded-full"
                               src={data.image}
                               alt="image"
                             />
@@ -241,7 +241,7 @@ const ChatMain = () => {
             } flex`}
           style={{ height: "calc(100dvh - 5.2rem)" }}
         >
-          <div className="left bg-white w-full md:w-[25%] rounded overflow-y-auto border-r">
+          <div className="left bg-white w-full md:w-auto rounded overflow-y-auto border-r">
             {staticChatData.map((data, index) => (
               <AllUsers
                 key={data.id}
@@ -277,7 +277,7 @@ const ChatMain = () => {
 
           <div className={`fixed top-0 z-40 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
             <button
-              className="absolute flex items-center border-b border-gray-400 justify-between gap-2 top-0 left-0 bg-white w-full p-4 text-black"
+              className="absolute flex items-center border-b border-gray-300 justify-between gap-2 top-0 left-0 bg-white w-full p-4 text-black"
               onClick={() => setIsSheetOpen(false)}
             >
               <div className="flex items-center gap-2">

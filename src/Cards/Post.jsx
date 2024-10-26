@@ -182,12 +182,12 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                                 </div>
                             </div>
 
-                            <div className='right md:fixed top-0 right-0 md:w-[40%] h-full overflow-y-auto bg-white p-4'>
-                                <div className='border-b border-gray-400'>
+                            <div className='right md:fixed top-0 right-0 md:w-[40%] h-full overflow-y-auto bg-white md:p-4'>
+                                <div className='md:px-0 md:py-0 px-3 py-2 border-b border-gray-400'>
                                     <h3 className="font-bold p-4 text-lg">Post Comments (14k)</h3>
                                 </div>
-                                <div className='flex flex-col'>
-                                    <div className='flex-1 p-4'>
+                                <div className='flex md:p-0 p-4 flex-col'>
+                                    <div className='flex-1 md:p-2'>
                                         {commentsData.map((data, index) => (
                                             <div key={index} className='mb-4'>
                                                 <div className='flex items-center font-bold gap-2'>

@@ -8,7 +8,7 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-white rounded-t">
-        <div className="flex border-b border-gray-400 p-4 items-center justify-between">
+        <div className="flex border-b border-gray-300 p-4 items-center justify-between">
           <div className="flex  items-center gap-2">
             <img
               src={userImg}
@@ -70,16 +70,16 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
       </div>
 
       {/* Input Section */}
-      <div className="sticky bottom-0 border-gray-400 bg-white p-4 flex items-center gap-2">
-        <div className="bg-gray-100 w-full rounded-3xl">
+      <div className="sticky bottom-0 border-gray-400 bg-white p-4 flex items-center gap-1">
+        <div className="bg-gray-100 w-auto flex-grow rounded-3xl">
           <input
             type="text"
             placeholder="Enter the message"
-            className="p-3 outline-none bg-transparent w-full"
+            className="p-3 outline-none bg-transparent w-auto"
           />
         </div>
         {/* <FaArrowCircleRight className="text-4xl cursor-pointer" /> */}
-        <div className="bg-black rounded-full p-1 flex justify-center items-center cursor-pointer">
+        <div className="bg-black flex-grow-0  rounded-full p-1 flex justify-center items-center cursor-pointer">
               <img src={newArrow} alt="" className="w-10 p-1 h-10" />
         </div>
       </div>

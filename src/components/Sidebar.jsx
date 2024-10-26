@@ -145,15 +145,9 @@ const Sidebar = () => {
                             {/* Account Section */}
                             <div 
                             onClick={() => {
-                                console.log('window width:', window.innerWidth);
-                                if (window.innerWidth < 640) {
-                                    console.log('Setting account to true');
-                                    setAccount(true);
-                                } else {
-                                    console.log('Opening account');
-                                    openAccount();
+                                    openAccount()
                                 }
-                            }}
+                            }
                                 className='flex cursor-pointer justify-between items-center'>
                                 <h2 className='text-gray-500 mx-3'>My Account</h2>
                                 <div className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'}`}>
@@ -289,30 +283,31 @@ const Sidebar = () => {
                 </div>
 
                 {/* Logout */}
-                <div className="p-3 m-3 mx-5 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300">
-                    <div onClick={handleLog} className="flex items-center gap-2">
-                        <CiLogout className="text-2xl font-bold" />
-                        <h1 className="text-lg font-medium">Logout</h1>
-                    </div>
-                    {logout && (
-                        <dialog id="my_modal_3" className="modal text-black" open>
-                            <div className="modal-box">
-                                <form method="dialog">
-                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                                </form>
-                                <h3 className="font-bold text-lg">Logout?</h3>
-                                <p className="py-4">Are you sure you want to log out?</p>
-                                <p className='text-[#9B9B9B]'>Logging out will end your current session and require you to sign in again the next time you access the app.</p>
-                                <div className='flex mt-3 gap-3 justify-end items-center'>
-                                    <button onClick={handleLog} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
-                                    <Link to="/login">
-                                        <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
-                                    </Link>
-                                </div>
-                            </div>
-                        </dialog>
-                    )}
+<div className="p-3 block m-3 mx-5 mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
+    <div onClick={handleLog} className="flex items-center gap-2">
+        <CiLogout className="text-2xl font-bold" />
+        <h1 className="text-lg font-medium">Logout</h1>
+    </div>
+    {logout && (
+        <dialog id="my_modal_3" className="modal text-black" open>
+            <div className="modal-box">
+                <form method="dialog">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <h3 className="font-bold text-lg">Logout?</h3>
+                <p className="py-4">Are you sure you want to log out?</p>
+                <p className='text-[#9B9B9B]'>Logging out will end your current session and require you to sign in again the next time you access the app.</p>
+                <div className='flex mt-3 gap-3 justify-end items-center'>
+                    <button onClick={handleLog} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
+                    <Link to="/login">
+                        <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
+                    </Link>
                 </div>
+            </div>
+        </dialog>
+    )}
+</div>
+
             </div>
         </div>
     );
