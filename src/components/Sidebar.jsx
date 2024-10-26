@@ -39,7 +39,7 @@ const Sidebar = () => {
                     </div>
                 </Link>
 
-                <div className='flex-grow flex flex-col'>
+                <div className='md:flex-grow flex flex-col'>
                     <div className='menu flex-grow justify-between p-3'>
                         <ul className='space-y-3 m-3'>
                             <li>
@@ -283,7 +283,7 @@ const Sidebar = () => {
                 </div>
 
                 {/* Logout */}
-                <div className="p-3 mb-10 block m-3 mx-5 md:mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
+                <div className="p-3 mb-4 block m-3 mx-5 md:mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
                     <div onClick={handleLog} className="flex items-center gap-2">
                         <CiLogout className="text-2xl font-bold" />
                         <h1 className="text-lg font-medium">Logout</h1>
