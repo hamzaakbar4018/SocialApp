@@ -266,7 +266,7 @@ const NetworkMain = () => {
                     <div className='p-[2px]'>
                         <div className=' bg-white md:p-4'>
                             <h1 className='font-bold md:p-0 p-2'>Requests ({reqData.length})</h1>
-                            <div className='flex flex-wrap md:gap-3 gap-2 mt-4'>
+                            <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2 mt-4'>
 
                                 {
                                         <div className=" bg-white flex-grow-0 space-y-2">
@@ -276,7 +276,7 @@ const NetworkMain = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='md:p-[2px]'>
+                    <div className='p-[2px]'>
                         <div className="bg-white md:p-4 p-2">
                             <h1 className="font-bold">My Connections ({talentData.length})</h1>
                             <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3">
