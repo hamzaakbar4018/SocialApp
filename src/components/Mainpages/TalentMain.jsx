@@ -159,11 +159,11 @@ const TalentMain = () => {
                 </div>
                 <div className="p-[2px]">
                     <div className=" bg-white flex-grow-0 py-4 md:p-4 space-y-2">
-                        <h3 className="text-2xl">People in Drama Industry</h3>
+                        <h3 className="text-2xl md:px-0 px-3">People in Drama Industry</h3>
                         <IndustryPage />
                     </div>
                     <div className=" bg-white flex-grow-0  py-4 md:p-4 space-y-2">
-                        <h3 className="text-2xl">Popular Production houses</h3>
+                        <h3 className="text-2xl md:px-0 px-3">Popular Production houses</h3>
                         <ProductionData />
                     </div>
                 </div>

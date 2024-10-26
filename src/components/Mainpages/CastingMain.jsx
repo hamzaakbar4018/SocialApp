@@ -158,44 +158,46 @@ const CastingMain = () => {
 
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
-                    <div className='p-[2px] overflow-x-auto'>
-                        <div className=" bg-gray-100">
-                            <ul className='flex py-6 overflow-x-auto px-4 bg-white gap-4'>
+                    <div className='p-[2px]  overflow-x-auto'>
+                        <div className="bg-gray-100 w-full overflow-x-auto">
+                            <ul className="flex py-6 mb-2 md:mb-0 md:border-b-0 border-b border-gray-300 overflow-x-auto px-4 bg-white gap-4 whitespace-nowrap w-full">
                                 <li>
                                     <NavLink
-                                        to='/casting/calls'
+                                        to="/casting/calls"
                                         className={({ isActive }) =>
                                             `flex gap-2 items-center ${isActive ? 'font-bold text-[#399AF3]' : 'font-normal text-inherit'}`
                                         }
                                     >
-                                        <PiStarFourBold className='text-2xl' />
-                                        <h1 className='text-nowrap'>Casting Calls</h1>
+                                        <PiStarFourBold className="text-2xl" />
+                                        <h1 className="whitespace-nowrap">Casting</h1>
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        to='/casting/applied'
+                                        to="/casting/applied"
                                         className={({ isActive }) =>
                                             `flex gap-2 items-center ${isActive ? 'font-bold text-[#399AF3]' : 'font-normal text-inherit'}`
                                         }
                                     >
-                                        <BsPatchCheck className='text-2xl' />
+                                        <BsPatchCheck className="text-2xl" />
                                         Applied
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        to='/casting/mycalls'
+                                        to="/casting/mycalls"
                                         className={({ isActive }) =>
                                             `flex gap-2 items-center ${isActive ? 'font-bold text-[#399AF3]' : 'font-normal text-inherit'}`
                                         }
                                     >
-                                        <PiStarFourBold className='text-2xl' />
-                                        <h1 className='text-nowrap'>Casting</h1>
+                                        <PiStarFourBold className="text-2xl" />
+                                        <h1 className="whitespace-nowrap">My Casting</h1>
                                     </NavLink>
                                 </li>
                             </ul>
                         </div>
+
+
                         <Outlet />
                     </div>
                 </div>

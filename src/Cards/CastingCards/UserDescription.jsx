@@ -68,7 +68,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
           <div className='flex bg-white justify-end mb-12 md:hidden'>
             {
               applied && (
-                <button className='bg-[#B3FCE2] fixed text-[#008F5C] flex justify-center items-center gap-1 font-bold rounded-3xl px-3 py-2'>
+                <button className='bg-[#B3FCE2] text-sm md:text-base fixed text-[#008F5C] flex justify-center items-center gap-1 font-bold rounded-3xl px-3 py-2'>
                   <BsPatchCheck className='text-xl' />
                   Applied
                   <p>, 2 Days Ago</p>
@@ -77,7 +77,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
             }
           </div>
           <div className='flex justify-between'>
-            <div>
+            <div className=''>
               <h1 className='text-xl font-bold'>{title}</h1>
               <p className='text-gray-400'>Published <span className='text-[#399AF3]'>2 hours ago</span></p>
             </div>
@@ -287,7 +287,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
 
 
                 <div className='bg-white fixed w-full bottom-0 p-3'>
-                  <button onClick={handlecasting} className='bg-[#FFE5E5] w-[380px] 2xl:w-[480px]  text-[#FF0000] flex gap-2   justify-center items-center rounded-3xl px-3 py-2'>
+                  <button onClick={handlecasting} className='bg-[#FFE5E5] md:w-[380px] w-full 2xl:w-[480px]  text-[#FF0000] flex gap-2   justify-center items-center rounded-3xl px-3 py-2'>
                     <FaRegTrashAlt />
                     Delete This Call</button>
                 </div>
@@ -333,7 +333,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
 
       {apply && (
         <div className="modal" open>
-          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] md:w-[40%]">
+          <div className="modal-box flex p-0 flex-col md:h-[80%] h-[70%]  2xl:h-[80%] md:w-[40%]">
             <div className='px-5 pt-6'>
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleApplyClick}>✕</button>
               <h3 className="font-bold text-lg mb-4">Apply to Call</h3>

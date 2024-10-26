@@ -112,7 +112,7 @@ const MyCasting = () => {
       </div>
       {createCast && (
         <div className="modal" open>
-          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] h-auto md:w-[40%]">
+          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] h-[80%] md:h-auto md:w-[40%]">
             <div className='px-5 pt-6'>
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCasting}>✕</button>
               <h3 className="font-bold text-lg mb-4">Create Casting Call</h3>

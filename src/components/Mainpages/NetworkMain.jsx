@@ -264,19 +264,14 @@ const NetworkMain = () => {
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
-                        <div className=' bg-white md:p-4 p-2'>
-                            <h1 className='font-bold'>Requests ({reqData.length})</h1>
+                        <div className=' bg-white md:p-4'>
+                            <h1 className='font-bold md:p-0 p-2'>Requests ({reqData.length})</h1>
                             <div className='flex flex-wrap md:gap-3 gap-2 mt-4'>
-                                {/* {reqData.map((data, index) => (
-                                    <Conneections key={index} {...data} />
 
-                                ))} */}
                                 {
-                                    // reqData.map((data, index) => (
                                         <div className=" bg-white flex-grow-0 space-y-2">
                                             <IndustryPage network={network}  reqData={reqData} />
                                         </div>
-                                    // ))
                                 }
                             </div>
                         </div>

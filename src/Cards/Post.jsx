@@ -5,7 +5,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import UserDummy from './Like';
 // import Comments from './Comments';
-const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage, likesCount, commentCount, shareCount }) => {
+const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage, likesCount, commentCount, shareCount, activity }) => {
     const [likes, setlikes] = useState(false);
     const handleLikes = () => {
         setlikes(!likes)
@@ -79,7 +79,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                             <img src={userimage} className='rounded-full w-12 h-12 ' alt="" />
                             <div className=''>
                                 <h1 className='font-semibold'>{username}</h1>
-                                <h2 className='text-gray-400 text-nowrap'>{lastActiveTime}</h2>
+                                <h2 className={`text-gray-400 text-nowrap ${activity && 'md:text-base text-xs'}`}>{lastActiveTime}</h2>
                             </div>
                         </div>
                     </div>

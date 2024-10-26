@@ -54,14 +54,15 @@ const postData = [
         "shareCount": 15
     }
 ];
+const activity = true;
 const ProfileActivity = () => {
-  return (
-    <div className='flex flex-col gap-2 p-[2px]'>
-        {postData.map((data,index)=>(
-            <Post key={index} {...data}/>
-        ))}
-    </div>
-  )
+    return (
+        <div className='flex flex-col gap-2 p-[2px]'>
+            {postData.map((data, index) => (
+                <Post key={index} activity={activity} {...data} />
+            ))}
+        </div>
+    )
 }
 
 export default ProfileActivity
