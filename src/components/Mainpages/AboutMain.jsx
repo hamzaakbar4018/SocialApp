@@ -155,7 +155,7 @@ const AboutMain = () => {
                     <div className='mt-[2px]'>
                         <div className=' bg-white p-4'>
                             <div>
-                                <h1 className=' font-bold'>About Us</h1>
+                                <h1 className='text-2xl md:text-base font-bold'>About Us</h1>
                                 <div className='mt-3'>
                                     <h2 className='font-bold'>Our Vision</h2>
                                     <p className='text-gray-400 mt-2'>
