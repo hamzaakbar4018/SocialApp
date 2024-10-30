@@ -127,7 +127,7 @@ const TalentMain = () => {
                                             >
                                                 ✕
                                             </button>
-                                            <div className="border-b mb-3 px-6 pt-6 border-gray-400">
+                                            <div className="border-b mb-3 px-6 pt-6 border-gray-300">
                                                 <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                                             </div>
                                             <div className="px-6 flex mb-2 flex-col justify-center gap-3">
@@ -158,12 +158,12 @@ const TalentMain = () => {
 
                 </div>
                 <div className="p-[2px]">
-                    <div className=" bg-white flex-grow-0 py-4 md:p-4 space-y-2">
-                        <h3 className="text-2xl md:px-0 px-3">People in Drama Industry</h3>
-                        <IndustryPage />
+                    <div className=" bg-white pl-1 flex-grow-0 py-4 md:p-4 space-y-2">
+                        <h3 className="text-2xl md:px-0 px-2">People in Drama Industry</h3>
+                        <IndustryPage className=""/>
                     </div>
-                    <div className=" bg-white flex-grow-0  py-4 md:p-4 space-y-2">
-                        <h3 className="text-2xl md:px-0 px-3">Popular Production houses</h3>
+                    <div className=" bg-white flex-grow-0 pl-1 py-4 md:p-4 space-y-2">
+                        <h3 className="text-2xl md:px-0 px-2">Popular Production houses</h3>
                         <ProductionData />
                     </div>
                 </div>

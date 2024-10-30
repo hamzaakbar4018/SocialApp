@@ -190,13 +190,13 @@ const MyCasting = () => {
 
                 <div className='mb-20'></div>
               </div>
-              <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-end gap-3 mt-4'>
-                <div className='bg-[#FFE5E5] text-[#FF0000] px-4 py-2 rounded-3xl'>
+              <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
+                <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center   px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
                   <button onClick={handleCasting}>
                     Cancel
                   </button>
                 </div>
-                <div className='bg-black text-white px-4 py-2 rounded-3xl'>
+                <div className='bg-black  md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
                   <button>
                     Submit
                   </button>

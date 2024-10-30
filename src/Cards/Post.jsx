@@ -4,6 +4,7 @@ import { FaRegComment } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import UserDummy from './Like';
+import MobileComments from './MobileComments';
 // import Comments from './Comments';
 const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage, likesCount, commentCount, shareCount, activity }) => {
     const [likes, setlikes] = useState(false);
@@ -14,6 +15,17 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
     const handleComments = () => {
         setComments(!comments)
     }
+    const [mobileComments, setMobileComments] = useState(false);
+    const handleMobileComments = () => {
+        setMobileComments(!mobileComments)
+    }
+    const handleClick = () => {
+        if (window.innerWidth < 640) {
+            handleMobileComments();
+        } else {
+            handleComments();
+        }
+    };
     const closeLikes = () => {
         setlikes(false);
     }
@@ -102,7 +114,8 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                         <h1>{likesCount}</h1>
                     </div>
                     <div className='flex gap-1'>
-                        <FaRegComment onClick={handleComments} className='text-2xl cursor-pointer text-[#227BCD]' />
+                        <FaRegComment onClick={handleClick}
+                            className='text-2xl cursor-pointer text-[#227BCD]' />
                         <h1>{commentCount}</h1>
                     </div>
                     <div className='flex gap-1'>
@@ -112,7 +125,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                 </div>
             </div>
             {likes && (
-                <div  className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
+                <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                     <div className='z-40'>
                         <dialog id="my_modal_3" className="modal " open>
                             <div className="modal-box p-0">
@@ -130,92 +143,99 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
             )}
             {comments && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
-                <dialog id="my_modal_3" className="modal z-40" open>
-                    <div
-                        className="modal-box h-full 2xl:max-h-[80vh]"
-                        style={{
-                            boxSizing: "border-box",
-                            padding: '0',
-                            maxwidth: '80vw',
-                            maxWidth: '850px',
-                        }}
-                    >
-                        <form method="dialog">
-                            <button onClick={() => setComments(false)} className="btn btn-sm btn-circle z-30 btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
+                    <dialog id="my_modal_3" className="modal z-40" open>
+                        <div
+                            className="modal-box h-full 2xl:max-h-[80vh]"
+                            style={{
+                                boxSizing: "border-box",
+                                padding: '0',
+                                maxwidth: '80vw',
+                                maxWidth: '850px',
+                            }}
+                        >
+                            <form method="dialog">
+                                <button onClick={() => setComments(false)} className="btn btn-sm btn-circle z-30 btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
 
-                        <div className='flex'>
-                            <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
-                                <div className='flex justify-between'>
-                                    <div className='flex p-4 gap-2'>
-                                        <img className='rounded-full w-16 h-16' src={userimage} alt="User Image" />
-                                        <div>
-                                            <h2 className='font-bold text-xl'>{username}</h2>
-                                            <p className='text-gray-400'>{lastActiveTime}</p>
+                            <div className='flex'>
+                                <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
+                                    <div className='flex justify-between'>
+                                        <div className='flex p-4 gap-2'>
+                                            <img className='rounded-full w-16 h-16' src={userimage} alt="User Image" />
+                                            <div>
+                                                <h2 className='font-bold text-xl'>{username}</h2>
+                                                <p className='text-gray-400'>{lastActiveTime}</p>
+                                            </div>
+                                        </div>
+                                        <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
+                                            <HiOutlineDotsVertical className='text-lg' />
                                         </div>
                                     </div>
-                                    <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
-                                        <HiOutlineDotsVertical className='text-lg' />
+                                    <div className='p-3'>
+                                        <h2 className='text-wrap break-words'>{title}</h2>
+                                        <h2 className='font-semibold space-x-3 text-[#227BCD]'>{hashtags}</h2>
                                     </div>
-                                </div>
-                                <div className='p-3'>
-                                    <h2 className='text-wrap break-words'>{title}</h2>
-                                    <h2 className='font-semibold space-x-3 text-[#227BCD]'>{hashtags}</h2>
+
+                                    <div>
+                                        <img src={postimage} className='w-full h-[350px] object-cover' alt="Post Image" />
+                                    </div>
+                                    <div className='p-3 mt-4 items-center flex gap-5'>
+                                        <div className='flex gap-1'>
+                                            <FaRegHeart className='text-2xl cursor-pointer text-[#227BCD]' />
+                                            <h1>{likesCount}</h1>
+                                        </div>
+                                        <div className='flex gap-1'>
+                                            <FaRegComment className='text-2xl cursor-pointer text-[#227BCD]' />
+                                            <h1>{commentCount}</h1>
+                                        </div>
+                                        <div className='flex gap-1'>
+                                            <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
+                                            <h1>{shareCount}</h1>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <img src={postimage} className='w-full h-[350px] object-cover' alt="Post Image" />
-                                </div>
-                                <div className='p-3 mt-4 items-center flex gap-5'>
-                                    <div className='flex gap-1'>
-                                        <FaRegHeart className='text-2xl cursor-pointer text-[#227BCD]' />
-                                        <h1>{likesCount}</h1>
+                                <div className='right md:fixed top-0 right-0 md:w-[40%] h-full overflow-y-auto bg-white md:p-4'>
+                                    <div className='md:px-0 md:py-0 px-3 py-2 border-b border-gray-400'>
+                                        <h3 className="font-bold p-4 text-lg">Post Comments ({commentsData.length})</h3>
                                     </div>
-                                    <div className='flex gap-1'>
-                                        <FaRegComment className='text-2xl cursor-pointer text-[#227BCD]' />
-                                        <h1>{commentCount}</h1>
-                                    </div>
-                                    <div className='flex gap-1'>
-                                        <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
-                                        <h1>{shareCount}</h1>
+                                    <div className='flex md:p-0 p-4 flex-col'>
+                                        <div className='flex-1 md:p-2'>
+                                            {commentsData.map((data, index) => (
+                                                <div key={index} className='mb-4'>
+                                                    <div className='flex items-center font-bold gap-2'>
+                                                        <img src={data.userimage} className='w-10 h-10 rounded-full' alt="" />
+                                                        <h1 className='text-sm'>{data.username}</h1>
+                                                    </div>
+                                                    <div>
+                                                        <p className='bg-[#B7B8B954] py-1 px-2 my-2 rounded-tr-xl rounded-br-xl rounded-bl-xl'>
+                                                            {data.comment}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className='flex gap-2 mb-4 p-2 justify-center items-center'>
+                                            <input className='bg-[#1C1C1C14] w-[70%] p-2 rounded-2xl' type="text" placeholder='Add a comment...' />
+                                            <button className='md:bg-[#A5A5A5] bg-black rounded-3xl p-2 text-white font-bold text-nowrap'>
+                                                Post Now
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className='right md:fixed top-0 right-0 md:w-[40%] h-full overflow-y-auto bg-white md:p-4'>
-                                <div className='md:px-0 md:py-0 px-3 py-2 border-b border-gray-400'>
-                                    <h3 className="font-bold p-4 text-lg">Post Comments (14k)</h3>
-                                </div>
-                                <div className='flex md:p-0 p-4 flex-col'>
-                                    <div className='flex-1 md:p-2'>
-                                        {commentsData.map((data, index) => (
-                                            <div key={index} className='mb-4'>
-                                                <div className='flex items-center font-bold gap-2'>
-                                                    <img src={data.userimage} className='w-10 h-10 rounded-full' alt="" />
-                                                    <h1 className='text-sm'>{data.username}</h1>
-                                                </div>
-                                                <div>
-                                                    <p className='bg-[#B7B8B954] py-1 px-2 my-2 rounded-tr-xl rounded-br-xl rounded-bl-xl'>
-                                                        {data.comment}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className='flex gap-2 mb-4 p-2 justify-center items-center'>
-                                        <input className='bg-[#1C1C1C14] w-[70%] p-2 rounded-2xl' type="text" placeholder='Add a comment...' />
-                                        <button className='bg-[#A5A5A5] rounded-3xl p-2 text-white font-bold text-nowrap'>
-                                            Post Now
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
-                    </div>
-                </dialog>
+                    </dialog>
                 </div>
             )}
+
+
+            {
+                mobileComments && (
+                   <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments}/>
+                )
+            }
 
         </div>
     );

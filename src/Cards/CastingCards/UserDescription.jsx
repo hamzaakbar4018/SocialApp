@@ -16,8 +16,11 @@ import { IoMdArrowBack } from "react-icons/io";
 
 
 
-const UserDescription = ({ applied, cast, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
-
+const UserDescription = ({ applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
+  const locationn = useLocation();
+  const callpage = locationn.pathname === '/casting/calls'
+  const appliedpage = locationn.pathname === '/casting/applied'
+  console.log(callpage)
   const activeStyle = {
     color: '#399AF3',
     filter: 'none',
@@ -52,7 +55,6 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
     setApplicants(!applicants)
   }
   const navigate = useNavigate();
-  const locationn = useLocation();
 
   useEffect(() => {
     if (locationn.pathname === '/casting/mycalls') {
@@ -83,13 +85,13 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
             </div>
             <div className='flex justify-center items-center gap-3'>
               {applied ? (
-                <div className='flex gap-2'>
+                <div className='md:flex hidden gap-2'>
                   <button className='bg-[#B3FCE2] hidden text-[#008F5C] md:flex justify-center items-center gap-1 font-bold rounded-3xl px-3 py-2'>
                     <BsPatchCheck className='text-xl' />
                     Applied
                     <p>, 2 Days Ago</p>
                   </button>
-                  <button className='bg-black sm:fixed bottom-0 text-white rounded-3xl px-3 py-2'>Withdraw</button>
+                  <button className='bg-black bottom-0 text-white rounded-3xl px-3 py-2'>Withdraw</button>
                 </div>
               ) : mycasting ? (
                 <div className='flex gap-2'>
@@ -99,15 +101,43 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                   </button>
                 </div>
               ) : (
-                <button className='bg-black text-white rounded-3xl px-3 py-2' onClick={handleApplyClick}>
+                <button className='bg-black md:block hidden text-white rounded-3xl px-3 py-2' onClick={handleApplyClick}>
                   Apply Now
                 </button>
               )}
-              <div className='flex border border-gray-400 rounded-full w-[37px] h-[37px] p-2 justify-center items-center'>
+              <div className='md:flex hidden border border-gray-400 rounded-full w-[37px] h-[37px] p-2 justify-center items-center'>
                 <HiOutlineDotsVertical className="font-bold text-2xl" />
               </div>
+
+
+
             </div>
           </div>
+          {
+            callpage ? (
+              <div className='flex md:hidden absolute w-full bottom-0 p-4 text-xl left-0  z-40 bg-white gap-2 items-center px-10 justify-between '>
+                <div className='flex w-full'>
+                  <button className='bg-black w-auto flex-grow text-white rounded-3xl px-3 py-3' onClick={handleApplyClick}>
+                    Apply Now
+                  </button>
+                </div>
+
+                <div className='flex border border-gray-400 rounded-full w-[50px] h-[46px] p-2 justify-center items-center'>
+                  <HiOutlineDotsVertical className="font-bold text-2xl" />
+                </div>
+              </div>
+            ) :
+              appliedpage ? (
+                <div className='flex md:hidden absolute w-full bottom-0 p-4 text-xl left-0  z-40 bg-white gap-2 items-center px-10 justify-between'>
+                  <div className='flex w-full gap-2'>
+                    <button className='bg-black w-auto flex-grow sm:fixed bottom-0 text-white rounded-3xl px-3 py-3'>Withdraw</button>
+                  </div>
+                  <div className='flex border border-gray-400 rounded-full w-[50px] h-[46px] p-2 justify-center items-center'>
+                    <HiOutlineDotsVertical className="font-bold text-2xl" />
+                  </div>
+                </div>
+              ) : ('')
+          }
         </div>
         {
           mycasting && (
@@ -203,18 +233,18 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                   <div>
                     <button onClick={seeApplicants} className="btn md:block hidden btn-sm border border-gray-300 btn-circle btn-ghost">✕</button>
                   </div>
-                 
+
                 </div>
                 <div className=' bg-white w-full'>
-                    {
-                      applicants && (
-                        <button onClick={seeApplicants} className="md:hidden absolute top-3 left-0 bg-white w-full p-4 text-black block">
-                      <IoMdArrowBack className='text-2xl mb-1 mt-2' />
+                  {
+                    applicants && (
+                      <button onClick={seeApplicants} className="md:hidden absolute top-3 left-0 bg-white w-full p-4 text-black block">
+                        <IoMdArrowBack className='text-2xl mb-1 mt-2' />
 
-                    </button>
-                      )
-                    }
-                  </div>
+                      </button>
+                    )
+                  }
+                </div>
               </div>
 
 
@@ -363,13 +393,13 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
                   <textarea name="" className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl' placeholder='' id="">Write your note</textarea>
                 </div>
               </div>
-              <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-end gap-3 mt-4'>
-                <div className='bg-[#FFE5E5] text-[#FF0000] px-4 py-2 rounded-3xl'>
+              <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
+                <div className='bg-[#FFE5E5] text-[#FF0000]  md:w-auto w-full md:block flex justify-center   px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
                   <button onClick={handleApplyClick}>
                     Cancel
                   </button>
                 </div>
-                <div className='bg-black text-white px-4 py-2 rounded-3xl'>
+                <div className='bg-black md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
                   <button>
                     Apply
                   </button>
@@ -384,3 +414,7 @@ const UserDescription = ({ applied, cast, img, username, age, day, crew, height,
 };
 
 export default UserDescription;
+
+
+
+

@@ -164,10 +164,10 @@ const Verify = () => {
                                 ✕
                             </button>
                         </form>
-                            <h3 className="font-bold px-4 sm:px-6 pt-4 text-lg">Complete Profile</h3>
-                            <div className="pb-2 border-b border-gray-300">
-                                <h1 className="px-4 sm:px-6 text-sm text-[#399AF3]">Step 1 of 2</h1>
-                            </div>
+                        <h3 className="font-bold px-4 sm:px-6 pt-4 text-lg">Complete Profile</h3>
+                        <div className="pb-2 border-b border-gray-300">
+                            <h1 className="px-4 sm:px-6 text-sm text-[#399AF3]">Step 1 of 2</h1>
+                        </div>
                         <div className='overflow-y-auto h-full pb-2'>
                             <div className="px-4 sm:px-6 py-2">
                                 <h1 className="font-semibold">Choose Category</h1>
@@ -230,10 +230,10 @@ const Verify = () => {
                             <div className='pb-2 border-b border-gray-300'>
                                 <h1 className='px-6 text-sm text-[#399AF3]'>Step 2 of 2</h1>
                             </div>
-                            <div className='px-6 py-2'>
-                                <h1 className='font-semibold'>Upload Your Image</h1>
-                            </div>
                             <div className='px-6 overflow-y-auto max-h-[70%] py-2'>
+                                <div className=' py-2'>
+                                    <h1 className='font-semibold'>Upload Your Image</h1>
+                                </div>
                                 <div>
                                     <FileUpload />
                                 </div>
@@ -268,7 +268,7 @@ const Verify = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className='flex md:mb-0 mb-10 flex-col gap-2 mt-2 '>
+                                <div className='flex md:mb-0 mb-8 flex-col gap-2 mt-2 '>
                                     <label className='font-semibold' htmlFor="">Short Bio</label>
                                     <textarea placeholder='Enter Bio' className='bg-[#1C1C1C14] px-3 py-2 rounded-xl h-32' name="" id=""></textarea>
 

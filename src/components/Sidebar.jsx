@@ -289,22 +289,24 @@ const Sidebar = () => {
                         <h1 className="text-lg font-medium">Logout</h1>
                     </div>
                     {logout && (
-                        <dialog id="my_modal_3" className="modal text-black" open>
-                            <div className="modal-box">
-                                <form method="dialog">
-                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                                </form>
-                                <h3 className="font-bold text-lg">Logout?</h3>
-                                <p className="py-4">Are you sure you want to log out?</p>
-                                <p className='text-[#9B9B9B]'>Logging out will end your current session and require you to sign in again the next time you access the app.</p>
-                                <div className='flex mt-3 gap-3 justify-end items-center'>
-                                    <button onClick={handleLog} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
-                                    <Link to="/login">
-                                        <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
-                                    </Link>
+                        <div className='fixed inset-0 top-0 right-0 bg-black bg-opacity-50'>
+                            <dialog id="my_modal_3" className="modal text-black" open>
+                                <div className="modal-box">
+                                    <form method="dialog">
+                                        <button onClick={handleLog} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                    </form>
+                                    <h3 className="font-bold text-lg">Logout?</h3>
+                                    <p className="py-4">Are you sure you want to log out?</p>
+                                    <p className='text-[#9B9B9B]'>Logging out will end your current session and require you to sign in again the next time you access the app.</p>
+                                    <div className='flex mt-3 gap-3 justify-end items-center'>
+                                        <button onClick={handleLog} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
+                                        <Link to="/login">
+                                            <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
+                                        </Link>
+                                    </div>
                                 </div>
-                            </div>
-                        </dialog>
+                            </dialog>
+                        </div>
                     )}
                 </div>
 

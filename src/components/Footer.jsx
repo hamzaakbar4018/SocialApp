@@ -32,19 +32,19 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div className="signup flex items-center px-3">
-                    <button className='p-3 border rounded-3xl border-gray-600'>Sign Up</button>
+                    <button className='p-3 md:text-base text-xl border rounded-3xl border-gray-600'>Sign Up</button>
                 </div>
             </div>
             <div className='border-t mt-3 w-full border-gray-600'></div>
-            <div className='flex text-gray-400 mt-3 w-full md:gap-0 gap-5 justify-between'>
-                <div className="copy">
-                    <h1 className='md:text-base text-sm'>&copy;YouTooArt - All Rights Reserved</h1>
+            <div className='md:flex md:flex-row flex flex-col-reverse text-gray-400 mt-3 w-full md:gap-0 gap-12 justify-between'>
+                <div className="copy flex md:justify-start justify-center ">
+                    <h1 className='md:text-base text-[17px]'>&copy;YouTooArt - All Rights Reserved</h1>
                 </div>
-                <div className="term">
-                    <h1 className='md:text-base text-sm'>Privacy  .  Terms & Conditions</h1>
+                <div className="term flex md:justify-start justify-center ">
+                    <h1 className='md:text-base text-[17px]'>Privacy  .  Terms & Conditions</h1>
                 </div>
                 <div className="icon text-white">
-                    <ul className='flex md:text-2xl gap-3  md:gap-5'>
+                    <ul className='flex md:text-2xl text-4xl md:justify-start justify-center gap-5  md:gap-5'>
                         <li><FaSquareFacebook/></li>
                         <li><FaSquareInstagram/></li>
                         <li><FiYoutube/></li>

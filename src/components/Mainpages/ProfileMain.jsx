@@ -138,7 +138,7 @@ const ProfileMain = () => {
                                             >
                                                 ✕
                                             </button>
-                                            <div className="border-b mb-3 px-6 pt-6 border-gray-400">
+                                            <div className="border-b mb-3 px-6 pt-6 border-gray-300">
                                                 <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                                             </div>
                                             <div className="px-6 flex mb-2 flex-col justify-center gap-3">

@@ -5,11 +5,14 @@ import AllUsers from "../../Cards/Chat/AllUsers";
 import UsersChat from "../../Cards/Chat/UsersChat";
 import searchi from '../../assets/Icons SVG/Search.svg'
 import Notifications from '../../assets/Icons SVG/Notifications.svg'
+import Edit from '../../assets/Icons SVG/Edit.svg'
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { IoMdArrowBack } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import { useLocation } from "react-router-dom";
+import { LuPencil } from "react-icons/lu";
 const ChatMain = () => {
   const notifyData = useContext(NotificatinData);
   const [popup, setpopup] = useState(false);
@@ -123,6 +126,11 @@ const ChatMain = () => {
     setShowRightbar(!showRightbar);
   };
 
+
+  const location = useLocation();
+  const chatLocation = location.pathname === '/chat'
+  const isSmallScreen = window.innerWidth <= 640;
+
   const handleSearch = () => {
     console.log("Search button clicked");
     setSearch(!search);
@@ -191,9 +199,17 @@ const ChatMain = () => {
                   handleBar();
                 }
               }}
-              className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}
+              className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'} ${chatLocation && isSmallScreen &&'bg-black border-0'}`}
             >
-              <img src={Notifications} alt="Notifications" />
+              {isSmallScreen ? (
+                chatLocation ? (
+                  <LuPencil className="text-white text-xl"/>
+                ) : (
+                  <img src={Notifications} alt="Notifications" />
+                )
+              ) : (
+                <img src={Notifications} alt="Notifications" /> // Default icon for larger screens
+              )}
             </div>
             {
               popup && (
@@ -206,7 +222,7 @@ const ChatMain = () => {
                       >
                         ✕
                       </button>
-                      <div className="border-b mb-3 px-6 pt-6 border-gray-400">
+                      <div className="border-b mb-3 px-6 pt-6 border-gray-300">
                         <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                       </div>
                       <div className="px-6 flex mb-2 flex-col justify-center gap-3">
