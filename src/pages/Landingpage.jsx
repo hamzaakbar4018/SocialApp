@@ -13,6 +13,7 @@ import Footer from "../components/Footer";
 import IndustryData from "../Cards/Talent/IndustryData";
 import "../CSS/Landingpage.css";
 import LandingPagetalent from "../Cards/LandingPagetalent";
+import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
 const Landingpage = () => {
   const landingtalent = true;
   const [visibleSections, setVisibleSections] = useState([
@@ -325,9 +326,12 @@ const Landingpage = () => {
         </div>
       </div>
 
-      <div className="land7 flex flex-col-reverse  md:flex-row md:flex m-3 md:m-20">
+      <div className="land7 flex flex-col-reverse  md:flex-row md:flex md:m-20">
         <div className="left md:w-1/2 ">
-          <img className="md:px-20 w-[481px] h-[600px] object-contain md:w-full" src={land7img} alt="" />
+          <img className="md:px-20 hidden md:block w-[481px] h-[600px] object-contain md:w-full" src={land7img} alt="" />
+          <div className="flex justify-end">
+          <img className="md:hidden  flex  w-[96%]" src={MockupHandR} alt="" />
+          </div>
         </div>
         <div className="right flex justify-center w-full items-center p-3 md:w-1/2">
           <div className="flex flex-col items-center">
@@ -340,9 +344,9 @@ const Landingpage = () => {
               collaborate on the go. Your masterpiece awaits – take the first
               step.
             </p>
-            <div className="flex justify-start w-[60%] gap-4 mt-8">
-              <img src={appstore} className="w-[40%] shadow-xl" alt="" />
-              <img src={playstore} className="w-[40%] shadow-xl" alt="" />
+            <div className="flex justify-center md:mt-0 mt-[242%] md:static w-full absolute md:justify-start md:w-[60%] gap-4">
+              <img src={appstore} className="md:w-[40%] w-[45%] shadow-xl" alt="" />
+              <img src={playstore} className="md:w-[40%] w-[45%] shadow-xl" alt="" />
             </div>
           </div>
         </div>
