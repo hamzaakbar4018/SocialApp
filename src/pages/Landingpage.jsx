@@ -82,17 +82,19 @@ const Landingpage = () => {
       </div>
 
       <div className="land3">
-        <div className="md:m-20 ml-3 pb-10 md:w-[80%] md:mb-10 md:flex">
+        <div className="md:m-20 mx-3 pb-10 md:w-[80%] md:mb-10 md:flex">
           <div className="">
             <h1 className="segoe change text-[45px] text-start lg:text-6xl">
               Find The Right Talent
             </h1>
-            <p className="change mt-10 text-start lg:text-xl">
+            <p className="change mt-5 md:mt-10 text-start lg:text-xl">
               Find the right talent for your new project.
             </p>
           </div>
         </div>
-        <IndustryData landingtalent={landingtalent} />
+        <div className="w-full">
+          <IndustryData landingtalent={landingtalent} />
+        </div>
         <button className="p-3 mb-10 rounded-3xl mt-20 border border-black ml-3 md:text-base text-xl md:ml-20">
           Discover More
         </button>
@@ -110,7 +112,7 @@ const Landingpage = () => {
             </p>
           </div>
         </div>
-        <div className="w-full md:p:0  md:p-10  lg:pl-20 flex justify-center">
+        <div className="w-full">
           <LandingPagetalent landingpage={landingtalent} />
         </div>
         <button className="segoe p-3 mb-10 lg:mb-20 rounded-full md:rounded-3xl mt-[-60px]  border w-40 md:w-36  border-black md:ml-20 ml-3 md:text-base text-xl text-nowrap">

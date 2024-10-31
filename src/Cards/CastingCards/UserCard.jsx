@@ -68,8 +68,8 @@ const UserCard = ({ title, img, type, shoot, budget, description, username, loca
             </div>
             {
                 landingpage && (
-                    <Link to="/casting/calls">
-                        <button className='p-3 rounded-3xl bg-black text-white mt-5'>
+                    <Link to="/casting/calls" className='md:w-auto w-full'>
+                        <button className='p-3 w-full md:w-auto rounded-3xl bg-black text-white mt-5'>
                             Apply Now
                         </button>
                     </Link>

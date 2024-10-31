@@ -4,15 +4,15 @@ const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) =
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-[255px] 
         ${network && 'md:min-w-[255px] h-auto w-auto'} 
-        ${landingtalent && '2xl:min-h-[433px] 2xl:min-w-[356px]'} 
+        ${landingtalent && '2xl:min-h-[433px] md:min-w-auto md:h-auto h-[340px] w-[300px] 2xl:min-w-[356px]'} 
         ${connect && 'w-[222px] tracking-tighter'} 
         min-h-min h-[250px] `}>
         <div className="flex flex-col gap-3 space-y-2 h-full">
           {landingtalent ? (
-            <div className="flex flex-col mt-3 justify-center items-center">
+            <div className="flex md:gap-0 gap-2 flex-col mt-3 justify-center items-center">
               <img
                 src={userpic}
-                className="rounded-full w-16 h-16  2xl:w-40 2xl:h-40"
+                className="rounded-full 2xl:w-40 2xl:h-40"
                 alt="User"
               />
               <h2 className="2xl:mt-8  mt-4 2xl:text-2xl font-bold text-center">{name}</h2>

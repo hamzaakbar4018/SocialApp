@@ -7,7 +7,9 @@
   /* gap: 10px; */
   overflow: hidden;
 }
-
+.mySwiper {
+  margin: 0 !important;
+}
 .swiper-container {
   grid-column: 1 / -1;
 }
@@ -26,4 +28,6 @@
 
 .min-w-min {
   min-width: 228px;
+  padding: 0;  /* Ensures no extra space around the card */
+  margin: 0;   /* Removes additional margin */
 }

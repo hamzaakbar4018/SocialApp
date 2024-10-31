@@ -151,7 +151,7 @@ const LandingPagetalent = ({landingpage}) => {
                     scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log("slide change")}
-                    className={`swiper-container ${landingpage && 'min-w-[300px]'} w-full overflow-hidden`}
+                    className={`swiper-container ${landingpage && 'min-w-[300px] md:pl-[66px]'} w-full overflow-hidden`}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,
