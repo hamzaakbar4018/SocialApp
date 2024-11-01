@@ -42,7 +42,7 @@ const Landingpage = () => {
             <span className="text-[#FC3F3F] ">YouTooArt</span>-Your Artistic
             Marketplace.
           </h1>
-          <p className=" abe 2xl:mt-8 mt-5 md:text-xl text-center md:text-start text-[#252525]">
+          <p className=" abe 2xl:mt-8 mt-5 md:text-xl md:m-0 m-3 text-start text-[#252525]">
             Empowering artists to forge meaningful connections and bring
             creative visions to life.Join the artistic revolution at YouTooArt.
           </p>
@@ -122,7 +122,7 @@ const Landingpage = () => {
       </div>
 
       <div className="land5">
-        <div className="md:m-20 m-3">
+        <div className="md:m-20 md:mt-0 mt-20 m-3">
           <h1 className="segoe change  text-[42px] lg:text-6xl  text-start md:text-4xl">
             How it Works
           </h1>
@@ -159,7 +159,7 @@ const Landingpage = () => {
                 tools. Seamlessly connect with fellow artists, discuss projects
               </p>
 
-              <button className="segoe md:text-base text-xl change p-3 border rounded-full md:rounded-3xl border-black mt-7">
+              <button className="segoe md:mb-0 mb-16  md:text-base text-xl change p-3 border rounded-full md:rounded-3xl border-black mt-7">
                 Get Started
               </button>
             </div>
@@ -168,7 +168,7 @@ const Landingpage = () => {
       </div>
 
       <div className="land6 bg-[#F4F4F4]">
-        <div className="md:m-20 m-3  text-[45px] md:text-4xl pt-7">
+        <div className="md:m-20 m-3 pt-20 text-[45px] md:text-4xl md:pt-7">
           <h1 className="segoe ">FAQ</h1>
         </div>
         <div className="details border-t flex flex-col border-gray-300 md:m-20">
@@ -296,7 +296,7 @@ const Landingpage = () => {
 
           <div
             onClick={() => handleVisible(4)}
-            className="cursor-pointer five mt-7 border-b border-gray-300 flex w-full"
+            className="cursor-pointer md:mb-0 mb-16 five mt-7 border-b border-gray-300 flex w-full"
           >
             <div className=" number md:block hidden number w-[20%]">05</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
@@ -330,12 +330,12 @@ const Landingpage = () => {
         <div className="left md:w-1/2 ">
           <img className="md:px-20 hidden md:block w-[481px] h-[600px] object-contain md:w-full" src={land7img} alt="" />
           <div className="flex justify-end">
-          <img className="md:hidden  flex  w-[96%]" src={MockupHandR} alt="" />
+            <img className="md:hidden  flex  w-[96%]" src={MockupHandR} alt="" />
           </div>
         </div>
         <div className="right flex justify-center w-full items-center p-3 md:w-1/2">
           <div className="flex flex-col items-center">
-            <h1 className="segoe text-[45px] lg:text-6xl text-center md:text-start md:w-[60%]">
+            <h1 className="segoe text-[45px] md:mt-0 mt-20 lg:text-6xl text-center md:text-start md:w-[60%]">
               Download The YouTooArt App
             </h1>
             <p className="change lg:text-xl md:text-start text-center text-wrap md:text-base text-[20px] md:w-[60%] text-gray-500 mt-3">
@@ -354,7 +354,7 @@ const Landingpage = () => {
 
       <div className="land8 bg-[#F4F4F4]">
         <div className="md:mx-20 flex justify-center items-center flex-col ">
-          <img className="md:w-[35%] w-[55%]" src={land8img} alt="" />
+          <img className="md:w-[35%] md:pt-2 pt-10 w-[55%]" src={land8img} alt="" />
           <div className="flex justify-center items-center flex-col mt-8">
             <h1 className=" segoe md:mx-0 mx-3 md:text-4xl  2xl:text-5xl text-[38px] md:w-[70%] text-center">
               Connect with Us – Let's Shape Your YouTooArt Experience.

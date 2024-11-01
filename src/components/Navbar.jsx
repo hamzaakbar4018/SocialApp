@@ -13,7 +13,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 shadow-lg right-0 w-full bg-[#FFFFFF] flex justify-between px-6 py-3">
+            <div className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 shadow-lg right-0 w-full bg-[#FFFFFF] flex justify-between md:px-6 py-3">
                 <div className="logo px-3">
                     <img className='md:w-40 w-36' src={logo} alt="Logo" />
                 </div>
