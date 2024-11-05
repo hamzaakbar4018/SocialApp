@@ -2,7 +2,7 @@ import React from 'react';
 
 const MobileComments = ({ mobileComments, setMobileComments, commentsData }) => {
     return (
-        <div className='fixed md:hidden block z-40 top-0 right-0 bg-black bg-opacity-90'>
+        <div className='fixed inset-0 md:hidden block z-40 top-0 right-0 bg-black bg-opacity-50'>
             <dialog id="my_modal_3" className="modal" open>
                 <div className="modal-box p-0">
                     <form method="dialog" className='sticky px-2 py-2 bg-white top-0 flex justify-between'>
