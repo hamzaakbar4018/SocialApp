@@ -1,17 +1,25 @@
-*{
-    font-family: 'SF Pro Display', sans-serif;
+* {
+  font-family: 'SF Pro Display', sans-serif;
 }
+
+.container {
+  min-width: 100%;
+  overflow-x: hidden;
+}
+
 .swiper-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  /* gap: 10px; */
   overflow: hidden;
 }
+
 .mySwiper {
   margin: 0 !important;
 }
+
 .swiper-container {
   grid-column: 1 / -1;
+  padding: 20px;
 }
 
 .swiper-slide {
@@ -21,6 +29,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .swiper-scrollbar {
   opacity: 0;
   pointer-events: none;
@@ -30,4 +39,36 @@
   min-width: 228px;
   padding: 0;  /* Ensures no extra space around the card */
   margin: 0;   /* Removes additional margin */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000; /* Set color of the arrows */
+  background-color: rgba(255, 255, 255, 0.8); /* Background color */
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%; /* Circular button */
+  display: flex; /* Make buttons flexbox for centering arrow */
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensure the button is on top */
+  cursor: pointer; /* Change cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important; /* Set the size of the arrows */
+}
+
+@media (max-width: 640px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: hidden !important; /* Ensure arrows show up even on small screens */
+  }
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 0.9); /* Change background on hover */
 }
