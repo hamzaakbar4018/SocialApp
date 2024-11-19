@@ -6,7 +6,31 @@ import Arrow from '../../assets/Icons SVG/Arrow.svg'
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import { collection, getDocs } from 'firebase/firestore';
+import {db} from '../../Services/Firebase.jsx'
 const TermMain = () => {
+
+    const [termsData, setTermsData] = useState([]);
+
+    const fetchTerms = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, "termsConditionCollection"));
+            const data = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setTermsData(data);
+            console.log(querySnapshot)
+        } catch (error) {
+            console.error("Error fetching terms and policies: ", error);
+        }
+    };
+    
+    useEffect(() => {
+        fetchTerms();
+    },[])
+
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -47,7 +71,7 @@ const TermMain = () => {
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
-            <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
+                <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
                     <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>Terms & Conditions</h1>
                     {showSidebar && (
                         <dialog id="my_modal_3" className="modal" open>
@@ -154,18 +178,27 @@ const TermMain = () => {
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='mt-[2px]'>
                         <div className='bg-white p-4'>
-                            <div>
-                                <h1 className='text-2xl md:text-base font-bold'>Terms & Conditions</h1>
-                                <div className='mt-3'>
-                                    <h2 className='font-bold'>1.Introduction</h2>
-                                    <p className='text-gray-400 mt-2'>
-                                        At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey.
-                                    </p>
+                            {termsData.length > 0 ? (
+                                <div>
+                                    <h1 className='text-2xl md:text-base font-bold'>Terms & Conditions</h1>
+                                    <h2 className='font-bold mt-3'>1.Introduction</h2>
+                                    <div className='mt-3'>
+                                        {termsData.map((data, index) => (
+                                            <p key={index} className='text-gray-400 mt-2'>
+                                                {/* At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey. */}
+                                                {data.data}
+                                            </p>
+                                        ))}
+
+                                    </div>
 
                                 </div>
-
-                            </div>
-                            <div className='mt-5'>
+                            ) : (
+                                <div>
+                                    <h1>Loading</h1>
+                                </div>
+                            )}
+                            {/* <div className='mt-5'>
                                 <div className='mt-3'>
                                     <h2 className='font-bold'>2.Information We Collect</h2>
                                     <p className='text-gray-400 mt-2'>
@@ -182,7 +215,7 @@ const TermMain = () => {
                                     </p>
 
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                     </div>
