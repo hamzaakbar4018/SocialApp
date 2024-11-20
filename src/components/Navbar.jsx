@@ -64,7 +64,7 @@ const Navbar = () => {
                         <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
                             <Link to="/home" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Content</Link>
                         </li>
-                        <li className='p-2 hover:border-l-2 p-2 hover:border-[#C02C2C]'>
+                        <li className='hover:border-l-2 p-2 hover:border-[#C02C2C]'>
                             <Link to="/about" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>How it Works</Link>
                         </li>
                         <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>

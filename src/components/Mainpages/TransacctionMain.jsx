@@ -7,7 +7,35 @@ import TransacctionCard from '../../Cards/TransacctionCard';
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../Services/Firebase.jsx';
+import Loader from '../Loader/Loader.jsx';
 const TransacctionMain = () => {
+
+    const dummyUserId = "1"; 
+
+    const [transactionData, setTransactionData] = useState([]);
+    const fetchTransactions = async () => {
+        try {
+            const querySnapShot = await getDocs(collection(db, "transactionCollection"))
+            const data = querySnapShot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }))
+            console.log("All Data : " , data);
+            const filteredData = data.filter((transaction) => transaction.userID === dummyUserId);
+            console.log("Filtered Data : " , filteredData);
+            setTransactionData(filteredData);
+        } catch (error) {
+            console.log("Error in fetching transaction", error)
+        }
+    }
+    useEffect(() => {
+        fetchTransactions();
+    }, [])
+
+
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -42,62 +70,62 @@ const TransacctionMain = () => {
         console.log("Search button clicked");
         setSearch(!search);
     };
-    const history = [
-        {
-            approve:true,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:true,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        },
-        {
-            approve:false,
-            date: "Date",
-            price: "500$",
-            title: "6 Months Subscription",
-            id: '#12342',
-            time: '12:00 Am'
-        }
-    ]
+    // const history = [
+    //     {
+    //         approve: true,
+    //         date: "Date",
+    //         price: "500$",
+    //         title: "6 Months Subscription",
+    //         id: '#12342',
+    //         time: '12:00 Am'
+    //     },
+    //     {
+    //         approve: false,
+    //         date: "Date",
+    //         price: "500$",
+    //         title: "6 Months Subscription",
+    //         id: '#12342',
+    //         time: '12:00 Am'
+    //     },
+    //     {
+    //         approve: true,
+    //         date: "Date",
+    //         price: "500$",
+    //         title: "6 Months Subscription",
+    //         id: '#12342',
+    //         time: '12:00 Am'
+    //     },
+    //     {
+    //         approve: false,
+    //         date: "Date",
+    //         price: "500$",
+    //         title: "6 Months Subscription",
+    //         id: '#12342',
+    //         time: '12:00 Am'
+    //     },
+    //     {
+    //         approve: false,
+    //         date: "Date",
+    //         price: "500$",
+    //         title: "6 Months Subscription",
+    //         id: '#12342',
+    //         time: '12:00 Am'
+    //     },
+    //     {
+    //         approve: false,
+    //         date: "Date",
+    //         price: "500$",
+    //         title: "6 Months Subscription",
+    //         id: '#12342',
+    //         time: '12:00 Am'
+    //     }
+    // ]
 
 
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
-            <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
+                <div className='topBar flex px-0 bg-white justify-between items-center border-b py-4'>
                     <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>Transaction History</h1>
                     {showSidebar && (
                         <dialog id="my_modal_3" className="modal" open>
@@ -205,10 +233,15 @@ const TransacctionMain = () => {
                     <div className=''>
                         <div className='bg-gray-100 mt-1'>
                             <div className='flex flex-col gap-1'>
-                            {history.map((data, index) => (
-                                <TransacctionCard key={index} {...data} />
-
-                            ))}
+                                {transactionData.length > 0 ? (
+                                    <div className='flex flex-col gap-1'>
+                                        {transactionData.map((data, index) => (
+                                            <TransacctionCard key={index} {...data} />
+                                        ))}
+                                    </div>
+                                ) : (
+                                        <Loader/>
+                                )}
                             </div>
                         </div>
                     </div>

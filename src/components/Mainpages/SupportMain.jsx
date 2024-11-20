@@ -8,7 +8,38 @@ import land6minus from '../../assets/Icons SVG/up.svg'
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../Services/Firebase.jsx';
+import Loader from '../Loader/Loader.jsx';
+
 const SupportMain = () => {
+
+    const [supportData, setSupportData] = useState([]);
+    const fetchSupport = async () => {
+        try {
+            const querySnapShot = await getDocs(collection(db, "faqCollection"));
+            const data = querySnapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            setSupportData(data);
+            console.log(querySnapShot.docs.data);
+        } catch (error) {
+            console.log("Error in fetching support data ", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchSupport();
+    }, [])
+
+    const [visibleSections, setVisibleSections] = useState({});
+
+    const handleVisible = (index) => {
+        setVisibleSections((prevState) => ({
+            ...prevState,
+            [index]: !prevState[index],
+        }));
+    };
+
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -24,7 +55,7 @@ const SupportMain = () => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setSearch(false); // Close search bar if click is outside
+                setSearch(false);
             }
         };
 
@@ -36,13 +67,7 @@ const SupportMain = () => {
     const handleBar = () => {
         setShowRightbar(!showRightbar);
     };
-    const [visibleSections, setVisibleSections] = useState([false, false, false, false, false, false]);
 
-    const handleVisible = (index) => {
-        setVisibleSections(prevState =>
-            prevState.map((visible, i) => i === index ? !visible : visible)
-        );
-    };
     const handleSearch = () => {
         console.log("Search button clicked");
         setSearch(!search);
@@ -159,89 +184,69 @@ const SupportMain = () => {
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
                         <div className=' bg-white p-4'>
-                            <h1 className='font-bold text-gray-400'>Frequently Asked Questions</h1>
 
 
                             <div className="details flex flex-col">
-                                <div onClick={() => handleVisible(0)} className="one mt-7 border-b border-gray-300 flex w-full">
+                                {supportData.length > 0 ? (
+                                    <div>
+                                        <h1 className="font-bold text-gray-400">
+                                            Frequently Asked Questions
+                                        </h1>
+                                        {supportData.map((data, index) => (
+                                            <div
+                                                onClick={() => handleVisible(index)}
+                                                key={index}
+                                                className="one mt-7 border-b border-gray-300 flex w-full"
+                                            >
+                                                <div className="data w-full">
+                                                    <h1
+                                                        className="changes text-xl mb-4"
 
-                                    <div className="data w-full">
-                                        <h1 className='changes text-xl mb-4'>What is youtooart.com about?</h1>
-                                        {visibleSections[0] && <p className='changes text-sm mb-4 text-gray-500'>
-                                            Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
-                                        </p>}
+                                                    >
+                                                        {data.question}
+                                                    </h1>
+                                                    {visibleSections[index] && (
+                                                        <p className="changes text-sm mb-4 text-gray-500">
+                                                            {data.answer}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className="w-[20%] flex justify-end items-start">
+                                                    {!visibleSections[index] ? (
+                                                        <button
+                                                            onClick={() => handleVisible(index)}
+                                                            className="changes"
+                                                        >
+                                                            <img
+                                                                onClick={() => handleVisible(index)}
+                                                                className="w-5"
+                                                                src={land6plus}
+                                                                style={{
+                                                                    filter: "invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)",
+                                                                }}
+                                                                alt=""
+                                                            />
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => handleVisible(index)}
+                                                            className="changes"
+                                                        >
+                                                            <img
+                                                                onClick={() => handleVisible(index)}
+                                                                className="w-5"
+                                                                src={land6minus}
+                                                                alt=""
+                                                            />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className="w-[20%] flex justify-end items-start">
-                                        {!visibleSections[0] ?
-                                            <button onClick={() => handleVisible(0)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
-                                            <button onClick={() => handleVisible(0)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div onClick={() => handleVisible(1)} className="two mt-7 border-b border-gray-300 flex w-full">
-
-                                    <div className="data w-full">
-                                        <h1 className='changes text-xl mb-4'>How does youtooart.com work?</h1>
-                                        {visibleSections[1] && <p className='changes text-sm mb-4 text-gray-500'>
-                                            Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
-                                        </p>}
-                                    </div>
-                                    <div className="w-[20%] flex justify-end items-start">
-                                        {!visibleSections[1] ?
-                                            <button onClick={() => handleVisible(1)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
-                                            <button onClick={() => handleVisible(1)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div onClick={() => handleVisible(2)} className="three mt-7 border-b border-gray-300 flex w-full">
-
-                                    <div className="data w-full">
-                                        <h1 className='changes text-xl mb-4'>How does youtooart.com help a certain user with a particular interest in some art category?</h1>
-                                        {visibleSections[2] && <p className='changes text-sm mb-4 text-gray-500'>
-                                            Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
-                                        </p>}
-                                    </div>
-                                    <div className="w-[20%] flex justify-end items-start">
-                                        {!visibleSections[2] ?
-                                            <button onClick={() => handleVisible(2)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
-                                            <button onClick={() => handleVisible(2)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div onClick={() => handleVisible(3)} className="four mt-7 border-b border-gray-300 flex w-full">
-
-                                    <div className="data w-full">
-                                        <h1 className='changes text-xl mb-4'>How does youtooart.com help people who are trying to perceive a full-time career in arts?</h1>
-                                        {visibleSections[3] && <p className='changes text-sm mb-4 text-gray-500'>
-                                            Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
-                                        </p>}
-                                    </div>
-                                    <div className="w-[20%] flex justify-end items-start">
-                                        {!visibleSections[3] ?
-                                            <button onClick={() => handleVisible(3)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
-                                            <button onClick={() => handleVisible(3)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div onClick={() => handleVisible(4)} className="five mt-7 border-b border-gray-300 flex w-full">
-
-                                    <div className="data w-full">
-                                        <h1 className='changes text-xl mb-4'>Anything else from Youtooart.com?</h1>
-                                        {visibleSections[4] && <p className='changes text-sm mb-4 text-gray-500'>
-                                            Youtooart.com is an online networking platform that allows people of various artistic interests to communicate, collaborate and come up with their own artworks.
-                                        </p>}
-                                    </div>
-                                    <div className="w-[20%] flex justify-end items-start">
-                                        {!visibleSections[4] ?
-                                            <button onClick={() => handleVisible(4)} className='changes '><img className='w-5' src={land6plus} style={{ filter: 'invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)' }} alt="" /></button> :
-                                            <button onClick={() => handleVisible(4)} className='changes '><img className='w-5' src={land6minus} alt="" /></button>
-                                        }
-                                    </div>
-                                </div>
+                                ) : (
+                                    <Loader/>
+                                )}
                             </div>
                         </div>
                     </div>

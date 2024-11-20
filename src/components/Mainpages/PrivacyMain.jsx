@@ -8,6 +8,7 @@ import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
+import Loader from '../Loader/Loader.jsx';
 const PrivacyMain = () => {
     const [privacyData, setPrivacyData] = useState([])
     const fetchPrivacy = async () => {
@@ -188,7 +189,7 @@ const PrivacyMain = () => {
 
                                 </div>
                             ) : (
-                                <div><h1>Loading</h1></div>
+                                <Loader/>
                             )}
 
                             {/* <div className='mt-5'>

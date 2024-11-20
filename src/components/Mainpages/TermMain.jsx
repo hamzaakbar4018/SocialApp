@@ -8,6 +8,7 @@ import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { collection, getDocs } from 'firebase/firestore';
 import {db} from '../../Services/Firebase.jsx'
+import Loader from '../Loader/Loader.jsx';
 const TermMain = () => {
 
     const [termsData, setTermsData] = useState([]);
@@ -194,9 +195,7 @@ const TermMain = () => {
 
                                 </div>
                             ) : (
-                                <div>
-                                    <h1>Loading</h1>
-                                </div>
+                                <Loader/>
                             )}
                             {/* <div className='mt-5'>
                                 <div className='mt-3'>

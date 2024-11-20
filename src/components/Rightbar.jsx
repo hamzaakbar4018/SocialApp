@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import UserDataCard from "../Cards/UserDataCard";
 import Conneections from "../Cards/Conneections";
 import { NotificatinData } from "../Context/NotificatinContext";
+import { format } from "date-fns";
 
 const Rightbar = () => {
   const notifyData = useContext(NotificatinData);
@@ -62,7 +63,10 @@ const Rightbar = () => {
   const [isNotifyExpanded, setIsNotifyExpanded] = useState(false);
   const [visibleConnCount, setVisibleConnCount] = useState(5);
   const [isConnExpanded, setIsConnExpanded] = useState(false);
-
+  const parseAndFormatDate = (date) => {
+    const parsedDate = date?.toDate ? date.toDate() : new Date(date);
+    return parsedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
   const toggleNotifyShowMore = () => {
     if (isNotifyExpanded) {
       setVisibleNotifyCount(2);
@@ -94,21 +98,23 @@ const Rightbar = () => {
       dialogRef.current.close();
     }
   };
-
+  
   return (
     <div className="bg-white border-l px-3 h-[100vh] overflow-y-auto">
       <div className="py-8 px-2">
         <h1 className="font-semibold">Notifications</h1>
       </div>
       <div className="px-2 flex flex-col gap-3">
-        {notifyData.slice(0, visibleNotifyCount).map((data, index) => (
+        {notifyData.slice(0, visibleNotifyCount).map((data) => (
           <UserDataCard
-            key={index}
-            image={data.image}
-            username={data.username}
-            text={data.text}
-            {...data}
+            key={data.id}
+            fromImage={data.fromImage}
+            fromName={data.fromName}
+            title={data.title}
+            date={data.createdAt}   
+
           />
+          
         ))}
       </div>
       <div className="px-2 bg-[#E6E7E854] flex justify-center items-center py-2 mt-3">
@@ -153,14 +159,16 @@ const Rightbar = () => {
               <div className="flex items-center gap-2" key={index}>
                 <img
                   className="w-12 h-12 rounded-full"
-                  src={data.image}
+                  src={data.fromImage}
                   alt="image"
                 />
                 <div className="flex flex-col justify-center">
                   <h1 className="font-semibold">
-                    {data.username} <span className="font-light">{data.text}</span>
+                    {data.fromName} <span className="font-light">{data.title}</span>
                   </h1>
-                  <p className="text-[#9B9B9B] text-sm">{data.time}</p>
+                  <p className="text-[#9B9B9B] text-sm">
+                    {parseAndFormatDate(data.createdAt)}
+                  </p>
                 </div>
               </div>
             ))}

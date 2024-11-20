@@ -14,6 +14,7 @@ import postpic from '../../assets/Icons SVG/postpic.png';
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import { format } from 'date-fns';
 
 const Main = () => {
     const notifyData = useContext(NotificatinData);
@@ -127,7 +128,7 @@ const Main = () => {
     ]
 
 
-    
+
     const handleSearch = () => {
         console.log("Search button clicked");
         setSearch(!search);
@@ -219,14 +220,16 @@ const Main = () => {
                                                     <div className="flex items-center gap-2" key={index}>
                                                         <img
                                                             className="w-14 h-14 rounded-full"
-                                                            src={data.image}
+                                                            src={data.fromImage}
                                                             alt="image"
                                                         />
                                                         <div className="flex flex-col justify-center">
                                                             <h1 className="font-semibold">
-                                                                {data.username} <span className="font-light">{data.text}</span>
+                                                                {data.fromName} <span className="font-light">{data.title}</span>
                                                             </h1>
-                                                            <p className="text-[#9B9B9B] text-sm">{data.time}</p>
+                                                            <p className="text-[#9B9B9B] text-sm">
+                                                                {data.createdAt ? format(new Date(data.createdAt), 'MMM dd, yyyy, hh:mm a') : 'Date not available'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 ))}
