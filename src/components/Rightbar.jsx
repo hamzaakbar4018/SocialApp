@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import UserDataCard from "../Cards/UserDataCard";
 import Conneections from "../Cards/Conneections";
 import { NotificatinData } from "../Context/NotificatinContext";
+import Loader from '../components/Loader/Loader'
 import { format } from "date-fns";
 
 const Rightbar = () => {
@@ -98,25 +99,31 @@ const Rightbar = () => {
       dialogRef.current.close();
     }
   };
-  
+
   return (
     <div className="bg-white border-l px-3 h-[100vh] overflow-y-auto">
       <div className="py-8 px-2">
         <h1 className="font-semibold">Notifications</h1>
       </div>
-      <div className="px-2 flex flex-col gap-3">
-        {notifyData.slice(0, visibleNotifyCount).map((data) => (
-          <UserDataCard
-            key={data.id}
-            fromImage={data.fromImage}
-            fromName={data.fromName}
-            title={data.title}
-            date={data.createdAt}   
+      {
+        notifyData.length > 0 ? (
+          <div className="px-2 flex flex-col gap-3">
+            {notifyData.slice(0, visibleNotifyCount).map((data) => (
+              <UserDataCard
+                key={data.id}
+                fromImage={data.fromImage}
+                fromName={data.fromName}
+                title={data.title}
+                date={data.createdAt}
 
-          />
-          
-        ))}
-      </div>
+              />
+
+            ))}
+          </div>
+        ) : (
+          <Loader/>
+        )
+      }
       <div className="px-2 bg-[#E6E7E854] flex justify-center items-center py-2 mt-3">
         <button onClick={handlePopup} className="text-blue-500 hover:underline">
           Show All

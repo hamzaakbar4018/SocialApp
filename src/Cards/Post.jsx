@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaRegComment } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import UserDummy from './Like';
 import MobileComments from './MobileComments';
+import { PostData } from '../Context/PostContext';
+import { collection, getDocs } from 'firebase/firestore';
 // import Comments from './Comments';
-const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage, likesCount, commentCount, shareCount, activity }) => {
+const Post = ({ data,image, activity ,userDetails, createdAt ,likesC , shareCount }) => {
+// const Post = ({ postData, activity }) => {
+
+
+    const formattedDate = createdAt?.toDate().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+
     const [likes, setlikes] = useState(false);
     const handleLikes = () => {
         setlikes(!likes)
@@ -84,47 +95,52 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
 
     return (
         <div>
-            <div className="main bg-white ">
-                <div className='flex p-3'>
-                    <div className='flex justify-between'>
-                        <div className='flex gap-2 items-center'>
-                            <img src={userimage} className='rounded-full w-12 h-12 ' alt="" />
-                            <div className=''>
-                                <h1 className='font-semibold'>{username}</h1>
-                                <h2 className={`text-gray-400 text-nowrap ${activity && 'md:text-base text-xs'}`}>{lastActiveTime}</h2>
+
+                    <>
+                        
+                        <div className="main bg-white ">
+                            <div className='flex p-3'>
+                                <div className='flex justify-between'>
+                                    <div className='flex gap-2 items-center'>
+                                        <img src={userDetails?.image} className='rounded-full object-contain min-w-12  h-12 ' alt="" />
+                                        <div className=''>
+                                            <h1 className='font-semibold'>{userDetails?.firstName}</h1>
+                                            <h2 className={`text-gray-400 text-nowrap ${activity && 'md:text-base text-xs'}`}>{formattedDate}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex font-bold text-2xl w-full justify-end'>
+                                    <div className='flex px-3 bg-white cursor-pointer rounded-full justify-center items-center'>
+                                        <HiOutlineDotsVertical className='text-lg' />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='p-3'>
+                                <h2>{data}</h2>
+                                <h2 className='font-semibold space-x-3 text-[#227BCD]'>#Tags</h2>
+                            </div>
+                            <div className='bg-gray-100'>
+                                <img className='object-contain min-w-full max-h-[500px]' src={image} alt=" image" /> 
+                            </div>
+                            <div className='p-3 mt-4 items-center flex gap-5'>
+                                <div className='flex gap-1'>
+                                    <FaRegHeart onClick={handleLikes} className='text-2xl cursor-pointer text-[#227BCD]' />
+                                    <h1>{likesC.length}</h1>
+                                </div>
+                                <div className='flex gap-1'>
+                                    <FaRegComment onClick={handleClick}
+                                        className='text-2xl cursor-pointer text-[#227BCD]' />
+                                    <h1>12</h1>
+                                </div>
+                                <div className='flex gap-1'>
+                                    <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
+                                    <h1>{shareCount}</h1>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className='flex font-bold text-2xl w-full justify-end'>
-                        <div className='flex px-3 bg-white cursor-pointer rounded-full justify-center items-center'>
-                            <HiOutlineDotsVertical className='text-lg' />
-                        </div>
-                    </div>
-                </div>
-                <div className='p-3'>
-                    <h2>{title}</h2>
-                    <h2 className='font-semibold space-x-3 text-[#227BCD]'>{hashtags}</h2>
-                </div>
-                <div>
-                    <img src={postimage} alt="" />
-                </div>
-                <div className='p-3 mt-4 items-center flex gap-5'>
-                    <div className='flex gap-1'>
-                        <FaRegHeart onClick={handleLikes} className='text-2xl cursor-pointer text-[#227BCD]' />
-                        <h1>{likesCount}</h1>
-                    </div>
-                    <div className='flex gap-1'>
-                        <FaRegComment onClick={handleClick}
-                            className='text-2xl cursor-pointer text-[#227BCD]' />
-                        <h1>{commentCount}</h1>
-                    </div>
-                    <div className='flex gap-1'>
-                        <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
-                        <h1>{shareCount}</h1>
-                    </div>
-                </div>
-            </div>
-            {likes && (
+                    </>
+
+            {/* {likes && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                     <div className='z-40'>
                         <dialog id="my_modal_3" className="modal " open>
@@ -235,7 +251,7 @@ const Post = ({ userimage, lastActiveTime, username, title, hashtags, postimage,
                 mobileComments && (
                    <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments}/>
                 )
-            }
+            } */}
 
         </div>
     );
