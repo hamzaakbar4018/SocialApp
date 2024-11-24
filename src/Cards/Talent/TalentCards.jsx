@@ -1,5 +1,6 @@
 import { IoMailOutline } from "react-icons/io5";
-const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) => {
+// const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) => {
+const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, network }) => {
   return (
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-2xl p-5 w-[255px] 
@@ -11,22 +12,27 @@ const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) =
           {landingtalent ? (
             <div className="flex md:gap-0 gap-2 flex-col mt-3 justify-center items-center">
               <img
-                src={userpic}
-                className="rounded-full 2xl:w-40 2xl:h-40"
-                alt="User"
+                src={image} 
+                className="rounded-full w-20 h-20 2xl:w-40 2xl:h-40"
+                alt="User img"
               />
-              <h2 className="2xl:mt-8  mt-4 2xl:text-2xl font-bold text-center">{name}</h2>
-              <p className="text-gray-400 2xl:mt-5 2xl:text-xl text-center">{text}</p>
+              <h2 className="2xl:mt-8  mt-4 2xl:text-2xl font-bold text-center">{firstName}</h2>
+              {
+                categoryName.map((cat,index)=>(
+                  <p key={index} className="text-gray-400 2xl:mt-5 2xl:text-xl text-center">{cat}</p>
+
+                ))
+              }
             </div>
           ) : (
             <div>
               <img
-                src={userpic}
+                src={image}
                 className="rounded-full w-20 h-20"
-                alt="User"
+                alt="User img"
               />
-              <h2 className="mt-2  text-lg font-bold">{name}</h2>
-              <p className="text-gray-400 ">{text}</p>
+              <h2 className="mt-2  text-lg font-bold">{firstName}</h2>
+              <p className="text-gray-400 ">{categoryName}</p>
             </div>
           )}
           <div className="flex justify-between items-center mt-auto">

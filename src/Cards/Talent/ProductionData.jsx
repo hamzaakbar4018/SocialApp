@@ -1,63 +1,19 @@
-import React from 'react';
-import TalentCards from './TalentCards';
+import React from "react";
+import TalentCards from "./TalentCards";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import '../../CSS/Connections.css'
-const ProductionData = () => {
-    const talentData = [
-        {
-            id: 1,
-            userpic: "https://randomuser.me/api/portraits/men/20.jpg",
-            name: "Ethan Hall",
-            text: "Actor | Model",
-        },
-        {
-            id: 2,
-            userpic: "https://randomuser.me/api/portraits/women/21.jpg",
-            name: "Ava Lee",
-            text: "Model | Director",
-        },
-        {
-            id: 3,
-            userpic: "https://randomuser.me/api/portraits/men/22.jpg",
-            name: "Liam Patel",
-            text: "Actor | Director",
-        },
-        {
-            id: 4,
-            userpic: "https://randomuser.me/api/portraits/women/23.jpg",
-            name: "Isabella Garcia",
-            text: "Model",
-        },
-        {
-            id: 5,
-            userpic: "https://randomuser.me/api/portraits/men/24.jpg",
-            name: "Julian Sanchez",
-            text: "Actor",
-        },
-        {
-            id: 6,
-            userpic: "https://randomuser.me/api/portraits/women/25.jpg",
-            name: "Mia Martin",
-            text: "Director",
-        },
-        {
-            id: 7,
-            userpic: "https://randomuser.me/api/portraits/men/26.jpg",
-            name: "Alexander Brooks",
-            text: "Actor | Model | Director",
-        },
-        {
-            id: 8,
-            userpic: "https://randomuser.me/api/portraits/women/27.jpg",
-            name: "Sofia Rodriguez",
-            text: "Model | Actor",
-        },
-    ];
+import '../../CSS/Connections.css';
+
+
+const ProductionData = ({ productionData }) => {
+    if (!productionData || !Array.isArray(productionData)) {
+        console.error("productionData is not a valid array.");
+        return <p>No data available</p>;
+    }
 
     return (
         <div className="container overflow-x-hidden">
@@ -66,8 +22,11 @@ const ProductionData = () => {
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={10}
                     scrollbar={{ draggable: true }}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log("slide change")}
+                    loop={true}
+                    loopFillGroupWithBlank={false}
+                    navigation
+                    onSwiper={(swiper) => console.log("Swiper initialized:", swiper)}
+                    onSlideChange={() => console.log("Slide changed")}
                     className="swiper-container w-full overflow-hidden"
                     breakpoints={{
                         640: {
@@ -84,8 +43,11 @@ const ProductionData = () => {
                         },
                     }}
                 >
-                    {talentData.map((data) => (
-                        <SwiperSlide key={data.id} className="max-w-[17%] min-w-[260px]">
+                    {productionData.map((data) => (
+                        <SwiperSlide
+                            key={data.id}
+                            className="!w-auto max-w-[17%] min-w-[260px]"
+                        >
                             <TalentCards {...data} />
                         </SwiperSlide>
                     ))}

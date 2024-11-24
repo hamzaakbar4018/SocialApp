@@ -12,9 +12,17 @@ import IndustryPage from '../../Cards/Talent/IndustryPage';
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import { IndustryData } from '../../Context/IndustryContext.jsx';
+import Loader from '../Loader/Loader.jsx';
 
 
 const TalentMain = () => {
+    const talentData = useContext(IndustryData);
+    const allusers = useContext(IndustryData);
+    const productionData = allusers.filter(user => user.isProductionHouse === false);
+
+
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -158,13 +166,25 @@ const TalentMain = () => {
 
                 </div>
                 <div className="p-[2px]">
-                    <div className=" bg-white pl-1 flex-grow-0 py-4 md:p-4 space-y-2">
-                        <h3 className="text-2xl md:px-0 px-2">People in Drama Industry</h3>
-                        <IndustryPage className=""/>
+                    <div className=" bg-white pl-1 flex-grow-0 py-4  space-y-2">
+                        <h3 className="text-2xl md:px-0 md:pl-4 px-2">People in Drama Industry</h3>
+                        {
+                            talentData.length > 0 ? (
+                                <IndustryPage className="" />
+                            ) : (
+                                <Loader />
+                            )
+                        }
                     </div>
-                    <div className=" bg-white flex-grow-0 pl-1 py-4 md:p-4 space-y-2">
-                        <h3 className="text-2xl md:px-0 px-2">Popular Production houses</h3>
-                        <ProductionData />
+                    <div className=" bg-white flex-grow-0 pl-1 py-4 space-y-2">
+                        <h3 className="text-2xl md:px-0 md:pl-4 px-2">Popular Production houses</h3>
+                        {
+                            productionData.length > 0 ? (
+                                <ProductionData productionData={productionData}/>
+                            ) : (
+                                <Loader />
+                            )
+                        }
                     </div>
                 </div>
             </div>

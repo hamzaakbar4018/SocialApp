@@ -48,7 +48,7 @@ const PostContext = ({ children }) => {
       const allPostsWithUsers = await Promise.all(fetchUserPromises);
       setPosts(allPostsWithUsers);
 
-      console.log("Posts with User Details:", allPostsWithUsers);
+      // console.log("Posts with User Details:", allPostsWithUsers);
     } catch (error) {
       console.error("Error fetching posts and user details:", error);
     }
