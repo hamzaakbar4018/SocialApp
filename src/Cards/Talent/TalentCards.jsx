@@ -32,7 +32,13 @@ const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, n
                 alt="User img"
               />
               <h2 className="mt-2  text-lg font-bold">{firstName}</h2>
-              <p className="text-gray-400 ">{categoryName}</p>
+              {/* <p className="text-gray-400 text-wrap">{categoryName}</p> */}
+              {
+                categoryName.map((cat,index)=>(
+                  <p key={index} className="text-gray-400 text-wrap">{cat}</p>
+
+                ))
+              }
             </div>
           )}
           <div className="flex justify-between items-center mt-auto">

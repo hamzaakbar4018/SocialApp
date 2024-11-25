@@ -8,7 +8,11 @@ import IndustryPage from '../../Cards/Talent/IndustryPage'
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import { IndustryData } from '../../Context/IndustryContext.jsx';
+import Loader from '../Loader/Loader.jsx';
 const NetworkMain = () => {
+    const talentData = useContext(IndustryData);
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -43,65 +47,65 @@ const NetworkMain = () => {
         console.log("Search button clicked");
         setSearch(!search);
     };
-    const talentData = [
-        {
-            id: 1,
-            userpic: "https://randomuser.me/api/portraits/men/1.jpg",
-            name: "Hamza",
-            text: "Actor | Model",
-            connect: true
+    // const talentData = [
+    //     {
+    //         id: 1,
+    //         userpic: "https://randomuser.me/api/portraits/men/1.jpg",
+    //         name: "Hamza",
+    //         text: "Actor | Model",
+    //         connect: true
 
-        },
-        {
-            id: 2,
-            userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-            name: "Ali",
-            text: "Model | Director",
-            connect: true
-        },
-        {
-            id: 3,
-            userpic: "https://randomuser.me/api/portraits/men/12.jpg",
-            name: "Akbar",
-            text: "Actor | Director",
-            connect: true
-        },
-        {
-            id: 4,
-            userpic: "https://randomuser.me/api/portraits/women/13.jpg",
-            name: "Emily Davis",
-            text: "Model",
-            connect: true
-        },
-        {
-            id: 5,
-            userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-            name: "Chris Brown",
-            text: "Actor",
-            connect: true
-        },
-        {
-            id: 6,
-            userpic: "https://randomuser.me/api/portraits/women/15.jpg",
-            name: "Sophia Wilson",
-            text: "Director",
-            connect: true
-        },
-        {
-            id: 7,
-            userpic: "https://randomuser.me/api/portraits/men/16.jpg",
-            name: "David Miller",
-            text: "Actor | Model | Director",
-            connect: true
-        },
-        {
-            id: 8,
-            userpic: "https://randomuser.me/api/portraits/women/17.jpg",
-            name: "Olivia Taylor",
-            text: "Model | Actor",
-            connect: true
-        },
-    ];
+    //     },
+    //     {
+    //         id: 2,
+    //         userpic: "https://randomuser.me/api/portraits/men/14.jpg",
+    //         name: "Ali",
+    //         text: "Model | Director",
+    //         connect: true
+    //     },
+    //     {
+    //         id: 3,
+    //         userpic: "https://randomuser.me/api/portraits/men/12.jpg",
+    //         name: "Akbar",
+    //         text: "Actor | Director",
+    //         connect: true
+    //     },
+    //     {
+    //         id: 4,
+    //         userpic: "https://randomuser.me/api/portraits/women/13.jpg",
+    //         name: "Emily Davis",
+    //         text: "Model",
+    //         connect: true
+    //     },
+    //     {
+    //         id: 5,
+    //         userpic: "https://randomuser.me/api/portraits/men/14.jpg",
+    //         name: "Chris Brown",
+    //         text: "Actor",
+    //         connect: true
+    //     },
+    //     {
+    //         id: 6,
+    //         userpic: "https://randomuser.me/api/portraits/women/15.jpg",
+    //         name: "Sophia Wilson",
+    //         text: "Director",
+    //         connect: true
+    //     },
+    //     {
+    //         id: 7,
+    //         userpic: "https://randomuser.me/api/portraits/men/16.jpg",
+    //         name: "David Miller",
+    //         text: "Actor | Model | Director",
+    //         connect: true
+    //     },
+    //     {
+    //         id: 8,
+    //         userpic: "https://randomuser.me/api/portraits/women/17.jpg",
+    //         name: "Olivia Taylor",
+    //         text: "Model | Actor",
+    //         connect: true
+    //     },
+    // ];
     const reqData = [
         {
             "image": "https://randomuser.me/api/portraits/men/10.jpg",
@@ -264,12 +268,12 @@ const NetworkMain = () => {
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
-                        <div className=' bg-white md:p-4'>
-                            <h1 className='font-bold md:p-0 p-2'>Requests ({reqData.length})</h1>
+                        <div className=' bg-white '>
+                            <h1 className='font-bold p-2 md:pl-4'>Requests ({reqData.length})</h1>
                             <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2 mt-4'>
 
                                 {
-                                        <div className=" bg-white flex-grow-0 space-y-2">
+                                        <div className="md:pl-1 bg-white flex-grow-0 space-y-2">
                                             <IndustryPage network={network}  reqData={reqData} />
                                         </div>
                                 }
@@ -279,11 +283,21 @@ const NetworkMain = () => {
                     <div className='p-[2px]'>
                         <div className="bg-white md:p-4 p-2">
                             <h1 className="font-bold">My Connections ({talentData.length})</h1>
-                            <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3">
-                                {talentData.map((data, index) => (
-                                    <TalentCards key={index} network={network} {...data} />
-                                ))}
+                            {/* <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3"> */}
+                            {
+                                talentData.length > 0 ? (
+                                    <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid md:grid-cols-3  mt-3">
+                               
+                                    {talentData.map((data, index) => (
+                                        <TalentCards key={index} network={network} {...data} />
+                                    ))}
+                               
                             </div>
+                                ):(
+                                    <Loader/>
+                                )
+                            }
+                           
                         </div>
 
 

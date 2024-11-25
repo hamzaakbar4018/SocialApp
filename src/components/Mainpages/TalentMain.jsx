@@ -19,7 +19,8 @@ import Loader from '../Loader/Loader.jsx';
 const TalentMain = () => {
     const talentData = useContext(IndustryData);
     const allusers = useContext(IndustryData);
-    const productionData = allusers.filter(user => user.isProductionHouse === false);
+    const productionData = allusers.filter(user => user.isProductionHouse === true);
+    // const productionData = allusers.filter(user => user.docID === "1");
 
 
 
