@@ -20,7 +20,7 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
   const locationn = useLocation();
   const callpage = locationn.pathname === '/casting/calls'
   const appliedpage = locationn.pathname === '/casting/applied'
-  console.log(callpage)
+  // console.log(callpage)
   const activeStyle = {
     color: '#399AF3',
     filter: 'none',

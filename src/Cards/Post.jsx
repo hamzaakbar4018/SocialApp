@@ -166,7 +166,7 @@ const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, sh
             )}
 
 
-
+{/*
             {comments && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                     <dialog id="my_modal_3" className="modal z-40" open>
@@ -183,7 +183,6 @@ const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, sh
                                 <button onClick={() => setComments(false)} className="btn btn-sm btn-circle z-30 btn-ghost absolute right-2 top-2">✕</button>
                             </form>
 
-                            {/* Component */}
 
                             <div className='flex'>
                                 <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
@@ -259,7 +258,7 @@ const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, sh
             )}
 
 
-            {/* {
+             {
                 mobileComments && (
                    <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments}/>
                 )
