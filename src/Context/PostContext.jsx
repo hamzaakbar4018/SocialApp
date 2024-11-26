@@ -6,7 +6,6 @@ export const PostData = createContext();
 
 const PostContext = ({ children }) => {
   const [posts, setPosts] = useState([]); // To store posts with user details
-  const [users, setUsers] = useState([]); // To store all user data if needed
 
   const fetchPostsAndUsers = async () => {
     try {
@@ -17,14 +16,13 @@ const PostContext = ({ children }) => {
         ...doc.data(),
       }));
 
-      // Use Promise.all to fetch user details for each post asynchronously
+      // Fetch user details for each post
       const fetchUserPromises = postSnapshot.docs.map(async (postDoc) => {
         const postData = postDoc.data();
         const postWithUser = { ...postData, postID: postDoc.id }; // Add postID to the post object
 
         if (postData.authorID) {
           try {
-            // Fetch the corresponding user using the authorID
             const userRef = doc(db, "userCollection", postData.authorID);
             const userSnap = await getDoc(userRef);
 
@@ -35,7 +33,7 @@ const PostContext = ({ children }) => {
             }
           } catch (error) {
             console.error(`Error fetching user with ID ${postData.authorID}:`, error);
-            postWithUser.userDetails = null; // Handle error gracefully
+            postWithUser.userDetails = null;
           }
         } else {
           postWithUser.userDetails = null; // No authorID in the post
@@ -44,13 +42,39 @@ const PostContext = ({ children }) => {
         return postWithUser; // Return the post with user details
       });
 
-      // Wait for all user details to be fetched and set the combined data
       const allPostsWithUsers = await Promise.all(fetchUserPromises);
       setPosts(allPostsWithUsers);
-
-      // console.log("Posts with User Details:", allPostsWithUsers);
     } catch (error) {
       console.error("Error fetching posts and user details:", error);
+    }
+  };
+
+  const fetchUsersWhoLikedPost = async (likesArray) => {
+    try {
+      if (!likesArray || likesArray.length === 0) {
+        return [];
+      }
+
+      const usersRef = collection(db, "userCollection");
+      const userQuery = await Promise.all(
+        likesArray.map(async (userID) => {
+          const userDoc = doc(usersRef, userID);
+          const userSnapshot = await getDoc(userDoc);
+
+          if (userSnapshot.exists()) {
+            console.log("User found: ", userSnapshot.id, userSnapshot.data());
+            return { id: userSnapshot.id, ...userSnapshot.data() };
+          } else {
+            console.warn(`User with ID ${userID} not found.`);
+            return null;
+          }
+        })
+      );
+
+      return userQuery.filter((user) => user !== null); // Remove null values
+    } catch (error) {
+      console.error("Error fetching users who liked the post:", error);
+      return [];
     }
   };
 
@@ -59,7 +83,7 @@ const PostContext = ({ children }) => {
   }, []);
 
   return (
-    <PostData.Provider value={{ posts, users }}>
+    <PostData.Provider value={{ posts, fetchUsersWhoLikedPost }}>
       {children}
     </PostData.Provider>
   );

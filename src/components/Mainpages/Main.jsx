@@ -21,7 +21,7 @@ import Loader from '../Loader/Loader.jsx';
 const Main = () => {
     const notifyData = useContext(NotificatinData);
     const postData = useContext(PostData) || [];
-    console.log(postData)
+    // console.log(postData)
 
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -277,7 +277,7 @@ const Main = () => {
                                 postData.posts && postData.posts.length > 0 ? (
                                     <div>
                                         {postData.posts.map((data, indx) => (
-                                            <Post {...data} key={indx} likesC = {data.likes} />
+                                            <Post {...data} postId={postData.docs} key={indx} likesC = {data.likes} />
                                         ))}
                                     </div>
                                 ) : (

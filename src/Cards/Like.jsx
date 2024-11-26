@@ -1,52 +1,60 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { PostData } from '../Context/PostContext';
+import Load from '../components/Loader/Load';
 
-const UserDummy = () => {
-    const users = [
-        {
-          userImg: "https://randomuser.me/api/portraits/men/1.jpg", // Random user image URL
-          username: "JohnDoe",
-          text: "Actor | Director | Producer"
-        },
-        {
-          userImg: "https://picsum.photos/150?random=2",
-          username: "JaneSmith",
-          text: "Director | Producer | Screenwriter"
-        },
-        {
-          userImg: "https://picsum.photos/150?random=3",
-          username: "MikeJohnson",
-          text: "Producer | Actor | Screenwriter"
-        },
-        {
-          userImg: "https://picsum.photos/150?random=4",
-          username: "EmilyClark",
-          text: "Actor | Screenwriter | Director"
-        },
-        {
-          userImg: "https://picsum.photos/150?random=5",
-          username: "ChrisBrown",
-          text: "Director | Actor | Producer"
-        },
-        
-      ];
+const UserDummy = ({ postID }) => {
+    const { fetchUsersWhoLikedPost, posts } = useContext(PostData);
+    const [likedUsers, setLikedUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchLikedUsers = async () => {
+            setLoading(true);
+            const post = posts.find((p) => p.postID === postID);
+
+            console.log("Post Likes: ", post?.likes);
+
+            if (post?.likes && post.likes.length > 0) {
+                const users = await fetchUsersWhoLikedPost(post.likes);
+                console.log("Users who liked this post: ", users);
+                setLikedUsers(users);
+            } else {
+                setLikedUsers([]);
+            }
+
+            setLoading(false);
+        };
+
+        fetchLikedUsers();
+    }, [postID, posts, fetchUsersWhoLikedPost]);
+
+    if (loading) {
+        return <p className="text-center"><Load/></p>;
+    }
+
+    if (likedUsers.length === 0) {
+        return <h1 className="text-center">No users liked this post.</h1>;
+    }
 
     return (
-        <div className='px-6'>
-            {
-                users.map((data, index) => (
-                    <div key={index} className='flex mt-4 justify-start items-center mb-4'>
-                        <div className=''>
-                            <img src={data.userImg} alt={data.username} className='w-12 h-12 rounded-full' />
-                        </div>
-                        <div className='flex flex-col ml-4'>
-                            <h2 className='text-lg font-semibold'>{data.username}</h2>
-                            <p className='text-sm text-gray-600'>{data.text}</p>
-                        </div>
+        <div className="px-6">
+            {likedUsers.map((user, index) => (
+                <div key={index} className="flex mt-4 justify-start items-center mb-4">
+                    <div>
+                        <img 
+                            src={user.image} 
+                            alt={user.name || 'User'} 
+                            className="min-w-12 h-12 object-fill rounded-full" 
+                        />
                     </div>
-                ))
-            }
+                    <div className="flex flex-col ml-4">
+                        <h2 className="text-lg font-semibold">{user.firstName}</h2>
+                        <p className="text-sm text-gray-600">{user.bio}</p>
+                    </div>
+                </div>
+            ))}
         </div>
     );
-}
+};
 
 export default UserDummy;
