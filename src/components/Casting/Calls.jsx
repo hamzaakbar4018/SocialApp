@@ -7,101 +7,11 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import Loader from '../Loader/Loader'
 import { query, where } from 'firebase/firestore';
+import useFetchCastingCall from '../../Hooks/useFetchCastingCall';
 
 const Calls = () => {
-  const userdata = [
-    {
-      title: "Short Film",
-      img: land4cardimg,
-      username: "Hamza Akbar",
-      description: "We're looking for talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K",
-      age: "12",
-      height: "5 ft",
-      gender: "Male",
-      shootdays: "30",
-      crew: "1",
-      date: "1,Dec 2023"
-    },
-    {
-      title: "Short Film",
-      img: land4cardimg,
-      username: "Sayam",
-      description: "We're looking for talented actors for our upcoming short film.We're looking for talented actors for our upcoming short film.We're looking for talented actors for our upcoming short film.We're looking for talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K",
-      age: "12",
-      height: "5 ft",
-      gender: "Male",
-      shootdays: "30",
-      crew: "1"
-    }
-  ];
-  const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState([]);
 
-
-
-  const fetchCastingCall = async () => {
-    setIsLoading(true);
-
-    try {
-      // Fetch casting calls
-      const querySnapshot = await getDocs(collection(db, "castingCallCollection"));
-      const calls = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      // Extract author IDs from the casting calls
-      const authorIDs = calls.map(doc => doc.authorID);
-
-      let usersDetails = [];
-      console.log("CHECK IDs",authorIDs)
-      // If there are author IDs, fetch corresponding users
-      if (authorIDs.length > 0) {
-        // Create a query to fetch users whose authorID is in the list of authorIDs
-        const usersQuery = query(
-          collection(db, "userCollection"),
-          where("docID", "in", authorIDs) // Make sure 'authorID' is the field in your user collection
-        );
-
-        // Fetch the user documents
-        const userQuerySnapshot = await getDocs(usersQuery);
-
-        // Extract user details
-        usersDetails = userQuerySnapshot.docs.map(doc => doc.data());
-        console.log(usersDetails)
-      }
-
-      // Combine user details with the corresponding casting call data
-      const combinedData = calls.map(call => {
-        const author = usersDetails.find(user => user.authorID === call.authorID); // Find the corresponding user
-        return {
-          ...call,
-          authorInfo: author || null, // Add author information to the call data
-        };
-      });
-
-      setUserData(combinedData);
-      console.log("ALL DATA", combinedData);
-    } catch (error) {
-      console.error("Error fetching casting calls or user details:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-
-  useEffect(() => {
-    fetchCastingCall();
-  }, [])
-
+  const { isLoading, userData } = useFetchCastingCall();
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const callpage = false;
@@ -111,7 +21,7 @@ const Calls = () => {
     ) : (
       <div className='flex mt-1'>
         {/* Left Section (Card List) */}
-        <div className='left flex bg-white flex-col gap-2 w-full md:w-1/3'>
+        <div className='left overflow-y-auto h-screen flex bg-white flex-col gap-2 w-full md:w-1/3'>
           {
             userData.map((data, index) => (
               <div
@@ -134,16 +44,17 @@ const Calls = () => {
               selectedCardIndex !== null && selectedCardIndex < userData.length && (
                 <UserDescription
                   title={userData[selectedCardIndex].title}
-                  img={userData[selectedCardIndex].img || null}
+                  img={userData[selectedCardIndex].user.image}
                   des={userData[selectedCardIndex].description}
                   budget={userData[selectedCardIndex].budget}
                   age={userData[selectedCardIndex].age}
                   height={userData[selectedCardIndex].height}
                   gender={userData[selectedCardIndex].gender}
                   location={userData[selectedCardIndex].city}
-                  day={userData[selectedCardIndex].shootdays}
+                  day={userData[selectedCardIndex].duration}
                   crew={userData[selectedCardIndex].crew}
-                  username={userData[selectedCardIndex].username || "Anonymous"}
+                  username={userData[selectedCardIndex].user.firstName}
+                  time={userData[selectedCardIndex].createdAt}
                 />
               )
             }
@@ -164,16 +75,18 @@ const Calls = () => {
               selectedCardIndex !== null && selectedCardIndex < userData.length && (
                 <UserDescription
                   title={userData[selectedCardIndex].title}
-                  img={userData[selectedCardIndex].img || null}
+                  img={userData[selectedCardIndex].user.image}
                   des={userData[selectedCardIndex].description}
                   budget={userData[selectedCardIndex].budget}
                   age={userData[selectedCardIndex].age}
                   height={userData[selectedCardIndex].height}
                   gender={userData[selectedCardIndex].gender}
                   location={userData[selectedCardIndex].city}
-                  day={userData[selectedCardIndex].shootdays}
+                  day={userData[selectedCardIndex].duration}
                   crew={userData[selectedCardIndex].crew}
-                  username={userData[selectedCardIndex].username || "Anonymous"}
+                  username={userData[selectedCardIndex].user.firstName}
+                  time={userData[selectedCardIndex].createdAt}
+
                 />
               )
             }

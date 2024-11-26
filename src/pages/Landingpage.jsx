@@ -15,6 +15,7 @@ import "../CSS/Landingpage.css";
 import LandingPagetalent from "../Cards/LandingPagetalent";
 import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
 const Landingpage = () => {
+  
   const landingtalent = true;
   const [visibleSections, setVisibleSections] = useState([
     false,

@@ -16,7 +16,12 @@ import { IoMdArrowBack } from "react-icons/io";
 
 
 
-const UserDescription = ({ applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type }) => {
+const UserDescription = ({ applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type ,time }) => {
+  const formatedTime = time?.toDate().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+});
   const locationn = useLocation();
   const callpage = locationn.pathname === '/casting/calls'
   const appliedpage = locationn.pathname === '/casting/applied'
@@ -81,7 +86,7 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
           <div className='flex justify-between'>
             <div className=''>
               <h1 className='text-xl font-bold'>{title}</h1>
-              <p className='text-gray-400'>Published <span className='text-[#399AF3]'>2 hours ago</span></p>
+              <p className='text-gray-400'>Published <span className='text-[#399AF3]'>{formatedTime}</span></p>
             </div>
             <div className='flex justify-center items-center gap-3'>
               {applied ? (
@@ -159,7 +164,9 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
         {/* User Details */}
         <div className='bg-white overflow-y-auto rounded mt-1'>
           <div className='flex p-4 bg-[#E6E7E854] gap-2'>
-            <img src={img} className='w-12 h-12 rounded-full' alt={`${username}'s profile`} />
+            <div className='flex-shrink-0'>
+            <img src={img} className='w-12 h-12 rounded-full object-cover' alt={`${username}'s profile`} />
+            </div>
             <div>
               <h2 className='text-gray-400'>Posted by</h2>
               <h1 className='text-xl font-bold'>{username}</h1>
@@ -167,11 +174,11 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
           </div>
           <div className='mt-2 p-4 border-b border-gray-200 pb-2'>
             <h2 className='text-gray-400'>Description</h2>
-            <p>{des}</p>
+            <p>{des ? des : "N/A"}</p>
           </div>
           <div className='mt-2 p-4 border-b border-gray-200 pb-2'>
             <h2 className='text-gray-400'>Location</h2>
-            <p>{location}</p>
+            <p>{location ? location : "N/A"}</p>
           </div>
 
           {/* Shoot Details */}
@@ -180,15 +187,15 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
             <div className='md:flex md:flex-row md:gap-0 flex flex-col gap-4 justify-between border-b border-gray-200 pb-2'>
               <div>
                 <h2 className='text-gray-400'>Crew</h2>
-                <p>{crew}</p>
+                <p>{crew ? crew : "N/A"}</p>
               </div>
               <div className='md:px-4'>
                 <h2 className='text-gray-400'>Duration</h2>
-                <p>{day} Days shoot</p>
+                <p>{day ? day : "N/A"} Days</p>
               </div>
               <div className='md:px-4'>
                 <h2 className='text-gray-400'>Budget</h2>
-                <p>{budget}</p>
+                <p>{budget ? budget : "N/A"}</p>
               </div>
             </div>
           </div>
@@ -199,15 +206,15 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
             <div className='md:flex md:flex-row md:gap-0 flex flex-col gap-4 justify-between border-b border-gray-200 pb-2'>
               <div>
                 <h2 className='text-gray-400'>Age</h2>
-                <p>{age}</p>
+                <p>{age ? age : "N/A"}</p>
               </div>
               <div className='md:px-4'>
                 <h2 className='text-gray-400'>Height</h2>
-                <p>{height}</p>
+                <p>{height ? height : "N/A"}</p>
               </div>
               <div className='md:px-4'>
                 <h2 className='text-gray-400'>Gender</h2>
-                <p>{gender}</p>
+                <p>{gender ? gender : "N/A"}</p>
               </div>
             </div>
           </div>

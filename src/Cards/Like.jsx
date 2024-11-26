@@ -29,7 +29,7 @@ const UserDummy = ({ postID }) => {
     }, [postID, posts, fetchUsersWhoLikedPost]);
 
     if (loading) {
-        return <p className="text-center"><Load/></p>;
+        return <p className="text-center h-32 flex justify-center items-center"><Load/></p>;
     }
 
     if (likedUsers.length === 0) {

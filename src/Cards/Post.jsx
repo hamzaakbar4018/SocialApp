@@ -8,7 +8,7 @@ import MobileComments from './MobileComments';
 import { PostData } from '../Context/PostContext';
 import { collection, getDocs } from 'firebase/firestore';
 // import Comments from './Comments';
-const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, shareCount }) => {
+const Post = ({ postID, data, image, activity, userDetails, createdAt, likesC, shareCount }) => {
     // const Post = ({ postData, activity }) => {
 
 
@@ -102,7 +102,9 @@ const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, sh
                     <div className='flex p-3'>
                         <div className='flex justify-between'>
                             <div className='flex gap-2 items-center'>
-                                <img src={userDetails?.image} className='rounded-full min-w-12  h-12 ' alt="" />
+                                <div className='flex-shrink-0'>
+                                    <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover' alt="" />
+                                </div>
                                 <div className=''>
                                     <h1 className='font-semibold'>{userDetails?.firstName}</h1>
                                     <h2 className={`text-gray-400 text-nowrap ${activity && 'md:text-base text-xs'}`}>{formattedDate}</h2>
@@ -158,7 +160,7 @@ const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, sh
                                 <div className='border-b px-6 pt-6 border-gray-300'>
                                     <h3 className="font-bold mb-4 text-lg">Post Likes({likesC.length})</h3>
                                 </div>
-                                <UserDummy postID={postID}/>
+                                <UserDummy postID={postID} />
                             </div>
                         </dialog>
                     </div>
@@ -166,7 +168,7 @@ const Post = ({postID, data, image, activity, userDetails, createdAt, likesC, sh
             )}
 
 
-{/*
+            {/*
             {comments && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                     <dialog id="my_modal_3" className="modal z-40" open>
