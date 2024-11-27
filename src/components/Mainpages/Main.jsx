@@ -17,11 +17,132 @@ import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { format } from 'date-fns';
 import { PostData } from '../../Context/PostContext.jsx';
 import Loader from '../Loader/Loader.jsx';
-
+import { app, db } from '../../Services/Firebase.jsx'
+import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage';
+import { ref } from 'firebase/storage';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 const Main = () => {
+
+    const dummyID = "1";
+    const [author, setAuthor] = useState('');
+
+    const fetchAuthor = async () => {
+        try {
+            const userQuery = query(
+                collection(db, "userCollection"),
+                where("docID", "==", dummyID)
+            );
+            const querySnapShot = await getDocs(userQuery);
+            const data = querySnapShot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setAuthor(data);
+            console.log("Author", data)
+        } catch (error) {
+            console.log("Author Error", error);
+        }
+    }
+    useEffect(() => {
+        fetchAuthor();
+        // deletePostsByUser();
+    }, [])
+
+    const postRef = useRef();
+
+    const handlePostRef = () => {
+        postRef.current.click();
+    }
+    const [uploading, setUploading] = useState(false);
+    const [PostImage, setPostImage] = useState(null);
+    const handleImageChange = async (e) => {
+        const image = e.target.files[0];
+        if (image) {
+            try {
+                setUploading(true);
+                const storage = getStorage(app);
+                const storageRef = ref(storage, `YooTooArt/userModule/${image.name}`);
+                await uploadBytes(storageRef, image);
+                const downloadedURL = await getDownloadURL(storageRef);
+                setPostImage(downloadedURL);
+                console.log(PostImage)
+            } catch (error) {
+                console.error("Error while uploading image to Firestore:", error);
+            } finally {
+                setUploading(false);
+            }
+        }
+    };
+
+    const [thoughts, setThoughts] = useState('');
+    const handlePosts = async (authorID) => {
+        try {
+            console.log("Attempting to create post with authorID:", authorID); // Log for debugging
+            
+            // Ensure postData contains the necessary fields
+            if (!authorID || !thoughts) {
+                console.error("Missing Data:");
+                return;
+            }
+    
+            // Create a reference to the posts collection
+            const postsCollectionRef = collection(db, 'postCollection');
+            
+            // Prepare the new post object
+            const newPost = {
+                authorID: authorID,
+                createdAt: new Date(), // Timestamp for when the post was created
+                data: thoughts, // The content of the post
+                image: PostImage || "", // Image URL, default to empty string if not available
+                isDisabled: postData.isDisabled || false, // Post status (enabled/disabled)
+                tags: postData.tags || [], // Tags related to the post
+                likes: postData.likes || [], // Array to store likes
+                shareCount: postData.shareCount || 0, // Share count
+            };
+    
+            // Save the new post to Firestore
+            const docRef = await addDoc(postsCollectionRef, newPost);
+            console.log('Post created successfully with ID: ', docRef.id);
+            console.log(newPost);
+        } catch (error) {
+            console.error('Error creating post: ', error); // Log any errors
+        }
+    };
+
+
+// const deletePostsByUser = async () => {
+//     const userID = "1"; // User ID for which posts need to be deleted
+
+//     try {
+//         // Query the posts collection where the authorID is equal to userID
+//         const postsQuery = query(
+//             collection(db, 'postCollection'),
+//             where('authorID', '==', userID)
+//         );
+
+//         // Get the posts that match the query
+//         const querySnapshot = await getDocs(postsQuery);
+
+//         if (!querySnapshot.empty) {
+//             // Loop through the posts and delete each one
+//             querySnapshot.forEach(async (docSnapshot) => {
+//                 const postRef = doc(db, 'postCollection', docSnapshot.id);
+//                 await deleteDoc(postRef);
+//                 console.log(`Post with ID: ${docSnapshot.id} deleted successfully.`);
+//             });
+//         } else {
+//             console.log("No posts found for the specified user.");
+//         }
+//     } catch (error) {
+//         console.error("Error deleting posts: ", error);
+//     }
+// };
+
+    
+
+
     const notifyData = useContext(NotificatinData);
     const postData = useContext(PostData) || [];
-    // console.log(postData)
 
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -70,59 +191,6 @@ const Main = () => {
         }
     ];
 
-    // const postData = [
-    //     {
-    //         userimage: "https://randomuser.me/api/portraits/men/1.jpg",
-    //         lastActiveTime: "2024-08-20T14:30:00Z",
-    //         username: "Hamza",
-    //         title: "Hi Guys! Something interesting is on it’s way! 3 Days to Go.",
-    //         hashtags: ["#travel", " #adventure"],
-    //         postimage: postpic,
-    //         likesCount: 120,
-    //         commentCount: 35,
-    //         shareCount: 22
-    //     },
-    //     {
-    //         "userimage": "https://randomuser.me/api/portraits/women/2.jpg",
-    //         "lastActiveTime": "2024-08-19T09:15:00Z",
-    //         "username": "jane_smith",
-    //         "hashtags": ["#foodie", "#recipe"],
-    //         "postimage": postpic,
-    //         "likesCount": 98,
-    //         "commentCount": 42,
-    //         "shareCount": 18
-    //     },
-    //     {
-    //         "userimage": "https://randomuser.me/api/portraits/men/3.jpg",
-    //         "lastActiveTime": "2024-08-18T11:45:00Z",
-    //         "username": "mark_twain",
-    //         "hashtags": ["#fitness", "#health"],
-    //         "postimage": postpic,
-    //         "likesCount": 150,
-    //         "commentCount": 50,
-    //         "shareCount": 30
-    //     },
-    //     {
-    //         "userimage": "https://randomuser.me/api/portraits/women/4.jpg",
-    //         "lastActiveTime": "2024-08-17T16:00:00Z",
-    //         "username": "emily_rose",
-    //         "hashtags": ["#fashion", "#style"],
-    //         "postimage": postpic,
-    //         "likesCount": 200,
-    //         "commentCount": 60,
-    //         "shareCount": 40
-    //     },
-    //     {
-    //         "userimage": "https://randomuser.me/api/portraits/men/5.jpg",
-    //         "lastActiveTime": "2024-08-16T08:30:00Z",
-    //         "username": "alexander_hamilton",
-    //         "hashtags": ["#tech", "#innovation"],
-    //         "postimage": postpic,
-    //         "likesCount": 85,
-    //         "commentCount": 20,
-    //         "shareCount": 15
-    //     }
-    // ];
 
     const postingData = [
         {
@@ -144,7 +212,7 @@ const Main = () => {
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
                 <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
-                    <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span> Hi Ali!</h1>
+                    <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>{author && author[0] && author[0].firstName ? `Hi ${author[0].firstName}!` : "Hi there!"}</h1>
                     {showSidebar && (
                         <dialog id="my_modal_3" className="modal" open>
                             <div className="w-full h-full ">
@@ -255,7 +323,11 @@ const Main = () => {
                             {admin.map((data, index) => (
                                 <div key={index}>
                                     <div className='flex gap-4 items-center'>
-                                        <img src={data.image} className='rounded-full w-12 h-12' alt={data.username} />
+                                        <img
+                                            src={author && author[0] ? author[0].image : ''}
+                                            className="rounded-full w-12 h-12"
+                                            alt={author && author[0] ? author[0].firstName : 'User'} // You can use firstName or a default name
+                                        />
                                         <p className='text-[#808080]'>Have You Something to Share?</p>
                                     </div>
                                     <div className='flex items-center mt-5 gap-5 p-2'>
@@ -277,11 +349,11 @@ const Main = () => {
                                 postData.posts && postData.posts.length > 0 ? (
                                     <div>
                                         {postData.posts.map((data, indx) => (
-                                            <Post {...data} postId={postData.docs} key={indx} likesC = {data.likes} />
+                                            <Post {...data} postId={postData.docs} key={indx} likesC={data.likes} />
                                         ))}
                                     </div>
                                 ) : (
-                                    <Loader/>
+                                    <Loader />
                                 )
                             }
                         </div>
@@ -298,52 +370,69 @@ const Main = () => {
                     <Rightbar />
                 </div>
             )}
+
+
+
             {postModel && (
-                <div className='fixed inset-0 bg-black z-40 bg-opacity-65 flex justify-center items-center'>
-
-
-                    <dialog id="my_modal_3" className="modal z-90" open>
+                <div className="fixed inset-0 bg-black bg-opacity-65 z-40 flex justify-center items-center">
+                    <dialog id="my_modal_3" className="modal z-90 " open>
                         <div className="modal-box">
                             <form method="dialog">
-                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handlePostModel}>✕</button>
+                                <button
+                                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                    onClick={handlePostModel}
+                                >
+                                    ✕
+                                </button>
                             </form>
                             <div>
-                                <div className=''>
-                                    {postingData.map((data, index) => (
-                                        <div>
-                                            <div className="content flex gap-2">
-                                                <div key={index}>
-                                                    <img src={data.userimage} className='rounded-full w-12' alt="" />
-                                                </div>
-                                                <div className='items-center'>
-                                                    <h1 className='font-semibold'>{data.username}</h1>
-                                                    <h1 className='text-gray-400'>{data.title}</h1>
-                                                </div>
-                                            </div>
-                                            <div className='mt-5 h-48'>
-                                                <h1 className='text-gray-400'>Write your thoughts here...</h1>
-                                            </div>
-                                            <div className='flex flex-wrap md:flex-row gap-3'>
-                                                <div className='flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-1'>
-                                                    <img className='w-5' src={photoadmin} alt="" />
-                                                    <button>
-                                                        Photo
-                                                    </button>
-                                                </div>
-                                                <div className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl gap-1'>
-                                                    <img className='w-5' src={tag} alt="" />
-                                                    <button className='text-nowrap'>
-                                                        Tag People
-                                                    </button>
-                                                </div>
-                                                <div onClick={handleTagPeople} className='flex-grow flex md:justify-end w-full md:w-auto'>
-                                                    <button className='p-3 rounded-3xl bg-black text-white w-full md:w-auto'>Post Now</button>
-                                                </div>
+                                {postingData.map((data, index) => (
+                                    <div key={index}>
+                                        <div className="content flex gap-2">
+                                            <img
+                                                src={author && author[0] ? author[0].image : ''}
+                                                className="rounded-full w-12 h-12"
+                                                alt={author && author[0] ? author[0].firstName : 'User'}
+                                            />
+                                            <div className="items-center">
+                                                <h1 className="font-semibold">{author && author[0] ? author[0].firstName : 'Anonymous'}</h1>
+                                                <h1 className="text-gray-400">Creating Post</h1>
                                             </div>
                                         </div>
-
-                                    ))}
-                                </div>
+                                        <div className={`mt-5 ${!PostImage && 'h-20'}`}>
+                                            <input onChange={(e) => { setThoughts(e.target.value) }} type='text' placeholder='Write your thoughts here...' className="text-gray-400 outline-none w-full text-wrap" />
+                                            {PostImage && (
+                                                <div className='mt-3 flex-shrink-0'>
+                                                    <img src={PostImage} alt="Post" className="w-full object-contain" />
+                                                </div>
+                                            )
+                                            }
+                                            <input
+                                                type="file"
+                                                className="hidden"
+                                                onChange={handleImageChange}
+                                                ref={postRef}
+                                            />
+                                        </div>
+                                        <div className="flex mt-4 flex-wrap md:flex-row gap-3">
+                                            <div className="flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-1">
+                                                <img className="w-5" src={photoadmin} alt="Photo Icon" />
+                                                <button disabled={uploading} onClick={handlePostRef}>
+                                                    {uploading ? "Uploading..." : "Photo"}
+                                                </button>
+                                            </div>
+                                            <div className="flex bg-[#FF602E1A] px-3 py-2 rounded-3xl gap-1">
+                                                <img className="w-5" src={tag} alt="Tag Icon" />
+                                                <button>Tag People</button>
+                                            </div>
+                                            <div className="flex-grow flex md:justify-end">
+                                                <button onClick={handlePosts(dummyID)} className="p-3 rounded-3xl bg-black text-white w-full md:w-auto">
+                                                    Post Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </dialog>
