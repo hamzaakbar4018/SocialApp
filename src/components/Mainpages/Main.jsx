@@ -104,6 +104,7 @@ const Main = () => {
             const docRef = await addDoc(postsCollectionRef, newPost);
             console.log('Post created successfully with ID: ', docRef.id);
             console.log(newPost);
+            setPostModel(false);
         } catch (error) {
             console.error('Error creating post: ', error); // Log any errors
         }
@@ -426,7 +427,7 @@ const Main = () => {
                                                 <button>Tag People</button>
                                             </div>
                                             <div className="flex-grow flex md:justify-end">
-                                                <button onClick={handlePosts(dummyID)} className="p-3 rounded-3xl bg-black text-white w-full md:w-auto">
+                                            <button onClick={() => handlePosts(dummyID)} className="p-3 rounded-3xl bg-black text-white w-full md:w-auto">
                                                     Post Now
                                                 </button>
                                             </div>
