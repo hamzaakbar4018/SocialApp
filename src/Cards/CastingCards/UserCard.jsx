@@ -25,7 +25,7 @@ const UserCard = ({ title, img, type, duration, budget, description, username, c
                     {!mycasting && (
                         <div className="flex-shrink-0">
                             <img
-                                src={user.image}
+                                src={img}
                                 className="w-12 h-12 rounded-full object-cover"
                                 alt=""
                             />

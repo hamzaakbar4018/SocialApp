@@ -377,11 +377,11 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
             </div>
             <div className="flex-grow overflow-auto">
               <UserCard
-                title={userdata.title}
-                img={userdata.img}
-                type={userdata.type}
-                budget={userdata.budget}
-                username={userdata.username}
+                title={title}
+                img={img}
+                type={type}
+                budget={budget}
+                username={username}
                 apply={apply}
 
               />

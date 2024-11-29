@@ -17,8 +17,7 @@ const PostContext = ({ children }) => {
       // }));
       const postsQuery = query(
         collection(db, "postCollection"), 
-        orderBy("createdAt", "desc"), // Assumes you have a createdAt timestamp field
-        limit(10) // Optional: limits to the 10 most recent posts
+        orderBy("createdAt", "desc")
       );
       
       const postSnapshot = await getDocs(postsQuery);
