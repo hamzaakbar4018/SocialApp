@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
-import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
 import { IoMdArrowBack } from "react-icons/io";
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../Services/Firebase';
 import Loader from '../Loader/Loader'
-import { query, where } from 'firebase/firestore';
 import useFetchCastingCall from '../../Hooks/useFetchCastingCall';
 
 const Calls = () => {

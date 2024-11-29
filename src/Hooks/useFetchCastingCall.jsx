@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../Services/Firebase';
 const useFetchCastingCall = () => {
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [appliedUserData, setAppliedUserData] = useState([]);
 
   const fetchCastingCall = async () => {
     setIsLoading(true);
@@ -14,6 +15,34 @@ const useFetchCastingCall = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
+      // Fetch applied users details
+      const allAppliedUserIds = calls.flatMap(call => call.appliedUsers || []);
+
+      let appliedUsersDetails = [];
+      if (allAppliedUserIds.length > 0) {
+        const appliedUsersQuery = query(
+          collection(db, "userCollection"),
+          where("docID", "in", allAppliedUserIds)
+        );
+
+        const appliedUsersSnapshot = await getDocs(appliedUsersQuery);
+        appliedUsersDetails = appliedUsersSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+      }
+
+      // Combine casting calls with applied users details
+      const callsWithAppliedUsers = calls.map(call => ({
+        ...call,
+        appliedUsersDetails: appliedUsersDetails.filter(user =>
+          call.appliedUsers?.includes(user.docID)
+        )
+      }));
+      console.log(callsWithAppliedUsers)
+      setAppliedUserData(callsWithAppliedUsers);
+
 
       const authorIDs = calls.map(doc => doc.authorID);
       let usersDetails = [];
@@ -41,7 +70,7 @@ const useFetchCastingCall = () => {
       });
 
       setUserData(callsWithUserData);
-      console.log("All data", callsWithUserData);
+      // console.log("All data", callsWithUserData);
     } catch (error) {
       console.error("Error fetching casting calls or user details:", error);
     } finally {
@@ -55,7 +84,7 @@ const useFetchCastingCall = () => {
     fetchCastingCall();
   }, [])
 
-  return { isLoading,userData }
+  return { isLoading, userData,appliedUserData   };
 }
 
 export default useFetchCastingCall

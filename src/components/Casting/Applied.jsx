@@ -3,8 +3,11 @@ import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
 import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
 import { IoMdArrowBack } from "react-icons/io";
+import useFetchCastingCall from '../../Hooks/useFetchCastingCall';
 
 const Applied = () => {
+  const { isLoading, userData } = useFetchCastingCall();
+
   const userdata = [
     {
       title: "Short Film",
