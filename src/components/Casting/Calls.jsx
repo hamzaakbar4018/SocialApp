@@ -10,6 +10,7 @@ const Calls = () => {
   const { isLoading, userData } = useFetchCastingCall();
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  console.log("Calls : ",userData)
   const callpage = false;
   return (
     isLoading ? (
@@ -27,7 +28,7 @@ const Calls = () => {
                   setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
                 }}
               >
-                <UserCard {...data} isSelected={selectedCardIndex === index} />
+                <UserCard {...data} img={data.user.image} isSelected={selectedCardIndex === index} />
               </div>
             ))
           }

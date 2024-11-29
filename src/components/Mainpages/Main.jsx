@@ -210,6 +210,7 @@ const Main = () => {
     }
 
 
+
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
@@ -403,7 +404,9 @@ const Main = () => {
                                             </div>
                                         </div>
                                         <div className={`mt-5 ${!PostImage && 'h-20'}`}>
-                                            <input onChange={(e) => { setThoughts(e.target.value) }} type='text' placeholder='Write your thoughts here...' className="text-gray-400 outline-none w-full text-wrap" />
+                                            <input onChange={(e) => { setThoughts(e.target.value
+                                                ,console.log(e.target.value)
+                                            ) }} type='text' placeholder='Write your thoughts here...' className="text-gray-400 outline-none w-full text-wrap" />
                                             {PostImage && (
                                                 <div className='mt-3 flex-shrink-0'>
                                                     <img src={PostImage} alt="Post" className="w-full object-contain" />
@@ -430,7 +433,7 @@ const Main = () => {
                                             </div>
                                             <div className="flex-grow flex md:justify-end">
                                                 <button
-                                                    disabled={!PostImage || !thoughts}
+                                                    disabled={!(PostImage || thoughts)}
                                                     onClick={() => handlePosts(dummyID)}
                                                     className={`p-3 rounded-3xl w-full md:w-auto text-white ${PostImage || thoughts ? 'bg-black' : 'bg-gray-600'}`}
                                                 >

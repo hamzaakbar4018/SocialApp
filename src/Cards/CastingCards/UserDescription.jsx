@@ -22,6 +22,9 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
     month: "short",
     day: "numeric",
 });
+const dayDate = time?.toDate().toLocaleDateString('en-US', {
+  weekday: 'long', // This will show the full name of the day (e.g., "Monday")
+});
   const locationn = useLocation();
   const callpage = locationn.pathname === '/casting/calls'
   const appliedpage = locationn.pathname === '/casting/applied'
@@ -93,8 +96,8 @@ const UserDescription = ({ applied, img, username, age, day, crew, height, gende
                 <div className='md:flex hidden gap-2'>
                   <button className='bg-[#B3FCE2] hidden text-[#008F5C] md:flex justify-center items-center gap-1 font-bold rounded-3xl px-3 py-2'>
                     <BsPatchCheck className='text-xl' />
-                    Applied
-                    <p>, 2 Days Ago</p>
+                    Applied on
+                    <p>, {dayDate}</p>
                   </button>
                   <button className='bg-black bottom-0 text-white rounded-3xl px-3 py-2'>Withdraw</button>
                 </div>
