@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, getDoc } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, query, orderBy, limit } from "firebase/firestore";
 import React, { createContext, useEffect, useState } from "react";
 import { db } from "../Services/Firebase";
 
@@ -10,7 +10,18 @@ const PostContext = ({ children }) => {
   const fetchPostsAndUsers = async () => {
     try {
       // Fetch all posts from the postCollection
-      const postSnapshot = await getDocs(collection(db, "postCollection"));
+      // const postSnapshot = await getDocs(collection(db, "postCollection"));
+      // const postList = postSnapshot.docs.map((doc) => ({
+      //   id: doc.id,
+      //   ...doc.data(),
+      // }));
+      const postsQuery = query(
+        collection(db, "postCollection"), 
+        orderBy("createdAt", "desc"), // Assumes you have a createdAt timestamp field
+        limit(10) // Optional: limits to the 10 most recent posts
+      );
+      
+      const postSnapshot = await getDocs(postsQuery);
       const postList = postSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),

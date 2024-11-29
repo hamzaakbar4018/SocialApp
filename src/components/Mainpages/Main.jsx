@@ -21,6 +21,8 @@ import { app, db } from '../../Services/Firebase.jsx'
 import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage';
 import { ref } from 'firebase/storage';
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Main = () => {
 
     const dummyID = "1";
@@ -65,7 +67,6 @@ const Main = () => {
                 await uploadBytes(storageRef, image);
                 const downloadedURL = await getDownloadURL(storageRef);
                 setPostImage(downloadedURL);
-                console.log(PostImage)
             } catch (error) {
                 console.error("Error while uploading image to Firestore:", error);
             } finally {
@@ -78,17 +79,14 @@ const Main = () => {
     const handlePosts = async (authorID) => {
         try {
             console.log("Attempting to create post with authorID:", authorID); // Log for debugging
-            
-            // Ensure postData contains the necessary fields
+
             if (!authorID || !thoughts) {
                 console.error("Missing Data:");
                 return;
             }
-    
-            // Create a reference to the posts collection
+
             const postsCollectionRef = collection(db, 'postCollection');
-            
-            // Prepare the new post object
+
             const newPost = {
                 authorID: authorID,
                 createdAt: new Date(), // Timestamp for when the post was created
@@ -99,47 +97,50 @@ const Main = () => {
                 likes: postData.likes || [], // Array to store likes
                 shareCount: postData.shareCount || 0, // Share count
             };
-    
+
             // Save the new post to Firestore
             const docRef = await addDoc(postsCollectionRef, newPost);
             console.log('Post created successfully with ID: ', docRef.id);
             console.log(newPost);
             setPostModel(false);
+            toast.success("Post uploaded successfully!");
+            window.location.reload();
         } catch (error) {
-            console.error('Error creating post: ', error); // Log any errors
+            console.error('Error creating post: ', error);
+            toast.error("Error uploading post. Please try again."); // Log any errors
         }
     };
 
 
-// const deletePostsByUser = async () => {
-//     const userID = "1"; // User ID for which posts need to be deleted
+    // const deletePostsByUser = async () => {
+    //     const userID = "1"; // User ID for which posts need to be deleted
 
-//     try {
-//         // Query the posts collection where the authorID is equal to userID
-//         const postsQuery = query(
-//             collection(db, 'postCollection'),
-//             where('authorID', '==', userID)
-//         );
+    //     try {
+    //         // Query the posts collection where the authorID is equal to userID
+    //         const postsQuery = query(
+    //             collection(db, 'postCollection'),
+    //             where('authorID', '==', userID)
+    //         );
 
-//         // Get the posts that match the query
-//         const querySnapshot = await getDocs(postsQuery);
+    //         // Get the posts that match the query
+    //         const querySnapshot = await getDocs(postsQuery);
 
-//         if (!querySnapshot.empty) {
-//             // Loop through the posts and delete each one
-//             querySnapshot.forEach(async (docSnapshot) => {
-//                 const postRef = doc(db, 'postCollection', docSnapshot.id);
-//                 await deleteDoc(postRef);
-//                 console.log(`Post with ID: ${docSnapshot.id} deleted successfully.`);
-//             });
-//         } else {
-//             console.log("No posts found for the specified user.");
-//         }
-//     } catch (error) {
-//         console.error("Error deleting posts: ", error);
-//     }
-// };
+    //         if (!querySnapshot.empty) {
+    //             // Loop through the posts and delete each one
+    //             querySnapshot.forEach(async (docSnapshot) => {
+    //                 const postRef = doc(db, 'postCollection', docSnapshot.id);
+    //                 await deleteDoc(postRef);
+    //                 console.log(`Post with ID: ${docSnapshot.id} deleted successfully.`);
+    //             });
+    //         } else {
+    //             console.log("No posts found for the specified user.");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error deleting posts: ", error);
+    //     }
+    // };
 
-    
+
 
 
     const notifyData = useContext(NotificatinData);
@@ -360,6 +361,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
+                <ToastContainer position="top-right" autoClose={3000} />
             </div>
 
             {/* Models */}
@@ -427,9 +429,14 @@ const Main = () => {
                                                 <button>Tag People</button>
                                             </div>
                                             <div className="flex-grow flex md:justify-end">
-                                            <button onClick={() => handlePosts(dummyID)} className="p-3 rounded-3xl bg-black text-white w-full md:w-auto">
+                                                <button
+                                                    disabled={!PostImage || !thoughts}
+                                                    onClick={() => handlePosts(dummyID)}
+                                                    className={`p-3 rounded-3xl w-full md:w-auto text-white ${PostImage || thoughts ? 'bg-black' : 'bg-gray-600'}`}
+                                                >
                                                     Post Now
                                                 </button>
+
                                             </div>
                                         </div>
                                     </div>
