@@ -16,15 +16,15 @@ import { IoMdArrowBack } from "react-icons/io";
 
 
 
-const UserDescription = ({ applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type ,time }) => {
+const UserDescription = ({ onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type, time }) => {
   const formatedTime = time?.toDate().toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-});
-const dayDate = time?.toDate().toLocaleDateString('en-US', {
-  weekday: 'long', // This will show the full name of the day (e.g., "Monday")
-});
+  });
+  const dayDate = time?.toDate().toLocaleDateString('en-US', {
+    weekday: 'long', // This will show the full name of the day (e.g., "Monday")
+  });
   const locationn = useLocation();
   const callpage = locationn.pathname === '/casting/calls'
   const appliedpage = locationn.pathname === '/casting/applied'
@@ -103,7 +103,11 @@ const dayDate = time?.toDate().toLocaleDateString('en-US', {
                 </div>
               ) : mycasting ? (
                 <div className='flex gap-2'>
-                  <button onClick={handlecasting} className='bg-[#FFE5E5] text-[#FF0000] flex gap-1 justify-center items-center rounded-3xl px-3 py-2'>
+                  <button
+                    onClick={() => {
+                      handlecasting(); // Toggle the casting creation UI
+                    }}
+                    className='bg-[#FFE5E5] text-[#FF0000] flex gap-1 justify-center items-center rounded-3xl px-3 py-2'>
                     <FaRegTrashAlt />
                     Delete
                   </button>
@@ -168,7 +172,7 @@ const dayDate = time?.toDate().toLocaleDateString('en-US', {
         <div className='bg-white overflow-y-auto rounded mt-1'>
           <div className='flex p-4 bg-[#E6E7E854] gap-2'>
             <div className='flex-shrink-0'>
-            <img src={img} className='w-12 h-12 rounded-full object-cover' alt={`${username}'s profile`} />
+              <img src={img} className='w-12 h-12 rounded-full object-cover' alt={`${username}'s profile`} />
             </div>
             <div>
               <h2 className='text-gray-400'>Posted by</h2>
@@ -345,24 +349,35 @@ const dayDate = time?.toDate().toLocaleDateString('en-US', {
             <h3 className="font-bold px-6 py-4 text-lg mb-4">Apply to Call</h3>
             <div className="flex-grow overflow-auto">
               <UserCard
-                title={userdata.title}
-                img={userdata.img}
-                type={userdata.type}
-                budget={userdata.budget}
-                username={userdata.username}
+                // title={userdata.title}
+                // img={userdata.img}
+                // type={userdata.type}
+                // budget={userdata.budget}
+                // username={userdata.username}
+                // deletepop={deletepop}
+                img={img}
+                username={username}
+                crew={crew}
+                title={title}
+                budget={budget}
+                type={type}
                 deletepop={deletepop}
+
               />
             </div>
             <p className='font-bold  p-6'>
               Delete a casting call is an irreversible action and will remove all associated information and submissions.</p>
             <div className='flex px-6 py-4 items-end justify-end gap-3 mt-4'>
               <div className='bg-[#E7F3FE] text-[#399AF3] px-4 py-2 rounded-3xl'>
-                <button>
+                <button onClick={() => setcasting(false)}>
                   Keep
                 </button>
               </div>
               <div className='bg-[#FFE5E5] text-[#FF0000] px-4 py-2 rounded-3xl'>
-                <button onClick={handlecasting}>
+                <button onClick={() => {
+                  onDelete();  // Call the delete function
+                  setcasting(false);  // Close the modal
+                }}>
                   Delete
                 </button>
               </div>

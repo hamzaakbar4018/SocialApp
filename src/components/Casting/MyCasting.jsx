@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
 import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
 import { IoMdArrowBack } from "react-icons/io";
+import { collection, doc, addDoc, getDocs, query, where, deleteDoc, updateDoc, orderBy } from 'firebase/firestore';
+import { db } from '../../Services/Firebase';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+import Loader from '../Loader/Loader'
 
 const MyCasting = () => {
+  const UserId = "1";
+
   const userdata = [
     {
       title: "The Short Film",
@@ -44,6 +53,77 @@ const MyCasting = () => {
 
   ];
 
+
+  const [isLodaing, setIsLoading] = useState(false);
+  const [myCasting, setMyCasting] = useState([]);
+  const [author, setAuthor] = useState([]);
+  const fetchMyCasting = async () => {
+    // const querySnapShot = await getDocs(collection(db,'castingCallCollection'));
+    setIsLoading(true);
+    const myCastQuery = query(
+      collection(db, "castingCallCollection"),
+      where("authorID", "==", UserId),
+      // orderBy("createdAt", "desc")
+    );
+    const querySnapShot = await getDocs(myCastQuery);
+    const myCalls = querySnapShot.docs.map((doc) => ({
+      id: doc.id,  // Document ID
+      ...doc.data(),  // The rest of the data from Firestore
+    }));
+    const authorQuery = query(
+      collection(db, 'userCollection'),
+      where("docID", "==", UserId)
+    )
+    const getAuthorData = await getDocs(authorQuery);
+    const authorData = getAuthorData.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+    setAuthor(authorData);
+    console.log("User", authorData)
+    setMyCasting(myCalls);
+    setIsLoading(false);
+    console.log(myCalls);
+  }
+  useEffect(() => {
+    fetchMyCasting();
+  }, [])
+
+  useEffect(() => {
+    console.log("MyCasting Data:", myCasting); // Log the full array to check for docID
+  }, [myCasting]);
+  const deleteCastingCall = async (id) => {
+    if (!id) {
+      console.error("No docID provided!");
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "castingCallCollection", id)); // Deleting from Firestore
+      toast.success('Casting call deleted successfully!')
+      setMyCasting((prevState) => prevState.filter((casting) => casting.id !== id)); // Update local state
+    } catch (error) {
+      console.error("Error deleting casting call: ", error);
+    }
+  };
+
+  // const handleDelete = () => {
+  //   const selectedCastingCall = myCasting[selectedCardIndex];
+  //   if (selectedCastingCall && selectedCastingCall.id) {
+  //     deleteCastingCall(selectedCastingCall.id); // Pass the correct id to delete
+  //   } else {
+  //     console.error("No docID found for the selected casting call");
+  //   }
+  // };
+
+  const handleDelete = (id) => {
+    if (!id) {
+      console.error("No docID found for the selected casting call");
+      return;
+    }
+    deleteCastingCall(id); // Pass the id to deleteCastingCall
+  };
+
   const handleDataSend = (data) => {
     console.log(data);
   };
@@ -52,161 +132,394 @@ const MyCasting = () => {
   const mycasting = true;
 
   const [createCast, setCreateCasting] = useState(false);
-  const [isSheetOpen, setIsSheetOpen] = useState(false); 
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
 
   const handleCasting = () => {
     setCreateCasting(!createCast);
   }
 
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [roleTitle, setRoleTitle] = useState('');
+  const [roleDescription, setRoleDescription] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [height, setHeight] = useState('');
+  const [shootDetails, setShootDetails] = useState('');
+  const [budget, setBudget] = useState('');
+  const [crew, setCrew] = useState('');
+  const [city, setCity] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [duration, setDuration] = useState('');
+  const [appliedUsers, setAppliedUsers] = useState([]);
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate the form data
+    if (
+      !title || !description || !roleTitle || !roleDescription || !age ||
+      !gender || !shootDetails || !budget || !crew || !city ||
+      !contactEmail || !contactNumber
+    ) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    // Log the form data to the console before submitting
+    console.log("Casting Call Data:", {
+      title,
+      description,
+      roleTitle,
+      roleDescription,
+      age,
+      gender,
+      height,
+      shootDetails,
+      budget,
+      crew,
+      city,
+      contactEmail,
+      contactNumber,
+      duration,
+      appliedUsers,
+    });
+
+    // Ensure valid email format
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail);
+    if (!isValidEmail) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Ensure numeric values for budget and duration
+    if (isNaN(budget) || isNaN(duration)) {
+      alert("Budget and Duration should be valid numbers.");
+      return;
+    }
+
+    try {
+      // Add the casting call to Firestore and get the document reference
+      const docRef = await addDoc(collection(db, "castingCallCollection"), {
+        title,
+        description,
+        roleTitle,
+        roleDescription,
+        age,
+        gender,
+        height,
+        shootDetails,
+        budget: Number(budget),
+        crew,
+        city,
+        contactEmail,
+        contactNumber,
+        duration: Number(duration),
+        appliedUsers: [], // Initial empty array for applied users
+        authorID: UserId, // Author ID to track the creator of the casting
+        createdAt: new Date(), // Timestamp for the casting call
+      });
+
+      // After adding the document, update it with the docID field
+      await updateDoc(doc(db, "castingCallCollection", docRef.id), {
+        docID: docRef.id, // Add the docID field
+      });
+
+      window.location.reload();
+      toast.success("Casting call created successfully!");
+
+
+      // Reset the form fields after submission
+      setTitle('');
+      setDescription('');
+      setRoleTitle('');
+      setRoleDescription('');
+      setAge('');
+      setGender('');
+      setHeight('');
+      setShootDetails('');
+      setBudget('');
+      setCrew('');
+      setCity('');
+      setContactEmail('');
+      setContactNumber('');
+      setDuration('');
+      setAppliedUsers([]);
+
+    } catch (error) {
+      console.error("Error creating casting call: ", error);
+      toast.error("Error creating casting call. Please try again later.");
+
+    }
+  };
+
+  console.log("Casting Call Data:", {
+    title,
+    description,
+    roleTitle,
+    roleDescription,
+    age,
+    gender,
+    height,
+    shootDetails,
+    budget,
+    crew,
+    city,
+    contactEmail,
+    contactNumber,
+    duration,
+    appliedUsers,
+  });
+
+
+
+  const crewData = ['Actor', 'Director', 'Producer']
+  const genderData = ['Male', 'Female']
+
+
+
+
+
   return (
-    <div className='bg-gray-100 flex mt-1 '>
-      <div className='left flex flex-col gap-1 md:w-1/3 w-full'>
-        <div className='bg-white p-3'>
-          <button onClick={handleCasting} className='bg-black px2 py-3 flex justify-center items-center gap-2 rounded-full text-white font-semibold w-full'><span className='text-3xl font-light'>+</span> Create Casting Call</button>
-        </div>
-        {
-
-          userdata.map((data, index) => (
-            <div key={index} onClick={() => {
-              setSelectedCardIndex(index);
-              setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
-            }}>
-              <UserCard {...data} mycasting={mycasting} isSelected={selectedCardIndex === index} />
-            </div>
-          ))
-        }
-      </div>
-      <div className='right md:block hidden flex-grow'>
-        <div className="pl-1">
+    isLodaing ? (
+      <Loader />
+    ) : (
+      <div className='bg-gray-100 flex mt-1 '>
+        <div className='left overflow-y-auto h-screen flex flex-col gap-1 md:w-1/3 w-full'>
+          <div className='bg-white p-3'>
+            <button onClick={handleCasting} className='bg-black px2 py-3 flex justify-center items-center gap-2 rounded-full text-white font-semibold w-full'><span className='text-3xl font-light'>+</span> Create Casting Call</button>
+          </div>
           {
-            selectedCardIndex !== null && (
-              <UserDescription
-                {...userdata[selectedCardIndex]}
-                mycasting={mycasting}
-                sendData={handleDataSend}
-              />
-            )
-          }
-        </div>
-      </div>
-      <div className={`fixed z-40 top-0 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
-        <button
-          className="absolute top-3 left-[-1] bg-white w-full p-4 text-black"
-          onClick={() => setIsSheetOpen(false)}
-        >
-          <IoMdArrowBack className='text-2xl mb-1 mt-3' />
-        </button>
 
-        <div className="py-4">
-          {
-            selectedCardIndex !== null && (
-              <UserDescription
-                {...userdata[selectedCardIndex]}
-                mycasting={mycasting}
-                sendData={handleDataSend}
-              />
-            )
-          }
-        </div>
-      </div>
-      {createCast && (
-        <div className="modal" open>
-          <div className="modal-box flex p-0 flex-col 2xl:h-[60%] h-[80%] md:h-auto md:w-[40%]">
-            <div className='px-5 pt-6'>
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCasting}>✕</button>
-              <h3 className="font-bold text-lg mb-4">Create Casting Call</h3>
-            </div>
-            <div className="flex-grow overflow-auto">
-
-              <div className='pt-5 px-5'>
-                <div className='flex flex-col gap-2 mt-4'>
-                  <label htmlFor="">Project Title</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Project Title' />
-                </div>
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Short Description</label>
-
-                  <textarea name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Short Description</textarea>
-                </div>
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Crew Required</label>
-                  <select className='bg-gray-100 p-2 rounded-3xl' name="" id="">
-                    <option value="">Crew 1</option>
-                    <option value="">Crew 2</option>
-                    <option value="">Crew 3</option>
-                  </select>
-                </div>
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">City Name</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter City Name' />
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Contact Email</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact Email' />
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Contact Number</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact Number' />
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Role Title</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Role Title' />
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Role Description</label>
-
-                  <textarea name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Role Description</textarea>
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Age Required</label>
-                  <input type="number" className='bg-gray-100 p-2 rounded-3xl' placeholder='23' />
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Gender</label>
-                  <select className='bg-gray-100 p-2 rounded-3xl' name="" id="">
-                    <option value="">Male</option>
-                    <option value="">Female</option>
-                  </select>
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Shoot Details</label>
-
-                  <textarea name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Shoot Details</textarea>
-                </div>
-
-                <div className='flex flex-col gap-2 mt-3'>
-                  <label htmlFor="">Budget/Remuneration</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Your Budget' />
-                </div>
-
-
-                <div className='mb-20'></div>
+            myCasting.map((data, index) => (
+              <div key={index} onClick={() => {
+                setSelectedCardIndex(index);
+                setIsSheetOpen(true);
+              }}>
+                <UserCard date={data.createdAt} {...data} mycasting={mycasting} isSelected={selectedCardIndex === index} />
               </div>
-              <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
-                <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center   px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
-                  <button onClick={handleCasting}>
-                    Cancel
-                  </button>
+            ))
+          }
+        </div>
+        <div className='right md:block hidden flex-grow'>
+          <div className="pl-1">
+            {
+              selectedCardIndex !== null && selectedCardIndex < myCasting.length && (
+                <UserDescription
+                  mycasting={mycasting}
+                  sendData={handleDataSend}
+                  title={myCasting[selectedCardIndex].title}
+                  img={author[0]?.image}
+                  des={myCasting[selectedCardIndex].description}
+                  budget={myCasting[selectedCardIndex].budget}
+                  age={myCasting[selectedCardIndex].age}
+                  height={myCasting[selectedCardIndex].height}
+                  gender={myCasting[selectedCardIndex].gender}
+                  location={myCasting[selectedCardIndex].city}
+                  day={myCasting[selectedCardIndex].duration}
+                  crew={myCasting[selectedCardIndex].crew}
+                  type={myCasting[selectedCardIndex].type}
+                  username={author[0].firstName}
+                  time={myCasting[selectedCardIndex].createdAt}
+                  onDelete={() => handleDelete(myCasting[selectedCardIndex].id)}
+                />
+              )
+            }
+          </div>
+        </div>
+        <div className={`fixed z-40 top-0 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
+          <button
+            className="absolute top-3 left-[-1] bg-white w-full p-4 text-black"
+            onClick={() => setIsSheetOpen(false)}
+          >
+            <IoMdArrowBack className='text-2xl mb-1 mt-3' />
+          </button>
+
+          <div className="py-4">
+            {
+              selectedCardIndex !== null && selectedCardIndex < myCasting.length && (
+                // <UserDescription
+                //   // {...userdata[selectedCardIndex]}
+                //   mycasting={mycasting}
+                //   sendData={handleDataSend}
+                //   title={myCasting[selectedCardIndex].title}
+                //   img={author[0]?.image}
+                //   des={myCasting[selectedCardIndex].description}
+                //   budget={myCasting[selectedCardIndex].budget}
+                //   age={myCasting[selectedCardIndex].age}
+                //   height={myCasting[selectedCardIndex].height}
+                //   gender={myCasting[selectedCardIndex].gender}
+                //   location={myCasting[selectedCardIndex].city}
+                //   day={myCasting[selectedCardIndex].duration}
+                //   crew={myCasting[selectedCardIndex].crew}
+                //   username={author[0].firstName}
+                //   time={myCasting[selectedCardIndex].createdAt}
+                // />
+                <UserDescription
+                  mycasting={mycasting}
+                  sendData={handleDataSend}
+                  title={myCasting[selectedCardIndex].title}
+                  img={author[0]?.image}
+                  des={myCasting[selectedCardIndex].description}
+                  budget={myCasting[selectedCardIndex].budget}
+                  age={myCasting[selectedCardIndex].age}
+                  height={myCasting[selectedCardIndex].height}
+                  gender={myCasting[selectedCardIndex].gender}
+                  location={myCasting[selectedCardIndex].city}
+                  day={myCasting[selectedCardIndex].duration}
+                  type={myCasting[selectedCardIndex].type}
+                  crew={myCasting[selectedCardIndex].crew}
+                  username={author[0].firstName}
+                  time={myCasting[selectedCardIndex].createdAt}
+                  onDelete={() => handleDelete(myCasting[selectedCardIndex].id)}
+                />
+              )
+            }
+            <ToastContainer />
+          </div>
+
+        </div>
+        {createCast && (
+          <div className="modal" open>
+            <div className="modal-box flex p-0 flex-col 2xl:h-[60%] h-[80%] md:h-auto md:w-[40%]">
+              <div className='px-5 pt-6'>
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCasting}>✕</button>
+                <h3 className="font-bold text-lg mb-4">Create Casting Call</h3>
+              </div>
+              <div className="flex-grow overflow-auto">
+
+                <div className='pt-5 px-5'>
+                  <div className='flex flex-col gap-2 mt-4'>
+                    <label htmlFor="">Project Title</label>
+                    <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Project Title' />
+                  </div>
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Short Description</label>
+
+                    <textarea
+                      value={description} onChange={(e) => setDescription(e.target.value)}
+                      name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Short Description</textarea>
+                  </div>
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Crew Required</label>
+                    <select
+                      onChange={(e) => setCrew(e.target.value)}
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      name=""
+                      id=""
+                    >
+                      <option value="" disabled selected>Select Crew</option>
+                      {crewData.map((item, index) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">City Name</label>
+                    <input
+                      value={city} onChange={(e) => setCity(e.target.value)}
+                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter City Name' />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Contact Email</label>
+                    <input
+                      value={contactEmail} onChange={(e) => setContactEmail(e.target.value)}
+                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact Email' />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Contact Number</label>
+                    <input
+                      value={contactNumber} onChange={(e) => setContactNumber(e.target.value)}
+                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact Number' />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Role Title</label>
+                    <input
+                      value={roleTitle} onChange={(e) => setRoleTitle(e.target.value)}
+                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Role Title' />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Role Description</label>
+
+                    <textarea
+                      value={roleDescription} onChange={(e) => setRoleDescription(e.target.value)}
+                      name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Role Description</textarea>
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Age Required</label>
+                    <input
+                      value={age} onChange={(e) => setAge(e.target.value)}
+                      type="number" className='bg-gray-100 p-2 rounded-3xl' placeholder='23' />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Gender</label>
+                    <select
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                      className='bg-gray-100 p-2 rounded-3xl'
+                    >
+
+                      <option disabled value="" selected>Select Gender</option>
+                      {
+                        genderData.map((item, index) => (
+                          <option key={index} value={item}>{item}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Shoot Details</label>
+
+                    <textarea
+                      value={shootDetails} // Set the value from the state
+                      onChange={(e) => setShootDetails(e.target.value)} name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Shoot Details</textarea>
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label
+                      htmlFor="">Budget/Remuneration</label>
+                    <input
+                      value={budget} // Set the value from the state
+                      onChange={(e) => setBudget(e.target.value)}
+                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Your Budget' />
+                  </div>
+
+
+                  <div className='mb-20'></div>
                 </div>
-                <div className='bg-black  md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
-                  <button>
-                    Submit
-                  </button>
+                <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
+                  <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center   px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
+                    <button onClick={handleCasting}>
+                      Cancel
+                    </button>
+                  </div>
+                  <div onClick={handleSubmit} className='bg-black  md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
+                    <button>
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+
+        <ToastContainer />
+      </div>
+    )
   );
 }
 
