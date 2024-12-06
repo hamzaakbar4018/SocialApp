@@ -12,48 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../Loader/Loader'
 
 const MyCasting = () => {
-  const UserId = "1";
-
-  const userdata = [
-    {
-      title: "The Short Film",
-      img: land4cardimg,
-      username: "Hamza Akbar",
-      description: "We're looking for the talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K",
-      age: "12",
-      height: "5 ft",
-      gender: "Male",
-      shootdays: "30",
-      crew: "1",
-      casting: "true",
-      date: "2 days ago",
-    },
-    {
-      title: "Short Film",
-      img: land4cardimg,
-      username: "Sayam",
-      description: "We're looking for the talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K",
-      age: "12",
-      height: "5 ft",
-      gender: "Male",
-      shootdays: "30",
-      crew: "1",
-      cast: "true",
-      date: "1 hour ago",
-
-    }
-
-  ];
-
-
+  const UserId = "YTHetwednqeLYoraizuJ4PLFFlp2";
   const [isLodaing, setIsLoading] = useState(false);
   const [myCasting, setMyCasting] = useState([]);
   const [author, setAuthor] = useState([]);
@@ -90,7 +49,7 @@ const MyCasting = () => {
   }, [])
 
   useEffect(() => {
-    console.log("MyCasting Data:", myCasting); // Log the full array to check for docID
+    console.log("MyCasting Data:", myCasting);
   }, [myCasting]);
   const deleteCastingCall = async (id) => {
     if (!id) {
@@ -154,7 +113,6 @@ const MyCasting = () => {
   const [contactNumber, setContactNumber] = useState('');
   const [duration, setDuration] = useState('');
   const [appliedUsers, setAppliedUsers] = useState([]);
-
 
 
   const handleSubmit = async (e) => {
@@ -283,7 +241,6 @@ const MyCasting = () => {
 
 
 
-
   return (
     isLodaing ? (
       <Loader />
@@ -326,6 +283,8 @@ const MyCasting = () => {
                   username={author[0].firstName}
                   time={myCasting[selectedCardIndex].createdAt}
                   onDelete={() => handleDelete(myCasting[selectedCardIndex].id)}
+                  appliedUsers={myCasting[selectedCardIndex]?.appliedUsers}
+                  
                 />
               )
             }

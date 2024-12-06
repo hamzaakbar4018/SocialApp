@@ -16,12 +16,19 @@ import { IoMdArrowBack } from "react-icons/io";
 
 
 
-const UserDescription = ({ onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type, time }) => {
+const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type, time }) => {
   const formatedTime = time?.toDate().toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
+  useEffect(() => {
+    if (appliedUsers && appliedUsers.length > 0) {
+      appliedUsers.forEach((userId) => {
+        console.log(userId)
+      });
+    }
+  }, [appliedUsers]);
   const dayDate = time?.toDate().toLocaleDateString('en-US', {
     weekday: 'long', // This will show the full name of the day (e.g., "Monday")
   });
@@ -157,7 +164,7 @@ const UserDescription = ({ onDelete, applied, img, username, age, day, crew, hei
               <div className='flex justify-between items-center '>
                 <div>
                   <h1 className='text-lg'>Applicants</h1>
-                  <h2 className='text-[#399AF3] text-xl font-bold'>520</h2>
+                  <h2 className='text-[#399AF3] text-xl font-bold'>{appliedUsers && appliedUsers.length}</h2>
                 </div>
                 <div onClick={seeApplicants} className='flex cursor-pointer items-center gap-1'>
                   <h1 className='text-xl text-[#399AF3] font-semibold'>View Applications </h1>
@@ -242,7 +249,7 @@ const UserDescription = ({ onDelete, applied, img, username, age, day, crew, hei
                 <div className='px-4 md:p-3 md:mt-0 mt-20 mb-4  flex justify-between'>
                   <div>
                     <h1 className='text-lg'>Applications</h1>
-                    <p className='text-lg font-semibold text-[#399AF3]'>520 Applicants</p>
+                    <p className='text-lg font-semibold text-[#399AF3]'>{appliedUsers && appliedUsers.length} Applicants</p>
                   </div>
                   <div>
                     <button onClick={seeApplicants} className="btn md:block hidden btn-sm border border-gray-300 btn-circle btn-ghost">✕</button>
