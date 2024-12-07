@@ -27,24 +27,6 @@ const ApplicantsCard = ({ name, applied, age, height, gender, experience, image,
                     </div>
                 </div>
                 <div className='ml-10 mt-2 items-center'>
-                    {/* <table>
-                        <thead>
-                            <tr>
-                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Age</td>
-                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Height</td>
-                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Gender</td>
-                                <td className='text-[#676767] text-left px-2 font-semilight py-1'>Experience</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className='px-3 font-bold '>{age}</td>
-                                <td className='px-3 font-bold '>{height}</td>
-                                <td className='px-3 font-bold '>{gender}</td>
-                                <td className='px-3 font-bold '>{experience}</td>
-                            </tr>
-                        </tbody>
-                    </table> */}
                     <div className='flex gap-6 items-center'>
                         <div>
                             <h2 className='text-[#9B9B9B] segoe text-sm font-semibold'>Age</h2>

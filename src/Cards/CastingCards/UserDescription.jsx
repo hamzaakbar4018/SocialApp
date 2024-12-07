@@ -13,51 +13,89 @@ import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
 import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
 import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
 import { IoMdArrowBack } from "react-icons/io";
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { db } from '../../Services/Firebase';
 
 
 
-const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, date, shoot, type, time }) => {
+const UserDescription = ({ myCallID, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time }) => {
+
+  console.log("Received myCallID:", myCallID);
+  const [applicationCollection, setApplicationCollection] = useState([]);
+
+  const fetchApplicationCollection = async (id) => {
+    try {
+      const fetchQuery = query(
+        collection(db, "castingCallCollection", id, "applicationCollection"),
+      );
+      const querySnapShot = await getDocs(fetchQuery);
+      const applications = querySnapShot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setApplicationCollection(applications);
+      // console.log(applications)
+    } catch (error) {
+      console.error("Error fetching application collection:", error);
+    }
+  };
+
   const formatedTime = time?.toDate().toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
+  const [appliedUser, setAppliedUser] = useState([]);
+  const fetchAppliedUsers = async (id) => {
+    try {
+      const fetchQuery = query(
+        collection(db, "userCollection"),
+        where("docID", "==", id),
+      );
+      const querySnapShot = await getDocs(fetchQuery);
+      const users = querySnapShot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAppliedUser(users);
+    } catch (error) {
+      console.error("Error fetching applied users:", error);
+    }
+  };
   useEffect(() => {
     if (appliedUsers && appliedUsers.length > 0) {
       appliedUsers.forEach((userId) => {
         console.log(userId)
+        fetchAppliedUsers(userId);
       });
     }
-  }, [appliedUsers]);
+    if (myCallID) {
+      fetchApplicationCollection(myCallID);
+    }
+  }, [myCallID, appliedUsers]);
   const dayDate = time?.toDate().toLocaleDateString('en-US', {
     weekday: 'long', // This will show the full name of the day (e.g., "Monday")
   });
   const locationn = useLocation();
   const callpage = locationn.pathname === '/casting/calls'
   const appliedpage = locationn.pathname === '/casting/applied'
-  // console.log(callpage)
   const activeStyle = {
     color: '#399AF3',
     filter: 'none',
   };
-
   const defaultStyle = {
     color: 'gray',
     filter: 'brightness(100%)',
   };
-
   const [apply, setApply] = useState(false);
   const [casting, setcasting] = useState(false);
-
   const handleApplyClick = () => {
     setApply(!apply);
   };
-
   const handlecasting = () => {
     setcasting(!casting);
     console.log("delete clicked")
   }
-
   const userdata = {
     title: "Short Film",
     img: land4cardimg,
@@ -235,12 +273,6 @@ const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, 
         </div>
       </div>
 
-
-
-
-
-
-
       {
         applicants && (
           <div className='bg-black bg-opacity-50 inset-0 fixed z-40 ease-in-out duration-500 transition-opacity transform-gpu'>
@@ -261,7 +293,6 @@ const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, 
                     applicants && (
                       <button onClick={seeApplicants} className="md:hidden absolute top-3 left-0 bg-white w-full p-4 text-black block">
                         <IoMdArrowBack className='text-2xl mb-1 mt-2' />
-
                       </button>
                     )
                   }
@@ -271,17 +302,24 @@ const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, 
 
               <div>
                 {
-                  <UserCard img={img} username={username} age={age} day={day} crew={crew} height={height} gender={gender} des={des} title={title} budget={budget} location={location} mycasting={mycasting} date={date} castingtab={castingtab} type={type} shoot={shoot}
+                  <UserCard img={img} age={age} day={day} height={height} gender={gender} des={des} location={location} mycasting={mycasting} date={time} castingtab={castingtab} shoot={shoot}
+                    username={username}
+                    crew={crew}
+                    title={title}
+                    budget={budget}
+                    type={type}
                   />
                 }
 
                 <div className='border-gray-300 border-b border-t'>
+                {console.log("State being passed:", { applicationCollection, myCallID })}
                   <ul className='flex py-4 px-3 border-gray-300 border-b justify-between items-center'>
                     <li>
                       <NavLink
                         to="/casting/mycalls/received"
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                        state={{ applicationCollection, myCallID }} 
                       >
                         {({ isActive }) => (
                           <>
@@ -300,6 +338,7 @@ const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, 
                         to="/casting/mycalls/rejected"
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                        state={{ applicationCollection, myCallID }}
                       >
                         {({ isActive }) => (
                           <>
@@ -317,6 +356,7 @@ const UserDescription = ({ appliedUsers, onDelete, applied, img, username, age, 
                         to="/casting/mycalls/wishlist"
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                        state={{ applicationCollection, myCallID }}
                       >
                         {({ isActive }) => (
                           <>

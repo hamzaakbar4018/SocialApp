@@ -2,28 +2,11 @@ import React from 'react'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Link } from 'react-router-dom'
 
-const UserCard = ({ title, img, type, duration, budget, description, username, city, isSelected, landingpage, apply, mycasting, date, castingtab, age, day, crew,height,gender,des, deletepop, user }) => {
-    const dayDate = date?.toDate().toLocaleDateString('en-US', {
-        weekday: 'long', // This will show the full name of the day (e.g., "Monday")
-      });
+const UserCard = ({ title, img, type, duration, location, budget, description, username, city, isSelected, landingpage, apply, mycasting, date, castingtab, age, day, crew, height, gender, des, deletepop }) => {
+    const dayDate = date && date.toDate ? date.toDate().toLocaleDateString('en-US', { weekday: 'long' }) : 'Unknown Date';
     return (
         <div className={`cursor-pointer p-4 ${deletepop ? '!bg-[#E6E7E854] p-0' : ''} ${castingtab ? '!bg-[#E6E7E854]' : ''} ${apply && '!bg-gray-100'} ${landingpage && 'md:w-full w-auto min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>
-                {/* <div className='flex gap-2'>
-                    <div className={`${mycasting && 'hidden'}`}>
-                        <img src={user.image} className='w-12 h-12 rounded-full flex-grow' alt="" />
-                    </div>
-                    <div>
-                        <h1 className={`text-xl text-wrap 2xl:text-xl font-semibold`}>{title}</h1>
-                        {
-                            mycasting ? (
-                                <p className='text-gray-400'>Published, {date}</p>
-                            ) : (
-                                <p className='text-gray-400'>{username}</p>
-                            )
-                        }
-                    </div>
-                </div> */}
                 <div className="flex items-center gap-2">
                     {!mycasting && (
                         <div className="flex-shrink-0">
@@ -66,7 +49,7 @@ const UserCard = ({ title, img, type, duration, budget, description, username, c
 
                     <div>
                         <h2 className='text-gray-400'>Location</h2>
-                        <h1 className='font-bold'>{city ? city : "N/A"}</h1>
+                        <h1 className='font-bold'>{location ? location : "N/A"}</h1>
                     </div>
                     <div>
                         <h2 className='text-gray-400'>Type</h2>
@@ -77,7 +60,7 @@ const UserCard = ({ title, img, type, duration, budget, description, username, c
                 <div className={` ${mycasting ? 'md:ml-0' : 'md:ml-0 ml-4'}`}>
                     <div>
                         <h2 className='text-gray-400'>Shoot</h2>
-                        <h1 className='font-bold'>{duration ? duration : "N/A"} Days</h1>
+                        <h1 className='font-bold'>{day ? day : "N/A"} Days</h1>
 
                     </div>
                     <div>

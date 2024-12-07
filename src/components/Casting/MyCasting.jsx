@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UserCard from '../../Cards/CastingCards/UserCard';
 import UserDescription from '../../Cards/CastingCards/UserDescription';
-import land4cardimg from '../../assets/Icons SVG/land4cardimg.png';
 import { IoMdArrowBack } from "react-icons/io";
 import { collection, doc, addDoc, getDocs, query, where, deleteDoc, updateDoc, orderBy } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
@@ -17,86 +16,48 @@ const MyCasting = () => {
   const [myCasting, setMyCasting] = useState([]);
   const [author, setAuthor] = useState([]);
   const fetchMyCasting = async () => {
-    // const querySnapShot = await getDocs(collection(db,'castingCallCollection'));
-    setIsLoading(true);
-    const myCastQuery = query(
-      collection(db, "castingCallCollection"),
-      where("authorID", "==", UserId),
-      // orderBy("createdAt", "desc")
-    );
-    const querySnapShot = await getDocs(myCastQuery);
-    const myCalls = querySnapShot.docs.map((doc) => ({
-      id: doc.id,  // Document ID
-      ...doc.data(),  // The rest of the data from Firestore
-    }));
-    const authorQuery = query(
-      collection(db, 'userCollection'),
-      where("docID", "==", UserId)
-    )
-    const getAuthorData = await getDocs(authorQuery);
-    const authorData = getAuthorData.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    setAuthor(authorData);
-    console.log("User", authorData)
-    setMyCasting(myCalls);
-    setIsLoading(false);
-    console.log(myCalls);
+    try {
+      setIsLoading(true);
+      const myCastQuery = query(
+        collection(db, "castingCallCollection"),
+        where("authorID", "==", UserId)
+      );
+      const querySnapShot = await getDocs(myCastQuery);
+
+      const myCalls = querySnapShot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .sort((a, b) => {
+          const aSeconds = a.createdAt?.seconds || 0;
+          const bSeconds = b.createdAt?.seconds || 0;
+          return bSeconds - aSeconds;
+        });
+
+      const authorQuery = query(
+        collection(db, 'userCollection'),
+        where("docID", "==", UserId)
+      );
+      
+      const getAuthorData = await getDocs(authorQuery);
+      const authorData = getAuthorData.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setAuthor(authorData);
+      setMyCasting(myCalls);
+      // console.log("MYCALLS", myCalls)
+    } catch (error) {
+      console.error("Error fetching casting calls:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
   useEffect(() => {
     fetchMyCasting();
   }, [])
-
-  useEffect(() => {
-    console.log("MyCasting Data:", myCasting);
-  }, [myCasting]);
-  const deleteCastingCall = async (id) => {
-    if (!id) {
-      console.error("No docID provided!");
-      return;
-    }
-
-    try {
-      await deleteDoc(doc(db, "castingCallCollection", id)); // Deleting from Firestore
-      toast.success('Casting call deleted successfully!')
-      setMyCasting((prevState) => prevState.filter((casting) => casting.id !== id)); // Update local state
-    } catch (error) {
-      console.error("Error deleting casting call: ", error);
-    }
-  };
-
-  // const handleDelete = () => {
-  //   const selectedCastingCall = myCasting[selectedCardIndex];
-  //   if (selectedCastingCall && selectedCastingCall.id) {
-  //     deleteCastingCall(selectedCastingCall.id); // Pass the correct id to delete
-  //   } else {
-  //     console.error("No docID found for the selected casting call");
-  //   }
-  // };
-
-  const handleDelete = (id) => {
-    if (!id) {
-      console.error("No docID found for the selected casting call");
-      return;
-    }
-    deleteCastingCall(id); // Pass the id to deleteCastingCall
-  };
-
-  const handleDataSend = (data) => {
-    console.log(data);
-  };
-
-  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-  const mycasting = true;
-
-  const [createCast, setCreateCasting] = useState(false);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-
-  const handleCasting = () => {
-    setCreateCasting(!createCast);
-  }
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -118,7 +79,6 @@ const MyCasting = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate the form data
     if (
       !title || !description || !roleTitle || !roleDescription || !age ||
       !gender || !shootDetails || !budget || !crew || !city ||
@@ -128,7 +88,6 @@ const MyCasting = () => {
       return;
     }
 
-    // Log the form data to the console before submitting
     console.log("Casting Call Data:", {
       title,
       description,
@@ -147,21 +106,18 @@ const MyCasting = () => {
       appliedUsers,
     });
 
-    // Ensure valid email format
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail);
     if (!isValidEmail) {
       alert("Please enter a valid email address.");
       return;
     }
 
-    // Ensure numeric values for budget and duration
     if (isNaN(budget) || isNaN(duration)) {
       alert("Budget and Duration should be valid numbers.");
       return;
     }
 
     try {
-      // Add the casting call to Firestore and get the document reference
       const docRef = await addDoc(collection(db, "castingCallCollection"), {
         title,
         description,
@@ -177,12 +133,11 @@ const MyCasting = () => {
         contactEmail,
         contactNumber,
         duration: Number(duration),
-        appliedUsers: [], // Initial empty array for applied users
-        authorID: UserId, // Author ID to track the creator of the casting
-        createdAt: new Date(), // Timestamp for the casting call
+        appliedUsers: [],
+        authorID: UserId,
+        createdAt: new Date(),
       });
 
-      // After adding the document, update it with the docID field
       await updateDoc(doc(db, "castingCallCollection", docRef.id), {
         docID: docRef.id, // Add the docID field
       });
@@ -191,7 +146,6 @@ const MyCasting = () => {
       toast.success("Casting call created successfully!");
 
 
-      // Reset the form fields after submission
       setTitle('');
       setDescription('');
       setRoleTitle('');
@@ -215,23 +169,43 @@ const MyCasting = () => {
     }
   };
 
-  console.log("Casting Call Data:", {
-    title,
-    description,
-    roleTitle,
-    roleDescription,
-    age,
-    gender,
-    height,
-    shootDetails,
-    budget,
-    crew,
-    city,
-    contactEmail,
-    contactNumber,
-    duration,
-    appliedUsers,
-  });
+  const deleteCastingCall = async (id) => {
+    if (!id) {
+      console.error("No docID provided!");
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "castingCallCollection", id));
+      toast.success('Casting call deleted successfully!')
+      setMyCasting((prevState) => prevState.filter((casting) => casting.id !== id));
+    } catch (error) {
+      console.error("Error deleting casting call: ", error);
+    }
+  };
+
+  const handleDelete = (id) => {
+    if (!id) {
+      console.error("No docID found for the selected casting call");
+      return;
+    }
+    deleteCastingCall(id);
+  };
+
+  const handleDataSend = (data) => {
+    console.log(data);
+  };
+
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const mycasting = true;
+
+  const [createCast, setCreateCasting] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+
+  const handleCasting = () => {
+    setCreateCasting(!createCast);
+  }
 
 
 
@@ -267,6 +241,7 @@ const MyCasting = () => {
             {
               selectedCardIndex !== null && selectedCardIndex < myCasting.length && (
                 <UserDescription
+                  myCallID={myCasting[selectedCardIndex].docID}
                   mycasting={mycasting}
                   sendData={handleDataSend}
                   title={myCasting[selectedCardIndex].title}
