@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import ApplicantsCard from '../../Cards/CastingCards/ApplicantsCard';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import Load from '../Loader/Load';
 
 const ReceivedCasting = () => {
     const { applicationCollection, myCallID } = useContext(ApplicationData);
     const [receivedUser, setReceivedUser] = useState([]);
-    const [isLoading, setisLoading] = useState();
+    // const [castingData, setcastingData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchData = useCallback(async () => {
         if (!myCallID) {
@@ -16,7 +17,7 @@ const ReceivedCasting = () => {
             return;
         }
 
-        setisLoading(true);
+        setIsLoading(true);
         try {
             // Fetch applications for this specific casting call where isAccepted is false
             const applicationsQuery = query(
@@ -29,17 +30,22 @@ const ReceivedCasting = () => {
                 id: doc.id,
                 ...doc.data(),
             }));
-            setisLoading(false);
-
 
             console.log("Fetched Applications:", applications);
 
-            // Fetch additional user and casting call details
+            // Fetch casting call data directly using myCallID
+            const castingCallDocRef = doc(db, "castingCallCollection", myCallID);
+            const castingCallSnapshot = await getDoc(castingCallDocRef);
+            const castingCallData = castingCallSnapshot.exists() 
+                ? { id: castingCallSnapshot.id, ...castingCallSnapshot.data() } 
+                : null;
+
+            console.log("Casting Call Data:", castingCallData);
+
+            // Fetch additional user details
             const enrichedApplications = await Promise.all(
                 applications.map(async (application) => {
                     try {
-                        setisLoading(true);
-
                         // Fetch user data
                         const userQuery = query(
                             collection(db, "userCollection"),
@@ -51,36 +57,25 @@ const ReceivedCasting = () => {
                             ...doc.data(),
                         }))[0];
 
-                        // Fetch casting call data
-                        const castingCallQuery = query(
-                            collection(db, "castingCallCollection"),
-                            where("castingCallID", "==", myCallID)
-                        );
-                        const castingCallSnapshot = await getDocs(castingCallQuery);
-                        setisLoading(false);
-
-                        const castingCallData = castingCallSnapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            ...doc.data(),
-                        }))[0];
-
                         return {
                             ...application,
                             userData: userData || null,
-                            castingCallData: castingCallData || null
+                            castingCallData: castingCallData
                         };
                     } catch (enrichmentError) {
                         console.error("Error enriching application data:", enrichmentError);
-                        return application;
+                        return { ...application, castingCallData };
                     }
                 })
             );
 
             console.log("Enriched Applications:", enrichedApplications);
             setReceivedUser(enrichedApplications);
+            setIsLoading(false);
 
         } catch (error) {
             console.error("Error fetching casting data:", error);
+            setIsLoading(false);
         }
     }, [myCallID]);
 
@@ -101,13 +96,14 @@ const ReceivedCasting = () => {
                             key={data.id || index}
                             {...data}
                             name={data.userData?.firstName || 'Unknown'}
-                            age={data.userData?.age}
-                            height={data.userData?.height}
-                            gender={data.userData?.gender}
-                            experience={data.userData?.experience}
+                            age={data?.castingCallData.age}
+                            height={data?.castingCallData.height}
+                            gender={data?.castingCallData.gender}
+                            experience={data.userData?.experience || 'N/A'}
                             image={data.userData?.image}
                             rejected={data.isRejected || false}
                             received={true}
+                            castingCallData={data.castingCallData}
                         />
                     ))
                 ) : (
