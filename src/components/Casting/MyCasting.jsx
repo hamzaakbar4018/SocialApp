@@ -241,7 +241,7 @@ const MyCasting = () => {
             {
               selectedCardIndex !== null && selectedCardIndex < myCasting.length && (
                 <UserDescription
-                  myCallID={myCasting[selectedCardIndex].docID}
+                  myCallId={myCasting[selectedCardIndex].docID}
                   mycasting={mycasting}
                   sendData={handleDataSend}
                   title={myCasting[selectedCardIndex].title}

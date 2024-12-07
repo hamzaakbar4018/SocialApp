@@ -3,9 +3,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import { db } from '../Services/Firebase';
 
 export const IndustryData = createContext();
-const IndustryContext = ({children  }) => {
-
-    
+const IndustryContext = ({children}) => {
     const [talentData,setTalentData] = useState([]);
 
     const fetchUsers = async () => {

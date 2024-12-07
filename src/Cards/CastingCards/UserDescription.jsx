@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { BsPatchCheck } from "react-icons/bs";
 import UserCard from './UserCard';
@@ -15,14 +15,17 @@ import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
 import { IoMdArrowBack } from "react-icons/io";
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
+import { ApplicationData } from '../../Context/ApplicationContext';
 
 
 
-const UserDescription = ({ myCallID, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time }) => {
-
-  console.log("Received myCallID:", myCallID);
-  const [applicationCollection, setApplicationCollection] = useState([]);
-
+const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time }) => {
+  const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
+  useEffect(() => {
+    if (myCallId && myCallId !== myCallID) {
+      setMyCallID(myCallId);
+    }
+  }, [myCallId, myCallID, setMyCallID]);
   const fetchApplicationCollection = async (id) => {
     try {
       const fetchQuery = query(
@@ -65,7 +68,7 @@ const UserDescription = ({ myCallID, appliedUsers, onDelete, applied, img, usern
   useEffect(() => {
     if (appliedUsers && appliedUsers.length > 0) {
       appliedUsers.forEach((userId) => {
-        console.log(userId)
+        // console.log(userId)
         fetchAppliedUsers(userId);
       });
     }
@@ -312,14 +315,12 @@ const UserDescription = ({ myCallID, appliedUsers, onDelete, applied, img, usern
                 }
 
                 <div className='border-gray-300 border-b border-t'>
-                {console.log("State being passed:", { applicationCollection, myCallID })}
                   <ul className='flex py-4 px-3 border-gray-300 border-b justify-between items-center'>
                     <li>
                       <NavLink
                         to="/casting/mycalls/received"
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                        state={{ applicationCollection, myCallID }} 
                       >
                         {({ isActive }) => (
                           <>
@@ -338,7 +339,6 @@ const UserDescription = ({ myCallID, appliedUsers, onDelete, applied, img, usern
                         to="/casting/mycalls/rejected"
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                        state={{ applicationCollection, myCallID }}
                       >
                         {({ isActive }) => (
                           <>
@@ -356,7 +356,6 @@ const UserDescription = ({ myCallID, appliedUsers, onDelete, applied, img, usern
                         to="/casting/mycalls/wishlist"
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                        state={{ applicationCollection, myCallID }}
                       >
                         {({ isActive }) => (
                           <>
