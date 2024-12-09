@@ -6,13 +6,14 @@ import { collection, doc, addDoc, getDocs, query, where, deleteDoc, updateDoc, o
 import { db } from '../../Services/Firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import { ImSpinner2 } from 'react-icons/im';
 import Loader from '../Loader/Loader'
 
 const MyCasting = () => {
   const UserId = "YTHetwednqeLYoraizuJ4PLFFlp2";
-  const [isLodaing, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [myCasting, setMyCasting] = useState([]);
   const [author, setAuthor] = useState([]);
   const fetchMyCasting = async () => {
@@ -39,7 +40,7 @@ const MyCasting = () => {
         collection(db, 'userCollection'),
         where("docID", "==", UserId)
       );
-      
+
       const getAuthorData = await getDocs(authorQuery);
       const authorData = getAuthorData.docs.map((doc) => ({
         id: doc.id,
@@ -78,13 +79,15 @@ const MyCasting = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     if (
       !title || !description || !roleTitle || !roleDescription || !age ||
       !gender || !shootDetails || !budget || !crew || !city ||
       !contactEmail || !contactNumber
     ) {
       alert("Please fill out all required fields.");
+      setIsSubmitting(false);
+
       return;
     }
 
@@ -105,6 +108,7 @@ const MyCasting = () => {
       duration,
       appliedUsers,
     });
+    setIsSubmitting(false);
 
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail);
     if (!isValidEmail) {
@@ -118,6 +122,7 @@ const MyCasting = () => {
     }
 
     try {
+      setIsSubmitting(true);
       const docRef = await addDoc(collection(db, "castingCallCollection"), {
         title,
         description,
@@ -142,8 +147,10 @@ const MyCasting = () => {
         docID: docRef.id, // Add the docID field
       });
 
-      window.location.reload();
-      toast.success("Casting call created successfully!");
+      // window.location.reload();
+      // toast.success("Casting call created successfully!");
+      // setIsLoading(false);
+
 
 
       setTitle('');
@@ -162,25 +169,40 @@ const MyCasting = () => {
       setDuration('');
       setAppliedUsers([]);
 
+
+      setCreateCasting(false);
+      toast.success("Casting call created successfully!")
+
     } catch (error) {
       console.error("Error creating casting call: ", error);
       toast.error("Error creating casting call. Please try again later.");
 
+
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const deleteCastingCall = async (id) => {
     if (!id) {
+      setIsDeleting(true)
       console.error("No docID provided!");
+      setIsDeleting(false)
       return;
     }
 
     try {
+      setIsDeleting(true)
       await deleteDoc(doc(db, "castingCallCollection", id));
       toast.success('Casting call deleted successfully!')
       setMyCasting((prevState) => prevState.filter((casting) => casting.id !== id));
+      setIsDeleting(false)
     } catch (error) {
       console.error("Error deleting casting call: ", error);
+      setIsDeleting(false)
+    }
+    finally {
+      setIsDeleting(false);
     }
   };
 
@@ -216,7 +238,7 @@ const MyCasting = () => {
 
 
   return (
-    isLodaing ? (
+    isLoading ? (
       <Loader />
     ) : (
       <div className='bg-gray-100 flex mt-1 '>
@@ -259,7 +281,8 @@ const MyCasting = () => {
                   time={myCasting[selectedCardIndex].createdAt}
                   onDelete={() => handleDelete(myCasting[selectedCardIndex].id)}
                   appliedUsers={myCasting[selectedCardIndex]?.appliedUsers}
-                  
+                  isDeleting={isDeleting}
+
                 />
               )
             }
@@ -294,6 +317,7 @@ const MyCasting = () => {
                 //   time={myCasting[selectedCardIndex].createdAt}
                 // />
                 <UserDescription
+                  isDeleting={isDeleting}
                   mycasting={mycasting}
                   sendData={handleDataSend}
                   title={myCasting[selectedCardIndex].title}
@@ -440,9 +464,15 @@ const MyCasting = () => {
                       Cancel
                     </button>
                   </div>
-                  <div onClick={handleSubmit} className='bg-black  md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
-                    <button>
-                      Submit
+                  <div onClick={handleSubmit} className='bg-black md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
+                    <button disabled={isSubmitting}>
+                      {isSubmitting ? (
+                        <>
+                          <ImSpinner2 className='text-2xl animate-spin mr-1 flex' /> Submitting
+                        </>
+                      ) : (
+                        <>Submit</>
+                      )}
                     </button>
                   </div>
                 </div>

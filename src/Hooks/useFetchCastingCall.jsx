@@ -1,94 +1,133 @@
+// import { useState, useEffect } from 'react';
+// import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+// import { db } from '../Services/Firebase';
+
+// const useFetchCastingCall = () => {
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [allCalls, setAllCalls] = useState([]);
+//   const [allCallsNUsers, setAllCallsNUsers] = useState([]);
+//   const [error, setError] = useState(null);
+
+//   const fetchCallsData = async () => {
+//     const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2"
+//     setIsLoading(true);
+//     setError(null);
+//     try {
+//       const castingCallsSnapshot = await getDocs(collection(db, "castingCallCollection"));
+//       const castingCalls = castingCallsSnapshot.docs.map((doc) => ({
+//         id: doc.id,
+//         ...doc.data(),
+//       }));
+//       setAllCalls(castingCalls);
+
+//       // Collect all unique author IDs from the casting calls
+//       const authorIDs = [...new Set(castingCalls.map(call => call.authorID).filter(Boolean))];
+
+//       // Fetch user details for the unique author IDs
+//       if (authorIDs.length > 0) {
+//         const authorsQuery = query(
+//           collection(db, "userCollection"),
+//           where("docID", "in", authorIDs)
+//         );
+//         const authorsSnapshot = await getDocs(authorsQuery);
+//         const authors = authorsSnapshot.docs.map((doc) => doc.data());
+
+//         // Enrich casting calls with user details
+//         const enrichedCastingCalls = castingCalls.map(call => ({
+//           ...call,
+//           user: authors.find(author => author.docID === call.authorID) || {}
+//         }));
+
+//         setAllCallsNUsers(enrichedCastingCalls);
+//         console.log("All Data : ",enrichedCastingCalls)
+//       }
+
+//     } catch (error) {
+//       console.error("Error fetching casting calls:", error);
+//       setError(error);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchCallsData();
+//   }, []);
+
+//   return { allCallsNUsers, isLoading, error };
+// };
+
+// export default useFetchCastingCall;
+
 import { useState, useEffect } from 'react';
-import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../Services/Firebase';
+
 const useFetchCastingCall = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState([]);
-  const [appliedUserData, setAppliedUserData] = useState([]);
+  const [allCalls, setAllCalls] = useState([]);
+  const [allCallsNUsers, setAllCallsNUsers] = useState([]);
+  const [userAppliedCastingCalls, setUserAppliedCastingCalls] = useState([]);
+  const [error, setError] = useState(null);
 
-  const fetchCastingCall = async () => {
+  const fetchCallsData = async () => {
+    const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2"; // Dummy user ID
     setIsLoading(true);
+    setError(null);
+
     try {
-      const querySnapshot = await getDocs(collection(db, "castingCallCollection"));
-      const calls = querySnapshot.docs.map((doc) => ({
+      // Fetch all casting calls
+      const castingCallsSnapshot = await getDocs(collection(db, "castingCallCollection"));
+      const castingCalls = castingCallsSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-  
-      const allAppliedUserIds = calls.flatMap(call => call.appliedUsers || []);
-      let appliedUsersDetails = [];
-  
-      if (allAppliedUserIds.length > 0) {
-        const appliedUsersQuery = query(
-          collection(db, "userCollection"),
-          where("docID", "in", allAppliedUserIds)
-        );
-  
-        const appliedUsersSnapshot = await getDocs(appliedUsersQuery);
-        appliedUsersDetails = appliedUsersSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-      }
-  
-      // Fetch author details
-      const authorIDs = [...new Set(calls.map(call => call.authorID))];
-      let usersDetails = [];
-  
+      setAllCalls(castingCalls);
+
+      // Collect all unique author IDs from the casting calls
+      const authorIDs = [...new Set(castingCalls.map(call => call.authorID).filter(Boolean))];
+
+      // Fetch user details for the unique author IDs
       if (authorIDs.length > 0) {
-        const usersQuery = query(
+        const authorsQuery = query(
           collection(db, "userCollection"),
           where("docID", "in", authorIDs)
         );
-  
-        const userQuerySnapshot = await getDocs(usersQuery);
-        usersDetails = userQuerySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
+        const authorsSnapshot = await getDocs(authorsQuery);
+        const authors = authorsSnapshot.docs.map((doc) => doc.data());
+
+        // Enrich casting calls with user details
+        const enrichedCastingCalls = castingCalls.map(call => ({
+          ...call,
+          user: authors.find(author => author.docID === call.authorID) || {}
         }));
+
+        setAllCallsNUsers(enrichedCastingCalls);
+
+        // Now find the casting calls the dummyId user has applied to
+        const appliedCastingCalls = enrichedCastingCalls.filter(call => 
+          call.appliedUsers && call.appliedUsers.includes(dummyId)
+        );
+
+        setUserAppliedCastingCalls(appliedCastingCalls);
+        console.log(appliedCastingCalls)
+        console.log("User Applied Casting Calls:", appliedCastingCalls);
       }
-  
-      // Combine applied users and author details for appliedUserData
-      const callsWithAppliedUsers = calls.map(call => {
-        const authorDetails = usersDetails.find(user => user.docID === call.authorID) || {};
-        return {
-          ...call,
-          appliedUsersDetails: appliedUsersDetails.filter(user =>
-            call.appliedUsers?.includes(user.docID)
-          ),
-          authorDetails
-        };
-      }).filter(call => call.appliedUsersDetails.length > 0); // Filter out calls without applied users
-  
-      setAppliedUserData(callsWithAppliedUsers);
-  
-      // Keep userData logic unchanged
-      const callsWithUserData = calls.map(call => {
-        const user = usersDetails.find(user => user.docID === call.authorID);
-        return {
-          ...call,
-          user: user || {}
-        };
-      });
-  
-      setUserData(callsWithUserData);
-  
+
     } catch (error) {
-      console.error("Error fetching casting calls or user details:", error);
+      console.error("Error fetching casting calls:", error);
+      setError(error);
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
-
-
 
   useEffect(() => {
-    fetchCastingCall();
-  }, [])
+    fetchCallsData();
+  }, []);
 
-  return { isLoading, userData,appliedUserData   };
-}
+  return { allCallsNUsers, userAppliedCastingCalls, isLoading, error };
+};
 
-export default useFetchCastingCall
+export default useFetchCastingCall;
+

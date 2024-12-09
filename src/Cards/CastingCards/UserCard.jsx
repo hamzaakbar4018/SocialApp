@@ -31,9 +31,10 @@ const UserCard = ({ title, img, type, duration, location, budget, description, u
                     landingpage || apply ? (
                         ''
                     ) : (
-                        <div className=' flex border border-gray-400 rounded-full w-[33px] h-[33px] p-2  justify-center items-center'>
-                            <HiOutlineDotsVertical className="font-bold text-2xl" />
-                        </div>
+                        // <div className=' flex border border-gray-400 rounded-full w-[33px] h-[33px] p-2  justify-center items-center'>
+                        //     <HiOutlineDotsVertical className="font-bold text-2xl" />
+                        // </div>
+                        ''
                     )
                 }
             </div>

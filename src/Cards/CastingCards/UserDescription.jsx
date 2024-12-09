@@ -16,10 +16,12 @@ import { IoMdArrowBack } from "react-icons/io";
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
+import { GiCrossMark } from "react-icons/gi";
+import { ImSpinner2 } from 'react-icons/im';
 
 
 
-const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time }) => {
+const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time, isDeleting }) => {
   const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
   useEffect(() => {
     if (myCallId && myCallId !== myCallID) {
@@ -156,8 +158,17 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                       handlecasting(); // Toggle the casting creation UI
                     }}
                     className='bg-[#FFE5E5] text-[#FF0000] flex gap-1 justify-center items-center rounded-3xl px-3 py-2'>
-                    <FaRegTrashAlt />
-                    Delete
+                    {isDeleting ? (
+                      <>
+                        <ImSpinner2 className='text-2xl animate-spin mr-1 flex' /> Deleting
+                      </>
+                    ) : (
+                      <><FaRegTrashAlt />
+                        Delete</>
+                    )}
+
+
+
                   </button>
                 </div>
               ) : (
@@ -328,7 +339,28 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                               src={isActive ? ReceivedBlue : ReceivedGrey}
                               alt="Received Icon"
                             />
-                            <h1>Received</h1>
+                            <h1>Pending</h1>
+                          </>
+                        )}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/casting/mycalls/wishlist"
+                        className='flex gap-1 font-semibold'
+                        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
+                      >
+                        {({ isActive }) => (
+                          <>
+                            {/* <img
+                              src={isActive ? WishlistBlue : WishlistGrey}
+                              alt="Received Icon"
+                            /> */}
+                            <img
+                              src={isActive ? RejectedBlue : RejectedGrey}
+                              alt="Received Icon"
+                            />
+                            <h1>Accepted</h1>
                           </>
                         )}
                       </NavLink>
@@ -342,32 +374,17 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                       >
                         {({ isActive }) => (
                           <>
-                            <img
+                            {/* <img
                               src={isActive ? RejectedBlue : RejectedGrey}
                               alt="Received Icon"
-                            />
+                            /> */}
+                            <GiCrossMark className={'{isActive ? RejectedBlue : RejectedGrey} mt-1'} />
                             <h1>Rejected</h1>
                           </>
                         )}
                       </NavLink>
                     </li>
-                    <li>
-                      <NavLink
-                        to="/casting/mycalls/wishlist"
-                        className='flex gap-1 font-semibold'
-                        style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
-                      >
-                        {({ isActive }) => (
-                          <>
-                            <img
-                              src={isActive ? WishlistBlue : WishlistGrey}
-                              alt="Received Icon"
-                            />
-                            <h1>Received</h1>
-                          </>
-                        )}
-                      </NavLink>
-                    </li>
+
                   </ul>
                   <Outlet />
                 </div>
@@ -378,8 +395,15 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
 
                 <div className='bg-white fixed w-full bottom-0 p-3'>
                   <button onClick={handlecasting} className='bg-[#FFE5E5] md:w-[380px] w-full 2xl:w-[480px]  text-[#FF0000] flex gap-2   justify-center items-center rounded-3xl px-3 py-2'>
-                    <FaRegTrashAlt />
-                    Delete This Call</button>
+                    {isDeleting ? (
+                      <>
+                        <ImSpinner2 className='text-2xl animate-spin mr-1 flex' /> Deleting
+                      </>
+                    ) : (
+                      <><FaRegTrashAlt />
+                        Delete This Call</>
+                    )}
+                  </button>
                 </div>
               </div>
 
@@ -424,7 +448,14 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                   onDelete();  // Call the delete function
                   setcasting(false);  // Close the modal
                 }}>
-                  Delete
+                  {isDeleting ? (
+                    <>
+                      <ImSpinner2 className='text-2xl animate-spin mr-1 flex' /> Deleting
+                    </>
+                  ) : (
+                    <div className='flex justify-center items-center gap-1'><FaRegTrashAlt />
+                      Delete</div>
+                  )}
                 </button>
               </div>
             </div>

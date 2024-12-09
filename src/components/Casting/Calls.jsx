@@ -7,10 +7,9 @@ import useFetchCastingCall from '../../Hooks/useFetchCastingCall';
 
 const Calls = () => {
 
-  const { isLoading, userData } = useFetchCastingCall();
+  const { isLoading, allCallsNUsers } = useFetchCastingCall();
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  console.log("Calls : ",userData)
   const callpage = false;
   return (
     isLoading ? (
@@ -20,7 +19,7 @@ const Calls = () => {
         {/* Left Section (Card List) */}
         <div className='left overflow-y-auto h-screen flex bg-white flex-col gap-2 w-full md:w-1/3'>
           {
-            userData.map((data, index) => (
+            allCallsNUsers.map((data, index) => (
               <div
                 key={index}
                 onClick={() => {
@@ -38,20 +37,20 @@ const Calls = () => {
         <div className='right md:block hidden flex-grow'>
           <div className="pl-1">
             {
-              selectedCardIndex !== null && selectedCardIndex < userData.length && (
+              selectedCardIndex !== null && selectedCardIndex < allCallsNUsers.length && (
                 <UserDescription
-                  title={userData[selectedCardIndex].title}
-                  img={userData[selectedCardIndex].user.image}
-                  des={userData[selectedCardIndex].description}
-                  budget={userData[selectedCardIndex].budget}
-                  age={userData[selectedCardIndex].age}
-                  height={userData[selectedCardIndex].height}
-                  gender={userData[selectedCardIndex].gender}
-                  location={userData[selectedCardIndex].city}
-                  day={userData[selectedCardIndex].duration}
-                  crew={userData[selectedCardIndex].crew}
-                  username={userData[selectedCardIndex].user.firstName}
-                  time={userData[selectedCardIndex].createdAt}
+                  title={allCallsNUsers[selectedCardIndex].title}
+                  img={allCallsNUsers[selectedCardIndex].user.image}
+                  des={allCallsNUsers[selectedCardIndex].description}
+                  budget={allCallsNUsers[selectedCardIndex].budget}
+                  age={allCallsNUsers[selectedCardIndex].age}
+                  height={allCallsNUsers[selectedCardIndex].height}
+                  gender={allCallsNUsers[selectedCardIndex].gender}
+                  location={allCallsNUsers[selectedCardIndex].city}
+                  day={allCallsNUsers[selectedCardIndex].duration}
+                  crew={allCallsNUsers[selectedCardIndex].crew}
+                  username={allCallsNUsers[selectedCardIndex].user.firstName}
+                  time={allCallsNUsers[selectedCardIndex].createdAt}
                 />
               )
             }
@@ -69,20 +68,20 @@ const Calls = () => {
 
           <div className="">
             {
-              selectedCardIndex !== null && selectedCardIndex < userData.length && (
+              selectedCardIndex !== null && selectedCardIndex < allCallsNUsers.length && (
                 <UserDescription
-                  title={userData[selectedCardIndex].title}
-                  img={userData[selectedCardIndex].user.image}
-                  des={userData[selectedCardIndex].description}
-                  budget={userData[selectedCardIndex].budget}
-                  age={userData[selectedCardIndex].age}
-                  height={userData[selectedCardIndex].height}
-                  gender={userData[selectedCardIndex].gender}
-                  location={userData[selectedCardIndex].city}
-                  day={userData[selectedCardIndex].duration}
-                  crew={userData[selectedCardIndex].crew}
-                  username={userData[selectedCardIndex].user.firstName}
-                  time={userData[selectedCardIndex].createdAt}
+                  title={allCallsNUsers[selectedCardIndex].title}
+                  img={allCallsNUsers[selectedCardIndex].user.image}
+                  des={allCallsNUsers[selectedCardIndex].description}
+                  budget={allCallsNUsers[selectedCardIndex].budget}
+                  age={allCallsNUsers[selectedCardIndex].age}
+                  height={allCallsNUsers[selectedCardIndex].height}
+                  gender={allCallsNUsers[selectedCardIndex].gender}
+                  location={allCallsNUsers[selectedCardIndex].city}
+                  day={allCallsNUsers[selectedCardIndex].duration}
+                  crew={allCallsNUsers[selectedCardIndex].crew}
+                  username={allCallsNUsers[selectedCardIndex].user.firstName}
+                  time={allCallsNUsers[selectedCardIndex].createdAt}
 
                 />
               )

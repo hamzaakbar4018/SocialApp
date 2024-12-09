@@ -7,43 +7,8 @@ import useFetchCastingCall from '../../Hooks/useFetchCastingCall';
 import Loader from '../Loader/Loader';
 
 const Applied = () => {
-  const { isLoading, userData, appliedUserData } = useFetchCastingCall();
-  console.log(appliedUserData)
-  const userdata = [
-    {
-      title: "Short Film",
-      img: land4cardimg,
-      username: "Hamza Akbar",
-      description: "We're looking for the talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K",
-      age: "12",
-      height: "5 ft",
-      gender: "Male",
-      shootdays: "30",
-      crew: "1",
-      applied: true
-    },
-    {
-      title: "Short Film",
-      img: land4cardimg,
-      username: "Sayam",
-      description: "We're looking for the talented actors for our upcoming short film.",
-      location: "Islamabad",
-      type: "Short Film",
-      shoot: "25 Days",
-      budget: "$25K",
-      age: "12",
-      height: "5 ft",
-      gender: "Male",
-      shootdays: "30",
-      crew: "1",
-      applied: true
-    }
-  ];
 
+  const { isLoading, userAppliedCastingCalls } = useFetchCastingCall();
   const applied = true;
 
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
@@ -57,7 +22,7 @@ const Applied = () => {
         {/* Left Section (Card List) */}
         <div className='left overflow-y-auto h-screen flex flex-col gap-2 w-full md:w-1/3'>
           {
-            appliedUserData.map((data, index) => (
+            userAppliedCastingCalls.map((data, index) => (
               <div
                 key={data.id || index}
                 onClick={() => {
@@ -65,7 +30,7 @@ const Applied = () => {
                   setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
                 }}
               >
-                <UserCard {...data} img={data.authorDetails.image} isSelected={selectedCardIndex === index} />
+                <UserCard {...data} img={data.user?.image || null} isSelected={selectedCardIndex === index} />
               </div>
             ))
           }
@@ -75,7 +40,7 @@ const Applied = () => {
         <div className='right md:block hidden flex-grow'>
           <div className="pl-1">
             {
-              selectedCardIndex !== null && selectedCardIndex < appliedUserData.length && (
+              selectedCardIndex !== null && selectedCardIndex < userAppliedCastingCalls.length && (
                 <UserDescription
                   // title={userdata[selectedCardIndex].title}
                   // img={userdata[selectedCardIndex].img}
@@ -89,18 +54,18 @@ const Applied = () => {
                   // crew={userdata[selectedCardIndex].crew}
                   // username={userdata[selectedCardIndex].username}
                   // applied={userdata[selectedCardIndex].applied}
-                  title={appliedUserData[selectedCardIndex].title}
-                  img={appliedUserData[selectedCardIndex].authorDetails.image}
-                  des={appliedUserData[selectedCardIndex].description}
-                  budget={appliedUserData[selectedCardIndex].budget}
-                  age={appliedUserData[selectedCardIndex].age}
-                  height={appliedUserData[selectedCardIndex].height}
-                  gender={appliedUserData[selectedCardIndex].gender}
-                  location={appliedUserData[selectedCardIndex].city}
-                  day={appliedUserData[selectedCardIndex].duration}
-                  crew={appliedUserData[selectedCardIndex].crew}
-                  username={appliedUserData[selectedCardIndex].authorDetails.firstName}
-                  time={appliedUserData[selectedCardIndex].createdAt}
+                  title={userAppliedCastingCalls[selectedCardIndex].title}
+                  img={userAppliedCastingCalls[selectedCardIndex]?.user?.image || land4cardimg}
+                  des={userAppliedCastingCalls[selectedCardIndex].description}
+                  budget={userAppliedCastingCalls[selectedCardIndex].budget}
+                  age={userAppliedCastingCalls[selectedCardIndex].age}
+                  height={userAppliedCastingCalls[selectedCardIndex].height}
+                  gender={userAppliedCastingCalls[selectedCardIndex].gender}
+                  location={userAppliedCastingCalls[selectedCardIndex].city}
+                  day={userAppliedCastingCalls[selectedCardIndex].duration}
+                  crew={userAppliedCastingCalls[selectedCardIndex].crew}
+                  username={userAppliedCastingCalls[selectedCardIndex]?.user?.firstName}
+                  time={userAppliedCastingCalls[selectedCardIndex].createdAt}
                   applied={applied}
                 />
               )
@@ -118,20 +83,20 @@ const Applied = () => {
 
           <div className="py-4">
             {
-              selectedCardIndex !== null && selectedCardIndex < appliedUserData.length &&  (
+              selectedCardIndex !== null && selectedCardIndex < userAppliedCastingCalls.length &&  (
                 <UserDescription
-                  title={appliedUserData[selectedCardIndex].title}
-                  img={appliedUserData[selectedCardIndex].authorDetails.image}
-                  des={appliedUserData[selectedCardIndex].description}
-                  budget={appliedUserData[selectedCardIndex].budget}
-                  age={appliedUserData[selectedCardIndex].age}
-                  height={appliedUserData[selectedCardIndex].height}
-                  gender={appliedUserData[selectedCardIndex].gender}
-                  location={appliedUserData[selectedCardIndex].city}
-                  day={appliedUserData[selectedCardIndex].duration}
-                  crew={appliedUserData[selectedCardIndex].crew}
-                  username={appliedUserData[selectedCardIndex].authorDetails.firstName}
-                  time={appliedUserData[selectedCardIndex].createdAt}
+                  title={userAppliedCastingCalls[selectedCardIndex].title}
+                  img={userAppliedCastingCalls[selectedCardIndex]?.user?.image}
+                  des={userAppliedCastingCalls[selectedCardIndex].description}
+                  budget={userAppliedCastingCalls[selectedCardIndex].budget}
+                  age={userAppliedCastingCalls[selectedCardIndex].age}
+                  height={userAppliedCastingCalls[selectedCardIndex].height}
+                  gender={userAppliedCastingCalls[selectedCardIndex].gender}
+                  location={userAppliedCastingCalls[selectedCardIndex].city}
+                  day={userAppliedCastingCalls[selectedCardIndex].duration}
+                  crew={userAppliedCastingCalls[selectedCardIndex].crew}
+                  username={userAppliedCastingCalls[selectedCardIndex]?.user?.firstName}
+                  time={userAppliedCastingCalls[selectedCardIndex].createdAt}
                   applied={applied}
                 />
               )
