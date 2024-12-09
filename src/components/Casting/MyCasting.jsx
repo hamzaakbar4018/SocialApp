@@ -171,6 +171,8 @@ const MyCasting = () => {
 
 
       setCreateCasting(false);
+      window.location.reload();
+
       toast.success("Casting call created successfully!")
 
     } catch (error) {
@@ -467,9 +469,9 @@ const MyCasting = () => {
                   <div onClick={handleSubmit} className='bg-black md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
                     <button disabled={isSubmitting}>
                       {isSubmitting ? (
-                        <>
+                        <div className='flex gap-2'>
                           <ImSpinner2 className='text-2xl animate-spin mr-1 flex' /> Submitting
-                        </>
+                        </div>
                       ) : (
                         <>Submit</>
                       )}

@@ -16,7 +16,6 @@ const Calls = () => {
       <Loader />
     ) : (
       <div className='flex mt-1'>
-        {/* Left Section (Card List) */}
         <div className='left overflow-y-auto h-screen flex bg-white flex-col gap-2 w-full md:w-1/3'>
           {
             allCallsNUsers.map((data, index) => (
@@ -24,7 +23,7 @@ const Calls = () => {
                 key={index}
                 onClick={() => {
                   setSelectedCardIndex(index);
-                  setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
+                  setIsSheetOpen(true);
                 }}
               >
                 <UserCard {...data} img={data.user.image} isSelected={selectedCardIndex === index} />
@@ -33,7 +32,6 @@ const Calls = () => {
           }
         </div>
 
-        {/* Right Section (UserDescription for md/lg screens) */}
         <div className='right md:block hidden flex-grow'>
           <div className="pl-1">
             {

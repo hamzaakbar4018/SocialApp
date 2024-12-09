@@ -134,7 +134,7 @@ const Post = ({ postID, data, image, activity, userDetails, createdAt, likesC, s
                     <div className='p-3 mt-4 items-center flex gap-5'>
                         <div className='flex gap-1'>
                             <FaRegHeart onClick={handleLikes} className='text-2xl cursor-pointer text-[#227BCD]' />
-                            <h1>{likesC.length}</h1>
+                            <h1>{likesC?.length}</h1>
                         </div>
                         <div className='flex gap-1'>
                             <FaRegComment onClick={handleClick}

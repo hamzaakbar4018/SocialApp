@@ -13,7 +13,7 @@ import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
 import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
 import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
 import { IoMdArrowBack } from "react-icons/io";
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { GiCrossMark } from "react-icons/gi";
@@ -23,6 +23,74 @@ import { ImSpinner2 } from 'react-icons/im';
 
 const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time, isDeleting }) => {
   const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
+
+  const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+  myCallId = "1W6yAcb7JG5guAuAJ7Dw"
+  console.log("ID", dummyID)
+  console.log("Call ID", myCallId)
+  const [contactNumber, setContactNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [note, setNote] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleApplicationSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validate inputs
+    // if (!currentUser) {
+    //   setSubmitError('You must be logged in to apply');
+    //   return;
+    // }
+
+    // Basic validation
+    if (!contactNumber || !email) {
+      setSubmitError('Please provide contact number and email');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Reference to the applications subcollection
+      const applicationsCollectionRef = collection(
+        db, 
+        'castingCallCollection', 
+        myCallId, 
+        'applicationCollection'
+      );
+
+      const applicationDoc = await addDoc(applicationsCollectionRef, {
+        docID: null, // This will be set by Firestore
+        contactNumber,
+        email,
+        note,
+        isAccepted: false,
+        isRejected: false,
+        isPending: true,
+        createdAt: Timestamp.now(),
+        castingCallID: myCallId,
+        userID: dummyID,
+      });
+
+      // Reset form and show success
+      setContactNumber('');
+      setEmail('');
+      setNote('');
+      setSubmitSuccess(true);
+      setApply(false); // Close the modal
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      setSubmitError('Failed to submit application. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
+
   useEffect(() => {
     if (myCallId && myCallId !== myCallID) {
       setMyCallID(myCallId);
@@ -172,7 +240,10 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                   </button>
                 </div>
               ) : (
-                <button className='bg-black md:block hidden text-white rounded-3xl px-3 py-2' onClick={handleApplyClick}>
+                <button className='bg-black md:block hidden text-white rounded-3xl px-3 py-2' onClick={(e)=>{
+                  handleApplyClick();
+                  handleApplicationSubmit(e);
+                }}>
                   Apply Now
                 </button>
               )}
@@ -480,19 +551,85 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                 apply={apply}
 
               />
-              <div className='pt-5 px-5'>
+              <form onSubmit={handleApplicationSubmit} className='pt-5 px-5'>
+                {/* Error handling */}
+                {submitError && (
+                  <div className="text-red-500 mb-4">
+                    {submitError}
+                  </div>
+                )}
+                
+                {/* Form fields */}
+                <div className='flex flex-col gap-2 mt-4'>
+                  <label>Contact Number</label>
+                  <input
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                    type="text" 
+                    className='bg-gray-100 p-2 rounded-3xl' 
+                    placeholder='Enter Contact' 
+                    required
+                  />
+                </div>
+                <div className='flex flex-col gap-2 mt-3'>
+                  <label>Contact Email</label>
+                  <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email" 
+                    className='bg-gray-100 p-2 rounded-3xl' 
+                    placeholder='Enter Email' 
+                    required
+                  />
+                </div>
+                <div className='flex flex-col  2xl:mb-0 gap-2 mt-3'>
+                  <label>Note to Makers</label>
+                  <textarea
+                    value={note}
+                    onChange={(e)=> setNote(e.target.value)}
+                    className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl' 
+                    placeholder='Write your note'
+                  />
+                </div>
+                
+                {/* Submit buttons */}
+                <div className='flex overflow-hidden bg-white sticky bottom-0 w-full py-3  pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
+                  <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
+                    <button type="button" onClick={handleApplyClick}>
+                      Cancel
+                    </button>
+                  </div>
+                  <div className='bg-black md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
+                    <button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? 'Submitting...' : 'Apply'}
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+
+              {/* <div className='pt-5 px-5'>
                 <div className='flex flex-col gap-2 mt-4'>
                   <label htmlFor="">Contact Number</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact' />
+                  <input
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact' />
                 </div>
                 <div className='flex flex-col gap-2 mt-3'>
                   <label htmlFor="">Contact Email</label>
-                  <input type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Email' />
+                  <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Email' />
                 </div>
                 <div className='flex flex-col mb-32 2xl:mb-0 gap-2 mt-3'>
                   <label htmlFor="">Note to Makers</label>
 
-                  <textarea name="" className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl' placeholder='' id="">Write your note</textarea>
+                  <textarea
+                  value={note}
+                  onChange={(e)=> setNote(e.target.value)}
+                  name="" className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl' placeholder='' id="">Write your note</textarea>
                 </div>
               </div>
               <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
@@ -502,11 +639,13 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                   </button>
                 </div>
                 <div className='bg-black md:w-auto w-full md:block flex justify-center text-white px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
-                  <button>
-                    Apply
-                  </button>
+                <button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Apply'}
+                </button>
                 </div>
-              </div>
+              </div> */}
+
+
             </div>
           </div>
         </div>

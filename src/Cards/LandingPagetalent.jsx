@@ -12,139 +12,9 @@ import UserCard from './CastingCards/UserCard';
 import Load from './../components/Loader/Load'
 
 const LandingPagetalent = ({landingpage}) => {
-  const { isLoading, userData } = useFetchCastingCall();
+  const { isLoading, allCallsNUsers } = useFetchCastingCall();
 
-    // const talentData = [
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Hamza Akbar",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Sayam",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Hamza Akbar",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Sayam",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Hamza Akbar",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Sayam",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Sayam",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     },
-    //     {
-    //       title: "Short Film",
-    //       img: land4cardimg,
-    //       username: "Sayam",
-    //       description: "We're looking for the talented actors for our upcoming short film.",
-    //       location: "Islamabad",
-    //       type: "Short Film",
-    //       shoot: "25 Days",
-    //       budget: "$25K",
-    //       age: "12",
-    //       height: "5 ft",
-    //       gender: "Male",
-    //       shootdays: "30",
-    //       crew: "1",
-    //       landingpage
-    //     }
-    //   ];
-      
+    
       // const landingpage = true;
       return (
         isLoading ? (
@@ -176,7 +46,7 @@ const LandingPagetalent = ({landingpage}) => {
                         },
                     }}
                 >
-                    {userData.map((data) => (
+                    {allCallsNUsers.map((data) => (
                         <SwiperSlide key={data.id} className={`md:min-w-[350px] 2xl:min-w-[440px] 2xl:min-h-[400px] md:min-h-[300px] ${landingpage ? 'p-4 hover:scale-105 hover-rounded-2xl transition-transform duration-300' : ''}`}>
                             <UserCard {...data} landingpage={landingpage}/>
                         </SwiperSlide>
