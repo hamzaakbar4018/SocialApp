@@ -9,16 +9,26 @@ import "swiper/css/scrollbar";
 import '../../CSS/Connections.css';
 import TalentCards from './TalentCards';
 import Conneections from '../Conneections';
-
-// const IndustryPage = ({ image, network, reqData }) => {
-//     const talentData = useContext(IndustryData);
-//     return (
-//         <div className="container overflow-x-hidden">
-//             <div className="swiper-grid-container">
-
-//                 <Swiper
-const IndustryPage = ({network, reqData, onAccept, onReject }) => {
+const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus }) => {
     const talentData = useContext(IndustryData);
+    const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
+    const getConnectionStatus = (user) => {
+        // If network prop is true, use reqData
+        const dataToUse = network ? reqData : talentData;
+
+        // Check if the current user's ID is in the targeted user's requested array
+        if (user.received && user.received.includes(dummyId)) {
+            return 'requested';
+        }
+
+        // Check if the current user's ID is in the targeted user's connected array
+        if (user.connected && user.connected.includes(dummyId)) {
+            return 'connected';
+        }
+
+        return 'connect';
+    };
+
     return (
         <div className="container overflow-x-hidden">
             <div className="swiper-grid-container">
@@ -26,10 +36,9 @@ const IndustryPage = ({network, reqData, onAccept, onReject }) => {
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={10}
                     navigation={false}
-                    loop={true} 
+                    loop={true}
                     loopFillGroupWithBlank={true}
                     scrollbar={{ draggable: true }}
-                    onSwiper={(swiper) => console.log(swiper)}
                     className="swiper-container w-full m-[-10px] overflow-hidden"
                     breakpoints={{
                         640: { slidesPerView: 1 },
@@ -42,14 +51,15 @@ const IndustryPage = ({network, reqData, onAccept, onReject }) => {
                         network ? (
                             reqData.map((data, index) => (
                                 <SwiperSlide key={index} className="!w-auto max-w-[17%] min-w-[260px]">
-                                    <Conneections 
-                                        image={data.image} 
-                                        username={data.username} 
-                                        description={data.description} 
-                                        network={network} 
+                                    <Conneections
+                                        image={data.image}
+                                        username={data.username}
+                                        description={data.description}
+                                        network={network}
                                         user={data.user}
                                         onAccept={onAccept}
                                         onReject={onReject}
+                                        connectionStatus={connectionStatus}
 
                                     />
                                 </SwiperSlide>
@@ -59,11 +69,34 @@ const IndustryPage = ({network, reqData, onAccept, onReject }) => {
                                 {
                                     talentData.map((data) => (
                                         <SwiperSlide key={data.id} className=" !w-auto max-w-[17%] min-w-[260px]">
-                                            <TalentCards {...data} />
+                                            <TalentCards
+                                            image={data.image}
+                                            firstName={data.firstName}
+                                            categoryName={data.categoryName}
+                                            docID={data.docID}
+                                            onConnect={onConnect}
+                                            connectionStatus={getConnectionStatus(data)}
+                                            network={network}
+                                            // landingtalent={!network}
+                                        />
                                         </SwiperSlide>
                                     ))
 
                                 }
+                                {/* {(network ? reqData : talentData).map((data) => (
+                                    <SwiperSlide key={data.docID}>
+                                        <TalentCards
+                                            image={data.image}
+                                            firstName={data.firstName}
+                                            categoryName={data.categoryName}
+                                            docID={data.docID}
+                                            onConnect={onConnect}
+                                            connectionStatus={getConnectionStatus(data)}
+                                            network={network}
+                                            landingtalent={!network}
+                                        />
+                                    </SwiperSlide>
+                                ))} */}
                             </div>
                         )
                     }

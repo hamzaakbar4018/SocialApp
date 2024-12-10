@@ -1,6 +1,50 @@
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
-// const TalentCards = ({ userpic, name, text, connect, landingtalent, network }) => {
-const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, network }) => {
+
+const TalentCards = ({
+  image,
+  firstName,
+  categoryName,
+  docID,
+  connect,
+  landingtalent,
+  network,
+  onConnect,
+  connectionStatus: initialConnectionStatus, // Renamed to clarify it's the initial status
+  production
+}) => {
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus);
+
+  const handleConnect = async () => {
+    if (onConnect) {
+      setIsConnecting(true);
+      try {
+        // Assuming onConnect returns the new connection status
+        const newStatus = await onConnect({
+          docID,
+          firstName,
+          image,
+          categoryName
+        });
+        
+        // Update the connection status based on the response
+        if (newStatus) {
+          setConnectionStatus(newStatus);
+        } else {
+          // Fallback to a default status if no specific status is returned
+          setConnectionStatus('requested');
+        }
+      } catch (error) {
+        console.error('Error connecting:', error);
+        // Optionally, handle error state
+      } finally {
+        setIsConnecting(false);
+      }
+    }
+  };
+
   return (
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-2xl p-5 h-auto w-[255px] 
@@ -16,25 +60,23 @@ const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, n
                 className="rounded-full w-20 h-20 2xl:w-40 2xl:h-40"
                 alt="User img"
               />
-              <h2 className="2xl:mt-8  mt-4 2xl:text-2xl font-bold text-center">{firstName}</h2>
+              <h2 className="2xl:mt-8 mt-4 2xl:text-2xl font-bold text-center">{firstName}</h2>
               {
                 categoryName.map((cat, index) => (
-                  <p key={index} className="text-gray-400 2xl:mt-5 2xl:text-xl  text-center">{cat}</p>
-
+                  <p key={index} className="text-gray-400 2xl:mt-5 2xl:text-xl text-center">{cat}</p>
                 ))
               }
             </div>
           ) : (
             <div>
               <div className="flex-shrink-0">
-              <img
-                src={image}
-                className="rounded-full w-20 h-20 object-cover"
-                alt="User img"
-              />
+                <img
+                  src={image}
+                  className="rounded-full w-20 h-20 object-cover"
+                  alt="User img"
+                />
               </div>
-              <h2 className="mt-2  text-lg font-bold">{firstName}</h2>
-              {/* <p className="text-gray-400 text-wrap">{categoryName}</p> */}
+              <h2 className="mt-2 text-lg font-bold">{firstName}</h2>
               <div className="flex flex-wrap gap-2">
                 {categoryName.map((cat, index) => (
                   <p key={index} className="text-gray-400">
@@ -45,9 +87,31 @@ const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, n
             </div>
           )}
           <div className="flex justify-between items-center mt-auto">
-            <button className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}>
-              {network ? 'Connected' : 'Connect'}
-              {/* !connect ? "Connect" : "Remove"  */}
+            <button
+              onClick={handleConnect}
+              disabled={isConnecting || connectionStatus === 'requested' || connectionStatus === 'connected'}
+              className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}
+            >
+              {
+                production ? (
+                  "Follow"
+                ) : (
+                  <>
+                    {isConnecting ? (
+                      <div className="flex gap-1 justify-center items-center">
+                        <ImSpinner2 className="animate-spin" />
+                        Connecting
+                      </div>
+                    ) : connectionStatus === 'connected' ? (
+                      'Connected'
+                    ) : connectionStatus === 'requested' ? (
+                      'Requested'
+                    ) : (
+                      'Connect'
+                    )}
+                  </>
+                )
+              }
             </button>
             {landingtalent ? (
               <div className="rounded-full border 2xl:mt-5 p-2 ml-3">
@@ -64,6 +128,5 @@ const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, n
     </div>
   );
 };
-
 
 export default TalentCards;

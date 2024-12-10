@@ -14,7 +14,7 @@ const ProductionData = ({ productionData }) => {
         console.error("productionData is not a valid array.");
         return <p>No data available</p>;
     }
-
+    const production = true;
     return (
         <div className="container overflow-x-hidden">
             <div className="swiper-grid-container">
@@ -25,8 +25,6 @@ const ProductionData = ({ productionData }) => {
                     loop={true}
                     loopFillGroupWithBlank={false}
                     navigation ={false}
-                    onSwiper={(swiper) => console.log("Swiper initialized:", swiper)}
-                    onSlideChange={() => console.log("Slide changed")}
                     className="swiper-container w-full overflow-hidden"
                     breakpoints={{
                         640: {
@@ -48,7 +46,7 @@ const ProductionData = ({ productionData }) => {
                             key={data.id}
                             className="!w-auto max-w-[17%] min-w-[260px]"
                         >
-                            <TalentCards {...data} />
+                            <TalentCards production={production} {...data} />
                         </SwiperSlide>
                     ))}
                 </Swiper>

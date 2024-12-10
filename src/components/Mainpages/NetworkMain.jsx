@@ -180,24 +180,10 @@ const NetworkMain = () => {
         }
     };
 
-
-
-
     useEffect(() => {
         fetchRequests();
         UserFriends();
     }, []);
-
-
-
-
-
-
-
-
-
-
-
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {

@@ -14,17 +14,21 @@ import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { IndustryData } from '../../Context/IndustryContext.jsx';
 import Loader from '../Loader/Loader.jsx';
+import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { db } from '../../Services/Firebase.jsx';
 
 
 const TalentMain = () => {
     const talentData = useContext(IndustryData);
     const allusers = useContext(IndustryData);
-    const productionData = allusers.filter(user => user.isProductionHouse === false);
+    const productionData = allusers.filter(user => user.isProductionHouse === true);
     // const productionData = allusers.filter(user => user.docID === "1");
-
+    const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
+    // console.log(allusers)
 
 
     const notifyData = useContext(NotificatinData);
+    const [Loading, setLoading] = useState(false);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
         setpopup(!popup)
@@ -57,6 +61,123 @@ const TalentMain = () => {
         setSearch(!search);
     };
 
+    const [connectionStatus, setConnectionStatus] = useState('connect');
+
+    const handleConnect = async (targetedUser, action = 'connect') => {
+        try {
+            setLoading(true);
+            const currentUserQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", dummyId)
+            );
+            const currentUserSnapshot = await getDocs(currentUserQuery);
+
+            if (currentUserSnapshot.empty) {
+                console.error("Current user not found");
+                return false;
+            }
+
+            const currentUserDoc = currentUserSnapshot.docs[0];
+
+            const requesterQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", targetedUser.docID)
+            );
+            const requesterSnapshot = await getDocs(requesterQuery);
+
+            if (requesterSnapshot.empty) {
+                console.error("Targeted user not found");
+                return false;
+            }
+
+            const connectorDoc = requesterSnapshot.docs[0];
+
+            const currentUserRef = doc(db, 'userCollection', currentUserDoc.id);
+            const requesterRef = doc(db, 'userCollection', connectorDoc.id);
+
+            if (action === 'connect') {
+                // Update current user's requested list
+                await updateDoc(currentUserRef, {
+                    requested: [...(currentUserDoc.data().requested || []), targetedUser.docID],
+                });
+
+                // Update targeted user's received list
+                await updateDoc(requesterRef, {
+                    received: [...(connectorDoc.data().received || []), dummyId]
+                });
+                setConnectionStatus('requested')
+                console.log("Connection request sent successfully");
+
+
+                return true;
+            }
+
+            return false;
+        } catch (error) {
+            console.error("Error handling connection request:", error);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleFollow = async (targetedUser, action = 'connect') => {
+        try {
+            setLoading(true);
+            const currentUserQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", dummyId)
+            );
+            const currentUserSnapshot = await getDocs(currentUserQuery);
+
+            if (currentUserSnapshot.empty) {
+                console.error("Current user not found");
+                return false;
+            }
+
+            const currentUserDoc = currentUserSnapshot.docs[0];
+
+            const requesterQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", targetedUser.docID)
+            );
+            const requesterSnapshot = await getDocs(requesterQuery);
+
+            if (requesterSnapshot.empty) {
+                console.error("Targeted user not found");
+                return false;
+            }
+
+            const connectorDoc = requesterSnapshot.docs[0];
+
+            const currentUserRef = doc(db, 'userCollection', currentUserDoc.id);
+            const requesterRef = doc(db, 'userCollection', connectorDoc.id);
+
+            if (action === 'connect') {
+                // Update current user's requested list
+                await updateDoc(currentUserRef, {
+                    requested: [...(currentUserDoc.data().requested || []), targetedUser.docID],
+                });
+
+                // Update targeted user's received list
+                await updateDoc(requesterRef, {
+                    received: [...(connectorDoc.data().received || []), dummyId]
+                });
+                setConnectionStatus('requested')
+                console.log("Connection request sent successfully");
+
+
+                return true;
+            }
+
+            return false;
+        } catch (error) {
+            console.error("Error handling connection request:", error);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     return (
@@ -171,7 +292,11 @@ const TalentMain = () => {
                         <h3 className="text-2xl md:px-0 md:pl-4 px-2">People in Drama Industry</h3>
                         {
                             talentData.length > 0 ? (
-                                <IndustryPage className="" />
+                                <IndustryPage className=""
+                                    onConnect={(user) => handleConnect(user, 'connect')}
+                                    connectionStatus={connectionStatus}
+                                    setConnectionStatus={setConnectionStatus}
+                                />
                             ) : (
                                 <Loader />
                             )
@@ -181,7 +306,13 @@ const TalentMain = () => {
                         <h3 className="text-2xl md:px-0 md:pl-4 px-2">Popular Production houses</h3>
                         {
                             productionData.length > 0 ? (
-                                <ProductionData productionData={productionData}/>
+                                <ProductionData
+                                    onConnect={(user) => handleFollow(user, 'connect')}
+
+                                    productionData={productionData}
+                                    connectionStatus={connectionStatus}
+                                    setConnectionStatus={setConnectionStatus}
+                                />
                             ) : (
                                 <Loader />
                             )
