@@ -12,11 +12,13 @@ import { IndustryData } from '../../Context/IndustryContext.jsx';
 import Load from '../Loader/Load.jsx';
 import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
+import Loader from '../Loader/Loader.jsx';
 const NetworkMain = () => {
     const talentData = useContext(IndustryData);
     // const allusers = useContext(IndustryData);
 
     const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+    const [isInitialLoading, setIsInitialLoading] = useState(true);
 
     const [reqUsers, setReqUsers] = useState([]);
     const [UsersFriend, setUsersFriend] = useState([]);
@@ -24,6 +26,7 @@ const NetworkMain = () => {
 
     const UserFriends = async () => {
         try {
+            setIsInitialLoading(true)
             const reqUsersQuery = query(
                 collection(db, 'userCollection'),
                 where("docID", "==", dummyID)
@@ -65,6 +68,8 @@ const NetworkMain = () => {
             // console.log("All Friends Data:", allFriendsData);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            setIsInitialLoading(false);
         }
     };
 
@@ -73,6 +78,7 @@ const NetworkMain = () => {
 
     const fetchRequests = async () => {
         try {
+            setIsInitialLoading(true);
             const reqUsersQuery = query(
                 collection(db, 'userCollection'),
                 where("docID", "==", dummyID)
@@ -114,6 +120,8 @@ const NetworkMain = () => {
             console.log("All Connection Requests:", allRequestsData);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            setIsInitialLoading(false);
         }
     };
 
@@ -163,6 +171,8 @@ const NetworkMain = () => {
             setConnectionRequests(prevRequests =>
                 prevRequests.filter(request => request.docID !== requestUser.docID)
             );
+            console.log("updated")
+            // UserFriends();
         } catch (error) {
             console.error("Error handling connection request:", error);
         } finally {
@@ -223,57 +233,7 @@ const NetworkMain = () => {
         setSearch(!search);
     };
 
-    const reqData = [
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "Hamza",
-            "description": "1 day ago",
-            network: true
 
-        },
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "Req",
-            "description": "1 day ago",
-            network: true
-
-        },
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "michael_scott",
-            "description": "1 day ago",
-            network: true
-
-        },
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "michael_scott",
-            "description": "1 day ago",
-            network: true
-
-        },
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "michael_scott",
-            "description": "1 day ago",
-            network: true
-
-        },
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "michael_scott",
-            "description": "1 day ago",
-            network: true
-
-        },
-        {
-            "image": "https://randomuser.me/api/portraits/men/10.jpg",
-            "username": "michael_scott",
-            "description": "1 day ago",
-            network: true
-
-        }
-    ]
 
     const network = true;
     return (
@@ -383,13 +343,17 @@ const NetworkMain = () => {
 
 
                 </div>
-                <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
+                {
+                    isInitialLoading ? (
+                        <Loader/>
+                    ) : (
+                        <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
                         <div className=' bg-white '>
                             <h1 className='font-bold p-2 md:pl-4'>Requests ({connectionRequests.length})</h1>
-                            <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2 mt-4'>
+                            <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2'>
                                 {connectionRequests.length > 0 ? (
-                                    <div className="md:pl-1 bg-white flex-grow-0 space-y-2">
+                                    <div className=" bg-white flex-grow-0 space-y-2">
                                         <IndustryPage
                                             network={true}
                                             reqData={connectionRequests.map(user => ({
@@ -404,9 +368,10 @@ const NetworkMain = () => {
                                         />
                                     </div>
                                 ) : (
-                                    <div className='ml-4 pb-2 flex justify-center items-center'>
-                                        <p className='font-bold'>No connection requests</p>
-                                    </div>
+                                    // <div className='ml-4 pb-2 flex justify-center items-center'>
+                                    //     <p className='font-bold'>No connection requests :</p>
+                                    // </div>
+                                    ''
                                 )}
                             </div>
                         </div>
@@ -425,7 +390,7 @@ const NetworkMain = () => {
 
                                     </div>
                                 ) : (
-                                    <Load />
+                                    <Load/>
                                 )
                             }
 
@@ -434,6 +399,8 @@ const NetworkMain = () => {
 
                     </div>
                 </div>
+                    )
+                }
             </div>
 
             {/* Right Sidebar */}

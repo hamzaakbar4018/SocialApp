@@ -17,7 +17,7 @@ import Conneections from '../Conneections';
 //             <div className="swiper-grid-container">
 
 //                 <Swiper
-const IndustryPage = ({Loading, network, reqData, onAccept, onReject }) => {
+const IndustryPage = ({network, reqData, onAccept, onReject }) => {
     const talentData = useContext(IndustryData);
     return (
         <div className="container overflow-x-hidden">
@@ -25,13 +25,12 @@ const IndustryPage = ({Loading, network, reqData, onAccept, onReject }) => {
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={10}
-                    navigation={true}
+                    navigation={false}
                     loop={true} 
                     loopFillGroupWithBlank={true}
                     scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log("slide change")}
-                    className="swiper-container w-full overflow-hidden"
+                    className="swiper-container w-full m-[-10px] overflow-hidden"
                     breakpoints={{
                         640: { slidesPerView: 1 },
                         768: { slidesPerView: 2 },

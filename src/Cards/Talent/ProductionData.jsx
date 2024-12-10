@@ -24,7 +24,7 @@ const ProductionData = ({ productionData }) => {
                     scrollbar={{ draggable: true }}
                     loop={true}
                     loopFillGroupWithBlank={false}
-                    navigation
+                    navigation ={false}
                     onSwiper={(swiper) => console.log("Swiper initialized:", swiper)}
                     onSlideChange={() => console.log("Slide changed")}
                     className="swiper-container w-full overflow-hidden"
