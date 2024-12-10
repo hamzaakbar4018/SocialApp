@@ -18,15 +18,17 @@ import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { GiCrossMark } from "react-icons/gi";
 import { ImSpinner2 } from 'react-icons/im';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time, isDeleting }) => {
+const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time, isDeleting }) => {
   const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
 
   const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+  console.log("callid", myCallID)
 
-  
   const [contactNumber, setContactNumber] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
@@ -35,8 +37,10 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleApplicationSubmit = async (e) => {
+
+    setMyCallID(callId);
     e.preventDefault();
-    
+
     // Validate inputs
     // if (!currentUser) {
     //   setSubmitError('You must be logged in to apply');
@@ -49,18 +53,24 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
       return;
     }
 
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
       // Reference to the applications subcollection
       const applicationsCollectionRef = collection(
-        db, 
-        'castingCallCollection', 
-        myCallID, 
+        db,
+        'castingCallCollection',
+        myCallID,
         'applicationCollection'
       );
-    
+
       // Add the application document with a placeholder for docID
       const applicationDoc = await addDoc(applicationsCollectionRef, {
         docID: null, // Temporary placeholder
@@ -74,12 +84,14 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
         castingCallID: myCallID,
         userID: dummyID,
       });
-    
+
       // Update the document with its actual ID
       await updateDoc(applicationDoc, {
         docID: applicationDoc.id,
       });
-    
+
+      toast.success("Applied Successfully!")
+
       // Reset form and show success
       setContactNumber('');
       setEmail('');
@@ -92,11 +104,12 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
     } finally {
       setIsSubmitting(false);
     }
-  };    
+  };
 
 
   useEffect(() => {
     if (myCallId && myCallId !== myCallID) {
+      console.log("Setting myCallID to:", myCallId);
       setMyCallID(myCallId);
     }
   }, [myCallId, myCallID, setMyCallID]);
@@ -196,6 +209,7 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
   return (
     <>
       <div className='h-screen overflow-y-auto'>
+        <ToastContainer />
         <div className='bg-white mt-1 rounded p-4'>
           <div className='flex bg-white justify-end mb-12 md:hidden'>
             {
@@ -244,7 +258,7 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                   </button>
                 </div>
               ) : (
-                <button className='bg-black md:block hidden text-white rounded-3xl px-3 py-2' onClick={(e)=>{
+                <button className='bg-black md:block hidden text-white rounded-3xl px-3 py-2' onClick={(e) => {
                   handleApplyClick();
                   handleApplicationSubmit(e);
                 }}>
@@ -562,16 +576,16 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                     {submitError}
                   </div>
                 )}
-                
+
                 {/* Form fields */}
                 <div className='flex flex-col gap-2 mt-4'>
                   <label>Contact Number</label>
                   <input
                     value={contactNumber}
                     onChange={(e) => setContactNumber(e.target.value)}
-                    type="text" 
-                    className='bg-gray-100 p-2 rounded-3xl' 
-                    placeholder='Enter Contact' 
+                    type="text"
+                    className='bg-gray-100 p-2 rounded-3xl'
+                    placeholder='Enter Contact'
                     required
                   />
                 </div>
@@ -580,9 +594,9 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                   <input
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    type="email" 
-                    className='bg-gray-100 p-2 rounded-3xl' 
-                    placeholder='Enter Email' 
+                    type="email"
+                    className='bg-gray-100 p-2 rounded-3xl'
+                    placeholder='Enter Email'
                     required
                   />
                 </div>
@@ -590,12 +604,12 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
                   <label>Note to Makers</label>
                   <textarea
                     value={note}
-                    onChange={(e)=> setNote(e.target.value)}
-                    className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl' 
+                    onChange={(e) => setNote(e.target.value)}
+                    className='bg-gray-100 p-2 py-3 min-h-60 rounded-3xl'
                     placeholder='Write your note'
                   />
                 </div>
-                
+
                 {/* Submit buttons */}
                 <div className='flex overflow-hidden bg-white sticky bottom-0 w-full py-3  pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
                   <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>

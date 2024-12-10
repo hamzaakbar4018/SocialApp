@@ -37,6 +37,7 @@ const Calls = () => {
             {
               selectedCardIndex !== null && selectedCardIndex < allCallsNUsers.length && (
                 <UserDescription
+                  callId={allCallsNUsers[selectedCardIndex].docID}
                   title={allCallsNUsers[selectedCardIndex].title}
                   img={allCallsNUsers[selectedCardIndex].user.image}
                   des={allCallsNUsers[selectedCardIndex].description}

@@ -103,14 +103,14 @@ const useFetchCastingCall = () => {
         }));
 
         setAllCallsNUsers(enrichedCastingCalls);
-
+        
+        console.log("setAllCallsNUsers", enrichedCastingCalls)
         // Now find the casting calls the dummyId user has applied to
         const appliedCastingCalls = enrichedCastingCalls.filter(call => 
           call.appliedUsers && call.appliedUsers.includes(dummyId)
         );
 
         setUserAppliedCastingCalls(appliedCastingCalls);
-        console.log(appliedCastingCalls)
         console.log("User Applied Casting Calls:", appliedCastingCalls);
       }
 
@@ -119,6 +119,7 @@ const useFetchCastingCall = () => {
       setError(error);
     } finally {
       setIsLoading(false);
+      console.log(allCallsNUsers)
     }
   };
 

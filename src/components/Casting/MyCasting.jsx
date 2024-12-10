@@ -171,9 +171,9 @@ const MyCasting = () => {
 
 
       setCreateCasting(false);
+      toast.success("Casting call created successfully!")
       window.location.reload();
 
-      toast.success("Casting call created successfully!")
 
     } catch (error) {
       console.error("Error creating casting call: ", error);

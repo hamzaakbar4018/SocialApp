@@ -46,7 +46,8 @@ const TalentCards = ({ image, firstName, categoryName, connect, landingtalent, n
           )}
           <div className="flex justify-between items-center mt-auto">
             <button className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}>
-              {!connect ? "Connect" : "Remove"}
+              {network ? 'Connected' : 'Connect'}
+              {/* !connect ? "Connect" : "Remove"  */}
             </button>
             {landingtalent ? (
               <div className="rounded-full border 2xl:mt-5 p-2 ml-3">

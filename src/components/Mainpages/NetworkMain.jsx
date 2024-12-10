@@ -9,9 +9,184 @@ import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { IndustryData } from '../../Context/IndustryContext.jsx';
-import Loader from '../Loader/Loader.jsx';
+import Load from '../Loader/Load.jsx';
+import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { db } from '../../Services/Firebase.jsx';
 const NetworkMain = () => {
     const talentData = useContext(IndustryData);
+    // const allusers = useContext(IndustryData);
+
+    const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+
+    const [reqUsers, setReqUsers] = useState([]);
+    const [UsersFriend, setUsersFriend] = useState([]);
+
+
+    const UserFriends = async () => {
+        try {
+            const reqUsersQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", dummyID)
+            );
+
+            const querySnapShot = await getDocs(reqUsersQuery);
+            const users = querySnapShot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            setReqUsers(users);
+            console.log("Users:", users);
+
+            const friendsList = users.flatMap((user) => user.friends || []);
+            // console.log("Friends List:", friendsList);
+
+            if (friendsList.length === 0) {
+                console.log("No friends found.");
+                return;
+            }
+
+            const allFriendsData = await Promise.all(
+                friendsList.map(async (friendId) => {
+                    const friendQuery = query(
+                        collection(db, "userCollection"),
+                        where("docID", "==", friendId)
+                    );
+
+                    const querySnap = await getDocs(friendQuery);
+                    return querySnap.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }))[0]; // Return the first match
+                })
+            );
+
+            setUsersFriend(allFriendsData);
+            // console.log("All Friends Data:", allFriendsData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+
+    const [connectionRequests, setConnectionRequests] = useState([]);
+
+    const fetchRequests = async () => {
+        try {
+            const reqUsersQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", dummyID)
+            );
+
+            const querySnapShot = await getDocs(reqUsersQuery);
+            const users = querySnapShot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            setReqUsers(users);
+            console.log("user", users)
+
+            // Fetch connection requests
+            const requestsList = users.flatMap((user) => user.received || []);
+
+            if (requestsList.length === 0) {
+                console.log("No connection requests found.");
+                return;
+            }
+
+            const allRequestsData = await Promise.all(
+                requestsList.map(async (requestId) => {
+                    const requestQuery = query(
+                        collection(db, "userCollection"),
+                        where("docID", "==", requestId)
+                    );
+
+                    const querySnap = await getDocs(requestQuery);
+                    return querySnap.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }))[0]; // Return the first match
+                })
+            );
+
+            setConnectionRequests(allRequestsData);
+            console.log("All Connection Requests:", allRequestsData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const [Loading, setLoading] = useState(false);
+
+    const handleConnectionRequest = async (requestUser, action) => {
+        try {
+            setLoading(true);
+            const currentUserQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", dummyID)
+            );
+            const currentUserSnapshot = await getDocs(currentUserQuery);
+            const currentUserDoc = currentUserSnapshot.docs[0];
+
+            const requesterQuery = query(
+                collection(db, 'userCollection'),
+                where("docID", "==", requestUser.docID)
+            );
+            const requesterSnapshot = await getDocs(requesterQuery);
+            const requesterDoc = requesterSnapshot.docs[0];
+
+            const currentUserRef = doc(db, 'userCollection', currentUserDoc.id);
+            const requesterRef = doc(db, 'userCollection', requesterDoc.id);
+
+            if (action === 'accept') {
+                await updateDoc(currentUserRef, {
+                    received: (currentUserDoc.data().received || []).filter(id => id !== requestUser.docID),
+                    friends: [...(currentUserDoc.data().friends || []), requestUser.docID]
+                });
+
+                await updateDoc(requesterRef, {
+                    sent: (requesterDoc.data().sent || []).filter(id => id !== dummyID),
+                    friends: [...(requesterDoc.data().friends || []), dummyID]
+                });
+            } else if (action === 'reject') {
+                await updateDoc(currentUserRef, {
+                    received: (currentUserDoc.data().received || []).filter(id => id !== requestUser.docID)
+                });
+
+                await updateDoc(requesterRef, {
+                    sent: (requesterDoc.data().sent || []).filter(id => id !== dummyID)
+                });
+            }
+
+            // Immediately update the local state to remove the processed request
+            setConnectionRequests(prevRequests =>
+                prevRequests.filter(request => request.docID !== requestUser.docID)
+            );
+        } catch (error) {
+            console.error("Error handling connection request:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+
+    useEffect(() => {
+        fetchRequests();
+        UserFriends();
+    }, []);
+
+
+
+
+
+
+
+
+
+
 
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
@@ -47,65 +222,7 @@ const NetworkMain = () => {
         console.log("Search button clicked");
         setSearch(!search);
     };
-    // const talentData = [
-    //     {
-    //         id: 1,
-    //         userpic: "https://randomuser.me/api/portraits/men/1.jpg",
-    //         name: "Hamza",
-    //         text: "Actor | Model",
-    //         connect: true
 
-    //     },
-    //     {
-    //         id: 2,
-    //         userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-    //         name: "Ali",
-    //         text: "Model | Director",
-    //         connect: true
-    //     },
-    //     {
-    //         id: 3,
-    //         userpic: "https://randomuser.me/api/portraits/men/12.jpg",
-    //         name: "Akbar",
-    //         text: "Actor | Director",
-    //         connect: true
-    //     },
-    //     {
-    //         id: 4,
-    //         userpic: "https://randomuser.me/api/portraits/women/13.jpg",
-    //         name: "Emily Davis",
-    //         text: "Model",
-    //         connect: true
-    //     },
-    //     {
-    //         id: 5,
-    //         userpic: "https://randomuser.me/api/portraits/men/14.jpg",
-    //         name: "Chris Brown",
-    //         text: "Actor",
-    //         connect: true
-    //     },
-    //     {
-    //         id: 6,
-    //         userpic: "https://randomuser.me/api/portraits/women/15.jpg",
-    //         name: "Sophia Wilson",
-    //         text: "Director",
-    //         connect: true
-    //     },
-    //     {
-    //         id: 7,
-    //         userpic: "https://randomuser.me/api/portraits/men/16.jpg",
-    //         name: "David Miller",
-    //         text: "Actor | Model | Director",
-    //         connect: true
-    //     },
-    //     {
-    //         id: 8,
-    //         userpic: "https://randomuser.me/api/portraits/women/17.jpg",
-    //         name: "Olivia Taylor",
-    //         text: "Model | Actor",
-    //         connect: true
-    //     },
-    // ];
     const reqData = [
         {
             "image": "https://randomuser.me/api/portraits/men/10.jpg",
@@ -269,35 +386,49 @@ const NetworkMain = () => {
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
                         <div className=' bg-white '>
-                            <h1 className='font-bold p-2 md:pl-4'>Requests ({reqData.length})</h1>
+                            <h1 className='font-bold p-2 md:pl-4'>Requests ({connectionRequests.length})</h1>
                             <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2 mt-4'>
-
-                                {
-                                        <div className="md:pl-1 bg-white flex-grow-0 space-y-2">
-                                            <IndustryPage network={network}  reqData={reqData} />
-                                        </div>
-                                }
+                                {connectionRequests.length > 0 ? (
+                                    <div className="md:pl-1 bg-white flex-grow-0 space-y-2">
+                                        <IndustryPage
+                                            network={true}
+                                            reqData={connectionRequests.map(user => ({
+                                                image: user.image || "https://randomuser.me/api/portraits/men/10.jpg",
+                                                username: user.firstName,
+                                                description: user.bio,
+                                                user: user
+                                            }))}
+                                            Loading={Loading}
+                                            onAccept={(user) => handleConnectionRequest(user, 'accept')}
+                                            onReject={(user) => handleConnectionRequest(user, 'reject')}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='ml-4 pb-2 flex justify-center items-center'>
+                                        <p className='font-bold'>No connection requests</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                     <div className='p-[2px]'>
                         <div className="bg-white md:p-4 p-2">
-                            <h1 className="font-bold">My Connections ({talentData.length})</h1>
+                            <h1 className="font-bold">My Connections ({UsersFriend.length})</h1>
                             {/* <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3"> */}
                             {
-                                talentData.length > 0 ? (
+                                UsersFriend.length > 0 ? (
                                     <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid md:grid-cols-3  mt-3">
-                               
-                                    {talentData.map((data, index) => (
-                                        <TalentCards key={index} network={network} {...data} />
-                                    ))}
-                               
-                            </div>
-                                ):(
-                                    <Loader/>
+
+                                        {UsersFriend.map((data, index) => (
+                                            <TalentCards key={index} network={network} {...data} />
+                                        ))}
+
+                                    </div>
+                                ) : (
+                                    <Load />
                                 )
                             }
-                           
+
                         </div>
 
 
