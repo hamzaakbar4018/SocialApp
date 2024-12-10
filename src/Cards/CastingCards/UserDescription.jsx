@@ -13,7 +13,7 @@ import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
 import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
 import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
 import { IoMdArrowBack } from "react-icons/io";
-import { addDoc, collection, getDocs, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { GiCrossMark } from "react-icons/gi";
@@ -25,9 +25,8 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
   const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
 
   const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
-  myCallId = "1W6yAcb7JG5guAuAJ7Dw"
-  console.log("ID", dummyID)
-  console.log("Call ID", myCallId)
+
+  
   const [contactNumber, setContactNumber] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
@@ -58,12 +57,13 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
       const applicationsCollectionRef = collection(
         db, 
         'castingCallCollection', 
-        myCallId, 
+        myCallID, 
         'applicationCollection'
       );
-
+    
+      // Add the application document with a placeholder for docID
       const applicationDoc = await addDoc(applicationsCollectionRef, {
-        docID: null, // This will be set by Firestore
+        docID: null, // Temporary placeholder
         contactNumber,
         email,
         note,
@@ -71,10 +71,15 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
         isRejected: false,
         isPending: true,
         createdAt: Timestamp.now(),
-        castingCallID: myCallId,
+        castingCallID: myCallID,
         userID: dummyID,
       });
-
+    
+      // Update the document with its actual ID
+      await updateDoc(applicationDoc, {
+        docID: applicationDoc.id,
+      });
+    
       // Reset form and show success
       setContactNumber('');
       setEmail('');
@@ -87,8 +92,7 @@ const UserDescription = ({ myCallId, appliedUsers, onDelete, applied, img, usern
     } finally {
       setIsSubmitting(false);
     }
-  };
-
+  };    
 
 
   useEffect(() => {

@@ -319,6 +319,7 @@ const MyCasting = () => {
                 //   time={myCasting[selectedCardIndex].createdAt}
                 // />
                 <UserDescription
+                  myCallId={myCasting[selectedCardIndex].docID}
                   isDeleting={isDeleting}
                   mycasting={mycasting}
                   sendData={handleDataSend}

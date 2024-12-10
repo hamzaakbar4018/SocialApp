@@ -13,7 +13,7 @@ const Applied = () => {
 
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false); // State to handle sheet visibility
-
+  console.log(userAppliedCastingCalls)
   return (
     isLoading ? (
       <Loader />
