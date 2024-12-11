@@ -9,11 +9,14 @@ import "swiper/css/scrollbar";
 import '../../CSS/Connections.css';
 
 
-const ProductionData = ({ productionData }) => {
+const ProductionData = ({ productionData,
+    onFollow,
+    connectionStatus }) => {
     if (!productionData || !Array.isArray(productionData)) {
         console.error("productionData is not a valid array.");
         return <p>No data available</p>;
     }
+    console.log(connectionStatus)
     const production = true;
     return (
         <div className="container overflow-x-hidden">
@@ -24,7 +27,7 @@ const ProductionData = ({ productionData }) => {
                     scrollbar={{ draggable: true }}
                     loop={true}
                     loopFillGroupWithBlank={false}
-                    navigation ={false}
+                    navigation={false}
                     className="swiper-container w-full overflow-hidden"
                     breakpoints={{
                         640: {
@@ -46,7 +49,12 @@ const ProductionData = ({ productionData }) => {
                             key={data.id}
                             className="!w-auto max-w-[17%] min-w-[260px]"
                         >
-                            <TalentCards production={production} {...data} />
+                            <TalentCards
+                                production={production}
+                                {...data}
+                                onFollow={onFollow}
+                                connectionStatus={connectionStatus}
+                            />
                         </SwiperSlide>
                     ))}
                 </Swiper>

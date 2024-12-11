@@ -15,7 +15,6 @@ import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
 const NetworkMain = () => {
     const talentData = useContext(IndustryData);
-    // const allusers = useContext(IndustryData);
 
     const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
     const [isInitialLoading, setIsInitialLoading] = useState(true);

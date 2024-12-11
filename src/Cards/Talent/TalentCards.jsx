@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
 
@@ -11,39 +11,66 @@ const TalentCards = ({
   landingtalent,
   network,
   onConnect,
-  connectionStatus: initialConnectionStatus, // Renamed to clarify it's the initial status
+  onFollow,
+  connectionStatus: initialConnectionStatus,
   production
 }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus);
 
+  useEffect(() => {
+    // Retrieve connection status from local storage
+    const storedStatus = localStorage.getItem(`connectionStatus_${docID}`);
+    if (storedStatus) {
+      setConnectionStatus(storedStatus);
+    }
+  }, [docID]);
+
   const handleConnect = async () => {
     if (onConnect) {
       setIsConnecting(true);
       try {
-        // Assuming onConnect returns the new connection status
         const newStatus = await onConnect({
           docID,
           firstName,
           image,
           categoryName
         });
-        
-        // Update the connection status based on the response
-        if (newStatus) {
-          setConnectionStatus(newStatus);
-        } else {
-          // Fallback to a default status if no specific status is returned
-          setConnectionStatus('requested');
-        }
+
+        setConnectionStatus(newStatus);
       } catch (error) {
         console.error('Error connecting:', error);
-        // Optionally, handle error state
+        // Handle error, e.g., display an error message to the user
       } finally {
         setIsConnecting(false);
       }
     }
   };
+
+  const handleFollow = async () => {
+    if (onFollow) {
+      setIsConnecting(true);
+      try {
+        const newStatus = await onFollow({
+          docID,
+          firstName,
+          image,
+          categoryName
+        });
+  
+        setConnectionStatus(newStatus);
+        
+        // Store the connection status in local storage
+        localStorage.setItem(`connectionStatus_${docID}`, newStatus);
+      } catch (error) {
+        console.error('Error following:', error);
+        // Optionally, you could add error handling like showing a toast or error message
+      } finally {
+        setIsConnecting(false);
+      }
+    }
+  };
+
 
   return (
     <div className="md:overflow-hidden">
@@ -88,30 +115,42 @@ const TalentCards = ({
           )}
           <div className="flex justify-between items-center mt-auto">
             <button
-              onClick={handleConnect}
-              disabled={isConnecting || connectionStatus === 'requested' || connectionStatus === 'connected'}
+              onClick={() => {
+                handleConnect();
+                handleFollow();
+              }}
+              disabled={isConnecting || connectionStatus === 'requested' || connectionStatus === 'connected' || isConnecting || connectionStatus === 'Following'}
               className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}
             >
-              {
-                production ? (
-                  "Follow"
-                ) : (
-                  <>
-                    {isConnecting ? (
-                      <div className="flex gap-1 justify-center items-center">
-                        <ImSpinner2 className="animate-spin" />
-                        Connecting
-                      </div>
-                    ) : connectionStatus === 'connected' ? (
-                      'Connected'
-                    ) : connectionStatus === 'requested' ? (
-                      'Requested'
-                    ) : (
-                      'Connect'
-                    )}
-                  </>
-                )
-              }
+{
+  production ? (
+    isConnecting ? (
+      <div className="flex gap-1 justify-center items-center">
+        <ImSpinner2 className="animate-spin" />
+        Following
+      </div>
+    ) : (
+      connectionStatus === 'Requested' ? (
+        'Request Sent'
+      ) : (
+        'Follow'
+      )
+    )
+  ) : (
+    isConnecting ? (
+      <div className="flex gap-1 justify-center items-center">
+        <ImSpinner2 className="animate-spin" />
+        Connecting
+      </div>
+    ) : (
+      connectionStatus === 'Connected' ? (
+        'Connected'
+      ) : (
+        'Connected'
+      )
+    )
+  )
+}
             </button>
             {landingtalent ? (
               <div className="rounded-full border 2xl:mt-5 p-2 ml-3">

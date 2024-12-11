@@ -21,11 +21,20 @@ import { db } from '../../Services/Firebase.jsx';
 const TalentMain = () => {
     const talentData = useContext(IndustryData);
     const allusers = useContext(IndustryData);
+    
     const productionData = allusers.filter(user => user.isProductionHouse === true);
     // const productionData = allusers.filter(user => user.docID === "1");
+    console.log("productionData", productionData)
     const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
     // console.log(allusers)
 
+    const usersWithDummyId = productionData.filter(user =>
+        Array.isArray(user.follow) && user.follow.includes(dummyId)
+    );
+
+    console.log(usersWithDummyId)
+
+    
 
     const notifyData = useContext(NotificatinData);
     const [Loading, setLoading] = useState(false);
@@ -61,7 +70,7 @@ const TalentMain = () => {
         setSearch(!search);
     };
 
-    const [connectionStatus, setConnectionStatus] = useState('connect');
+    const [connectionStatus, setConnectionStatus] = useState("Follow");
 
     const handleConnect = async (targetedUser, action = 'connect') => {
         try {
@@ -96,20 +105,35 @@ const TalentMain = () => {
             const requesterRef = doc(db, 'userCollection', connectorDoc.id);
 
             if (action === 'connect') {
+                // Check if already requested or connected
+                const currentRequested = currentUserDoc.data().requested || [];
+                if (currentRequested.includes(targetedUser.docID)) {
+                    console.log("Already requested");
+                    setConnectionStatus(prev => ({
+                        ...prev,
+                        [targetedUser.docID]: 'Requested'
+                    }));
+                    return 'Requested';
+                }
+
                 // Update current user's requested list
                 await updateDoc(currentUserRef, {
-                    requested: [...(currentUserDoc.data().requested || []), targetedUser.docID],
+                    requested: [...currentRequested, targetedUser.docID],
                 });
 
                 // Update targeted user's received list
                 await updateDoc(requesterRef, {
                     received: [...(connectorDoc.data().received || []), dummyId]
                 });
-                setConnectionStatus('requested')
+
+                // Update connection status in real-time
+                setConnectionStatus(prev => ({
+                    ...prev,
+                    [targetedUser.docID]: 'Requested'
+                }));
+
                 console.log("Connection request sent successfully");
-
-
-                return true;
+                return 'Requested';
             }
 
             return false;
@@ -121,8 +145,9 @@ const TalentMain = () => {
         }
     };
 
-    const handleFollow = async (targetedUser, action = 'connect') => {
+    const handleFollow = async (targetedUser, action = 'follow') => {
         try {
+            setConnectionStatus('Follow')
             setLoading(true);
             const currentUserQuery = query(
                 collection(db, 'userCollection'),
@@ -136,49 +161,42 @@ const TalentMain = () => {
             }
 
             const currentUserDoc = currentUserSnapshot.docs[0];
-
-            const requesterQuery = query(
-                collection(db, 'userCollection'),
-                where("docID", "==", targetedUser.docID)
-            );
-            const requesterSnapshot = await getDocs(requesterQuery);
-
-            if (requesterSnapshot.empty) {
-                console.error("Targeted user not found");
-                return false;
-            }
-
-            const connectorDoc = requesterSnapshot.docs[0];
-
             const currentUserRef = doc(db, 'userCollection', currentUserDoc.id);
-            const requesterRef = doc(db, 'userCollection', connectorDoc.id);
 
-            if (action === 'connect') {
-                // Update current user's requested list
-                await updateDoc(currentUserRef, {
-                    requested: [...(currentUserDoc.data().requested || []), targetedUser.docID],
-                });
+            // Get current user's follow array or initialize if not exists
+            const currentFollow = currentUserDoc.data().follow || [];
 
-                // Update targeted user's received list
-                await updateDoc(requesterRef, {
-                    received: [...(connectorDoc.data().received || []), dummyId]
-                });
-                setConnectionStatus('requested')
-                console.log("Connection request sent successfully");
-
-
-                return true;
+            // Check if already following
+            if (currentFollow.includes(targetedUser.docID)) {
+                console.log("Already following");
+                setConnectionStatus("Following")
+                return 'Following';
             }
 
-            return false;
+            // Update current user's follow list
+            await updateDoc(currentUserRef, {
+                follow: [...currentFollow, targetedUser.docID]
+            });
+
+            // Update local state to reflect following status
+            if (action === 'follow') {
+                setConnectionStatus(prev => ({
+                    ...prev,
+                    [targetedUser.docID]: 'Following'
+                }));
+            }
+            console.log("Followed successfully");
+            return 'Following';
         } catch (error) {
-            console.error("Error handling connection request:", error);
+            console.error("Error handling follow request:", error);
             return false;
         } finally {
             setLoading(false);
         }
     };
 
+
+    console.log(connectionStatus)
 
     return (
         <div className={`flex ${showRightbar ? "col-span-8" : "col-span-10"} transition-all`}>
@@ -307,11 +325,9 @@ const TalentMain = () => {
                         {
                             productionData.length > 0 ? (
                                 <ProductionData
-                                    onConnect={(user) => handleFollow(user, 'connect')}
-
+                                    onFollow={(user) => handleFollow(user, 'follow')}
                                     productionData={productionData}
                                     connectionStatus={connectionStatus}
-                                    setConnectionStatus={setConnectionStatus}
                                 />
                             ) : (
                                 <Loader />
