@@ -57,9 +57,9 @@ const TalentCards = ({
           image,
           categoryName
         });
-  
+
         setConnectionStatus(newStatus);
-        
+
         // Store the connection status in local storage
         localStorage.setItem(`connectionStatus_${docID}`, newStatus);
       } catch (error) {
@@ -122,35 +122,30 @@ const TalentCards = ({
               disabled={isConnecting || connectionStatus === 'requested' || connectionStatus === 'connected' || isConnecting || connectionStatus === 'Following'}
               className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}
             >
-{
-  production ? (
+             {
+  network ? (
+    "Connected"
+  ) : production ? (
     isConnecting ? (
       <div className="flex gap-1 justify-center items-center">
         <ImSpinner2 className="animate-spin" />
         Following
       </div>
     ) : (
-      connectionStatus === 'Requested' ? (
-        'Request Sent'
-      ) : (
-        'Follow'
-      )
+      connectionStatus
     )
+  ) : isConnecting ? (
+    <div className="flex gap-1 justify-center items-center">
+      <ImSpinner2 className="animate-spin" />
+      Connecting
+    </div>
   ) : (
-    isConnecting ? (
-      <div className="flex gap-1 justify-center items-center">
-        <ImSpinner2 className="animate-spin" />
-        Connecting
-      </div>
-    ) : (
-      connectionStatus === 'Connected' ? (
-        'Connected'
-      ) : (
-        'Connected'
-      )
-    )
+    connectionStatus
   )
 }
+
+
+
             </button>
             {landingtalent ? (
               <div className="rounded-full border 2xl:mt-5 p-2 ml-3">
