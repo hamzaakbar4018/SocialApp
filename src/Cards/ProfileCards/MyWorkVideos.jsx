@@ -5,15 +5,16 @@ import Edit from '../../assets/Icons SVG/Edit.svg';
 import Add from '../../assets/Icons SVG/Add.svg';
 import { RiDeleteBinLine } from "react-icons/ri";
 import { db } from '../../Services/Firebase';
-
+import { ToastContainer , toast } from 'react-toastify';
 const Spinner = () => (
   <div className="flex justify-center items-center">
     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white"></div>
   </div>
 );
 
-const MyWorkCard = ({ videos, refreshVideos }) => {
-  const userId = "GFPNB660GaVlJfnmbMdzFIjba4A3";
+const MyWorkCard = ({ videos, refreshVideos ,userId }) => {
+  console.log(userId)
+  // const userId = "GFPNB660GaVlJfnmbMdzFIjba4A3";
   const [title, setTitle] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [image, setImage] = useState(null);
@@ -132,6 +133,11 @@ const MyWorkCard = ({ videos, refreshVideos }) => {
       setImagePreview(null);
       setAddVideo(false);
       setEditingVideo(null);
+      setAddVideo(false);
+
+      window.location.reload();
+
+      toast.success("Added Successfully !")
 
       // Refresh videos if callback is provided
       if (refreshVideos) {
@@ -139,6 +145,7 @@ const MyWorkCard = ({ videos, refreshVideos }) => {
       }
 
     } catch (err) {
+      toast.error("Please try again !")
       console.error('Error:', err);
       setError(err.message);
     } finally {
@@ -148,6 +155,7 @@ const MyWorkCard = ({ videos, refreshVideos }) => {
 
   return (
     <div className='alldata w-full bg-white m-[2px] md:p-6'>
+      <ToastContainer/>
       <div className="videos">
         <div className='flex justify-between items-center mb-4'>
           <div className='flex-1 md:p-0 py-3 px-2'>
@@ -217,16 +225,6 @@ const MyWorkCard = ({ videos, refreshVideos }) => {
             ))
           ) : (
             <div className='flex flex-col gap-4 justify-center'>
-              <div className='text-blue-500 cursor-pointer'>
-                <div className='flex gap-2 md:p-0 py-3 px-4'>
-                  <div className='rounded-full flex justify-center items-center p-3 bg-[#D6EBFF]'>
-                    <img src={Edit} className='w-7 h-7' />
-                  </div>
-                  <div className='bg-[#B3FCE2] rounded-full flex justify-center items-center p-3'>
-                    <img src={Add} className='w-7 h-7' />
-                  </div>
-                </div>
-              </div>
               <p>No videos available.</p>
             </div>
           )}
