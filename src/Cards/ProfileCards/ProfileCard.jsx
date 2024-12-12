@@ -3,13 +3,19 @@ import { FaUsers } from "react-icons/fa6";
 import { BsPostcardHeart } from "react-icons/bs";
 import { FaPen } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from 'react-icons/hi';
+import useAuthor from '../../Hooks/useAuthor';
 const ProfileCard = ({ username, userImg, description }) => {
+
+    const {authorInfo} = useAuthor();
+    const { author, posts, loading, error } = authorInfo;
+
+
     return (
         <div className='p-6 md:flex md:flex-row flex flex-col justify-center md:justify-between md:items-start items-center gap-3'>
-            <img src={userImg} alt="" className='rounded-full w-36 h-36 border' />
+            <img src={author?.image || 'https://example.com/path/to/defaultanonymousimage.png'} alt="" className='rounded-full min-w-36 h-36 border' />
             <div className='w-full flex flex-col items-center md:items-start'>
-                <h1 className='font-bold text-xl'>{username}</h1>
-                <p className='text-gray-400'>{description}</p>
+                <h1 className='font-bold text-xl'>{author?.firstName}</h1>
+                <p className='text-gray-400 max-w-[70%]'>{author?.bio}</p>
                 <div className='mt-5 flex gap-4'>
                     <div className='px-3 py-2 rounded-full border  flex items-center gap-2'>
                         <div className='rounded-full text-2xl p-4 text-[#008F5C] bg-[#B3FCE2]'>
@@ -17,7 +23,7 @@ const ProfileCard = ({ username, userImg, description }) => {
                         </div>
                         <div className=' '>
                             <h2 className='text-gray-400'>Connects</h2>
-                            <p>124.k</p>
+                            <p>{author?.friends.length}</p>
                         </div>
                     </div>
 
@@ -27,7 +33,7 @@ const ProfileCard = ({ username, userImg, description }) => {
                         </div>
                         <div className=''>
                             <h2 className='text-gray-400'>Posts</h2>
-                            <p>252</p>
+                            <p>{posts.length}</p>
                         </div>
                     </div>
                 </div>

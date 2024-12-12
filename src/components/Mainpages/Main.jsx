@@ -353,7 +353,7 @@ const Main = () => {
                                 postData.posts && postData.posts.length > 0 ? (
                                     <div>
                                         {postData.posts.map((data, indx) => (
-                                            <Post {...data} postId={postData.docs} key={indx} likesC={data.likes} />
+                                            <Post {...data}  postId={postData.docs} key={indx} likesC={data.likes} />
                                         ))}
                                     </div>
                                 ) : (

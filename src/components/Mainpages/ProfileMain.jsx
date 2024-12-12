@@ -18,6 +18,8 @@ import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 
 
 const ProfileMain = () => {
+
+    
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -53,18 +55,14 @@ const ProfileMain = () => {
     if (location.pathname === '/profile') {
         return <Navigate to="/profile/profileactivity" />;
     }
-    const userData = [{
-        userImg: "https://randomuser.me/api/portraits/men/10.jpg",
-        username: "JohnDoe123",
-        description: "Actor | Director",
-    }];
+
 
     const activeStyle = 'filter-[invert(42%) sepia(35%) saturate(1040%) hue-rotate(166deg) brightness(91%) contrast(94%)] text-[#399AF3]'
 
     return (
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
-            <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
+                <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
                     <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>My Profile</h1>
                     {showSidebar && (
                         <dialog id="my_modal_3" className="modal" open>
@@ -171,15 +169,13 @@ const ProfileMain = () => {
                 <div className={`showcard transition-all ${showRightbar ? '' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
                         <div className='bg-white'>
-                            {userData.map((data, index) => (
-                                <ProfileCard key={index} {...data} />
-                            ))}
+                                <ProfileCard />
                         </div>
                     </div>
 
                     <div className='p-[2px]'>
                         <div className='bg-white  p-6'>
-                        <ul className='flex gap-6 text-gray-400'>
+                            <ul className='flex gap-6 text-gray-400'>
                                 <li>
                                     <NavLink
                                         to='/profile/profileactivity'

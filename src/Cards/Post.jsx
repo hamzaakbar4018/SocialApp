@@ -8,7 +8,7 @@ import MobileComments from './MobileComments';
 import { PostData } from '../Context/PostContext';
 import { collection, getDocs } from 'firebase/firestore';
 // import Comments from './Comments';
-const Post = ({ postID, data, image, activity, userDetails, createdAt, likesC, shareCount }) => {
+const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount }) => {
     // const Post = ({ postData, activity }) => {
 
 
@@ -103,10 +103,22 @@ const Post = ({ postID, data, image, activity, userDetails, createdAt, likesC, s
                         <div className='flex justify-between'>
                             <div className='flex gap-2 items-center'>
                                 <div className='flex-shrink-0'>
-                                    <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover' alt="" />
+                                    {
+                                        activity ? (<img src={author?.image} className='rounded-full min-w-12  h-12 object-cover' alt="" />) : (
+                                            <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover' alt="" />
+                                        )
+                                    }
                                 </div>
                                 <div className=''>
-                                    <h1 className='font-semibold'>{userDetails?.firstName}</h1>
+                                    {
+                                        activity ? (
+                                            <h1 className='font-semibold'>{author?.firstName}</h1>
+
+                                        ) : (
+                                            <h1 className='font-semibold'>{userDetails?.firstName}</h1>
+
+                                        )
+                                    }
                                     <h2 className={`text-gray-400 text-nowrap ${activity && 'md:text-base text-xs'}`}>{formattedDate}</h2>
                                 </div>
                             </div>
