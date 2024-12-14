@@ -6,16 +6,95 @@ import { TbShare3 } from "react-icons/tb";
 import UserDummy from './Like';
 import MobileComments from './MobileComments';
 import { PostData } from '../Context/PostContext';
-import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../Services/Firebase';
+import { ImSpinner2 } from 'react-icons/im';
 // import Comments from './Comments';
 const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData }) => {
     const currentUserId = "1";
+    const [comments, setComments] = useState([]);
+    const [Author, setAuthor] = useState([]);
 
     const [likeCount, setLikeCount] = useState(likesC?.length || 0);
     const [isLiked, setIsLiked] = useState(likesC?.includes(currentUserId) || false);
+    const [newComment, setNewComment] = useState('');
+    const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
-    console.log(postData)
+    // Comments state management
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const fetchComments = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const postDocRef = doc(db, 'postCollection', postID);
+            const commentsRef = collection(postDocRef, 'commentsCollection');
+
+            const querySnapshot = await getDocs(commentsRef);
+            const fetchedComments = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            const userSnapshot = await getDocs(collection(db, 'userCollection'));
+            const userDoc = userSnapshot.docs.find(doc => doc.id === currentUserId);
+
+            console.log("author", userDoc ? userDoc.data() : null);
+            setAuthor(userDoc ? userDoc.data() : null);
+
+            const sortedComments = fetchedComments.sort((a, b) =>
+                (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)
+            );
+
+            setComments(sortedComments);
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+            setError("Failed to load comments. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handlePostComment = async () => {
+        const trimmedComment = newComment.trim();
+        if (!trimmedComment) {
+            setError("Comment cannot be empty");
+            return;
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const postDocRef = doc(db, 'postCollection', postID);
+            const commentRef = collection(postDocRef, 'commentsCollection');
+
+
+            await addDoc(commentRef, {
+                comment: trimmedComment,
+                userID: currentUserId,
+                userName: Author?.firstName || 'Anonymous',
+                userImage: Author?.image || '',
+                createdAt: serverTimestamp(),
+                isDisabled: false
+            });
+            setNewComment('');
+            await fetchComments();
+        } catch (error) {
+            console.error("Error posting comment:", error);
+            setError("Failed to post comment. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isCommentsOpen) {
+            fetchComments();
+        }
+    }, [isCommentsOpen, postID]);
+
     const formattedDate = createdAt?.toDate().toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
@@ -51,9 +130,8 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
     const handleLikes = () => {
         setlikes(!likes)
     }
-    const [comments, setComments] = useState(false);
     const handleComments = () => {
-        setComments(!comments)
+        setIsCommentsOpen(!isCommentsOpen)
     }
     const [mobileComments, setMobileComments] = useState(false);
     const handleMobileComments = () => {
@@ -224,7 +302,8 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
 
 
 
-            {comments && (
+            {/* {
+            comments && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                     <dialog id="my_modal_3" className="modal z-40" open>
                         <div
@@ -330,9 +409,158 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                         </div>
                     </dialog>
                 </div>
+            )} */}
+
+            {isCommentsOpen && (
+                <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
+                    <dialog id="my_modal_3" className="modal z-40" open>
+                        <div className="modal-box h-full 2xl:max-h-[80vh]" style={{
+                            boxSizing: "border-box",
+                            padding: '0',
+                            maxWidth: '850px',
+                        }}>
+                            <form method="dialog">
+                                <button
+                                    onClick={() => setIsCommentsOpen(false)}
+                                    className="btn btn-sm btn-circle z-30 btn-ghost absolute right-2 bg-gray-100 top-2"
+                                >
+                                    ✕
+                                </button>
+                            </form>
+                            <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-white">
+                                <div className='flex justify-between'>
+                                    <div className='flex p-4 gap-2'>
+                                        <img className='rounded-full w-16 h-16' src={postData?.userDetails?.image} alt="User Image" />
+                                        <div className='flex flex-col justify-center'>
+                                            <h2 className='font-bold text-xl'>{postData?.userDetails?.firstName}</h2>
+                                            <p className='text-gray-400'>{formattedDate}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
+                                        <HiOutlineDotsVertical className='text-lg' />
+                                    </div>
+                                </div>
+                                <div className='p-3'>
+                                    <h2 className='text-wrap break-words'>{postData?.data}</h2>
+                                </div>
+
+                                <div>
+                                    {!image ? (
+                                        ''
+                                    ) : (
+                                        <img src={image} className='w-full h-[350px] object-cover' alt="Post Image" />
+
+                                    )}
+                                </div>
+                                <div className='p-3 mt-4 items-center flex gap-5'>
+                                    <div className='flex gap-1'>
+                                        {isLiked ? (
+                                            <FaHeart
+                                                onClick={handleLike}
+                                                className='text-2xl cursor-pointer text-red-500'
+                                            />
+                                        ) : (
+                                            <FaRegHeart
+                                                onClick={handleLike}
+                                                className='text-2xl cursor-pointer text-[#227BCD]'
+                                            />
+                                        )}
+                                        <h1
+                                            onClick={() => setlikes(true)}
+                                            className='cursor-pointer'
+                                        >
+                                            {likeCount}
+                                        </h1>
+                                    </div>
+                                    <div className='flex gap-1'>
+                                        <FaRegComment onClick={handleClick}
+                                            className='text-2xl cursor-pointer text-[#227BCD]' />
+                                    </div>
+                                    <div className='flex gap-1'>
+                                        <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Comments section */}
+                            <div className='right md:fixed top-0 right-0 md:w-[40%] h-full overflow-y-auto bg-white overflow-hidden'>
+                                <div className='md:px-0 md:py-0 px-3 py-2 border-b border-gray-400'>
+                                    <h3 className="font-bold p-4 text-lg">
+                                        Post Comments ({comments.length})
+                                    </h3>
+                                </div>
+
+
+                                {error && (
+                                    <div className="alert alert-error m-2">
+                                        <span>{error}</span>
+                                    </div>
+                                )}
+
+                                {/* {isLoading && (
+                                    <div className="flex justify-center items-center p-4">
+                                        <span className="loading loading-spinner loading-md"></span>
+                                    </div>
+                                )} */}
+
+                                {/* Comments list */}
+                                <div className='flex md:p-0 p-4 flex-col'>
+                                    <div className='flex-1 md:p-2'>
+                                        {comments.map((commentData) => (
+                                            <div key={commentData.id} className='mb-4'>
+                                                <div className='flex items-center font-bold gap-2'>
+                                                    <img
+                                                        src={commentData.userImage || '/default-avatar.png'}
+                                                        className='w-10 h-10 rounded-full object-cover'
+                                                        alt={commentData.userName}
+                                                    />
+                                                    <h1 className='text-sm'>{commentData.userName}</h1>
+                                                </div>
+                                                <div>
+                                                    <p className='bg-[#B7B8B954] py-1 px-2 my-2 rounded-tr-xl rounded-br-xl rounded-bl-xl'>
+                                                        {commentData.comment}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Comment input */}
+                                    <div className='flex gap-2 mb-4 p-2 justify-center items-center'>
+                                        <input
+                                            className='bg-[#1C1C1C14] w-[70%] p-2 rounded-2xl'
+                                            type="text"
+                                            placeholder='Add a comment...'
+                                            value={newComment}
+                                            onChange={(e) => {
+                                                setNewComment(e.target.value);
+                                                setError(null);
+                                            }}
+                                            disabled={isLoading}
+                                        />
+                                        <button
+                                            className={`rounded-3xl p-2 text-white font-bold text-nowrap ${isLoading || !newComment.trim() || !comments ? 'bg-gray-700' : 'bg-black'
+                                                }`}
+                                            onClick={handlePostComment}
+                                            disabled={isLoading || !newComment.trim() || !comments}
+                                        >
+                                            {isLoading ? (
+                                                <div className='flex justify-center items-center gap-1'>
+                                                    <ImSpinner2 className='animate-spin' />
+                                                    Posting...
+                                                </div>
+                                            ) : 'Post Now'}
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
             )}
 
-
+            {/* Mobile Comments */}
             {
                 mobileComments && (
                     <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments} />
