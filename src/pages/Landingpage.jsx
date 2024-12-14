@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
 import land1 from "../assets/Icons SVG/land1.png";
 import land2 from "../assets/Icons SVG/land2.png";
@@ -15,7 +15,9 @@ import "../CSS/Landingpage.css";
 import LandingPagetalent from "../Cards/LandingPagetalent";
 import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
 const Landingpage = () => {
-  
+  const talentData = useContext(IndustryData);
+  const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
+
   const landingtalent = true;
   const [visibleSections, setVisibleSections] = useState([
     false,

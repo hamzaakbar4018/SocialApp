@@ -17,6 +17,19 @@ const TalentCards = ({
 }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus);
+  const getConnectionStatus = (user) => {
+    const dataToUse = network ? reqData : talentData;
+
+    if (user.received && user.received.includes(dummyId)) {
+      return 'requested';
+    }
+
+    if (user.connected && user.connected.includes(dummyId)) {
+      return 'connected';
+    }
+
+    return 'connect';
+  };
 
   useEffect(() => {
     // Retrieve connection status from local storage
@@ -89,7 +102,7 @@ const TalentCards = ({
               />
               <h2 className="2xl:mt-8 mt-4 2xl:text-2xl font-bold text-center">{firstName}</h2>
               {
-                categoryName.map((cat, index) => (
+                Array.isArray(categoryName) && categoryName.map((cat, index) => (
                   <p key={index} className="text-gray-400 2xl:mt-5 2xl:text-xl text-center">{cat}</p>
                 ))
               }
@@ -105,11 +118,11 @@ const TalentCards = ({
               </div>
               <h2 className="mt-2 text-lg font-bold">{firstName}</h2>
               <div className="flex flex-wrap gap-2">
-                {categoryName.map((cat, index) => (
-                  <p key={index} className="text-gray-400">
-                    {cat}
-                  </p>
-                ))}
+              {
+                Array.isArray(categoryName) && categoryName.map((cat, index) => (
+                  <p key={index} className="text-gray-400">{cat}</p>
+                ))
+              }
               </div>
             </div>
           )}
@@ -122,27 +135,27 @@ const TalentCards = ({
               disabled={isConnecting || connectionStatus === 'requested' || connectionStatus === 'connected' || isConnecting || connectionStatus === 'Following'}
               className={`bg-black ${landingtalent ? '2xl:min-w-[248px] w-full 2xl:text-2xl 2xl:mt-5' : 'w-full text-nowrap rounded-full px-3 tracking-tighter'} rounded-3xl text-white py-2`}
             >
-             {
-  network ? (
-    "Connected"
-  ) : production ? (
-    isConnecting ? (
-      <div className="flex gap-1 justify-center items-center">
-        <ImSpinner2 className="animate-spin" />
-        Following
-      </div>
-    ) : (
-      connectionStatus
-    )
-  ) : isConnecting ? (
-    <div className="flex gap-1 justify-center items-center">
-      <ImSpinner2 className="animate-spin" />
-      Connecting
-    </div>
-  ) : (
-    connectionStatus
-  )
-}
+              {
+                network ? (
+                  "Connected"
+                ) : production ? (
+                  isConnecting ? (
+                    <div className="flex gap-1 justify-center items-center">
+                      <ImSpinner2 className="animate-spin" />
+                      Following
+                    </div>
+                  ) : (
+                    connectionStatus
+                  )
+                ) : isConnecting ? (
+                  <div className="flex gap-1 justify-center items-center">
+                    <ImSpinner2 className="animate-spin" />
+                    Connecting
+                  </div>
+                ) : (
+                  connectionStatus
+                )
+              }
 
 
 

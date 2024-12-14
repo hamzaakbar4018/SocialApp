@@ -9,12 +9,6 @@ const PostContext = ({ children }) => {
 
   const fetchPostsAndUsers = async () => {
     try {
-      // Fetch all posts from the postCollection
-      // const postSnapshot = await getDocs(collection(db, "postCollection"));
-      // const postList = postSnapshot.docs.map((doc) => ({
-      //   id: doc.id,
-      //   ...doc.data(),
-      // }));
       const postsQuery = query(
         collection(db, "postCollection"), 
         orderBy("createdAt", "desc")

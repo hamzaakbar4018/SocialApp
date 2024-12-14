@@ -48,7 +48,6 @@ const Main = () => {
     }
     useEffect(() => {
         fetchAuthor();
-        // deletePostsByUser();
     }, [])
 
     const postRef = useRef();
@@ -79,7 +78,7 @@ const Main = () => {
     const [thoughts, setThoughts] = useState('');
     const handlePosts = async (authorID) => {
         try {
-            console.log("Attempting to create post with authorID:", authorID); // Log for debugging
+            console.log("Attempting to create post with authorID:", authorID);
 
             if (!authorID || !thoughts) {
                 console.error("Missing Data:");
@@ -90,16 +89,15 @@ const Main = () => {
 
             const newPost = {
                 authorID: authorID,
-                createdAt: new Date(), // Timestamp for when the post was created
-                data: thoughts, // The content of the post
-                image: PostImage || "", // Image URL, default to empty string if not available
-                isDisabled: postData.isDisabled || false, // Post status (enabled/disabled)
-                tags: postData.tags || [], // Tags related to the post
-                likes: postData.likes || [], // Array to store likes
-                shareCount: postData.shareCount || 0, // Share count
+                createdAt: new Date(),
+                data: thoughts,
+                image: PostImage || "",
+                isDisabled: postData.isDisabled || false,
+                tags: postData.tags || [],
+                likes: postData.likes || [],
+                shareCount: postData.shareCount || 0,
             };
 
-            // Save the new post to Firestore
             const docRef = await addDoc(postsCollectionRef, newPost);
             console.log('Post created successfully with ID: ', docRef.id);
             console.log(newPost);
@@ -111,39 +109,6 @@ const Main = () => {
             toast.error("Error uploading post. Please try again."); // Log any errors
         }
     };
-
-
-    // const deletePostsByUser = async () => {
-    //     const userID = "1"; // User ID for which posts need to be deleted
-
-    //     try {
-    //         // Query the posts collection where the authorID is equal to userID
-    //         const postsQuery = query(
-    //             collection(db, 'postCollection'),
-    //             where('authorID', '==', userID)
-    //         );
-
-    //         // Get the posts that match the query
-    //         const querySnapshot = await getDocs(postsQuery);
-
-    //         if (!querySnapshot.empty) {
-    //             // Loop through the posts and delete each one
-    //             querySnapshot.forEach(async (docSnapshot) => {
-    //                 const postRef = doc(db, 'postCollection', docSnapshot.id);
-    //                 await deleteDoc(postRef);
-    //                 console.log(`Post with ID: ${docSnapshot.id} deleted successfully.`);
-    //             });
-    //         } else {
-    //             console.log("No posts found for the specified user.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error deleting posts: ", error);
-    //     }
-    // };
-
-
-
-
     const notifyData = useContext(NotificatinData);
     const postData = useContext(PostData) || [];
 
@@ -353,7 +318,7 @@ const Main = () => {
                                 postData.posts && postData.posts.length > 0 ? (
                                     <div>
                                         {postData.posts.map((data, indx) => (
-                                            <Post {...data}  postId={postData.docs} key={indx} likesC={data.likes} />
+                                            <Post {...data} postData={data}  postId={postData.docs} key={data.docID} likesC={data.likes} />
                                         ))}
                                     </div>
                                 ) : (

@@ -1,22 +1,51 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { FaRegComment } from "react-icons/fa6";
+import { FaHeart, FaRegComment } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import UserDummy from './Like';
 import MobileComments from './MobileComments';
 import { PostData } from '../Context/PostContext';
-import { collection, getDocs } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { db } from '../Services/Firebase';
 // import Comments from './Comments';
-const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount }) => {
-    // const Post = ({ postData, activity }) => {
+const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData }) => {
+    const currentUserId = "1";
 
+    const [likeCount, setLikeCount] = useState(likesC?.length || 0);
+    const [isLiked, setIsLiked] = useState(likesC?.includes(currentUserId) || false);
 
+    console.log(postData)
     const formattedDate = createdAt?.toDate().toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
     });
+
+    const handleLike = async () => {
+        try {
+            // Reference to the specific post document
+            const postRef = doc(db, 'postCollection', postID);
+
+            if (isLiked) {
+                // Unlike: remove user ID from likes array
+                await updateDoc(postRef, {
+                    likes: arrayRemove(currentUserId)
+                });
+                setLikeCount(prev => prev - 1);
+                setIsLiked(false);
+            } else {
+                // Like: add user ID to likes array
+                await updateDoc(postRef, {
+                    likes: arrayUnion(currentUserId)
+                });
+                setLikeCount(prev => prev + 1);
+                setIsLiked(true);
+            }
+        } catch (error) {
+            console.error("Error updating likes:", error);
+        }
+    };
 
     const [likes, setlikes] = useState(false);
     const handleLikes = () => {
@@ -133,6 +162,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                         <h2>{data}</h2>
                         {/* <h2 className='font-semibold space-x-3 text-[#227BCD]'>#Tags</h2> */}
                     </div>
+
                     <div className='bg-gray-100'>
                         {image ? (
                             <img
@@ -145,17 +175,30 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                     </div>
                     <div className='p-3 mt-4 items-center flex gap-5'>
                         <div className='flex gap-1'>
-                            <FaRegHeart onClick={handleLikes} className='text-2xl cursor-pointer text-[#227BCD]' />
-                            <h1>{likesC?.length}</h1>
+                            {isLiked ? (
+                                <FaHeart
+                                    onClick={handleLike}
+                                    className='text-2xl cursor-pointer text-red-500'
+                                />
+                            ) : (
+                                <FaRegHeart
+                                    onClick={handleLike}
+                                    className='text-2xl cursor-pointer text-[#227BCD]'
+                                />
+                            )}
+                            <h1
+                                onClick={() => setlikes(true)}
+                                className='cursor-pointer'
+                            >
+                                {likeCount}
+                            </h1>
                         </div>
                         <div className='flex gap-1'>
                             <FaRegComment onClick={handleClick}
                                 className='text-2xl cursor-pointer text-[#227BCD]' />
-                            {/* <h1></h1> */}
                         </div>
                         <div className='flex gap-1'>
                             <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
-                            <h1>{shareCount}</h1>
                         </div>
                     </div>
                 </div>
@@ -170,7 +213,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                     <button onClick={() => setlikes(false)} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                 </form>
                                 <div className='border-b px-6 pt-6 border-gray-300'>
-                                    <h3 className="font-bold mb-4 text-lg">Post Likes({likesC.length})</h3>
+                                    <h3 className="font-bold mb-4 text-lg">Post Likes({likeCount})</h3>
                                 </div>
                                 <UserDummy postID={postID} />
                             </div>
@@ -180,7 +223,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
             )}
 
 
-            {/*
+
             {comments && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>
                     <dialog id="my_modal_3" className="modal z-40" open>
@@ -202,10 +245,10 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                 <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-gray-100">
                                     <div className='flex justify-between'>
                                         <div className='flex p-4 gap-2'>
-                                            <img className='rounded-full w-16 h-16' src={userimage} alt="User Image" />
-                                            <div>
-                                                <h2 className='font-bold text-xl'>{username}</h2>
-                                                <p className='text-gray-400'>{lastActiveTime}</p>
+                                            <img className='rounded-full w-16 h-16' src={postData?.userDetails?.image} alt="User Image" />
+                                            <div className='flex flex-col justify-center'>
+                                                <h2 className='font-bold text-xl'>{postData?.userDetails?.firstName}</h2>
+                                                <p className='text-gray-400'>{formattedDate}</p>
                                             </div>
                                         </div>
                                         <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
@@ -213,25 +256,43 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                         </div>
                                     </div>
                                     <div className='p-3'>
-                                        <h2 className='text-wrap break-words'>{title}</h2>
-                                        <h2 className='font-semibold space-x-3 text-[#227BCD]'>{hashtags}</h2>
+                                        <h2 className='text-wrap break-words'>{postData?.data}</h2>
                                     </div>
 
                                     <div>
-                                        <img src={postimage} className='w-full h-[350px] object-cover' alt="Post Image" />
+                                        {!image ? (
+                                            ''
+                                        ) : (
+                                            <img src={image} className='w-full h-[350px] object-cover' alt="Post Image" />
+
+                                        )}
                                     </div>
                                     <div className='p-3 mt-4 items-center flex gap-5'>
                                         <div className='flex gap-1'>
-                                            <FaRegHeart className='text-2xl cursor-pointer text-[#227BCD]' />
-                                            <h1>{likesCount}</h1>
+                                            {isLiked ? (
+                                                <FaHeart
+                                                    onClick={handleLike}
+                                                    className='text-2xl cursor-pointer text-red-500'
+                                                />
+                                            ) : (
+                                                <FaRegHeart
+                                                    onClick={handleLike}
+                                                    className='text-2xl cursor-pointer text-[#227BCD]'
+                                                />
+                                            )}
+                                            <h1
+                                                onClick={() => setlikes(true)}
+                                                className='cursor-pointer'
+                                            >
+                                                {likeCount}
+                                            </h1>
                                         </div>
                                         <div className='flex gap-1'>
-                                            <FaRegComment className='text-2xl cursor-pointer text-[#227BCD]' />
-                                            <h1>{commentCount}</h1>
+                                            <FaRegComment onClick={handleClick}
+                                                className='text-2xl cursor-pointer text-[#227BCD]' />
                                         </div>
                                         <div className='flex gap-1'>
                                             <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
-                                            <h1>{shareCount}</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -272,11 +333,11 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
             )}
 
 
-             {
+            {
                 mobileComments && (
-                   <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments}/>
+                    <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments} />
                 )
-            } */}
+            }
 
         </div>
     );
