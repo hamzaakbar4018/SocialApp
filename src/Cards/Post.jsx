@@ -22,6 +22,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
 
     // Comments state management
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingPost, setIsLoadingPost] = useState(false);
     const [error, setError] = useState(null);
 
     const fetchComments = async () => {
@@ -63,7 +64,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
             return;
         }
 
-        setIsLoading(true);
+        setIsLoadingPost(true);
         setError(null);
 
         try {
@@ -85,7 +86,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
             console.error("Error posting comment:", error);
             setError("Failed to post comment. Please try again.");
         } finally {
-            setIsLoading(false);
+            setIsLoadingPost(false);
         }
     };
 
@@ -544,7 +545,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                             onClick={handlePostComment}
                                             disabled={isLoading || !newComment.trim() || !comments}
                                         >
-                                            {isLoading ? (
+                                            {isLoadingPost ? (
                                                 <div className='flex justify-center items-center gap-1'>
                                                     <ImSpinner2 className='animate-spin' />
                                                     Posting...
