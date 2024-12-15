@@ -9,6 +9,12 @@ import {
     RecaptchaVerifier,
     signInWithPhoneNumber
 } from '../../Services/Firebase';
+import { 
+    createUserWithEmailAndPassword, 
+    PhoneAuthProvider, 
+    signInWithCredential 
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 const Signup = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -29,7 +35,6 @@ const Signup = () => {
     };
 
     useEffect(() => {
-        // Ensure reCAPTCHA is only initialized on client-side
         if (!recaptchaVerifier && recaptchaContainerRef.current) {
             try {
                 const verifier = new RecaptchaVerifier(auth,
@@ -85,9 +90,11 @@ const Signup = () => {
                 recaptchaVerifier
             );
 
+            // Store confirmation result and phone number in window for verification page
             window.confirmationResult = confirmationResult;
+            window.signupPhoneNumber = formatPhoneNumber;
 
-            //  to verification page
+            // Navigate to verification page
             navigate('/verify', {
                 state: {
                     phoneNumber: formatPhoneNumber
@@ -95,8 +102,11 @@ const Signup = () => {
             });
         } catch (error) {
             console.error("Error sending OTP:", error);
+            alert('Failed to send OTP. Please try again.');
         }
     };
+
+
 
     return (
         <>

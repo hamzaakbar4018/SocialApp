@@ -23,10 +23,14 @@ import { ref } from 'firebase/storage';
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../Context/AuthContext.jsx';
 
 const Main = () => {
-
+    const { currentUser, userData, logout } = useAuth();
+    console.log(currentUser)
+    // const dummyID = currentUser.uid;
     const dummyID = "1";
+    console.log(dummyID)
     const [author, setAuthor] = useState('');
 
     const fetchAuthor = async () => {
