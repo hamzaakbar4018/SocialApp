@@ -1,7 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { 
+  getAuth, 
+  RecaptchaVerifier, 
+  signInWithPhoneNumber 
+} from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAE2OgJQzPKFsd44q3kT3bmmzePw87BV4Y",
   authDomain: "youtooart-3f80c.firebaseapp.com",
@@ -16,3 +21,4 @@ export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export { RecaptchaVerifier, signInWithPhoneNumber };
