@@ -6,8 +6,10 @@ import verifyTick from '../../assets/Icons SVG/verifytick.svg';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import upload from '../../assets/Icons SVG/Upload.svg';
 import { app, auth, db } from '../../Services/Firebase';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Verify = () => {
     const [otpCode, setOtpCode] = useState('');
@@ -17,12 +19,14 @@ const Verify = () => {
     const [createProfile, setCreateProfile] = useState(false);
     const [createProfile2, setCreateProfile2] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [verificationId, setVerificationId] = useState('');
 
     const [allCategories, setAllCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const location = useLocation();
     const navigate = useNavigate();
+    
 
     const [error, setError] = useState(null);
     const [SelectedCategories, setSelectedCategories] = useState([]);
@@ -92,20 +96,29 @@ const Verify = () => {
     // Save user profile to Firestore
     const saveUserProfile = async () => {
         try {
+            setIsLoading(true);
+
             // Validate required fields
             if (!firstName || !lastName || !country || !city) {
                 alert("Please fill in all required fields");
                 return false;
             }
-
+    
+            // Get the current authenticated user
+            const user = auth.currentUser;
+            if (!user) {
+                alert("No authenticated user found. Please sign in again.");
+                return false;
+            }
+    
             // Upload profile image first
             const imageUrl = await uploadProfileImage(profileImage);
-
             // Prepare user profile data
             const userProfileData = {
                 firstName,
                 lastName,
                 country,
+                docID: user.uid,
                 city,
                 bio: bio || '',
                 categoryName: SelectedCategories,
@@ -125,19 +138,84 @@ const Verify = () => {
                 blocked: [],
                 createdAt: new Date() // Add timestamp
             };
-
-            // Add document to userCollection
-            const docRef = await addDoc(collection(db, 'userCollection'), userProfileData);
-
-            console.log("User profile saved with ID:", docRef.id);
+    
+            // Use the authenticated user's UID as the document ID
+            const userDocRef = doc(db, 'userCollection', user.uid);
+            await setDoc(userDocRef, userProfileData);
+            setIsLoading(false)
+    
+            console.log("User profile saved with ID:", user.uid);
             return true;
         } catch (error) {
             console.error("Error saving user profile:", error);
             alert("Failed to save profile. Please try again.");
             return false;
         }
+        finally{
+            setIsLoading(false);
+        }
     };
-
+    useEffect(() => {
+        // Check if phone number and verification ID are passed in location state
+        if (location.state && location.state.phoneNumber) {
+            setPhoneNumber(location.state.phoneNumber);
+            
+            // Set verification ID from location state
+            if (location.state.verificationId) {
+                setVerificationId(location.state.verificationId);
+            }
+        } else {
+            // If no phone number is found, redirect back to signup
+            navigate('/signup');
+        }
+    }, [location, navigate]);
+    const handleVerifyOTP = async () => {
+        if (otpCode.length !== 6) {
+            setError('Please enter a 6-digit OTP');
+            return;
+        }
+    
+        try {
+            // Use the verificationId from state
+            if (!verificationId) {
+                throw new Error('No verification session found. Please restart the process.');
+            }
+    
+            // Create phone auth credential using verificationId from state
+            const credential = PhoneAuthProvider.credential(verificationId, otpCode);
+    
+            // Sign in with the credential
+            const userCredential = await signInWithCredential(auth, credential);
+    
+            // Set the user in state or context if needed
+            // This will trigger the AuthContext's onAuthStateChanged
+            setCreateProfile(true);
+    
+            // Optional: Navigate to profile creation if not using state management
+            // navigate('/create-profile', {
+            //     state: { 
+            //         phoneNumber: phoneNumber,
+            //         user: userCredential.user 
+            //     }
+            // });
+            setCreateProfile(true);
+    
+        } catch (error) {
+            console.error("Verification Error:", error);
+            
+            // More specific error handling
+            switch(error.code) {
+                case 'auth/invalid-verification-code':
+                    setError('Invalid OTP. Please check the code and try again.');
+                    break;
+                case 'auth/code-expired':
+                    setError('OTP has expired. Please request a new OTP.');
+                    break;
+                default:
+                    setError(`Verification failed: ${error.message}`);
+            }
+        }
+    };
     // Rest of your existing methods remain the same...
 
     const handleComplete = async () => {
@@ -173,32 +251,15 @@ const Verify = () => {
         );
     };
 
-    useEffect(() => {
-        if (location.state && location.state.phoneNumber) {
-            setPhoneNumber(location.state.phoneNumber);
-        } else {
-            navigate('/signup');
-        }
-    }, [location, navigate]);
+    // useEffect(() => {
+    //     if (location.state && location.state.phoneNumber) {
+    //         setPhoneNumber(location.state.phoneNumber);
+    //     } else {
+    //         navigate('/signup');
+    //     }
+    // }, [location, navigate]);
 
-    const handleVerifyOTP = async () => {
-        if (otpCode.length !== 6) {
-            alert('Please enter a 6-digit OTP');
-            return;
-        }
 
-        try {
-            const confirmationResult = window.confirmationResult;
-            const result = await confirmationResult.confirm(otpCode);
-
-            // User successfully verified
-            setVerified(true);
-            setAccount(true);
-        } catch (error) {
-            console.error("Error verifying OTP:", error);
-            alert('Invalid OTP. Please try again.');
-        }
-    };
 
     const handleCreateProfile = () => {
         setCreateProfile(true);
@@ -220,7 +281,7 @@ const Verify = () => {
 
 
 
-    console.log(SelectedCategories)
+    // console.log(SelectedCategories)
     return (
         <>
             <div className='flex h-screen'>
@@ -241,7 +302,7 @@ const Verify = () => {
                             <h1 className='text-xl font-bold mt-3'>Verify Your Account</h1>
                             <h2 className='mt-3 font-light'>
                                 Please enter 6 digits OTP you received on your registered phone{' '}
-                                <span className='text-[#399AF3]'>+91325*****41</span>
+                                <span className='text-[#399AF3]'>{phoneNumber}</span>
                             </h2>
                         </div>
                         {/* <div className='mt-6 flex flex-col'>
@@ -257,7 +318,7 @@ const Verify = () => {
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value)}
                                 maxLength={6}
-                                placeholder='0 0 0 0'
+                                placeholder='0 0 0 0 0 0'
                                 className='text-center mt-3 text-xl bg-[#1C1C1C14] p-2 rounded-full'
                             />
                         </div>
@@ -534,7 +595,18 @@ const Verify = () => {
                                     className='px-4 py-2 rounded-full bg-[#399AF31A] hover:bg-gray-300 text-[#399AF3] font-semibold transition duration-300'>Back</button>
                                 <div className='flex gap-2 items-center'>
                                     <button onClick={handleCloseModal} className='px-4 py-2 rounded-full bg-[#E2E2E2] hover:bg-gray-300 transition duration-300'>Skip For Now</button>
-                                    <button onClick={handleComplete} className='px-4 py-2 rounded-full text-white font-semibold bg-black'>Submit</button>
+                                    <button disabled={isLoading} onClick={handleComplete} className='px-4 py-2 rounded-full text-white font-semibold bg-black'>
+                                        {
+                                            isLoading ? (
+                                                <div className='flex justify-center items-center gap-1'>
+                                                    <ImSpinner2 className='animate-spin'/>
+                                                    Submitting
+                                                </div>
+                                            ) : (
+                                                'Submit'
+                                            )
+                                        }
+                                    </button>
                                 </div>
                             </div>
                         </div>

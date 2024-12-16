@@ -28,9 +28,8 @@ import { useAuth } from '../../Context/AuthContext.jsx';
 const Main = () => {
     const { currentUser, userData, logout } = useAuth();
     console.log(currentUser)
-    // const dummyID = currentUser.uid;
-    const dummyID = "1";
-    console.log(dummyID)
+    const dummyID = currentUser.uid;
+    console.log(dummyID);
     const [author, setAuthor] = useState('');
 
     const fetchAuthor = async () => {
@@ -322,7 +321,7 @@ const Main = () => {
                                 postData.posts && postData.posts.length > 0 ? (
                                     <div>
                                         {postData.posts.map((data, indx) => (
-                                            <Post {...data} postData={data}  postId={postData.docs} key={data.docID} likesC={data.likes} />
+                                            <Post {...data} postData={data} postId={postData.docs} key={data.docID} likesC={data.likes} />
                                         ))}
                                     </div>
                                 ) : (
@@ -374,9 +373,11 @@ const Main = () => {
                                             </div>
                                         </div>
                                         <div className={`mt-5 ${!PostImage && 'h-20'}`}>
-                                            <input onChange={(e) => { setThoughts(e.target.value
-                                                ,console.log(e.target.value)
-                                            ) }} type='text' placeholder='Write your thoughts here...' className="text-gray-400 outline-none w-full text-wrap" />
+                                            <input onChange={(e) => {
+                                                setThoughts(e.target.value
+                                                    , console.log(e.target.value)
+                                                )
+                                            }} type='text' placeholder='Write your thoughts here...' className="text-gray-400 outline-none w-full text-wrap" />
                                             {PostImage && (
                                                 <div className='mt-3 flex-shrink-0'>
                                                     <img src={PostImage} alt="Post" className="w-full object-contain" />

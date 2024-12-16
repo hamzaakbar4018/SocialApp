@@ -13,7 +13,22 @@ import { IoMdArrowBack } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import { LuPencil } from "react-icons/lu";
+import { useAuth } from '../../Context/AuthContext.jsx';
+
 const ChatMain = () => {
+
+  const { currentUser, userData, logout } = useAuth();
+  // console.log(currentUser.uid)
+  cosnt userID = "1"
+
+  const fetchChatsWithUsers = () async => {
+    try {
+      const chatQuery = query
+    } catch (error) {
+      console.log("Chat Error :", error)
+    }
+  }
+
   const notifyData = useContext(NotificatinData);
   const [popup, setpopup] = useState(false);
   const handlePopup = () => {
@@ -31,14 +46,12 @@ const ChatMain = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setSearch(false); // Close search bar if click is outside
+        setSearch(false);
       }
     };
 
-    // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [searchRef]);
@@ -135,7 +148,7 @@ const ChatMain = () => {
     console.log("Search button clicked");
     setSearch(!search);
   };
-  const [isSheetOpen, setIsSheetOpen] = useState(false); // State to handle sheet visibility
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   return (
     <div className="flex">

@@ -9,10 +9,10 @@ import {
     RecaptchaVerifier,
     signInWithPhoneNumber
 } from '../../Services/Firebase';
-import { 
-    createUserWithEmailAndPassword, 
-    PhoneAuthProvider, 
-    signInWithCredential 
+import {
+    createUserWithEmailAndPassword,
+    PhoneAuthProvider,
+    signInWithCredential
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
@@ -20,6 +20,7 @@ const Signup = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [valid, setValid] = useState(false);
     const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
+    const [isverified, setIsverified] = useState('');
     const recaptchaContainerRef = useRef(null);
     const [recaptchaVerifier, setRecaptchaVerifier] = useState(null);
     const navigate = useNavigate();
@@ -71,6 +72,7 @@ const Signup = () => {
         };
     }, []);
 
+
     const handleSendOTP = async () => {
         if (!valid) {
             alert('Please enter a valid phone number');
@@ -90,28 +92,29 @@ const Signup = () => {
                 recaptchaVerifier
             );
 
-            // Store confirmation result and phone number in window for verification page
-            window.confirmationResult = confirmationResult;
-            window.signupPhoneNumber = formatPhoneNumber;
+            // Store the verification ID in isverified state
+            setIsverified(confirmationResult.verificationId);
 
-            // Navigate to verification page
+            // Navigate to verification page with phone number and verification ID
             navigate('/verify', {
                 state: {
-                    phoneNumber: formatPhoneNumber
+                    phoneNumber: formatPhoneNumber,
+                    verificationId: confirmationResult.verificationId
                 }
             });
         } catch (error) {
             console.error("Error sending OTP:", error);
-            alert('Failed to send OTP. Please try again.');
+            alert(`Failed to send OTP: ${error.message}`);
         }
     };
+
 
 
 
     return (
         <>
             {/* Hide captcha */}
-            <div ref={recaptchaContainerRef} style={{ visibility: 'hidden' }}></div> 
+            <div ref={recaptchaContainerRef} style={{ visibility: 'hidden' }}></div>
 
             <div className='flex h-screen'>
                 <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
