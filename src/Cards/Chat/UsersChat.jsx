@@ -19,6 +19,8 @@ const UsersChat = ({
     usersCharMsgs[selectedCardIndex].messages 
     ? usersCharMsgs[selectedCardIndex].messages 
     : [];
+    
+    console.log("check msg ",selectedChatMessages)
 
   // Render loading or empty state
   if (!usersCharMsgs || usersCharMsgs.length === 0) {
@@ -59,7 +61,7 @@ const UsersChat = ({
                 // Add null checks and provide fallback values
                 const messageData = message?.data || {};
                 const isCurrentUser = messageData.fromID === "1";
-
+                console.log("messageData",messageData)
                 return (
                   <div
                     key={message?.id || index}

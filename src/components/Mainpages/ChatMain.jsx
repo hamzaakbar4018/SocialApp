@@ -26,7 +26,7 @@ const ChatMain = () => {
   const [usersData, setUsersData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [usersCharMsgs, setUsersCharMsgs] = useState([]);
-  console.log(usersCharMsgs)
+  // console.log(usersCharMsgs)
   useEffect(() => {
     const fetchRecentChats = async () => {
       try {
@@ -215,11 +215,11 @@ const ChatMain = () => {
     setSearch(!search);
   };
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  useEffect(() => {
-    console.log('Recent Chats:', recentChats);
-    console.log('Users Chat Messages:', usersCharMsgs);
-    console.log('Selected Card Index:', selectedCardIndex);
-  }, [recentChats, usersCharMsgs, selectedCardIndex]);
+  // useEffect(() => {
+  //   console.log('Recent Chats:', recentChats);
+  //   console.log('Users Chat Messages:', usersCharMsgs);
+  //   console.log('Selected Card Index:', selectedCardIndex);
+  // }, [recentChats, usersCharMsgs, selectedCardIndex]);
   return (
     <div className="flex">
       <div className="w-full h-dvh overflow-hidden">
