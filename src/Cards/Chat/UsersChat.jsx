@@ -1,23 +1,48 @@
 import React from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { FaArrowCircleRight } from "react-icons/fa";
 import newArrow from '../../assets/Icons SVG/Arrow.svg'
 
-const UsersChat = ({ userImg, username, time, sent, received }) => {
+const UsersChat = ({
+  userImg,
+  username,
+  time,
+  usersCharMsgs,
+  selectedCardIndex
+}) => {
+  // Debug logging with safe checking
+  console.log("usersCharMsgs:", usersCharMsgs);
+  console.log("selectedCardIndex:", selectedCardIndex);
+
+  // More defensive message selection
+  const selectedChatMessages = usersCharMsgs && 
+    usersCharMsgs[selectedCardIndex] && 
+    usersCharMsgs[selectedCardIndex].messages 
+    ? usersCharMsgs[selectedCardIndex].messages 
+    : [];
+
+  // Render loading or empty state
+  if (!usersCharMsgs || usersCharMsgs.length === 0) {
+    return (
+      <div className="flex flex-col h-screen bg-gray-100 justify-center items-center">
+        <p>No chats available</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-white rounded-t">
         <div className="flex border-b border-gray-300 p-4 items-center justify-between">
-          <div className="flex  items-center gap-2">
+          <div className="flex items-center gap-2">
             <img
-              src={userImg}
+              src={userImg || ''}
               className="rounded-full w-14 h-14"
-              alt={`${username}'s avatar`}
+              alt={`${username || 'User'}'s avatar`}
             />
             <div>
-              <h1 className="text-xl font-bold">{username}</h1>
-              <p className="text-sm text-gray-400">{time}</p>
+              <h1 className="text-xl font-bold">{username || 'Unknown'}</h1>
+              <p className="text-sm text-gray-400">{time || ''}</p>
             </div>
           </div>
           <div className="flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2 justify-center items-center">
@@ -26,43 +51,43 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 overflow-y-auto  bg-white">
+      <div className="flex flex-col flex-1 overflow-y-auto bg-white">
         <div className="p-4 flex-1">
           <div className="flex flex-col gap-2">
-            {received && received.msg && (
-              <div className="flex flex-col">
-                <div className="">
-                  <div
-                    className="p-2 inline-block rounded-tr-xl rounded-br-xl rounded-bl-xl text-black"
-                    style={{ backgroundColor: "#E7E8E8" }}
-                  >
-                    {received.msg}
-                  </div>
-                </div>
-                <div className="chat chat-start">
-                  <div className="chat-header">
-                    <time className="text-xs opacity-50">{time}</time>
-                  </div>
-                </div>
-              </div>
-            )}
+            {selectedChatMessages.length > 0 ? (
+              selectedChatMessages.map((message, index) => {
+                // Add null checks and provide fallback values
+                const messageData = message?.data || {};
+                const isCurrentUser = messageData.fromID === "1";
 
-            {/* Display sent messages */}
-            {sent && sent.msg && (
-              <div className="flex flex-col items-end">
-                <div className="">
+                return (
                   <div
-                    className="p-2 rounded-tl-xl rounded-br-xl rounded-bl-xl"
-                    style={{ backgroundColor: "#399AF3", color: "white" }}
+                    key={message?.id || index}
+                    className={`flex flex-col ${isCurrentUser ? 'items-end' : ''}`}
                   >
-                    {sent.msg}
+                    <div>
+                      <div
+                        className={`p-2 inline-block rounded-xl ${isCurrentUser
+                            ? 'rounded-tr-none bg-[#399AF3] text-white'
+                            : 'rounded-tl-none bg-[#E7E8E8] text-black'
+                          }`}
+                      >
+                        {messageData.messageBody || 'No message'}
+                      </div>
+                    </div>
+                    <div className={`chat ${isCurrentUser ? 'chat-end' : 'chat-start'}`}>
+                      <div className="chat-header">
+                        <time className="text-xs opacity-50">
+                          {messageData.time || 'Unknown time'}
+                        </time>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="chat chat-end">
-                  <div className="chat-header">
-                    <time className="text-xs opacity-50">{time}</time>
-                  </div>
-                </div>
+                );
+              })
+            ) : (
+              <div className="text-center text-gray-500">
+                No messages in this conversation
               </div>
             )}
           </div>
@@ -78,9 +103,8 @@ const UsersChat = ({ userImg, username, time, sent, received }) => {
             className="p-3 outline-none bg-transparent w-auto"
           />
         </div>
-        {/* <FaArrowCircleRight className="text-4xl cursor-pointer" /> */}
-        <div className="bg-black flex-grow-0  rounded-full p-1 flex justify-center items-center cursor-pointer">
-              <img src={newArrow} alt="" className="w-10 p-1 h-10" />
+        <div className="bg-black flex-grow-0 rounded-full p-1 flex justify-center items-center cursor-pointer">
+          <img src={newArrow} alt="" className="w-10 p-1 h-10" />
         </div>
       </div>
     </div>

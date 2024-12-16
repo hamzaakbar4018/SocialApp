@@ -14,20 +14,86 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import { LuPencil } from "react-icons/lu";
 import { useAuth } from '../../Context/AuthContext.jsx';
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../Services/Firebase.jsx";
+import Loader from "../Loader/Loader.jsx";
 
 const ChatMain = () => {
 
   const { currentUser, userData, logout } = useAuth();
-  // console.log(currentUser.uid)
-  cosnt userID = "1"
+  const userID = "1"
+  const [recentChats, setRecentChats] = useState([]);
+  const [usersData, setUsersData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [usersCharMsgs, setUsersCharMsgs] = useState([]);
+  console.log(usersCharMsgs)
+  useEffect(() => {
+    const fetchRecentChats = async () => {
+      try {
+        setIsLoading(true);
+        const recentChatsRef = collection(db, "messages", userID, "recent_chats");
+        const recentChatsSnapshot = await getDocs(recentChatsRef);
+        const recentChatsIds = recentChatsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
 
-  const fetchChatsWithUsers = () async => {
-    try {
-      const chatQuery = query
-    } catch (error) {
-      console.log("Chat Error :", error)
-    }
-  }
+        if (recentChatsIds.length > 0) {
+          console.log("Recent Chats:", recentChatsIds);
+          setRecentChats(recentChatsIds);
+
+          // Fetch messages for each chat
+          const userMessagesPromises = recentChatsIds.map(async (chat) => {
+            const messagesRef = collection(db, "messages", userID, "recent_chats", chat.id, "messages");
+            const messagesSnapshot = await getDocs(messagesRef);
+            const messages = messagesSnapshot.docs.map((messageDoc) => ({
+              id: messageDoc.id,
+              data: messageDoc.data(),
+            }));
+
+            return {
+              id: chat.id,
+              data: chat.data,
+              messages,
+            };
+          });
+
+          const usersCharMsgs = await Promise.all(userMessagesPromises);
+          setUsersCharMsgs(usersCharMsgs);
+          console.log("Messages:", usersCharMsgs);
+
+          // Fetch user data for each recent chat
+          const userPromises = recentChatsIds.map(async (element) => {
+            const getUserDataSnapshot = await getDoc(doc(db, 'users', element.id)); // Assuming the 'users' collection
+            if (getUserDataSnapshot.exists()) {
+              const userData = getUserDataSnapshot.data();
+              return { id: getUserDataSnapshot.id, data: userData };
+            } else {
+              console.log(`User with ID ${element.id} not found.`);
+              return null;
+            }
+          });
+
+          const usersData = await Promise.all(userPromises);
+          setUsersData(usersData.filter(user => user !== null)); // Filter out null values if any user was not found
+
+          setIsLoading(false); // End the loading state
+        } else {
+          console.log("No recent chats available.");
+          setIsLoading(false); // End the loading state even if no chats are found
+        }
+      } catch (error) {
+        console.error("Error fetching recent chats or messages:", error);
+        setIsLoading(false); // End the loading state on error
+      }
+    };
+
+    fetchRecentChats();
+  }, [userID]); // Effect runs whenever userID changes
+
+
+
+  // **************************************************
 
   const notifyData = useContext(NotificatinData);
   const [popup, setpopup] = useState(false);
@@ -149,7 +215,11 @@ const ChatMain = () => {
     setSearch(!search);
   };
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
+  useEffect(() => {
+    console.log('Recent Chats:', recentChats);
+    console.log('Users Chat Messages:', usersCharMsgs);
+    console.log('Selected Card Index:', selectedCardIndex);
+  }, [recentChats, usersCharMsgs, selectedCardIndex]);
   return (
     <div className="flex">
       <div className="w-full h-dvh overflow-hidden">
@@ -212,11 +282,11 @@ const ChatMain = () => {
                   handleBar();
                 }
               }}
-              className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'} ${chatLocation && isSmallScreen &&'bg-black border-0'}`}
+              className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'} ${chatLocation && isSmallScreen && 'bg-black border-0'}`}
             >
               {isSmallScreen ? (
                 chatLocation ? (
-                  <LuPencil className="text-white text-xl"/>
+                  <LuPencil className="text-white text-xl" />
                 ) : (
                   <img src={Notifications} alt="Notifications" />
                 )
@@ -270,37 +340,43 @@ const ChatMain = () => {
             } flex`}
           style={{ height: "calc(100dvh - 5.2rem)" }}
         >
-          <div className="left bg-white w-full md:w-auto rounded overflow-y-auto border-r">
-            {staticChatData.map((data, index) => (
-              <AllUsers
-                key={data.id}
-                {...data}
-                isActive={selectedCardIndex === index}
-                isSelected={selectedCardIndex === index}
-                onClick={() => {
-                  setSelectedCardIndex(index);
-                  setIsSheetOpen(true)
-                }
-                }
-
-              />
-            ))}
-          </div>
+          {
+            isLoading ? (
+              <Loader />
+            ) : (
+              <div className="left bg-white w-full md:w-auto md:min-w-[25%]  rounded overflow-y-auto border-r">
+                {recentChats.map((usr, index) => (
+                  <AllUsers
+                    key={usr.id}
+                    otherName={usr.data.otherName}
+                    otherImage={usr.data.otherImage}
+                    otherID={usr.data.otherID}
+                    recentMessage={usr.data.recentMessage}
+                    time={usr.data.time}
+                    isActive={selectedCardIndex === index}
+                    isSelected={selectedCardIndex === index}
+                    onClick={() => {
+                      setSelectedCardIndex(index);
+                      setIsSheetOpen(true)
+                    }}
+                  />
+                ))}
+              </div>
+            )
+          }
           {/* chat */}
           <div
             className="right hidden min-h-full flex-shrink md:block flex-grow"
             style={{ maxHeight: "calc(100vh - 4rem)" }}
           >
-            {selectedCardIndex !== null && (
-              <div>
-                <UsersChat
-                  userImg={staticChatData[selectedCardIndex]?.userImg}
-                  username={staticChatData[selectedCardIndex]?.username}
-                  sent={staticChatData[selectedCardIndex]?.sent}
-                  received={staticChatData[selectedCardIndex]?.received}
-                  time={staticChatData[selectedCardIndex]?.time}
-                />
-              </div>
+            {recentChats && recentChats.length > 0 && (
+              <UsersChat
+                userImg={recentChats[selectedCardIndex]?.data?.otherImage}
+                username={recentChats[selectedCardIndex]?.data?.otherName}
+                time={recentChats[selectedCardIndex]?.data?.time}
+                usersCharMsgs={usersCharMsgs}
+                selectedCardIndex={selectedCardIndex}
+              />
             )}
           </div>
 
