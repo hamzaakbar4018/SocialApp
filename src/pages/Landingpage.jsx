@@ -11,9 +11,11 @@ import land8img from "../assets/Icons SVG/land8img.png";
 import land7img from "../assets/Icons SVG/land7img.png";
 import Footer from "../components/Footer";
 import IndustryData from "../Cards/Talent/IndustryData";
+import DramaCards from "../Cards/Talent/DramaCards";
 import "../CSS/Landingpage.css";
 import LandingPagetalent from "../Cards/LandingPagetalent";
 import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
+import IndustryPage from "../Cards/Talent/IndustryPage";
 const Landingpage = () => {
   const talentData = useContext(IndustryData);
   const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
@@ -96,8 +98,8 @@ const Landingpage = () => {
             </p>
           </div>
         </div>
-        <div className="w-full">
-          <IndustryData landingtalent={landingtalent} />
+        <div className="w-full p-2">
+          <IndustryPage landingtalent={landingtalent} />
         </div>
         <button className="p-3 mb-10 rounded-3xl mt-20 border border-black ml-3 md:text-base text-xl md:ml-20">
           Discover More

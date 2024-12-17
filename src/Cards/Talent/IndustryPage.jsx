@@ -7,9 +7,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import '../../CSS/Connections.css';
-import TalentCards from './TalentCards';
+import DramaCards from './DramaCards';
 import Conneections from '../Conneections';
-const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus }) => {
+const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus , landingtalent }) => {
     const talentData = useContext(IndustryData);
     const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
     const getConnectionStatus = (user) => {
@@ -30,7 +30,7 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
     };
 
     return (
-        <div className="container overflow-x-hidden">
+        <div className="container overflow-x-hidden ">
             <div className="swiper-grid-container">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -39,7 +39,7 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
                     loop={true}
                     loopFillGroupWithBlank={true}
                     scrollbar={{ draggable: true }}
-                    className="swiper-container w-full m-[-10px] overflow-hidden"
+                    className={`swiper-container w-full overflow-hidden`}
                     breakpoints={{
                         640: { slidesPerView: 1 },
                         768: { slidesPerView: 2 },
@@ -68,8 +68,10 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
                             <div>
                                 {
                                     talentData.map((data) => (
-                                        <SwiperSlide key={data.id} className=" !w-auto max-w-[17%] min-w-[260px]">
-                                            <TalentCards
+                                        <SwiperSlide key={data.id} className={`!w-auto max-w-[17%] min-w-[260px] ${
+                                            landingtalent ? '!w-auto max-w-[30%] min-w-[260px] hove:scale-[1.1] transition-transform duration-300 ease-in-out ' : ''
+                                          }`}>
+                                            <DramaCards
                                             image={data.image}
                                             firstName={data.firstName}
                                             categoryName={data.categoryName}
@@ -77,6 +79,7 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
                                             onConnect={onConnect}
                                             connectionStatus={getConnectionStatus(data)}
                                             network={network}
+                                            landingtalent={landingtalent}
                                             // landingtalent={!network}
                                         />
                                         </SwiperSlide>
