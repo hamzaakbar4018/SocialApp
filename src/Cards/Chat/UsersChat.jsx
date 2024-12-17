@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import newArrow from '../../assets/Icons SVG/Arrow.svg'
+import {
+  collection,
+  doc,
+  setDoc,
+  query,
+  orderBy,
+  onSnapshot
+} from "firebase/firestore";
+import { db } from "../../Services/Firebase.jsx";
 
 const UsersChat = ({
   userImg,
@@ -9,32 +18,211 @@ const UsersChat = ({
   usersCharMsgs,
   selectedCardIndex
 }) => {
-  // Debug logging with safe checking
-  console.log("usersCharMsgs:", usersCharMsgs);
-  console.log("selectedCardIndex:", selectedCardIndex);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [store, setStore] = useState('');
+  const messagesEndRef = useRef(null);
+  const messagesListenerRef = useRef(null);
 
-  // More defensive message selection
-  const selectedChatMessages = usersCharMsgs && 
-    usersCharMsgs[selectedCardIndex] && 
-    usersCharMsgs[selectedCardIndex].messages 
-    ? usersCharMsgs[selectedCardIndex].messages 
-    : [];
-    
-    console.log("check msg ",selectedChatMessages)
+  const userID = "1";
 
-  // Render loading or empty state
-  if (!usersCharMsgs || usersCharMsgs.length === 0) {
+  useEffect(() => {
+    if (messagesListenerRef.current) {
+      messagesListenerRef.current();
+    }
+
+    if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) return;
+
+    const selectedChat = usersCharMsgs[selectedCardIndex];
+    const otherID = selectedChat.id;
+
+    const messagesRef = collection(
+      db,
+      "messages",
+      userID,
+      "recent_chats",
+      otherID,
+      "messages"
+    );
+
+    const messagesQuery = query(messagesRef, orderBy('sortTime', 'asc'));
+
+    messagesListenerRef.current = onSnapshot(
+      messagesQuery,
+      (snapshot) => {
+        const fetchedMessages = snapshot.docs.map(doc => ({
+          id: doc.id,
+          data: {
+            ...doc.data(),
+            time: formatTimestamp(doc.data().time)
+          }
+        }));
+
+        setMessages(fetchedMessages);
+        scrollToBottom();
+      },
+      (error) => {
+        console.error("Error fetching real-time messages:", error);
+      }
+    );
+
+    return () => {
+      if (messagesListenerRef.current) {
+        messagesListenerRef.current();
+      }
+    };
+  }, [usersCharMsgs, selectedCardIndex]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Send message handler
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
+    let msg = newMessage;
+    setNewMessage('');
+    try {
+      // Ensure we have a selected chat
+      if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) return;
+
+      const selectedChat = usersCharMsgs[selectedCardIndex];
+      const otherID = selectedChat.id;
+
+      const now = new Date();
+      const docID = now.toISOString().replace(/[:.]/g, '-');
+      const sortTime = now.getTime() * 1000; // Convert to microseconds
+
+      const formattedTime = now.toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+
+      const messageData = {
+        docID,
+        fromID: userID,
+        toID: otherID,
+        messageBody: msg,
+        isRead: false,
+        time: formattedTime,
+        sortTime: sortTime
+      };
+
+      const senderRef = doc(
+        db,
+        "messages",
+        userID,
+        "recent_chats",
+        otherID,
+        "messages",
+        docID
+      );
+
+      const recipientRef = doc(
+        db,
+        "messages",
+        otherID,
+        "recent_chats",
+        userID,
+        "messages",
+        docID
+      );
+
+      await Promise.all([
+        setDoc(senderRef, messageData),
+        setDoc(recipientRef, messageData)
+      ]);
+
+      await updateRecentChats(userID, otherID, newMessage);
+      await updateRecentChats(otherID, userID, newMessage);
+
+      setNewMessage('');
+
+      scrollToBottom();
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return 'Unknown time';
+
+    if (typeof timestamp === 'string') {
+      return timestamp;
+    }
+
+    if (timestamp && typeof timestamp === 'object' && 'seconds' in timestamp) {
+      try {
+        const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+        return date.toLocaleString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+      } catch (error) {
+        console.error("Error formatting timestamp:", error);
+        return 'Invalid time';
+      }
+    }
+
+    if (timestamp instanceof Date) {
+      return timestamp.toLocaleString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+
+    return 'Unknown time';
+  };
+
+  const updateRecentChats = async (currentUser, otherUser, latestMessage) => {
+    try {
+      const recentChatRef = doc(
+        db,
+        "messages",
+        currentUser,
+        "recent_chats",
+        otherUser
+      );
+
+      await setDoc(recentChatRef, {
+        recentMessage: latestMessage,
+        time: new Date().toLocaleString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        })
+      }, { merge: true });
+    } catch (error) {
+      console.error("Error updating recent chats:", error);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
+  if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) {
     return (
       <div className="flex flex-col h-screen bg-gray-100 justify-center items-center">
-        <p>No chats available</p>
+        <p className="text-gray-500">Select a chat to start messaging</p>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      {/* Header */}
-      <div className="bg-white rounded-t">
+      <div className="bg-white">
         <div className="flex border-b border-gray-300 p-4 items-center justify-between">
           <div className="flex items-center gap-2">
             <img
@@ -51,39 +239,40 @@ const UsersChat = ({
             <HiOutlineDotsVertical className="font-bold text-2xl" />
           </div>
         </div>
+
       </div>
 
       <div className="flex flex-col flex-1 overflow-y-auto bg-white">
         <div className="p-4 flex-1">
           <div className="flex flex-col gap-2">
-            {selectedChatMessages.length > 0 ? (
-              selectedChatMessages.map((message, index) => {
-                // Add null checks and provide fallback values
-                const messageData = message?.data || {};
-                const isCurrentUser = messageData.fromID === "1";
-                console.log("messageData",messageData)
+            {messages.length > 0 ? (
+              messages.map((message, index) => {
+                const isCurrentUser = message.data.fromID === "1";
                 return (
                   <div
-                    key={message?.id || index}
-                    className={`flex flex-col ${isCurrentUser ? 'items-end' : ''}`}
+                    key={message.id || index}
+                    className={`flex flex-col  ${isCurrentUser ? 'items-end' : ''}`}
                   >
                     <div>
                       <div
                         className={`p-2 inline-block rounded-xl ${isCurrentUser
-                            ? 'rounded-tr-none bg-[#399AF3] text-white'
-                            : 'rounded-tl-none bg-[#E7E8E8] text-black'
+                          ? 'rounded-tr-none bg-[#399AF3] text-white'
+                          : 'rounded-tl-none bg-[#E7E8E8] text-black'
                           }`}
                       >
-                        {messageData.messageBody || 'No message'}
+                        {message.data.messageBody || 'No message'}
                       </div>
                     </div>
                     <div className={`chat ${isCurrentUser ? 'chat-end' : 'chat-start'}`}>
                       <div className="chat-header">
                         <time className="text-xs opacity-50">
-                          {messageData.time || 'Unknown time'}
+                          {formatTimestamp(message.data.time)}
                         </time>
                       </div>
+                      {/* <div ref={messagesEndRef} /> */}
+
                     </div>
+
                   </div>
                 );
               })
@@ -92,20 +281,28 @@ const UsersChat = ({
                 No messages in this conversation
               </div>
             )}
+            {/* <div ref={messagesEndRef} /> */}
           </div>
         </div>
       </div>
 
       {/* Input Section */}
-      <div className="sticky bottom-0 border-gray-400 bg-white p-4 flex items-center gap-1">
+      <div className="sticky md:mt-16 bottom-0 border-gray-400 bg-white p-4 flex items-center gap-1">
         <div className="bg-gray-100 w-auto flex-grow rounded-3xl">
           <input
             type="text"
             placeholder="Enter the message"
-            className="p-3 outline-none bg-transparent w-auto"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="p-3 outline-none bg-transparent w-full"
           />
         </div>
-        <div className="bg-black flex-grow-0 rounded-full p-1 flex justify-center items-center cursor-pointer">
+
+        <div
+          onClick={handleSendMessage}
+          className="bg-black flex-grow-0 rounded-full p-1 flex justify-center items-center cursor-pointer"
+        >
           <img src={newArrow} alt="" className="w-10 p-1 h-10" />
         </div>
       </div>

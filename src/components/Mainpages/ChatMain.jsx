@@ -14,19 +14,55 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import { LuPencil } from "react-icons/lu";
 import { useAuth } from '../../Context/AuthContext.jsx';
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where, Timestamp } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
 import Loader from "../Loader/Loader.jsx";
 
 const ChatMain = () => {
-
   const { currentUser, userData, logout } = useAuth();
   const userID = "1"
   const [recentChats, setRecentChats] = useState([]);
   const [usersData, setUsersData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [usersCharMsgs, setUsersCharMsgs] = useState([]);
-  // console.log(usersCharMsgs)
+
+  // Helper function to format Firestore Timestamp
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return 'Unknown time';
+
+    // Check if timestamp is a Firestore Timestamp
+    if (timestamp instanceof Timestamp) {
+      return timestamp.toDate().toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+
+    // If it's already a string or other format, return as is
+    if (typeof timestamp === 'string') {
+      return timestamp;
+    }
+
+    // If it's an object with seconds and nanoseconds
+    if (timestamp && typeof timestamp === 'object' && 'seconds' in timestamp) {
+      const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+      return date.toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+
+    return 'Unknown time';
+  };
+
   useEffect(() => {
     const fetchRecentChats = async () => {
       try {
@@ -35,7 +71,10 @@ const ChatMain = () => {
         const recentChatsSnapshot = await getDocs(recentChatsRef);
         const recentChatsIds = recentChatsSnapshot.docs.map((doc) => ({
           id: doc.id,
-          data: doc.data(),
+          data: {
+            ...doc.data(),
+            time: formatTimestamp(doc.data().time) // Format timestamp here
+          },
         }));
 
         if (recentChatsIds.length > 0) {
@@ -48,7 +87,10 @@ const ChatMain = () => {
             const messagesSnapshot = await getDocs(messagesRef);
             const messages = messagesSnapshot.docs.map((messageDoc) => ({
               id: messageDoc.id,
-              data: messageDoc.data(),
+              data: {
+                ...messageDoc.data(),
+                time: formatTimestamp(messageDoc.data().time) // Format timestamp here too
+              },
             }));
 
             return {
@@ -215,11 +257,6 @@ const ChatMain = () => {
     setSearch(!search);
   };
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  // useEffect(() => {
-  //   console.log('Recent Chats:', recentChats);
-  //   console.log('Users Chat Messages:', usersCharMsgs);
-  //   console.log('Selected Card Index:', selectedCardIndex);
-  // }, [recentChats, usersCharMsgs, selectedCardIndex]);
   return (
     <div className="flex">
       <div className="w-full h-dvh overflow-hidden">
@@ -335,16 +372,16 @@ const ChatMain = () => {
 
 
         </div>
-        <div
-          className={`showcard transition-all flex-1 overflow-hidden ${showRightbar ? "mr-[1%]" : "mr-0"
-            } flex`}
-          style={{ height: "calc(100dvh - 5.2rem)" }}
-        >
-          {
-            isLoading ? (
-              <Loader />
-            ) : (
-              <div className="left bg-white w-full md:w-auto md:min-w-[25%]  rounded overflow-y-auto border-r">
+        {
+          isLoading ? (
+            <Loader />
+          ) : (
+            <div
+              className={`showcard transition-all  flex-1 overflow-hidden ${showRightbar ? "mr-[1%]" : "mr-0"
+                } flex`}
+              style={{ height: "calc(100dvh - 5.2rem)" }}
+            >
+              <div className="left p-[4px] bg-[#F5F5F5]  w-full md:w-auto md:min-w-[25%]  rounded overflow-y-auto ">
                 {recentChats.map((usr, index) => (
                   <AllUsers
                     key={usr.id}
@@ -352,7 +389,7 @@ const ChatMain = () => {
                     otherImage={usr.data.otherImage}
                     otherID={usr.data.otherID}
                     recentMessage={usr.data.recentMessage}
-                    time={usr.data.time}
+                    time={usr.data.time} // This should now be a formatted string
                     isActive={selectedCardIndex === index}
                     isSelected={selectedCardIndex === index}
                     onClick={() => {
@@ -362,67 +399,67 @@ const ChatMain = () => {
                   />
                 ))}
               </div>
-            )
-          }
-          {/* chat */}
-          <div
-            className="right hidden min-h-full flex-shrink md:block flex-grow"
-            style={{ maxHeight: "calc(100vh - 4rem)" }}
-          >
-            {recentChats && recentChats.length > 0 && (
-              <UsersChat
-                userImg={recentChats[selectedCardIndex]?.data?.otherImage}
-                username={recentChats[selectedCardIndex]?.data?.otherName}
-                time={recentChats[selectedCardIndex]?.data?.time}
-                usersCharMsgs={usersCharMsgs}
-                selectedCardIndex={selectedCardIndex}
-              />
-            )}
-          </div>
-
-          <div className={`fixed top-0 z-40 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
-            <button
-              className="absolute flex items-center border-b border-gray-300 justify-between gap-2 top-0 left-0 bg-white w-full p-4 text-black"
-              onClick={() => setIsSheetOpen(false)}
-            >
-              <div className="flex items-center gap-2">
-                <IoMdArrowBack className='text-2xl mb-1 mt-3' />
-                <div className="flex gap-2 items-center">
-                  <img
-                    src={staticChatData[selectedCardIndex]?.userImg}
-                    alt="User Image"
-                    className="w-[59px] h-[59px] rounded-full"
-                  />
-                  <div className="flex flex-col items-start">
-                    <h1 className="font-bold">{staticChatData[selectedCardIndex]?.username}</h1>
-                    <p>{staticChatData[selectedCardIndex]?.time}</p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className='flex border border-gray-400 rounded-full w-[37px] h-[37px] p-2 justify-center items-center'>
-                  <HiOutlineDotsVertical className="font-bold text-2xl" />
-                </div>
-              </div>
-
-            </button>
-
-            <div className="">
-              {
-                selectedCardIndex !== null && (
+              {/* chat */}
+              <div
+                className="right py-[4px] px-[2px] bg-[#F5F5F5] hidden min-h-full flex-shrink md:block flex-grow"
+                style={{ maxHeight: "calc(100vh - 4rem)" }}
+              >
+                {recentChats && recentChats.length > 0 && selectedCardIndex !== null && (
                   <UsersChat
-                    userImg={staticChatData[selectedCardIndex]?.userImg}
-                    username={staticChatData[selectedCardIndex]?.username}
-                    sent={staticChatData[selectedCardIndex]?.sent}
-                    received={staticChatData[selectedCardIndex]?.received}
-                    time={staticChatData[selectedCardIndex]?.time}
+                    userImg={recentChats[selectedCardIndex]?.data?.otherImage}
+                    username={recentChats[selectedCardIndex]?.data?.otherName}
+                    time={recentChats[selectedCardIndex]?.data?.time}
+                    usersCharMsgs={usersCharMsgs}
+                    selectedCardIndex={selectedCardIndex}
+                    recentChats={recentChats}
                   />
-                )
-              }
-            </div>
-          </div>
+                )}
+              </div>
 
-        </div>
+              <div className={`fixed top-0 z-40 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
+                <button
+                  className="absolute flex items-center border-b border-gray-300 justify-between gap-2 top-0 left-0 bg-white w-full p-4 text-black"
+                  onClick={() => setIsSheetOpen(false)}
+                >
+                  <div className="flex items-center gap-2">
+                    <IoMdArrowBack className='text-2xl mb-1 mt-3' />
+                    <div className="flex gap-2 items-center">
+                      <img
+                        src={recentChats[selectedCardIndex]?.data?.otherImage}
+                        alt="User Image"
+                        className="w-[59px] h-[59px] rounded-full"
+                      />
+                      <div className="flex flex-col items-start">
+                        <h1 className="font-bold">{recentChats[selectedCardIndex]?.data?.otherName}</h1>
+                        <p>{recentChats[selectedCardIndex]?.data?.time}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className='flex border border-gray-400 rounded-full w-[37px] h-[37px] p-2 justify-center items-center'>
+                      <HiOutlineDotsVertical className="font-bold text-2xl" />
+                    </div>
+                  </div>
+
+                </button>
+
+                <div className="">
+                {recentChats && recentChats.length > 0 && selectedCardIndex !== null && (
+                  <UsersChat
+                    userImg={recentChats[selectedCardIndex]?.data?.otherImage}
+                    username={recentChats[selectedCardIndex]?.data?.otherName}
+                    time={recentChats[selectedCardIndex]?.data?.time}
+                    usersCharMsgs={usersCharMsgs}
+                    selectedCardIndex={selectedCardIndex}
+                    recentChats={recentChats}
+                  />
+                )}
+                </div>
+              </div>
+
+            </div>
+          )
+        }
       </div>
 
       {showRightbar && (

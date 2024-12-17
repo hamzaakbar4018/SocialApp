@@ -6,7 +6,7 @@ const AllUsers = ({ otherName, otherImage, otherID, recentMessage, userImg, user
     return (
         <div
             onClick={onClick}
-            className={`p-2 cursor-pointer rounded border-b border-gray-300 transition-colors duration-300 ${isSelected ? 'bg-[#ECF5FE]' : (isActive ? 'bg-brown-500' : 'bg-white')
+            className={`p-2 cursor-pointer  border-b border-gray-300 transition-colors duration-300 ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-black' : (isActive ? 'bg-brown-500' : 'bg-white')
                 }`}
         >
             <div className='flex justify-between gap-2'>
