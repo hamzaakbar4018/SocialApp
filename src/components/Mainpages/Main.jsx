@@ -27,9 +27,7 @@ import { useAuth } from '../../Context/AuthContext.jsx';
 
 const Main = () => {
     const { currentUser, userData, logout } = useAuth();
-    console.log(currentUser)
     const dummyID = currentUser.uid;
-    console.log(dummyID);
     const [author, setAuthor] = useState('');
 
     const fetchAuthor = async () => {
@@ -44,7 +42,6 @@ const Main = () => {
                 ...doc.data(),
             }));
             setAuthor(data);
-            console.log("Author", data)
         } catch (error) {
             console.log("Author Error", error);
         }
@@ -112,7 +109,7 @@ const Main = () => {
             toast.error("Error uploading post. Please try again."); // Log any errors
         }
     };
-    const notifyData = useContext(NotificatinData);
+    const { notifyData } = useContext(NotificatinData);
     const postData = useContext(PostData) || [];
 
     const [popup, setpopup] = useState(false);
@@ -292,28 +289,26 @@ const Main = () => {
                 <div className={`transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
                         <div className='bg-white p-4'>
-                            {admin.map((data, index) => (
-                                <div key={index}>
-                                    <div className='flex gap-4 items-center'>
-                                        <img
-                                            src={author && author[0] ? author[0].image : ''}
-                                            className="rounded-full w-12 h-12"
-                                            alt={author && author[0] ? author[0].firstName : 'User'} // You can use firstName or a default name
-                                        />
-                                        <p className='text-[#808080]'>Have You Something to Share?</p>
+                            <div>
+                                <div className='flex gap-4 items-center'>
+                                    <img
+                                        src={author && author[0] ? author[0].image : ''}
+                                        className="rounded-full w-12 h-12"
+                                        alt={author && author[0] ? author[0].firstName : 'User'}
+                                    />
+                                    <p className='text-[#808080]'>Have You Something to Share?</p>
+                                </div>
+                                <div className='flex items-center mt-5 gap-5 p-2'>
+                                    <div onClick={handlePostModel} className='flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-2 cursor-pointer items-center'>
+                                        <img src={photoadmin} className='w-5 mb-1 mt-1' alt="photo" />
+                                        <button className='' onClick={handlePostModel}>Photo</button>
                                     </div>
-                                    <div className='flex items-center mt-5 gap-5 p-2'>
-                                        <div onClick={handlePostModel} className='flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-2 cursor-pointer items-center'>
-                                            <img src={photoadmin} className='w-5 mb-1 mt-1' alt="photo" />
-                                            <button className='' onClick={handlePostModel}>Photo</button>
-                                        </div>
-                                        <div className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl cursor-pointer gap-1 justify-center items-center'>
-                                            <img src={textadmin} className='w-5 mb-1' alt="text" />
-                                            <button>Text</button>
-                                        </div>
+                                    <div className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl cursor-pointer gap-1 justify-center items-center'>
+                                        <img src={textadmin} className='w-5 mb-1' alt="text" />
+                                        <button>Text</button>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
                         </div>
                         <div className='rounded mt-2'>
 

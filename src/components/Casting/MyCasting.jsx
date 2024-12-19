@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ImSpinner2 } from 'react-icons/im';
 import Loader from '../Loader/Loader'
+import Payment from '../../Cards/Payment';
 
 const MyCasting = () => {
   const UserId = "YTHetwednqeLYoraizuJ4PLFFlp2";
@@ -16,6 +17,9 @@ const MyCasting = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [myCasting, setMyCasting] = useState([]);
   const [author, setAuthor] = useState([]);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [castingCallLimit, setCastingCallLimit] = useState(1);
+
   const fetchMyCasting = async () => {
     try {
       setIsLoading(true);
@@ -46,6 +50,17 @@ const MyCasting = () => {
         id: doc.id,
         ...doc.data(),
       }));
+      const paidCastingCallsQuery = query(
+        collection(db, 'userPayments'),
+        where("userId", "==", UserId),
+        where("type", "==", "castingCall")
+      );
+
+      const paidCallsSnapShot = await getDocs(paidCastingCallsQuery);
+      const paidCalls = paidCallsSnapShot.docs.length;
+
+      // Set casting call limit based on free and paid calls
+      setCastingCallLimit(1 + paidCalls);
 
       setAuthor(authorData);
       setMyCasting(myCalls);
@@ -146,13 +161,6 @@ const MyCasting = () => {
       await updateDoc(doc(db, "castingCallCollection", docRef.id), {
         docID: docRef.id, // Add the docID field
       });
-
-      // window.location.reload();
-      // toast.success("Casting call created successfully!");
-      // setIsLoading(false);
-
-
-
       setTitle('');
       setDescription('');
       setRoleTitle('');
@@ -228,8 +236,36 @@ const MyCasting = () => {
 
 
   const handleCasting = () => {
+    if (myCasting.length >= castingCallLimit) {
+      setShowPaymentModal(true);
+      return;
+    }
     setCreateCasting(!createCast);
   }
+  const handlePaymentSuccess = async () => {
+    // Record payment in Firestore
+    try {
+      await addDoc(collection(db, 'userPayments'), {
+        userId: UserId,
+        type: 'castingCall',
+        timestamp: new Date(),
+        amount: 99 // Price for additional casting call
+      });
+
+      // Increase casting call limit
+      setCastingCallLimit(prev => prev + 1);
+
+      // Close payment modal
+      setShowPaymentModal(false);
+
+      // Trigger submission again
+      handleSubmit(new Event('submit'));
+    } catch (error) {
+      console.error("Error recording payment:", error);
+      toast.error("Payment recording failed");
+    }
+  };
+
 
 
 
@@ -301,23 +337,6 @@ const MyCasting = () => {
           <div className="py-4">
             {
               selectedCardIndex !== null && selectedCardIndex < myCasting.length && (
-                // <UserDescription
-                //   // {...userdata[selectedCardIndex]}
-                //   mycasting={mycasting}
-                //   sendData={handleDataSend}
-                //   title={myCasting[selectedCardIndex].title}
-                //   img={author[0]?.image}
-                //   des={myCasting[selectedCardIndex].description}
-                //   budget={myCasting[selectedCardIndex].budget}
-                //   age={myCasting[selectedCardIndex].age}
-                //   height={myCasting[selectedCardIndex].height}
-                //   gender={myCasting[selectedCardIndex].gender}
-                //   location={myCasting[selectedCardIndex].city}
-                //   day={myCasting[selectedCardIndex].duration}
-                //   crew={myCasting[selectedCardIndex].crew}
-                //   username={author[0].firstName}
-                //   time={myCasting[selectedCardIndex].createdAt}
-                // />
                 <UserDescription
                   myCallId={myCasting[selectedCardIndex].docID}
                   isDeleting={isDeleting}
@@ -480,6 +499,19 @@ const MyCasting = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+        {showPaymentModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg">
+              <h2 className="text-xl font-bold mb-4">Upgrade Casting Calls</h2>
+              <p className="mb-4">You've reached your free casting call limit. Pay ₹99 to create an additional casting call.</p>
+              <Payment
+                amount={99}
+                onSuccess={handlePaymentSuccess}
+                onClose={() => setShowPaymentModal(false)}
+              />
             </div>
           </div>
         )}

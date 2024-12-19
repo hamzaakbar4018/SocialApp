@@ -26,28 +26,43 @@ import Signup from './pages/Signup/Signup';
 import ReceivedCasting from './components/Casting/ReceivedCasting';
 import RejectedCasting from './components/Casting/RejectedCasting';
 import WishlistCasting from './components/Casting/WishlistCasting';
+import ProtectedRoute from './pages/ProtectedRoute';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   const location = useLocation();
 
   const isLandingPage = location.pathname === '/';
+  const isNotFoundPage = location.pathname === '*' || location.pathname.includes('/not-found');
   const isLog = location.pathname === '/login' || location.pathname === '/verify' || location.pathname === '/signup';
 
   return (
     <div className='routing flex bg-white'>
-      {!(isLandingPage || isLog) && (
-        <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
-          <Sidebar />
-        </div>
-      )}
-      <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
+    {!(isLandingPage || isLog || isNotFoundPage) && (
+      <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
+        <Sidebar />
+      </div>
+    )}
+      {/* <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
         <Routes>
-          <Route path='/' element={<Landingpage />} />
+          <Route path='/' element={
+
+            <Landingpage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/verify' element={<Verify />} />
           <Route path='/signup' element={<Signup />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/talent' element={<Talent />} />
+          <Route path='/home' element={
+            <ProtectedRoute>
+
+              <Home />
+            </ProtectedRoute>
+          } />
+          <Route path='/talent' element={
+            <ProtectedRoute>
+              <Talent />
+
+            </ProtectedRoute>
+          } />
           <Route path='/network' element={<Network />} />
           <Route path='/transaction' element={<Transacction />} />
           <Route path='/support' element={<Support />} />
@@ -73,6 +88,93 @@ const App = () => {
             </Route>
 
           </Route>
+        </Routes>
+      </div> */}
+      <div className={`flex-grow ${isLandingPage ? 'w-full' : 'w-auto'}`}>
+        <Routes>
+          <Route path='/' element={<Landingpage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/verify' element={<Verify />} />
+          <Route path='/signup' element={<Signup />} />
+
+          <Route path='/home' element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/talent' element={
+            <ProtectedRoute>
+              <Talent />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/network' element={
+            <ProtectedRoute>
+              <Network />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/transaction' element={
+            <ProtectedRoute>
+              <Transacction />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/support' element={
+            <ProtectedRoute>
+              <Support />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/about' element={
+            <ProtectedRoute>
+              <About />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/term-policy' element={
+            <ProtectedRoute>
+              <Term />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/privacy' element={
+            <ProtectedRoute>
+              <Privacy />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/chat' element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/profile' element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }>
+            <Route path='profileactivity' element={<ProfileActivity />} />
+            <Route path='profileabout' element={<ProfileAbout />} />
+            <Route path='profilemywork' element={<ProfileMywork />} />
+          </Route>
+
+          <Route path='/casting' element={
+            <ProtectedRoute>
+              <Casting />
+            </ProtectedRoute>
+          }>
+            <Route path='calls' element={<Calls />} />
+            <Route path='applied' element={<Applied />} />
+            <Route path='mycalls' element={<MyCasting />}>
+              <Route path='received' element={<ReceivedCasting />} />
+              <Route path='rejected' element={<RejectedCasting />} />
+              <Route path='wishlist' element={<WishlistCasting />} />
+            </Route>
+          </Route>
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
     </div>

@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Sign out function
-  const logout = async () => {
+  const Logout = async () => {
     try {
       await signOut(auth);
       setCurrentUser(null);
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     userData,
     loading,
-    logout,
+    Logout,
     updateUserData
   };
 

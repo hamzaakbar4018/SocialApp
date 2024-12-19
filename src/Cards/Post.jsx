@@ -9,9 +9,12 @@ import { PostData } from '../Context/PostContext';
 import { addDoc, arrayRemove, arrayUnion, collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../Services/Firebase';
 import { ImSpinner2 } from 'react-icons/im';
+import { useAuth } from '../Context/AuthContext';
 // import Comments from './Comments';
 const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData }) => {
-    const currentUserId = "1";
+    const { currentUser, userData, logout } = useAuth();
+
+    const currentUserId = currentUser.uid;
     const [comments, setComments] = useState([]);
     const [Author, setAuthor] = useState([]);
 
@@ -20,7 +23,6 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
     const [newComment, setNewComment] = useState('');
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
-    // Comments state management
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingPost, setIsLoadingPost] = useState(false);
     const [error, setError] = useState(null);
@@ -104,18 +106,15 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
 
     const handleLike = async () => {
         try {
-            // Reference to the specific post document
             const postRef = doc(db, 'postCollection', postID);
 
             if (isLiked) {
-                // Unlike: remove user ID from likes array
                 await updateDoc(postRef, {
                     likes: arrayRemove(currentUserId)
                 });
                 setLikeCount(prev => prev - 1);
                 setIsLiked(false);
             } else {
-                // Like: add user ID to likes array
                 await updateDoc(postRef, {
                     likes: arrayUnion(currentUserId)
                 });
@@ -562,11 +561,22 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
             )}
 
             {/* Mobile Comments */}
-            {
-                mobileComments && (
-                    <MobileComments commentsData={commentsData} mobileComments={mobileComments} setMobileComments={setMobileComments} />
-                )
-            }
+            {mobileComments && (
+                <MobileComments
+                    isLoading={isLoading}
+                    isLoadingPost={isLoadingPost}
+                    setNewComment={setNewComment}
+                    newComment={newComment}
+                    comments={comments}
+                    handlePostComment={handlePostComment}
+                    mobileComments={mobileComments}
+                    setMobileComments={setMobileComments}
+                    error={error}
+                    setError={setError}
+                    fetchComments={fetchComments} // Add this
+                    Author={Author} // Add this
+                />
+            )}
 
         </div>
     );

@@ -6,11 +6,11 @@ import IndustryContext from './Context/IndustryContext.jsx';
 import NotificationContext from './Context/NotificatinContext.jsx';
 import PostContext from './Context/PostContext.jsx';
 import ApplicationContext from './Context/ApplicationContext.jsx';
-import { AuthProvider } from './Context/AuthContext.jsx';  // Import AuthProvider
+import { AuthProvider } from './Context/AuthContext.jsx'; 
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <AuthProvider>  {/* Use AuthProvider instead of AuthContext */}
+    <AuthProvider>
       <ApplicationContext>
         <IndustryContext>
           <PostContext>

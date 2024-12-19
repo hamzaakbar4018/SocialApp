@@ -14,6 +14,7 @@ import Terms_Condition from '../assets/Icons SVG/Terms_Conditions.svg';
 import Transaction_History from '../assets/Icons SVG/Transaction_History.svg';
 import Support from '../assets/Icons SVG/Support.svg';
 import Aboutus from '../assets/Icons SVG/Aboutus.svg';
+import { useAuth } from '../Context/AuthContext';
 
 const activeIconFilter = 'invert(32%) sepia(80%) saturate(462%) hue-rotate(169deg) brightness(94%) contrast(101%)';
 
@@ -21,12 +22,13 @@ const Sidebar = () => {
     // const [account, setAccount] = useState(window.innerWidth < 640);
     const [account, setAccount] = useState(false);
     const [logout, setLogout] = useState(false);
-
+    const {Logout} = useAuth(); 
     const openAccount = () => {
         setAccount(!account);
     };
 
     const handleLog = () => {
+
         setLogout(!logout);
     };
 
@@ -289,7 +291,7 @@ const Sidebar = () => {
                         <h1 className="text-lg font-medium">Logout</h1>
                     </div>
                     {logout && (
-                        <div className='fixed inset-0 top-0 right-0 bg-black bg-opacity-50'>
+                        <div className='fixed inset-0 top-0 right-0 z-40 bg-black bg-opacity-50'>
                             <dialog id="my_modal_3" className="modal text-black" open>
                                 <div className="modal-box">
                                     <form method="dialog">
@@ -301,7 +303,7 @@ const Sidebar = () => {
                                     <div className='flex mt-3 gap-3 justify-end items-center'>
                                         <button onClick={handleLog} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
                                         <Link to="/login">
-                                            <button className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
+                                            <button onClick={Logout} className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
                                         </Link>
                                     </div>
                                 </div>
