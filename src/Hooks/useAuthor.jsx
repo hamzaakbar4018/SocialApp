@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../Services/Firebase';
+import { useAuth } from '../Context/AuthContext';
 export const useAuthor = () => {
-    const dummyID = "GFPNB660GaVlJfnmbMdzFIjba4A3";
+    const {currentUser} = useAuth();
+    const dummyID = currentUser.uid;
     const [authorInfo, setAuthorInfo] = useState({
         author: null,
         posts: [],

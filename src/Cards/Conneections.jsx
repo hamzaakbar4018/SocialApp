@@ -6,7 +6,6 @@ import { ImSpinner2 } from 'react-icons/im'
 const Connections = ({ image, username, description, network, user, onAccept, onReject , reqData , rightBar }) => {
   const [isAccepting, setIsAccepting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
-  console.log("Image :" , reqData.image)
   const handleAccept = async () => {
     if (onAccept) {
       setIsAccepting(true);

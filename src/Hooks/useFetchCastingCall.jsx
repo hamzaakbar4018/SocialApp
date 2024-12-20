@@ -71,6 +71,7 @@ const useFetchCastingCall = () => {
   const [error, setError] = useState(null);
 
   const fetchCallsData = async () => {
+    // const {currentUser} = useAuth();
     const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2"; // Dummy user ID
     setIsLoading(true);
     setError(null);

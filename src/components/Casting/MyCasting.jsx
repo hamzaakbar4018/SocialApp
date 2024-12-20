@@ -9,9 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ImSpinner2 } from 'react-icons/im';
 import Loader from '../Loader/Loader'
 import Payment from '../../Cards/Payment';
+import { useAuth } from '../../Context/AuthContext';
 
 const MyCasting = () => {
-  const UserId = "YTHetwednqeLYoraizuJ4PLFFlp2";
+  const {currentUser} = useAuth();
+  const UserId = currentUser.uid;
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);

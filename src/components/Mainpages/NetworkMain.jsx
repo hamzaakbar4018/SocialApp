@@ -13,10 +13,11 @@ import Load from '../Loader/Load.jsx';
 import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
+import { useAuth } from '../../Context/AuthContext.jsx';
 const NetworkMain = () => {
     const talentData = useContext(IndustryData);
-
-    const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+    const { currentUser } = useAuth();
+    const dummyID = currentUser.uid;
     const [isInitialLoading, setIsInitialLoading] = useState(true);
 
     const [reqUsers, setReqUsers] = useState([]);
@@ -291,7 +292,7 @@ const NetworkMain = () => {
                             popup && (
                                 <div className='bg-black bg-opacity-50 inset-0 fixed top-0'>
                                     <dialog className="modal" open>
-                                        <div className="bg-white h-screen p-0">
+                                        <div className="bg-white h-screen w-full p-0">
                                             <button
                                                 className="btn btn-sm btn-circle btn-ghost absolute right-4 top-5 border border-gray-300"
                                                 onClick={handlePopup}
@@ -302,21 +303,31 @@ const NetworkMain = () => {
                                                 <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                                             </div>
                                             <div className="px-6 flex mb-2 flex-col justify-center gap-3">
-                                                {notifyData.map((data, index) => (
-                                                    <div className="flex items-center gap-2" key={index}>
-                                                        <img
-                                                            className="w-14 h-14 rounded-full"
-                                                            src={data.image}
-                                                            alt="image"
-                                                        />
-                                                        <div className="flex flex-col justify-center">
-                                                            <h1 className="font-semibold">
-                                                                {data.username} <span className="font-light">{data.text}</span>
-                                                            </h1>
-                                                            <p className="text-[#9B9B9B] text-sm">{data.time}</p>
+                                                {
+                                                    notifyData.length > 0 ? (
+                                                        notifyData.map((data, index) => (
+                                                            <div className="flex items-center gap-2" key={index}>
+                                                                <img
+                                                                    className="w-14 h-14 rounded-full"
+                                                                    src={data.fromImage}
+                                                                    alt="image"
+                                                                />
+                                                                <div className="flex flex-col justify-center">
+                                                                    <h1 className="font-semibold">
+                                                                        {data.fromName} <span className="font-light">{data.title}</span>
+                                                                    </h1>
+                                                                    <p className="text-[#9B9B9B] text-sm">
+                                                                        {data.createdAt ? format(new Date(data.createdAt), 'MMM dd, yyyy, hh:mm a') : 'Date not available'}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <div className="text-center text-gray-400 text-sm">
+                                                            No notifications available
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </dialog>
@@ -330,60 +341,79 @@ const NetworkMain = () => {
                 </div>
                 {
                     isInitialLoading ? (
-                        <Loader/>
+                        <Loader />
                     ) : (
                         <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
-                    <div className='p-[2px]'>
-                        <div className=' bg-white '>
-                            <h1 className='font-bold p-2 md:pl-4'>Requests ({connectionRequests.length})</h1>
-                            <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2'>
-                                {connectionRequests.length > 0 ? (
-                                    <div className=" bg-white flex-grow-0 space-y-2">
-                                        <IndustryPage
-                                            network={true}
-                                            reqData={connectionRequests.map(user => ({
-                                                image: user.image || "https://randomuser.me/api/portraits/men/10.jpg",
-                                                username: user.firstName,
-                                                description: user.bio,
-                                                user: user
-                                            }))}
-                                            Loading={Loading}
-                                            onAccept={(user) => handleConnectionRequest(user, 'accept')}
-                                            onReject={(user) => handleConnectionRequest(user, 'reject')}
-                                        />
+                            <div className='p-[2px]'>
+                                <div className=' bg-white '>
+                                    <h1 className='font-bold p-2 md:pl-4'>Requests ({connectionRequests.length})</h1>
+                                    <div className='flex pb-3 md:pb-0 flex-wrap md:gap-3 gap-2'>
+                                        {connectionRequests.length > 0 ? (
+                                            <div className=" bg-white flex-grow-0 space-y-2">
+                                                <IndustryPage
+                                                    network={true}
+                                                    reqData={connectionRequests.map(user => ({
+                                                        image: user.image || "https://randomuser.me/api/portraits/men/10.jpg",
+                                                        username: user.firstName,
+                                                        description: user.bio,
+                                                        user: user
+                                                    }))}
+                                                    Loading={Loading}
+                                                    onAccept={(user) => handleConnectionRequest(user, 'accept')}
+                                                    onReject={(user) => handleConnectionRequest(user, 'reject')}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className='ml-4 pb-2 flex justify-center items-center'>
+                                                <p className='text-gray-600 font-bold'>No connection requests :</p>
+                                            </div>
+                                            
+                                        )}
                                     </div>
-                                ) : (
-                                    // <div className='ml-4 pb-2 flex justify-center items-center'>
-                                    //     <p className='font-bold'>No connection requests :</p>
-                                    // </div>
-                                    ''
-                                )}
+                                </div>
+                            </div>
+                            <div className='p-[2px]'>
+                                {/* <div className="bg-white md:p-4 p-2">
+                                    <h1 className="font-bold">My Connections ({UsersFriend.length})</h1>
+       
+                                    {
+                                        UsersFriend.length > 0 ? (
+                                            <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid md:grid-cols-3  mt-3">
+
+                                                {UsersFriend.map((data, index) => (
+                                                    <TalentCards key={index} network={network} {...data} />
+                                                ))}
+
+                                            </div>
+                                        ) : (
+                                            <Load />
+                                        )
+                                    }
+
+                                </div> */}
+                                <div className="bg-white md:p-4 p-2">
+                                    <h1 className="font-bold">My Connections ({UsersFriend.length})</h1>
+
+                                    {isInitialLoading ? (
+                                        // Show loading indicator while data is being fetched
+                                        <Load />
+                                    ) : UsersFriend.length > 0 ? (
+                                        // Show the grid of connections if there are any
+                                        <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid-cols-3 mt-3">
+                                            {UsersFriend.map((data) => (
+                                                <TalentCards key={data.id} network={network} {...data} />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        // Show a message if there are no connections
+                                        <div className="mt-3">
+                                            <h2 className="font-semibold text-gray-600">No connections yet</h2>
+                                        </div>
+                                    )}
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                    <div className='p-[2px]'>
-                        <div className="bg-white md:p-4 p-2">
-                            <h1 className="font-bold">My Connections ({UsersFriend.length})</h1>
-                            {/* <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-start md:gap-5 mt-3"> */}
-                            {
-                                UsersFriend.length > 0 ? (
-                                    <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid md:grid-cols-3  mt-3">
-
-                                        {UsersFriend.map((data, index) => (
-                                            <TalentCards key={index} network={network} {...data} />
-                                        ))}
-
-                                    </div>
-                                ) : (
-                                    <Load/>
-                                )
-                            }
-
-                        </div>
-
-
-                    </div>
-                </div>
                     )
                 }
             </div>

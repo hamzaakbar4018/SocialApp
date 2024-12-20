@@ -19,7 +19,7 @@ import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 
 const ProfileMain = () => {
 
-    
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -129,7 +129,7 @@ const ProfileMain = () => {
                             popup && (
                                 <div className='bg-black bg-opacity-50 inset-0 fixed top-0'>
                                     <dialog className="modal" open>
-                                        <div className="bg-white h-screen p-0">
+                                        <div className="bg-white h-screen w-full p-0">
                                             <button
                                                 className="btn btn-sm btn-circle btn-ghost absolute right-4 top-5 border border-gray-300"
                                                 onClick={handlePopup}
@@ -140,21 +140,31 @@ const ProfileMain = () => {
                                                 <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                                             </div>
                                             <div className="px-6 flex mb-2 flex-col justify-center gap-3">
-                                                {notifyData.map((data, index) => (
-                                                    <div className="flex items-center gap-2" key={index}>
-                                                        <img
-                                                            className="w-14 h-14 rounded-full"
-                                                            src={data.image}
-                                                            alt="image"
-                                                        />
-                                                        <div className="flex flex-col justify-center">
-                                                            <h1 className="font-semibold">
-                                                                {data.username} <span className="font-light">{data.text}</span>
-                                                            </h1>
-                                                            <p className="text-[#9B9B9B] text-sm">{data.time}</p>
+                                                {
+                                                    notifyData.length > 0 ? (
+                                                        notifyData.map((data, index) => (
+                                                            <div className="flex items-center gap-2" key={index}>
+                                                                <img
+                                                                    className="w-14 h-14 rounded-full"
+                                                                    src={data.fromImage}
+                                                                    alt="image"
+                                                                />
+                                                                <div className="flex flex-col justify-center">
+                                                                    <h1 className="font-semibold">
+                                                                        {data.fromName} <span className="font-light">{data.title}</span>
+                                                                    </h1>
+                                                                    <p className="text-[#9B9B9B] text-sm">
+                                                                        {data.createdAt ? format(new Date(data.createdAt), 'MMM dd, yyyy, hh:mm a') : 'Date not available'}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <div className="text-center text-gray-400 text-sm">
+                                                            No notifications available
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </dialog>
@@ -169,7 +179,7 @@ const ProfileMain = () => {
                 <div className={`showcard transition-all ${showRightbar ? '' : 'mr-[2px]'}`}>
                     <div className='p-[2px]'>
                         <div className='bg-white'>
-                                <ProfileCard />
+                            <ProfileCard />
                         </div>
                     </div>
 

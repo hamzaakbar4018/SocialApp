@@ -15,7 +15,7 @@ const ProfileActivity = () => {
     }
 
     if (posts.length === 0) {
-        return <h1>No Post found :</h1>;
+        return <h1 className='font-bold m-2'>No Post found :</h1>;
     }
     return (
         <div className='flex flex-col gap-2 p-[2px]'>
