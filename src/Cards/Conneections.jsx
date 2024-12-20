@@ -3,9 +3,10 @@ import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
 import '../CSS/Connections.css'
 import { ImSpinner2 } from 'react-icons/im'
 
-const Connections = ({ image, username, description, network, user, onAccept, onReject }) => {
+const Connections = ({ image, username, description, network, user, onAccept, onReject , reqData , rightBar }) => {
   const [isAccepting, setIsAccepting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
+  console.log("Image :" , reqData.image)
   const handleAccept = async () => {
     if (onAccept) {
       setIsAccepting(true);
@@ -43,7 +44,15 @@ const Connections = ({ image, username, description, network, user, onAccept, on
               <p className='text-gray-400 text-xs'>{description}</p>
             </div>
           </div>
-        ) : null
+        ) : rightBar && (
+          <div className='network ml-1 flex  font-bold gap-2'>
+            <img src={reqData?.image} alt="" className={`w-12 h-12 rounded-full`} />
+            <div className='flex flex-col justify-center items-start'>
+              <h1 className='text-lg font-semibold'>{username}</h1>
+              <p className='text-gray-400 text-sm'>{description}</p>
+            </div>
+          </div>
+        )
       }
       <div className={`flex ${network ? 'justify-start md:justify-center' : 'justify-center'} items-center md:gap-4 gap-2`}>
         <button

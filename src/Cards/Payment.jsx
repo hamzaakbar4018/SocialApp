@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 const Payment = ({ amount, onSuccess, onClose }) => {
   const handlePayment = () => {
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Store key securely in environment variables
+      key: 'rzp_test_1trHrUFHsCTIIv',
       amount: amount * 300, // Amount in paise
       currency: "INR",
       name: "Casting Platform",
