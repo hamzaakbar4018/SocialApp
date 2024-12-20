@@ -34,7 +34,7 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
             <div className="swiper-grid-container">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
+                    spaceBetween={`${landingtalent ? '60' : '10'}`}
                     navigation={false}
                     loop={true}
                     loopFillGroupWithBlank={true}
@@ -69,7 +69,7 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
                                 {
                                     talentData.map((data) => (
                                         <SwiperSlide key={data.id} className={`!w-auto max-w-[17%] min-w-[260px] ${
-                                            landingtalent ? '!w-auto max-w-[30%] min-w-[260px] hove:scale-[1.1] transition-transform duration-300 ease-in-out ' : ''
+                                            landingtalent ? '!w-auto md:max-w-[30%] md:min-w-[260px] hove:scale-[1.1] transition-transform duration-300 ease-in-out ' : ''
                                           }`}>
                                             <DramaCards
                                             image={data.image}

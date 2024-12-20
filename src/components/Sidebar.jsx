@@ -291,7 +291,7 @@ const Sidebar = () => {
                         <h1 className="text-lg font-medium">Logout</h1>
                     </div>
                     {logout && (
-                        <div className='fixed inset-0 top-0 right-0 z-40 bg-black bg-opacity-50'>
+                        <div className='fixed inset-0 top-0 right-0 z-50 bg-black bg-opacity-50'>
                             <dialog id="my_modal_3" className="modal text-black" open>
                                 <div className="modal-box">
                                     <form method="dialog">
