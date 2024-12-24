@@ -612,16 +612,16 @@ const Sidebar = () => {
             </div>
 
             {/* Logout Section */}
-            <div className="p-3 mb-4 block m-3 mx-5 md:mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
+            <div className="p-3 mb-4 hidden md:block m-3 mx-5 md:mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
                 <div onClick={toggleLogout} className="flex items-center gap-2">
                     <CiLogout className="text-2xl font-bold" />
                     <h1 className="text-lg font-medium">Logout</h1>
                 </div>
                 {logout && (
-                    
-                    <Modal  onClose={toggleLogout}>
+
+                    <Modal onClose={toggleLogout}>
                         {/* Close Button */}
-                        <button onClick={toggleLogout} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                        <button onClick={toggleLogout} className="absolute w-7 h-7 top-3 bg-gray-200 p-1 rounded-full right-4 text-gray-500 hover:text-gray-700">
                             ✕
                         </button>
                         {/* Modal Content */}
@@ -635,6 +635,34 @@ const Sidebar = () => {
                             </Link>
                         </div>
                     </Modal>
+                )}
+            </div>
+
+
+            <div className="p-3 mb-4 md:hidden block m-3 mx-5 md:mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
+                <div onClick={toggleLogout} className="flex items-center gap-2">
+                    <CiLogout className="text-2xl font-bold" />
+                    <h1 className="text-lg font-medium">Logout</h1>
+                </div>
+                {logout && (
+                    <div className='fixed inset-0 top-0 right-0 z-50 bg-black bg-opacity-50'>
+                        <dialog id="my_modal_3" className="modal text-black" open>
+                            <div className="modal-box">
+                                <form method="dialog">
+                                    <button onClick={toggleLogout} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                </form>
+                                <h3 className="font-bold text-lg">Logout?</h3>
+                                <p className="py-4">Are you sure you want to log out?</p>
+                                <p className='text-[#9B9B9B]'>Logging out will end your current session and require you to sign in again the next time you access the app.</p>
+                                <div className='flex mt-3 gap-3 justify-end items-center'>
+                                    <button onClick={toggleLogout} className='px-4 font-semibold bg-[#E7F3FE] text-[#399AF3] py-2 rounded-3xl border'>Stay</button>
+                                    <Link to="/login">
+                                        <button onClick={Logout} className='px-4 font-semibold py-2 bg-[#FFE5E5] text-[#FF0000] rounded-3xl border'>Yes, Logout</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </dialog>
+                    </div>
                 )}
             </div>
         </div>

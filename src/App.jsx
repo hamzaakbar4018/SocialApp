@@ -216,7 +216,7 @@ import NotFound from './pages/NotFound';
 
 const MainLayout = () => (
   <div className='routing flex bg-white'>
-    <div className='min-w-[19%] hidden md:block sticky top-0 h-screen overflow-y-auto'>
+    <div className='min-w-[19%]  hidden md:block sticky top-0 h-screen overflow-y-auto'>
       <Sidebar />
     </div>
     <div className='flex-grow w-auto'>
