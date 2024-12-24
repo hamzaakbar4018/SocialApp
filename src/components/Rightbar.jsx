@@ -5,8 +5,10 @@ import { NotificatinData } from "../Context/NotificatinContext";
 import { ImSpinner2 } from "react-icons/im";
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from "../Services/Firebase";
+import { useAuth } from "../Context/AuthContext";
 const Rightbar = () => {
-  const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+  const {currentUser} = useAuth();
+  const dummyID = currentUser ? currentUser.uid : null;
   const { notifyData } = useContext(NotificatinData);
   const [Loading, setLoading] = useState(false);
   const [connectionRequests, setConnectionRequests] = useState([]);
