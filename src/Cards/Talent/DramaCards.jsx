@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, setDoc } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ const TalentCards = ({
   const { currentUser } = useAuth();
   const dummyId = currentUser ? currentUser.uid : null;
   const navigate = useNavigate();
+
   const fetchConnectionStatus = async () => {
     try {
       const currentUserQuery = query(
@@ -37,7 +38,6 @@ const TalentCards = ({
 
       const currentUserDoc = currentUserSnapshot.docs[0].data();
 
-      // Check if the targeted user is in the current user's connected or requested arrays
       if (currentUserDoc.connected && currentUserDoc.connected.includes(docID)) {
         setConnectionStatus('Connected');
       } else if (currentUserDoc.requested && currentUserDoc.requested.includes(docID)) {
@@ -50,10 +50,77 @@ const TalentCards = ({
     }
   };
 
-  // Fetch connection status when component mounts or docID changes
   useEffect(() => {
     fetchConnectionStatus();
-  }, [docID]);
+  }, [docID, dummyId]);
+
+  const initializeChat = async () => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const now = new Date();
+      const formattedTime = now.toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+
+      // Create initial message
+      const initialMessageId = now.toISOString().replace(/[:.]/g, '-');
+      const messageData = {
+        docID: initialMessageId,
+        fromID: currentUser.uid,
+        toID: docID,
+        messageBody: "👋 Hello!",
+        isRead: false,
+        time: formattedTime,
+        sortTime: now.getTime() * 1000
+      };
+
+      // Create chat documents for both users
+      const currentUserChatData = {
+        id: docID,
+        otherID: docID,
+        otherName: firstName,
+        otherImage: image,
+        recentMessage: "👋 Hello!",
+        time: formattedTime,
+        sortTime: now.getTime() * 1000
+      };
+
+      const otherUserChatData = {
+        id: currentUser.uid,
+        otherID: currentUser.uid,
+        otherName: currentUser.displayName || "User",
+        otherImage: currentUser.photoURL || "",
+        recentMessage: "👋 Hello!",
+        time: formattedTime,
+        sortTime: now.getTime() * 1000
+      };
+
+      // Create chat documents and initial message
+      await Promise.all([
+        setDoc(doc(db, "messages", currentUser.uid, "recent_chats", docID), currentUserChatData),
+        setDoc(doc(db, "messages", docID, "recent_chats", currentUser.uid), otherUserChatData),
+        setDoc(doc(db, "messages", currentUser.uid, "recent_chats", docID, "messages", initialMessageId), messageData),
+        setDoc(doc(db, "messages", docID, "recent_chats", currentUser.uid, "messages", initialMessageId), messageData)
+      ]);
+
+      navigate('/chat', { state: { selectedChat: currentUserChatData } });
+    } catch (error) {
+      console.error("Error initializing chat:", error);
+    }
+  };
+
+  const handleMailClick = () => {
+    initializeChat();
+  };
 
   const handleConnect = async () => {
     if (!currentUser) {
@@ -69,8 +136,6 @@ const TalentCards = ({
           image,
           categoryName
         });
-
-        // Update connection status based on the result from onConnect
         if (newStatus) {
           setConnectionStatus(newStatus);
         }
@@ -92,8 +157,6 @@ const TalentCards = ({
           image,
           categoryName
         });
-
-        // Update connection status based on the result from onFollow
         if (newStatus) {
           setConnectionStatus(newStatus);
         }
@@ -104,14 +167,14 @@ const TalentCards = ({
       }
     }
   };
-  const connect = false
+
   return (
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-xl p-5 h-auto w-[255px] 
         ${network && 'md:min-w-[255px] h-auto w-auto'} 
         ${landingtalent && '2xl:min-h-[350px] md:min-w-[300px] rounded-xl md:w-auto md:h-auto h-[340px] w-[300px] 2xl:min-w-auto'} 
-        ${connect && 'w-[222px] tracking-tighter'} 
-        min-h-min h-[250px] `}>
+        ${connectionStatus === 'Connect' && 'w-[222px] tracking-tighter'} 
+        min-h-min h-[250px]`}>
         <div className="flex flex-col gap-3 space-y-2 h-full">
           <div className={`${landingtalent && 'flex flex-col justify-center items-center text-xl gap-4'}`}>
             <div className="flex-shrink-0">
@@ -143,7 +206,7 @@ const TalentCards = ({
                 connectionStatus === 'Connected' ||
                 connectionStatus === 'Following'
               }
-              className={`bg-black w-full text-nowrap  px-3 tracking-tighter rounded-3xl text-white py-2`}
+              className="bg-black w-full text-nowrap px-3 tracking-tighter rounded-3xl text-white py-2"
             >
               {isConnecting ? (
                 <div className="flex gap-1 justify-center items-center">
@@ -154,7 +217,7 @@ const TalentCards = ({
                 connectionStatus
               )}
             </button>
-            <div className="ml-3 mr-3 p-2 border border-gray-400 rounded-full flex justify-center items-center">
+            <div onClick={handleMailClick} className="ml-3 mr-3 cursor-pointer p-2 border border-gray-400 rounded-full flex justify-center items-center">
               <IoMailOutline className="text-2xl" />
             </div>
           </div>

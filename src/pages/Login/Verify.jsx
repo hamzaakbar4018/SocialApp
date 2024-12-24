@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginPageimg from '../../assets/Icons SVG/loginPageimg.png';
 import logo from '../../assets/Icons SVG/logo.svg';
@@ -22,11 +24,12 @@ const Verify = () => {
     const [verificationId, setVerificationId] = useState('');
 
     const [allCategories, setAllCategories] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingV, setIsLoadingV] = useState(false);
 
     const location = useLocation();
     const navigate = useNavigate();
-    
+
 
     const [error, setError] = useState(null);
     const [SelectedCategories, setSelectedCategories] = useState([]);
@@ -40,7 +43,23 @@ const Verify = () => {
     const [profileImage, setProfileImage] = useState(null);
 
     // Countries and Cities (you might want to replace this with a more comprehensive list)
-    const countries = ['Country 1', 'Country 2', 'Country 3'];
+
+    const [countryOptions, setCountryOptions] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState(null);
+
+    useEffect(() => {
+        const options = countryList().getData().map(country => ({
+            label: country.label,
+            value: country.value
+        }));
+        setCountryOptions(options);
+    }, []);
+
+    const handleCountryChange = (selectedOption) => {
+        setSelectedCountry(selectedOption);
+        setCountry(selectedOption ? selectedOption.label : '');
+        setCity(''); // Reset city when country changes
+    };
     const citiesMap = {
         'Country 1': ['City A', 'City B', 'City C'],
         'Country 2': ['City D', 'City E', 'City F'],
@@ -75,7 +94,7 @@ const Verify = () => {
             const storage = getStorage(app);
             const uniqueFileName = `YooTooArt/userModule/${Date.now()}-${file.name}`;
             const storageRef = ref(storage, uniqueFileName);
-            
+
             // Use uploadBytes with metadata
             const metadata = {
                 contentType: file.type,
@@ -83,7 +102,7 @@ const Verify = () => {
                     'uploadedBy': 'user' // Optional custom metadata
                 }
             };
-    
+
             const snapshot = await uploadBytes(storageRef, file, metadata);
             const downloadURL = await getDownloadURL(snapshot.ref);
             return downloadURL;
@@ -103,14 +122,14 @@ const Verify = () => {
                 alert("Please fill in all required fields");
                 return false;
             }
-    
+
             // Get the current authenticated user
             const user = auth.currentUser;
             if (!user) {
                 alert("No authenticated user found. Please sign in again.");
                 return false;
             }
-    
+
             // Upload profile image first
             const imageUrl = await uploadProfileImage(profileImage);
             // Prepare user profile data
@@ -138,12 +157,12 @@ const Verify = () => {
                 blocked: [],
                 createdAt: new Date() // Add timestamp
             };
-    
+
             // Use the authenticated user's UID as the document ID
             const userDocRef = doc(db, 'userCollection', user.uid);
             await setDoc(userDocRef, userProfileData);
             setIsLoading(false)
-    
+
             console.log("User profile saved with ID:", user.uid);
             return true;
         } catch (error) {
@@ -151,7 +170,7 @@ const Verify = () => {
             alert("Failed to save profile. Please try again.");
             return false;
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
@@ -159,7 +178,7 @@ const Verify = () => {
         // Check if phone number and verification ID are passed in location state
         if (location.state && location.state.phoneNumber) {
             setPhoneNumber(location.state.phoneNumber);
-            
+
             // Set verification ID from location state
             if (location.state.verificationId) {
                 setVerificationId(location.state.verificationId);
@@ -174,23 +193,24 @@ const Verify = () => {
             setError('Please enter a 6-digit OTP');
             return;
         }
-    
+
         try {
+            setIsLoadingV(true);
             // Use the verificationId from state
             if (!verificationId) {
                 throw new Error('No verification session found. Please restart the process.');
             }
-    
+
             // Create phone auth credential using verificationId from state
             const credential = PhoneAuthProvider.credential(verificationId, otpCode);
-    
+
             // Sign in with the credential
             const userCredential = await signInWithCredential(auth, credential);
-    
+
             // Set the user in state or context if needed
             // This will trigger the AuthContext's onAuthStateChanged
             setCreateProfile(true);
-    
+
             // Optional: Navigate to profile creation if not using state management
             // navigate('/create-profile', {
             //     state: { 
@@ -199,12 +219,12 @@ const Verify = () => {
             //     }
             // });
             setCreateProfile(true);
-    
+            setIsLoadingV(false);
+
         } catch (error) {
+            setIsLoadingV(false);
             console.error("Verification Error:", error);
-            
-            // More specific error handling
-            switch(error.code) {
+            switch (error.code) {
                 case 'auth/invalid-verification-code':
                     setError('Invalid OTP. Please check the code and try again.');
                     break;
@@ -214,6 +234,9 @@ const Verify = () => {
                 default:
                     setError(`Verification failed: ${error.message}`);
             }
+        } finally{
+            setIsLoadingV(false);
+
         }
     };
     // Rest of your existing methods remain the same...
@@ -327,10 +350,16 @@ const Verify = () => {
                         </div> */}
                         <div>
                             <button
+                                disabled={isLoading}
                                 onClick={handleVerifyOTP}
                                 className='bg-black w-full text-white p-3 rounded-3xl mt-6'
                             >
-                                Verify
+                                {isLoadingV ? (
+                                    <div className='flex justify-center items-center gap-1'>
+                                        <ImSpinner2 className='animate-spin' />
+                                        <span>Verifying</span>
+                                    </div>
+                                ) : ("Verify")}
                             </button>
                         </div>
                     </div>
@@ -539,37 +568,43 @@ const Verify = () => {
                                 <div className='md:flex gap-2 mt-2 '>
                                     <div className='flex flex-col gap-2 w-full'>
                                         <label className='font-semibold' htmlFor="country">Country</label>
-                                        <select
-                                            className='px-3 mt-1 py-3 rounded-full bg-[#1C1C1C14]'
-                                            value={country}
-                                            onChange={(e) => {
-                                                setCountry(e.target.value);
-                                                setCity(''); // Reset city when country changes
-                                            }}
-                                            name="country"
+                                        <Select
                                             id="country"
-                                        >
-                                            <option value="">Select Country</option>
-                                            {countries.map(c => (
-                                                <option key={c} value={c}>{c}</option>
-                                            ))}
-                                        </select>
+                                            options={countryOptions}
+                                            value={selectedCountry}
+                                            onChange={handleCountryChange}
+                                            placeholder="Select Country"
+                                            className="react-select-container"
+                                            classNamePrefix="react-select"
+                                            styles={{
+                                                control: (base) => ({
+                                                    ...base,
+                                                    borderRadius: '9999px', // for rounded full
+                                                    backgroundColor: 'rgba(28, 28, 28, 0.08)', // matches your original bg color
+                                                    border: 'none',
+                                                    padding: '4px 8px',
+                                                    '&:hover': {
+                                                        border: 'none'
+                                                    }
+                                                }),
+                                                menu: (base) => ({
+                                                    ...base,
+                                                    zIndex: 9999
+                                                })
+                                            }}
+                                        />
                                     </div>
                                     <div className='flex flex-col mt-2 md:mt-0 gap-2 w-full'>
                                         <label className='font-semibold' htmlFor="city">City</label>
-                                        <select
-                                            className='px-3 mt-1 py-3 rounded-full bg-[#1C1C1C14]'
+                                        <input
+                                            type="text"
+                                            className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]'
                                             value={city}
                                             onChange={(e) => setCity(e.target.value)}
+                                            placeholder='Enter City'
                                             name="city"
                                             id="city"
-                                            disabled={!country}
-                                        >
-                                            <option value="">Select City</option>
-                                            {country && citiesMap[country].map(c => (
-                                                <option key={c} value={c}>{c}</option>
-                                            ))}
-                                        </select>
+                                        />
                                     </div>
                                 </div>
 
@@ -577,7 +612,7 @@ const Verify = () => {
                                     <label className='font-semibold' htmlFor="bio">Short Bio</label>
                                     <textarea
                                         placeholder='Enter Bio'
-                                        className='bg-[#1C1C1C14] px-3 py-2 rounded-xl h-32'
+                                        className='bg-[#1C1C1C14] px-3 py-2 rounded-xl min-h-32'
                                         value={bio}
                                         onChange={(e) => setBio(e.target.value)}
                                         name="bio"
@@ -585,7 +620,7 @@ const Verify = () => {
                                     ></textarea>
                                 </div>
                             </div>
-                            <div className='absolute bottom-0 right-0 p-4 w-full flex gap-2 justify-between bg-white'>
+                            <div className='absolute bottom-0 right-0 p-4  w-full flex gap-2 justify-between bg-white'>
                                 <button
                                     onClick={() => {
                                         handleCloseModal(false);
@@ -599,7 +634,7 @@ const Verify = () => {
                                         {
                                             isLoading ? (
                                                 <div className='flex justify-center items-center gap-1'>
-                                                    <ImSpinner2 className='animate-spin'/>
+                                                    <ImSpinner2 className='animate-spin' />
                                                     Submitting
                                                 </div>
                                             ) : (

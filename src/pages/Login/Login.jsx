@@ -11,8 +11,10 @@ import {
     signInWithPhoneNumber
 } from '../../Services/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Login = () => {
+    const [IsLoading, setIsLoading] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otp, setOtp] = useState('');
     const [valid, setValid] = useState(false);
@@ -106,6 +108,7 @@ const Login = () => {
 
     const handleVerifyOTP = async () => {
         try {
+            setIsLoading(true);
             const result = await confirmationResult.confirm(otp);
             const user = result.user;
             
@@ -121,10 +124,13 @@ const Login = () => {
                 exists: userDoc.exists(),
                 data: userDoc.exists() ? userDoc.data() : "No document"
             });
-    
+            setIsLoading(false);
             navigate('/home');
         } catch (error) {
             console.error("Detailed OTP Verification Error:", error);
+        }finally{
+            setIsLoading(false);
+
         }
     };
 
@@ -198,7 +204,10 @@ const Login = () => {
                                         onClick={handleVerifyOTP}
                                         className="w-full bg-black text-white p-3 rounded-3xl mt-6"
                                     >
-                                        Verify OTP
+                                        {IsLoading ? (<div className='flex gap-1 justify-center items-center'>
+                                            <ImSpinner2 className='animate-spin'/>
+                                            <span>Verifying</span>
+                                        </div>) : ('Verify OTP')}
                                     </button>
                                     <button
                                         onClick={() => setIsOtpSent(false)}

@@ -152,53 +152,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
         setComments(false);
     }
 
-    const commentsData = [
-        {
-            username: 'JaneDoe',
-            userimage: 'https://randomuser.me/api/portraits/women/1.jpg',
-            comment: 'This is an amazing post! Love the content and the visuals.',
-        },
-        {
-            username: 'JohnSmith',
-            userimage: 'https://randomuser.me/api/portraits/men/2.jpg',
-            comment: 'Great job! The design looks fantastic and the information is really helpful.',
-        },
-        {
-            username: 'AliceJohnson',
-            userimage: 'https://randomuser.me/api/portraits/women/2.jpg',
-            comment: 'I found this post very insightful. Thanks for sharing!',
-        },
-        {
-            username: 'BobBrown',
-            userimage: 'https://randomuser.me/api/portraits/men/3.jpg',
-            comment: 'Excellent work! The layout is clean and the content is engaging.',
-        },
-        {
-            username: 'EmilyDavis',
-            userimage: 'https://randomuser.me/api/portraits/women/3.jpg',
-            comment: 'I really enjoyed this post. The details are well-presented and easy to follow.',
-        },
-        {
-            username: 'BobBrown',
-            userimage: 'https://randomuser.me/api/portraits/men/3.jpg',
-            comment: 'Excellent work! The layout is clean and the content is engaging.',
-        },
-        {
-            username: 'EmilyDavis',
-            userimage: 'https://randomuser.me/api/portraits/women/3.jpg',
-            comment: 'I really enjoyed this post. The details are well-presented and easy to follow.',
-        },
-        {
-            username: 'BobBrown',
-            userimage: 'https://randomuser.me/api/portraits/men/3.jpg',
-            comment: 'Excellent work! The layout is clean and the content is engaging.',
-        },
-        {
-            username: 'EmilyDavis',
-            userimage: 'https://randomuser.me/api/portraits/women/3.jpg',
-            comment: 'I really enjoyed this post. The details are well-presented and easy to follow.',
-        },
-    ];
+
 
     return (
         <div>
@@ -211,8 +165,8 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                             <div className='flex gap-2 items-center'>
                                 <div className='flex-shrink-0'>
                                     {
-                                        activity ? (<img src={author?.image} className='rounded-full min-w-12  h-12 object-cover' alt="" />) : (
-                                            <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover' alt="" />
+                                        activity ? (<img src={author?.image} className='rounded-full min-w-12  h-12 max-w-12 object-cover' alt="" />) : (
+                                            <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover max-w-12' alt="" />
                                         )
                                     }
                                 </div>

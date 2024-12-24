@@ -14,13 +14,13 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import { LuPencil } from "react-icons/lu";
 import { useAuth } from '../../Context/AuthContext.jsx';
-import { collection, doc, getDoc, getDocs, query, where, Timestamp } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
 import Loader from "../Loader/Loader.jsx";
 
 const ChatMain = () => {
-  const { currentUser, userData, logout } = useAuth();
-  const userID = "1"
+  const { currentUser } = useAuth();
+  const userID = currentUser.uid
   const [recentChats, setRecentChats] = useState([]);
   const [usersData, setUsersData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,22 +63,99 @@ const ChatMain = () => {
     return 'Unknown time';
   };
 
-  useEffect(() => {
-    const fetchRecentChats = async () => {
-      try {
-        setIsLoading(true);
-        const recentChatsRef = collection(db, "messages", userID, "recent_chats");
-        const recentChatsSnapshot = await getDocs(recentChatsRef);
-        const recentChatsIds = recentChatsSnapshot.docs.map((doc) => ({
+  // useEffect(() => {
+  //   const fetchRecentChats = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const recentChatsRef = collection(db, "messages", userID, "recent_chats");
+  //       const recentChatsQuery = query(recentChatsRef, orderBy("time", "desc"));
+  //       const recentChatsSnapshot = await getDocs(recentChatsQuery);
+  //       const recentChatsIds = recentChatsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         data: {
+  //           ...doc.data(),
+  //           time: formatTimestamp(doc.data().time) // Format timestamp here
+  //         },
+  //       }));
+
+  //       if (recentChatsIds.length > 0) {
+  //         console.log("Recent Chats:", recentChatsIds);
+  //         setRecentChats(recentChatsIds);
+
+  //         // Fetch messages for each chat
+  //         const userMessagesPromises = recentChatsIds.map(async (chat) => {
+  //           const messagesRef = collection(db, "messages", userID, "recent_chats", chat.id, "messages");
+  //           const messagesSnapshot = await getDocs(messagesRef);
+  //           const messages = messagesSnapshot.docs.map((messageDoc) => ({
+  //             id: messageDoc.id,
+  //             data: {
+  //               ...messageDoc.data(),
+  //               time: formatTimestamp(messageDoc.data().time) // Format timestamp here too
+  //             },
+  //           }));
+
+  //           return {
+  //             id: chat.id,
+  //             data: chat.data,
+  //             messages,
+  //           };
+  //         });
+
+  //         const usersCharMsgs = await Promise.all(userMessagesPromises);
+  //         setUsersCharMsgs(usersCharMsgs);
+  //         console.log("Messages:", usersCharMsgs);
+
+  //         // Fetch user data for each recent chat
+  //         const userPromises = recentChatsIds.map(async (element) => {
+  //           const getUserDataSnapshot = await getDoc(doc(db, 'users', element.id)); // Assuming the 'users' collection
+  //           if (getUserDataSnapshot.exists()) {
+  //             const userData = getUserDataSnapshot.data();
+  //             return { id: getUserDataSnapshot.id, data: userData };
+  //           } else {
+  //             console.log(`User with ID ${element.id} not found.`);
+  //             return null;
+  //           }
+  //         });
+
+  //         const usersData = await Promise.all(userPromises);
+  //         setUsersData(usersData.filter(user => user !== null)); // Filter out null values if any user was not found
+
+  //         setIsLoading(false); // End the loading state
+  //       } else {
+  //         console.log("No recent chats available.");
+  //         setIsLoading(false); // End the loading state even if no chats are found
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching recent chats or messages:", error);
+  //       setIsLoading(false); // End the loading state on error
+  //     }
+  //   };
+
+  //   fetchRecentChats();
+  // }, [userID]);
+
+
+
+  // **************************************************
+// In ChatMain.jsx
+useEffect(() => {
+  const fetchRecentChats = () => {
+    try {
+      setIsLoading(true);
+      const recentChatsRef = collection(db, "messages", userID, "recent_chats");
+      const recentChatsQuery = query(recentChatsRef, orderBy("time", "desc"));
+      
+      // Use onSnapshot instead of getDocs
+      const unsubscribe = onSnapshot(recentChatsQuery, async (snapshot) => {
+        const recentChatsIds = snapshot.docs.map((doc) => ({
           id: doc.id,
           data: {
             ...doc.data(),
-            time: formatTimestamp(doc.data().time) // Format timestamp here
+            time: formatTimestamp(doc.data().time)
           },
         }));
 
         if (recentChatsIds.length > 0) {
-          console.log("Recent Chats:", recentChatsIds);
           setRecentChats(recentChatsIds);
 
           // Fetch messages for each chat
@@ -89,7 +166,7 @@ const ChatMain = () => {
               id: messageDoc.id,
               data: {
                 ...messageDoc.data(),
-                time: formatTimestamp(messageDoc.data().time) // Format timestamp here too
+                time: formatTimestamp(messageDoc.data().time)
               },
             }));
 
@@ -102,41 +179,40 @@ const ChatMain = () => {
 
           const usersCharMsgs = await Promise.all(userMessagesPromises);
           setUsersCharMsgs(usersCharMsgs);
-          console.log("Messages:", usersCharMsgs);
 
           // Fetch user data for each recent chat
           const userPromises = recentChatsIds.map(async (element) => {
-            const getUserDataSnapshot = await getDoc(doc(db, 'users', element.id)); // Assuming the 'users' collection
+            const getUserDataSnapshot = await getDoc(doc(db, 'users', element.id));
             if (getUserDataSnapshot.exists()) {
               const userData = getUserDataSnapshot.data();
               return { id: getUserDataSnapshot.id, data: userData };
-            } else {
-              console.log(`User with ID ${element.id} not found.`);
-              return null;
             }
+            return null;
           });
 
           const usersData = await Promise.all(userPromises);
-          setUsersData(usersData.filter(user => user !== null)); // Filter out null values if any user was not found
-
-          setIsLoading(false); // End the loading state
-        } else {
-          console.log("No recent chats available.");
-          setIsLoading(false); // End the loading state even if no chats are found
+          setUsersData(usersData.filter(user => user !== null));
         }
-      } catch (error) {
-        console.error("Error fetching recent chats or messages:", error);
-        setIsLoading(false); // End the loading state on error
-      }
-    };
+        setIsLoading(false);
+      }, (error) => {
+        console.error("Error fetching recent chats:", error);
+        setIsLoading(false);
+      });
 
-    fetchRecentChats();
-  }, [userID]); // Effect runs whenever userID changes
-
-
-
-  // **************************************************
-
+      // Return cleanup function
+      return unsubscribe;
+    } catch (error) {
+      console.error("Error setting up listener:", error);
+      setIsLoading(false);
+    }
+  };
+  const unsubscribe = fetchRecentChats();
+  return () => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  };
+}, [userID]);
   const notifyData = useContext(NotificatinData);
   const [popup, setpopup] = useState(false);
   const handlePopup = () => {
@@ -275,7 +351,7 @@ const ChatMain = () => {
           {search && (
             <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
           )}
-          <div className={`flex ${search && 'm-3'} justify-end gap-2 md:gap-5 items-center w-full z-20`}>
+          <div className={`flex ${search && 'm-3'} justify-end gap-2 md:gap-5 items-center w-full z-10`}>
             <div
               ref={searchRef}
               className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
@@ -319,7 +395,7 @@ const ChatMain = () => {
                   handleBar();
                 }
               }}
-              className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'} ${chatLocation && isSmallScreen && 'bg-black border-0'}`}
+              className={`${search ? 'hidden' : ' rounded-full cursor-pointer p-3 mr-4 border border-gray-300'} ${chatLocation && isSmallScreen && 'bg-black border-0'}`}
             >
               {isSmallScreen ? (
                 chatLocation ? (
@@ -444,16 +520,16 @@ const ChatMain = () => {
                 </button>
 
                 <div className="">
-                {recentChats && recentChats.length > 0 && selectedCardIndex !== null && (
-                  <UsersChat
-                    userImg={recentChats[selectedCardIndex]?.data?.otherImage}
-                    username={recentChats[selectedCardIndex]?.data?.otherName}
-                    time={recentChats[selectedCardIndex]?.data?.time}
-                    usersCharMsgs={usersCharMsgs}
-                    selectedCardIndex={selectedCardIndex}
-                    recentChats={recentChats}
-                  />
-                )}
+                  {recentChats && recentChats.length > 0 && selectedCardIndex !== null && (
+                    <UsersChat
+                      userImg={recentChats[selectedCardIndex]?.data?.otherImage}
+                      username={recentChats[selectedCardIndex]?.data?.otherName}
+                      time={recentChats[selectedCardIndex]?.data?.time}
+                      usersCharMsgs={usersCharMsgs}
+                      selectedCardIndex={selectedCardIndex}
+                      recentChats={recentChats}
+                    />
+                  )}
                 </div>
               </div>
 

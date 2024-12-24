@@ -1,6 +1,280 @@
+// import React, { useState, useRef, useEffect } from "react";
+// import { HiOutlineDotsVertical } from "react-icons/hi";
+// import newArrow from '../../assets/Icons SVG/Arrow.svg'
+// import {
+//   collection,
+//   doc,
+//   setDoc,
+//   query,
+//   orderBy,
+//   onSnapshot
+// } from "firebase/firestore";
+// import { db } from "../../Services/Firebase.jsx";
+// import { useAuth } from "../../Context/AuthContext.jsx";
+
+// const UsersChat = ({
+//   userImg,
+//   username,
+//   time,
+//   usersCharMsgs,
+//   selectedCardIndex
+// }) => {
+//   const [messages, setMessages] = useState([]);
+//   const [newMessage, setNewMessage] = useState('');
+//   const [store, setStore] = useState('');
+//   const messagesEndRef = useRef(null);
+//   const messagesListenerRef = useRef(null);
+//   const { currentUser } = useAuth();
+//   const userID = currentUser ? currentUser.uid : null;
+
+//   // useEffect(() => {
+//   //   if (messagesListenerRef.current) {
+//   //     messagesListenerRef.current();
+//   //   }
+
+//   //   if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) return;
+
+//   //   const selectedChat = usersCharMsgs[selectedCardIndex];
+//   //   const otherID = selectedChat.id;
+
+//   //   const messagesRef = collection(
+//   //     db,
+//   //     "messages",
+//   //     userID,
+//   //     "recent_chats",
+//   //     otherID,
+//   //     "messages"
+//   //   );
+
+//   //   const messagesQuery = query(messagesRef, orderBy('sortTime', 'asc'));
+
+//   //   messagesListenerRef.current = onSnapshot(
+//   //     messagesQuery,
+//   //     (snapshot) => {
+//   //       const fetchedMessages = snapshot.docs.map(doc => ({
+//   //         id: doc.id,
+//   //         data: {
+//   //           ...doc.data(),
+//   //           time: formatTimestamp(doc.data().time)
+//   //         }
+//   //       }));
+
+//   //       setMessages(fetchedMessages);
+//   //       scrollToBottom();
+//   //     },
+//   //     (error) => {
+//   //       console.error("Error fetching real-time messages:", error);
+//   //     }
+//   //   );
+
+//   //   return () => {
+//   //     if (messagesListenerRef.current) {
+//   //       messagesListenerRef.current();
+//   //     }
+//   //   };
+//   // }, [usersCharMsgs, selectedCardIndex]);
+//   useEffect(() => {
+//     if (messagesListenerRef.current) {
+//       messagesListenerRef.current();
+//     }
+
+//     if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null || !userID) {
+//       return;
+//     }
+
+//     const selectedChat = usersCharMsgs[selectedCardIndex];
+//     const otherID = selectedChat.id;
+
+//     const messagesRef = collection(
+//       db,
+//       "messages",
+//       userID,
+//       "recent_chats",
+//       otherID,
+//       "messages"
+//     );
+
+//     const messagesQuery = query(messagesRef, orderBy('sortTime', 'asc'));
+
+//     messagesListenerRef.current = onSnapshot(
+//       messagesQuery,
+//       (snapshot) => {
+//         const fetchedMessages = snapshot.docs.map(doc => ({
+//           id: doc.id,
+//           data: {
+//             ...doc.data(),
+//             time: formatTimestamp(doc.data().time)
+//           }
+//         }));
+
+//         setMessages(fetchedMessages);
+//         scrollToBottom();
+//       },
+//       (error) => {
+//         console.error("Error fetching real-time messages:", error);
+//       }
+//     ); 
+
+//     return () => {
+//       if (messagesListenerRef.current) {
+//         messagesListenerRef.current();
+//       }
+//     };
+//   }, [usersCharMsgs, selectedCardIndex, userID]);
+
+
+//   const scrollToBottom = () => {
+//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   };
+
+//   // Send message handler
+//   const handleSendMessage = async () => {
+//     if (!newMessage.trim()) return;
+//     let msg = newMessage;
+//     setNewMessage('');
+//     try {
+//       // Ensure we have a selected chat
+//       if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) return;
+
+//       const selectedChat = usersCharMsgs[selectedCardIndex];
+//       const otherID = selectedChat.id;
+
+//       const now = new Date();
+//       const docID = now.toISOString().replace(/[:.]/g, '-');
+//       const sortTime = now.getTime() * 1000; // Convert to microseconds
+
+//       const formattedTime = now.toLocaleString('en-US', {
+//         month: '2-digit',
+//         day: '2-digit',
+//         year: 'numeric',
+//         hour: '2-digit',
+//         minute: '2-digit',
+//         hour12: true
+//       });
+
+//       const messageData = {
+//         docID,
+//         fromID: userID,
+//         toID: otherID,
+//         messageBody: msg,
+//         isRead: false,
+//         time: formattedTime,
+//         sortTime: sortTime
+//       };
+
+//       const senderRef = doc(
+//         db,
+//         "messages",
+//         userID,
+//         "recent_chats",
+//         otherID,
+//         "messages",
+//         docID
+//       );
+
+//       const recipientRef = doc(
+//         db,
+//         "messages",
+//         otherID,
+//         "recent_chats",
+//         userID,
+//         "messages",
+//         docID
+//       );
+
+//       await Promise.all([
+//         setDoc(senderRef, messageData),
+//         setDoc(recipientRef, messageData)
+//       ]);
+
+//       await updateRecentChats(userID, otherID, newMessage);
+//       await updateRecentChats(otherID, userID, newMessage);
+
+//       setNewMessage('');
+
+//       scrollToBottom();
+//     } catch (error) {
+//       console.error("Error sending message:", error);
+//     }
+//   };
+
+//   const formatTimestamp = (timestamp) => {
+//     if (!timestamp) return 'Unknown time';
+
+//     if (typeof timestamp === 'string') {
+//       return timestamp;
+//     }
+
+//     if (timestamp && typeof timestamp === 'object' && 'seconds' in timestamp) {
+//       try {
+//         const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+//         return date.toLocaleString('en-US', {
+//           hour: '2-digit',
+//           minute: '2-digit',
+//           hour12: true
+//         });
+//       } catch (error) {
+//         console.error("Error formatting timestamp:", error);
+//         return 'Invalid time';
+//       }
+//     }
+
+//     if (timestamp instanceof Date) {
+//       return timestamp.toLocaleString('en-US', {
+//         hour: '2-digit',
+//         minute: '2-digit',
+//         hour12: true
+//       });
+//     }
+
+//     return 'Unknown time';
+//   };
+
+//   const updateRecentChats = async (currentUser, otherUser, latestMessage) => {
+//     try {
+//       const recentChatRef = doc(
+//         db,
+//         "messages",
+//         currentUser,
+//         "recent_chats",
+//         otherUser
+//       );
+
+//       await setDoc(recentChatRef, {
+//         recentMessage: latestMessage,
+//         time: new Date().toLocaleString('en-US', {
+//           month: '2-digit',
+//           day: '2-digit',
+//           year: 'numeric',
+//           hour: '2-digit',
+//           minute: '2-digit',
+//           hour12: true
+//         })
+//       }, { merge: true });
+//     } catch (error) {
+//       console.error("Error updating recent chats:", error);
+//     }
+//   };
+
+//   const handleKeyPress = (e) => {
+//     if (e.key === 'Enter') {
+//       handleSendMessage();
+//     }
+//   };
+
+//   if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) {
+//     return (
+//       <div className="flex flex-col h-screen bg-white justify-center items-center">
+//         <div className="text-center p-8">
+//           <h3 className="text-xl font-semibold text-gray-700 mb-2">No Conversations Found</h3>
+//           <p className="text-gray-500">Start a new conversation by clicking the mail icon on a user's card</p>
+//         </div>
+//       </div>
+//     );
+//   }
 import React, { useState, useRef, useEffect } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import newArrow from '../../assets/Icons SVG/Arrow.svg'
+import newArrow from '../../assets/Icons SVG/Arrow.svg';
 import {
   collection,
   doc,
@@ -10,30 +284,28 @@ import {
   onSnapshot
 } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
+import { useAuth } from "../../Context/AuthContext.jsx";
+import { useLocation } from 'react-router-dom';
 
-const UsersChat = ({
-  userImg,
-  username,
-  time,
-  usersCharMsgs,
-  selectedCardIndex
-}) => {
+const UsersChat = ({ userImg, username, time, usersCharMsgs, selectedCardIndex }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [store, setStore] = useState('');
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const messagesListenerRef = useRef(null);
-
-  const userID = "1";
+  const { currentUser } = useAuth();
+  const userID = currentUser ? currentUser.uid : null;
+  const location = useLocation();
+  const selectedChat = usersCharMsgs && usersCharMsgs[selectedCardIndex];
 
   useEffect(() => {
     if (messagesListenerRef.current) {
       messagesListenerRef.current();
     }
 
-    if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) return;
+    if (!selectedChat || !userID) {
+      return;
+    }
 
-    const selectedChat = usersCharMsgs[selectedCardIndex];
     const otherID = selectedChat.id;
 
     const messagesRef = collection(
@@ -59,7 +331,7 @@ const UsersChat = ({
         }));
 
         setMessages(fetchedMessages);
-        scrollToBottom();
+        setTimeout(scrollToBottom, 100);
       },
       (error) => {
         console.error("Error fetching real-time messages:", error);
@@ -71,27 +343,27 @@ const UsersChat = ({
         messagesListenerRef.current();
       }
     };
-  }, [usersCharMsgs, selectedCardIndex]);
+  }, [selectedChat, userID, usersCharMsgs, selectedCardIndex]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      const scrollContainer = messagesContainerRef.current;
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    }
   };
 
-  // Send message handler
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
     let msg = newMessage;
     setNewMessage('');
     try {
-      // Ensure we have a selected chat
-      if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) return;
+      if (!selectedChat) return;
 
-      const selectedChat = usersCharMsgs[selectedCardIndex];
       const otherID = selectedChat.id;
 
       const now = new Date();
       const docID = now.toISOString().replace(/[:.]/g, '-');
-      const sortTime = now.getTime() * 1000; // Convert to microseconds
+      const sortTime = now.getTime() * 1000;
 
       const formattedTime = now.toLocaleString('en-US', {
         month: '2-digit',
@@ -112,37 +384,14 @@ const UsersChat = ({
         sortTime: sortTime
       };
 
-      const senderRef = doc(
-        db,
-        "messages",
-        userID,
-        "recent_chats",
-        otherID,
-        "messages",
-        docID
-      );
-
-      const recipientRef = doc(
-        db,
-        "messages",
-        otherID,
-        "recent_chats",
-        userID,
-        "messages",
-        docID
-      );
-
       await Promise.all([
-        setDoc(senderRef, messageData),
-        setDoc(recipientRef, messageData)
+        setDoc(doc(db, "messages", userID, "recent_chats", otherID, "messages", docID), messageData),
+        setDoc(doc(db, "messages", otherID, "recent_chats", userID, "messages", docID), messageData),
+        updateRecentChats(userID, otherID, msg),
+        updateRecentChats(otherID, userID, msg)
       ]);
 
-      await updateRecentChats(userID, otherID, newMessage);
-      await updateRecentChats(otherID, userID, newMessage);
-
-      setNewMessage('');
-
-      scrollToBottom();
+      setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -212,10 +461,13 @@ const UsersChat = ({
     }
   };
 
-  if (!usersCharMsgs || usersCharMsgs.length === 0 || selectedCardIndex === null) {
+  if (!selectedChat) {
     return (
-      <div className="flex flex-col h-screen bg-gray-100 justify-center items-center">
-        <p className="text-gray-500">Select a chat to start messaging</p>
+      <div className="flex flex-col h-screen bg-white justify-center items-center">
+        <div className="text-center p-8">
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">No Conversation Selected</h3>
+          <p className="text-gray-500">Select a chat or start a new conversation</p>
+        </div>
       </div>
     );
   }
@@ -226,38 +478,39 @@ const UsersChat = ({
         <div className="flex border-b border-gray-300 p-4 items-center justify-between">
           <div className="flex items-center gap-2">
             <img
-              src={userImg || ''}
+              src={selectedChat.otherImage || userImg || ''}
               className="rounded-full w-14 h-14"
-              alt={`${username || 'User'}'s avatar`}
+              alt={`${selectedChat.otherName || username || 'User'}'s avatar`}
             />
             <div>
-              <h1 className="text-xl font-bold">{username || 'Unknown'}</h1>
-              <p className="text-sm text-gray-400">{time || ''}</p>
+              <h1 className="text-xl font-bold">{selectedChat.otherName || username || 'Unknown'}</h1>
+              <p className="text-sm text-gray-400">{selectedChat.time || time || ''}</p>
             </div>
           </div>
           <div className="flex border border-gray-400 rounded-full w-[30px] h-[30px] p-2 justify-center items-center">
             <HiOutlineDotsVertical className="font-bold text-2xl" />
           </div>
         </div>
-
       </div>
 
-      <div className="flex flex-col flex-1 overflow-y-auto bg-white">
+      <div
+        ref={messagesContainerRef} className="flex flex-col flex-1 overflow-y-auto bg-white">
+
         <div className="p-4 flex-1">
           <div className="flex flex-col gap-2">
             {messages.length > 0 ? (
               messages.map((message, index) => {
-                const isCurrentUser = message.data.fromID === "1";
+                const isCurrentUser = message.data.fromID === userID;
                 return (
                   <div
                     key={message.id || index}
-                    className={`flex flex-col  ${isCurrentUser ? 'items-end' : ''}`}
+                    className={`flex flex-col ${isCurrentUser ? 'items-end' : ''}`}
                   >
                     <div>
                       <div
                         className={`p-2 inline-block rounded-xl ${isCurrentUser
-                          ? 'rounded-tr-none bg-[#399AF3] text-white'
-                          : 'rounded-tl-none bg-[#E7E8E8] text-black'
+                            ? 'rounded-tr-none bg-[#399AF3] text-white'
+                            : 'rounded-tl-none bg-[#E7E8E8] text-black'
                           }`}
                       >
                         {message.data.messageBody || 'No message'}
@@ -269,10 +522,7 @@ const UsersChat = ({
                           {formatTimestamp(message.data.time)}
                         </time>
                       </div>
-                      {/* <div ref={messagesEndRef} /> */}
-
                     </div>
-
                   </div>
                 );
               })
@@ -286,7 +536,6 @@ const UsersChat = ({
         </div>
       </div>
 
-      {/* Input Section */}
       <div className="sticky md:mt-16 bottom-0 border-gray-400 bg-white p-4 flex items-center gap-1">
         <div className="bg-gray-100 w-auto flex-grow rounded-3xl">
           <input

@@ -11,6 +11,11 @@ const Navbar = () => {
         setIsOpen(!isOpen);
     };
 
+    const contactEmail = "support@youtooart.com";
+    const subject = encodeURIComponent("Inquiry from YouTooArt Website");
+    const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
+    
+
     return (
         <>
             <div className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 shadow-lg right-0 w-full bg-[#FFFFFF] flex justify-between md:px-6 py-3">
@@ -25,13 +30,15 @@ const Navbar = () => {
                         <li><Link to="/casting/calls" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Casting Calls</Link></li>
                         <li><Link to="/categories" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Categories</Link></li>
                         <li><Link to="/home" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Content</Link></li>
-                        <li><Link to="/about" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>How it Works</Link></li>
+                        <li><a href="#how-it-works" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>How it Works</a></li>
                         <li><Link to="/download" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Download</Link></li>
-                        <li><Link to="/contactus" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Contact Us</Link></li>
+                        <li><a 
+                        href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
+                        className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Contact Us</a></li>
                     </ul>
                 </div>
                 <div className="hidden md:block signup px-3">
-                    <Link to="/login">
+                    <Link to="/signup">
                         <button className='p-3 mr-5 border rounded-3xl border-gray-600'>Sign Up</button>
                     </Link>
                 </div>

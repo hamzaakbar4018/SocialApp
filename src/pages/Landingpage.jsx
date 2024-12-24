@@ -20,7 +20,7 @@ import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 const Landingpage = () => {
   const talentData = useContext(IndustryData);
-  const  {currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const UserID = currentUser ? currentUser.uid : null;
   const navigate = useNavigate();
   const handleHome = async () => {
@@ -135,7 +135,9 @@ const Landingpage = () => {
       <div className="land4  flex flex-col justify-center bg-[#F4F4F4]">
         <div className="md:mx-20  ml-3 my-10 md:w-[80%] pt-8 pb-8 md:pb-0 md:pt-20 lg:w-[80%]">
           <div className="">
-            <h1 className="segoe text-[45px] text-start lg:text-6xl">
+            <h1
+
+              className="segoe text-[45px] text-start lg:text-6xl">
               Find The Right Casting Call
             </h1>
             <p className="change mt-6 md:mt-10 lg:text-xl text-start">
@@ -152,9 +154,12 @@ const Landingpage = () => {
         </button>
       </div>
 
-      <div className="land5">
+      <div
+        id="how-it-works"
+        className="land5">
         <div className="md:m-20 md:mt-0 mt-20 m-3">
-          <h1 className="segoe change  text-[42px] lg:text-6xl  text-start md:text-4xl">
+          <h1
+            className="segoe change md:mt-5 text-[42px] lg:text-6xl  text-start md:text-4xl">
             How it Works
           </h1>
         </div>

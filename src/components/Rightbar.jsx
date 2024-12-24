@@ -7,7 +7,7 @@ import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/fire
 import { db } from "../Services/Firebase";
 import { useAuth } from "../Context/AuthContext";
 const Rightbar = () => {
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const dummyID = currentUser ? currentUser.uid : null;
   const { notifyData } = useContext(NotificatinData);
   const [Loading, setLoading] = useState(false);
@@ -153,17 +153,24 @@ const Rightbar = () => {
       </div>
       {notifyData ? (
         notifyData.length > 0 ? (
-          <div className="px-2 flex flex-col gap-3">
-            {notifyData.slice(0, visibleNotifyCount).map((data) => (
-              <UserDataCard
-                key={data.id}
-                fromImage={data.fromImage}
-                fromName={data.fromName}
-                title={data.title}
-                date={data.createdAt}
-              />
-            ))}
-          </div>
+          <>
+            <div className="px-2 flex flex-col gap-3">
+              {notifyData.slice(0, visibleNotifyCount).map((data) => (
+                <UserDataCard
+                  key={data.id}
+                  fromImage={data.fromImage}
+                  fromName={data.fromName}
+                  title={data.title}
+                  date={data.createdAt}
+                />
+              ))}
+            </div>
+            <div className="px-2 bg-[#E6E7E854] flex justify-center items-center py-2 mt-3">
+              <button onClick={handlePopup} className="text-blue-500 hover:underline">
+                Show All
+              </button>
+            </div>
+          </>
         ) : (
           <div className="flex flex-col items-center justify-center p-4">
             <p className="text-gray-500">No notifications yet</p>
@@ -175,11 +182,7 @@ const Rightbar = () => {
         </div>
       )}
 
-      <div className="px-2 bg-[#E6E7E854] flex justify-center items-center py-2 mt-3">
-        <button onClick={handlePopup} className="text-blue-500 hover:underline">
-          Show All
-        </button>
-      </div>
+
 
       <div className="connections px-2 flex flex-col gap-3 mt-8">
         <h1 className="font-semibold text-nowrap">Connection Requests</h1>

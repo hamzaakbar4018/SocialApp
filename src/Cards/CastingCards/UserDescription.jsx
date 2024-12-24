@@ -20,13 +20,14 @@ import { GiCrossMark } from "react-icons/gi";
 import { ImSpinner2 } from 'react-icons/im';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../Context/AuthContext';
 
 
 
 const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, img, username, age, day, crew, height, gender, des, title, budget, location, mycasting, shoot, type, time, isDeleting }) => {
   const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
-
-  const dummyID = "YTHetwednqeLYoraizuJ4PLFFlp2";
+  const {currentUser} = useAuth();
+  const dummyID = currentUser.uid;
   console.log("callid", myCallID)
 
   const [contactNumber, setContactNumber] = useState('');

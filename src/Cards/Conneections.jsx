@@ -31,6 +31,7 @@ const Connections = ({ image, username, description, network, user, onAccept, on
       }
     }
   };
+  
 
   return (
     <div className={`flex flex-col gap-4 ${network && 'px-4 w-[245px] max-h-[230px] bg-[#ECF5FE] gap-6 rounded-xl py-8'}`}>
