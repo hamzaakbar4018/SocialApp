@@ -3,6 +3,8 @@ import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
+import { useAuth } from "../../Context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const TalentCards = ({
   image,
@@ -17,12 +19,11 @@ const TalentCards = ({
 }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('Connect');
-  const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2"; // Hardcoded current user ID
-
-  // Fetch connection status from Firestore
+  const { currentUser } = useAuth();
+  const dummyId = currentUser ? currentUser.uid : null;
+  const navigate = useNavigate();
   const fetchConnectionStatus = async () => {
     try {
-      // Query to find the current user document
       const currentUserQuery = query(
         collection(db, 'userCollection'),
         where("docID", "==", dummyId)
@@ -55,6 +56,10 @@ const TalentCards = ({
   }, [docID]);
 
   const handleConnect = async () => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
     if (onConnect) {
       setIsConnecting(true);
       try {
@@ -99,7 +104,7 @@ const TalentCards = ({
       }
     }
   };
-const connect = false
+  const connect = false
   return (
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-xl p-5 h-auto w-[255px] 
@@ -133,9 +138,9 @@ const connect = false
                 }
               }}
               disabled={
-                isConnecting || 
-                connectionStatus === 'Requested' || 
-                connectionStatus === 'Connected' || 
+                isConnecting ||
+                connectionStatus === 'Requested' ||
+                connectionStatus === 'Connected' ||
                 connectionStatus === 'Following'
               }
               className={`bg-black w-full text-nowrap  px-3 tracking-tighter rounded-3xl text-white py-2`}

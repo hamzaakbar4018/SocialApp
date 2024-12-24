@@ -16,9 +16,35 @@ import "../CSS/Landingpage.css";
 import LandingPagetalent from "../Cards/LandingPagetalent";
 import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
 import IndustryPage from "../Cards/Talent/IndustryPage";
+import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Landingpage = () => {
   const talentData = useContext(IndustryData);
-  const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
+  const  {currentUser} = useAuth();
+  const UserID = currentUser ? currentUser.uid : null;
+  const navigate = useNavigate();
+  const handleHome = async () => {
+    if (UserID) {
+      navigate("/home");
+    } else {
+      navigate("/login");
+    }
+  }
+
+  const handleTalent = async () => {
+    if (UserID) {
+      navigate("/talent");
+    } else {
+      navigate("/login");
+    }
+  }
+  const handleCalls = async () => {
+    if (UserID) {
+      navigate("/casting/calls");
+    } else {
+      navigate("/login");
+    }
+  }
 
   const landingtalent = true;
   const [visibleSections, setVisibleSections] = useState([
@@ -52,7 +78,7 @@ const Landingpage = () => {
             creative visions to life.Join the artistic revolution at YouTooArt.
           </p>
           <div className="flex md:text-base text-xl md:ml-0 ml-3 justify-start">
-            <button className="p-3 border rounded-3xl border-gray-600 mt-7">
+            <button onClick={handleHome} className="p-3 border rounded-3xl border-gray-600 mt-7">
               Get Started
             </button>
           </div>
@@ -101,7 +127,7 @@ const Landingpage = () => {
         <div className="w-full p-2">
           <IndustryPage landingtalent={landingtalent} />
         </div>
-        <button className="p-3 mb-10 rounded-3xl mt-20 border border-black ml-3 md:text-base text-xl md:ml-20">
+        <button onClick={handleTalent} className="p-3 mb-10 rounded-3xl mt-20 border border-black ml-3 md:text-base text-xl md:ml-20">
           Discover More
         </button>
       </div>
@@ -121,7 +147,7 @@ const Landingpage = () => {
         <div className="w-full">
           <LandingPagetalent landingpage={landingtalent} />
         </div>
-        <button className="segoe p-3 mb-10 lg:mb-20 rounded-full md:rounded-3xl mt-[-60px]  border w-40 md:w-36  border-black md:ml-20 ml-3 md:text-base text-xl text-nowrap">
+        <button onClick={handleCalls} className="segoe p-3 mb-10 lg:mb-20 rounded-full md:rounded-3xl mt-[-60px]  border w-40 md:w-36  border-black md:ml-20 ml-3 md:text-base text-xl text-nowrap">
           Discover More
         </button>
       </div>

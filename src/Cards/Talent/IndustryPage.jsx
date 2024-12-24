@@ -9,9 +9,12 @@ import "swiper/css/scrollbar";
 import '../../CSS/Connections.css';
 import DramaCards from './DramaCards';
 import Conneections from '../Conneections';
+import { useAuth } from '../../Context/AuthContext';
 const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus , landingtalent }) => {
     const talentData = useContext(IndustryData);
-    const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2";
+    const { currentUser } = useAuth();
+
+    const dummyId = currentUser ? currentUser.uid : null;
     const getConnectionStatus = (user) => {
         // If network prop is true, use reqData
         const dataToUse = network ? reqData : talentData;
