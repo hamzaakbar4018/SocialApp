@@ -17,7 +17,7 @@ import LandingPagetalent from "../Cards/LandingPagetalent";
 import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
 import IndustryPage from "../Cards/Talent/IndustryPage";
 import { useAuth } from "../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Landingpage = () => {
   const talentData = useContext(IndustryData);
   const { currentUser } = useAuth();
@@ -195,9 +195,11 @@ const Landingpage = () => {
                 tools. Seamlessly connect with fellow artists, discuss projects
               </p>
 
-              <button className="segoe md:mb-0 mb-16  md:text-base text-xl change p-3 border rounded-full md:rounded-3xl border-black mt-7">
-                Get Started
-              </button>
+              <Link to="/login">
+                <button className="segoe md:mb-0 mb-16  md:text-base text-xl change p-3 border rounded-full md:rounded-3xl border-black mt-7">
+                  Get Started
+                </button>
+              </Link>
             </div>
           </div>
         </div>

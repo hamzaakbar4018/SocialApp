@@ -7,6 +7,10 @@ import { FaTwitterSquare } from "react-icons/fa";
 import { FiYoutube } from "react-icons/fi";
 import '../CSS/Navbar.css'
 const Footer = () => {
+
+    const contactEmail = "support@youtooart.com";
+    const subject = encodeURIComponent("Inquiry from YouTooArt Website");
+    const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
     return (
         <div className="main w-full  bg-[#1C1C1C]  p-8" >
             <div className=' w-full flex justify-between text-white'>
@@ -20,14 +24,14 @@ const Footer = () => {
                         <li>
                             <Link to="/home" className="hover:border-b-2  hover:border-[#C02C2C] transition-all">Home</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/features" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Features</Link>
+                        </li> */}
+                        <li>
+                            <a href='#how-it-works' className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</a>
                         </li>
                         <li>
-                            <Link to="/howitworks" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</Link>
-                        </li>
-                        <li>
-                            <Link to="/contactus" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Contact Us</Link>
+                            <Link href={`mailto:${contactEmail}?subject=${subject}&body=${body}`} to="/contactus" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Contact Us</Link>
                         </li>
                     </ul>
                 </div>
@@ -45,10 +49,10 @@ const Footer = () => {
                 </div>
                 <div className="icon text-white">
                     <ul className='flex md:text-2xl text-4xl md:justify-start justify-center gap-5  md:gap-5'>
-                        <li><FaSquareFacebook/></li>
-                        <li><FaSquareInstagram/></li>
-                        <li><FiYoutube/></li>
-                        <li><FaTwitterSquare/></li>
+                        <li><FaSquareFacebook /></li>
+                        <li><FaSquareInstagram /></li>
+                        <li><FiYoutube /></li>
+                        <li><FaTwitterSquare /></li>
                     </ul>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import './Loader.css'
 
 const Load = () => {
   return (
-    <div className="flex bg-white justify-center items-center">
+    <div className="flex min-h-[300px] bg-white justify-center items-center">
       <span class="loader">YouTooArt</span>
     </div>
   )

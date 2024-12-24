@@ -14,7 +14,7 @@ const Spinner = () => (
     </div>
 );
 
-const MyWorkPictures = ({ pictures, refreshPictures, userId }) => {
+const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts }) => {
     //   const userId = "GFPNB660GaVlJfnmbMdzFIjba4A3";
     console.log(userId)
     const [title, setTitle] = useState('');
@@ -56,6 +56,8 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId }) => {
             if (refreshPictures) {
                 refreshPictures();
             }
+            fetchAuthorAndPosts();
+
         } catch (err) {
             console.error('Error deleting picture:', err);
             setError('Failed to delete picture');
@@ -135,7 +137,8 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId }) => {
             setImagePreview(null);
             setAddPicture(false);
             setEditingPicture(null);
-            window.location.reload();
+            // window.location.reload();
+            fetchAuthorAndPosts();
             toast.success("Added Successfully !")
 
             // Refresh pictures if callback is provided
@@ -158,7 +161,7 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId }) => {
                 <div className='flex justify-between items-center mb-4'>
                     <div className='flex-1 md:p-0 py-3 px-2'>
                         <h1 className='text-xl font-semibold'>Pictures ({pictures.length})</h1>
-                        <p className='text-sm text-gray-400'>1 Hour ago</p>
+                        {/* <p className='text-sm text-gray-400'>1 Hour ago</p> */}
                     </div>
                     <div className='flex gap-2 md:p-0 py-3 px-4'>
                         <div className='bg-[#B3FCE2] rounded-full flex justify-center items-center p-3'>
@@ -225,7 +228,7 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId }) => {
                         ))
                     ) : (
                         <div className='flex flex-col gap-4 justify-center'>
-                            
+
                             <p>No pictures available.</p>
                         </div>
                     )}

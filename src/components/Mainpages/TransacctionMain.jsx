@@ -11,6 +11,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
 import { useAuth } from '../../Context/AuthContext.jsx';
+import NoDataFound from '../Loader/NoData.jsx';
 const TransacctionMain = () => {
     const { currentUser } = useAuth()
     const dummyUserId = currentUser.uid;
@@ -210,7 +211,9 @@ const TransacctionMain = () => {
                                             </div>
                                         ) : (
                                             <div>
-                                                <h1 className='font-bold m-2'>No transactions found:</h1>
+                                                {/* <h1 className='font-bold m-2'>No transactions found:</h1> */}
+                                                <NoDataFound />
+
                                             </div>
                                         )}
                             </div>

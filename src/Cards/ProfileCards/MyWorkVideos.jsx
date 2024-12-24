@@ -12,7 +12,7 @@ const Spinner = () => (
   </div>
 );
 
-const MyWorkCard = ({ videos, refreshVideos ,userId }) => {
+const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts }) => {
   console.log(userId)
   // const userId = "GFPNB660GaVlJfnmbMdzFIjba4A3";
   const [title, setTitle] = useState('');
@@ -55,6 +55,8 @@ const MyWorkCard = ({ videos, refreshVideos ,userId }) => {
       if (refreshVideos) {
         refreshVideos();
       }
+      fetchAuthorAndPosts();
+
     } catch (err) {
       console.error('Error deleting video:', err);
       setError('Failed to delete video');
@@ -135,8 +137,8 @@ const MyWorkCard = ({ videos, refreshVideos ,userId }) => {
       setEditingVideo(null);
       setAddVideo(false);
 
-      window.location.reload();
-
+      // window.location.reload();
+      fetchAuthorAndPosts();
       toast.success("Added Successfully !")
 
       // Refresh videos if callback is provided
@@ -160,7 +162,7 @@ const MyWorkCard = ({ videos, refreshVideos ,userId }) => {
         <div className='flex justify-between items-center mb-4'>
           <div className='flex-1 md:p-0 py-3 px-2'>
             <h1 className='text-xl font-semibold'>Videos ({videos.length})</h1>
-            <p className='text-sm text-gray-400'>1 Hour ago</p>
+            {/* <p className='text-sm text-gray-400'>1 Hour ago</p> */}
           </div>
           <div className='flex gap-2 md:p-0 py-3 px-4'>
             <div className='bg-[#B3FCE2] rounded-full flex justify-center items-center p-3'>

@@ -2,7 +2,7 @@ import React from 'react'
 import postpic from '../../assets/Icons SVG/postpic.png';
 import Post from '../../Cards/Post'
 import useAuthor from '../../Hooks/useAuthor';
-import Loader from '../Loader/Loader';
+import Load from '../Loader/Load';
 
 const activity = true;
 const ProfileActivity = () => {
@@ -11,7 +11,7 @@ const ProfileActivity = () => {
 
 
     if (loading) {
-        return <Loader />;
+        return <Load />;
     }
 
     if (posts.length === 0) {
