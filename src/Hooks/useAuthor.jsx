@@ -94,7 +94,7 @@ export const useAuthor = () => {
     useEffect(() => {
         fetchAuthorAndPosts();
     }, [])
-    return { authorInfo }
+    return { authorInfo , fetchAuthorAndPosts }
 }
 
 export default useAuthor
