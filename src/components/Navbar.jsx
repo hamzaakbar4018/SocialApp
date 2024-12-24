@@ -51,11 +51,11 @@ const Navbar = () => {
 
             {/* Sliding Menu Sheet */}
             <div className={`fixed top-0 left-0 w-full h-full bg-white shadow-lg z-50 transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:hidden`}>
-                <div className="flex justify-end p-4">
+                <div className="flex justify-end px-4 py-2">
                     <HiX onClick={toggleMenu} className='text-5xl border border-gray-300 rounded-full p-3 cursor-pointer' />
                 </div>
-                <div className="flex justify-between flex-col items-start mt-10">
-                    <ul className='flex text-3xl font-semibold flex-col gap-4'>
+                <div className="flex justify-between flex-col items-start">
+                    <ul className='flex text-3xl font-semibold flex-col gap-3'>
                         <li className=' border-l-2 p-2 border-[#C02C2C]'>
                             <Link to="/" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Home</Link>
                             </li>
@@ -72,16 +72,19 @@ const Navbar = () => {
                             <Link to="/home" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Content</Link>
                         </li>
                         <li className='hover:border-l-2 p-2 hover:border-[#C02C2C]'>
-                            <Link to="/about" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>How it Works</Link>
+                            <a href="#how-it-works" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>How it Works</a>
                         </li>
                         <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
                             <Link to="/download" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Download</Link>
                         </li>
                         <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
-                            <Link to="/contactus" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Contact Us</Link>
+                            <a 
+                            href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
+                            className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Contact Us</a>
                         </li>
+                       
                     </ul>
-                    <div className='w-full absolute bottom-5 left-0'>
+                    <div className='w-full absolute mt-2 bottom-5 left-0'>
                         <Link to="/signup" className='px-4 flex justify-center'>
                             <button className='text-2xl p-3 rounded-full border w-full border-black'>
                                 Signup

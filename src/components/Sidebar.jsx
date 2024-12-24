@@ -353,7 +353,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className='w-full bg-[#FFFFFF] h-full overflow-y-auto flex flex-col md:border-r md:border-gray-300'>
+        <div className='w-full bg-[#FFFFFF] md:h-full h-screen  overflow-y-auto flex flex-col md:border-r md:border-gray-300'>
             <Link to="/">
                 <div className='logo p-5 mx-3 flex gap-3 items-center'>
                     <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />
@@ -618,7 +618,8 @@ const Sidebar = () => {
                     <h1 className="text-lg font-medium">Logout</h1>
                 </div>
                 {logout && (
-                    <Modal onClose={toggleLogout}>
+                    
+                    <Modal  onClose={toggleLogout}>
                         {/* Close Button */}
                         <button onClick={toggleLogout} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                             ✕
