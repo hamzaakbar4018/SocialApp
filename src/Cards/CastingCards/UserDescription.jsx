@@ -13,7 +13,7 @@ import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg'
 import WishlistBlue from '../../assets/Icons SVG/WishlistBlue.svg'
 import WishlistGrey from '../../assets/Icons SVG/WishlistGrey.svg'
 import { IoMdArrowBack } from "react-icons/io";
-import { addDoc, collection, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, doc, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { GiCrossMark } from "react-icons/gi";
@@ -28,7 +28,6 @@ const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, im
   const { applicationCollection, myCallID, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
   const {currentUser} = useAuth();
   const dummyID = currentUser.uid;
-  console.log("callid", myCallID)
 
   const [contactNumber, setContactNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -37,16 +36,78 @@ const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, im
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const handleApplicationSubmit = async (e) => {
+  // const handleApplicationSubmit = async (e) => {
 
+  //   setMyCallID(callId);
+  //   e.preventDefault();
+
+  //   // Validate inputs
+  //   // if (!currentUser) {
+  //   //   setSubmitError('You must be logged in to apply');
+  //   //   return;
+  //   // }
+
+  //   // Basic validation
+  //   if (!contactNumber || !email) {
+  //     setSubmitError('Please provide contact number and email');
+  //     return;
+  //   }
+
+  //   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  //   if (!isValidEmail) {
+  //     alert("Please enter a valid email address.");
+  //     return;
+  //   }
+
+  //   setIsSubmitting(true);
+  //   setSubmitError(null);
+
+  //   try {
+  //     // Reference to the applications subcollection
+  //     const applicationsCollectionRef = collection(
+  //       db,
+  //       'castingCallCollection',
+  //       myCallID,
+  //       'applicationCollection'
+  //     );
+
+  //     // Add the application document with a placeholder for docID
+  //     const applicationDoc = await addDoc(applicationsCollectionRef, {
+  //       docID: null, // Temporary placeholder
+  //       contactNumber,
+  //       email,
+  //       note,
+  //       isAccepted: false,
+  //       isRejected: false,
+  //       isPending: true,
+  //       createdAt: Timestamp.now(),
+  //       castingCallID: myCallID,
+  //       userID: dummyID,
+  //     });
+
+  //     // Update the document with its actual ID
+  //     await updateDoc(applicationDoc, {
+  //       docID: applicationDoc.id,
+  //     });
+
+  //     toast.success("Applied Successfully!")
+
+  //     // Reset form and show success
+  //     setContactNumber('');
+  //     setEmail('');
+  //     setNote('');
+  //     setSubmitSuccess(true);
+  //     setApply(false); // Close the modal
+  //   } catch (error) {
+  //     console.error('Error submitting application:', error);
+  //     setSubmitError('Failed to submit application. Please try again.');
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+  const handleApplicationSubmit = async (e) => {
     setMyCallID(callId);
     e.preventDefault();
-
-    // Validate inputs
-    // if (!currentUser) {
-    //   setSubmitError('You must be logged in to apply');
-    //   return;
-    // }
 
     // Basic validation
     if (!contactNumber || !email) {
@@ -64,6 +125,9 @@ const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, im
     setSubmitError(null);
 
     try {
+      // Reference to the casting call document
+      const castingCallRef = doc(db, 'castingCallCollection', myCallID);
+      
       // Reference to the applications subcollection
       const applicationsCollectionRef = collection(
         db,
@@ -86,9 +150,14 @@ const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, im
         userID: dummyID,
       });
 
-      // Update the document with its actual ID
+      // Update the application document with its actual ID
       await updateDoc(applicationDoc, {
         docID: applicationDoc.id,
+      });
+
+      // Update the casting call document to add the user to appliedUsers array
+      await updateDoc(castingCallRef, {
+        appliedUsers: arrayUnion(dummyID)
       });
 
       toast.success("Applied Successfully!")
@@ -99,14 +168,14 @@ const UserDescription = ({ callId, myCallId, appliedUsers, onDelete, applied, im
       setNote('');
       setSubmitSuccess(true);
       setApply(false); // Close the modal
+      
     } catch (error) {
       console.error('Error submitting application:', error);
       setSubmitError('Failed to submit application. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
-  };
-
+};
 
   useEffect(() => {
     if (myCallId && myCallId !== myCallID) {
