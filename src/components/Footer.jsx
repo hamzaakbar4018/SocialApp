@@ -30,9 +30,18 @@ const Footer = () => {
                         <li>
                             <a href='#how-it-works' className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>How it Works</a>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link href={`mailto:${contactEmail}?subject=${subject}&body=${body}`} to="/contactus" className='hover:border-b-2  hover:border-[#C02C2C] transition-all'>Contact Us</Link>
+                        </li> */}
+                        <li>
+                            <a
+                                href={`mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
+                                className='hover:border-b-2 hover:border-[#C02C2C] transition-all'
+                            >
+                                Contact Us
+                            </a>
                         </li>
+
                     </ul>
                 </div>
                 <div className="signup flex items-center px-3">

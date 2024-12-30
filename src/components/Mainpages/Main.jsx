@@ -348,7 +348,7 @@ const Main = () => {
                 </div>
             )}
 
-
+            
 
             {postModel && (
                 <div className="fixed inset-0 bg-black bg-opacity-65 z-40 flex justify-center items-center">

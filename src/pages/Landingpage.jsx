@@ -31,6 +31,14 @@ const Landingpage = () => {
     }
   }
 
+  const handleContact = () => {
+    if (UserID) {
+      navigate("/talent");
+    } else {
+      navigate("/login");
+    }
+  }
+
   const handleTalent = async () => {
     if (UserID) {
       navigate("/talent");
@@ -403,9 +411,10 @@ const Landingpage = () => {
             </p>
           </div>
           <div>
-            <button className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-3xl border-gray-600 mt-7 mb-20">
-              Contact Us
-            </button>
+         
+              <button onClick={handleContact} className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-3xl border-gray-600 mt-7 mb-20">
+                Contact Us
+              </button>
           </div>
         </div>
       </div>

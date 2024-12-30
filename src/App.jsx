@@ -212,6 +212,7 @@ import ReceivedCasting from './components/Casting/ReceivedCasting';
 import RejectedCasting from './components/Casting/RejectedCasting';
 import WishlistCasting from './components/Casting/WishlistCasting';
 import ProtectedRoute from './pages/ProtectedRoute';
+import Public_terms from './pages/Public_terms';
 import NotFound from './pages/NotFound';
 
 const MainLayout = () => (
@@ -241,6 +242,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/verify' element={<Verify />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/terms' element={<Public_terms />} />
         {/* Not Found Route */}
         <Route path='*' element={<NotFound />} />
       </Route>
