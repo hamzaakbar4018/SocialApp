@@ -180,8 +180,17 @@
 import React, { useEffect, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
-import { db } from "../../Services/Firebase"; // Adjust the import path as needed
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../Services/Firebase";
+import { 
+  doc, 
+  getDoc, 
+  updateDoc, 
+  arrayUnion, 
+  arrayRemove,
+  setDoc,
+  serverTimestamp
+} from "firebase/firestore";
 
 const TalentCards = ({
   image,
@@ -194,11 +203,100 @@ const TalentCards = ({
   onConnect,
   onFollow,
   connectionStatus: initialConnectionStatus,
-  production
+  production,
+  currentUser
 }) => {
+  const navigate = useNavigate();
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus || "Follow");
-  const dummyId = "YTHetwednqeLYoraizuJ4PLFFlp2"; // Make sure this matches the ID in your main component
+  
+  const initializeChat = async () => {
+    try {
+      const userID = currentUser?.uid  // Use currentUser.uid if available
+      const now = new Date();
+      const timestamp = serverTimestamp();
+      const formattedTime = now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      });
+
+      // Check if chat already exists
+      const existingChatRef = doc(db, "messages", userID, "recent_chats", docID);
+      const existingChatSnap = await getDoc(existingChatRef);
+
+      if (!existingChatSnap.exists()) {
+        // Create initial message
+        const initialMessageId = now.toISOString().replace(/[:.]/g, '-');
+        const messageData = {
+          docID: initialMessageId,
+          fromID: userID,
+          toID: docID,
+          messageBody: "👋 Hello!",
+          isRead: false,
+          time: formattedTime,
+          timestamp,
+          sortTime: now.getTime() * 1000
+        };
+
+        // Create chat documents for both users
+        const currentUserChatData = {
+          id: docID,
+          otherID: docID,
+          otherName: firstName,
+          otherImage: image,
+          recentMessage: "👋 Hello!",
+          time: formattedTime,
+          timestamp,
+          sortTime: now.getTime() * 1000
+        };
+
+        const otherUserChatData = {
+          id: userID,
+          otherID: userID,
+          otherName: currentUser?.displayName || "Current User",
+          otherImage: currentUser?.photoURL || "",
+          recentMessage: "👋 Hello!",
+          time: formattedTime,
+          timestamp,
+          sortTime: now.getTime() * 1000
+        };
+
+        // Create new chat documents and initial message
+        await Promise.all([
+          setDoc(doc(db, "messages", userID, "recent_chats", docID), currentUserChatData),
+          setDoc(doc(db, "messages", docID, "recent_chats", userID), otherUserChatData),
+          setDoc(doc(db, "messages", userID, "recent_chats", docID, "messages", initialMessageId), messageData),
+          setDoc(doc(db, "messages", docID, "recent_chats", userID, "messages", initialMessageId), messageData)
+        ]);
+
+        // Navigate to chat with the selected chat data
+        navigate('/chat', { 
+          state: { 
+            selectedChat: currentUserChatData
+          }
+        });
+      } else {
+        // If chat exists, just navigate to it
+        const existingChatData = existingChatSnap.data();
+        navigate('/chat', { 
+          state: { 
+            selectedChat: {
+              ...existingChatData,
+              id: docID,
+              otherID: docID,
+              otherName: firstName,
+              otherImage: image
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error initializing chat:", error);
+    }
+  };
+
+  // Rest of the component code remains the same...
   const handleConnect = async () => {
     if (onConnect) {
       setIsConnecting(true);
@@ -209,67 +307,34 @@ const TalentCards = ({
           image,
           categoryName
         });
-
         setConnectionStatus(newStatus);
       } catch (error) {
         console.error('Error connecting:', error);
-        // Handle error, e.g., display an error message to the user
       } finally {
         setIsConnecting(false);
       }
     }
   };
 
-  useEffect(() => {
-    // Fetch follow status from Firebase when component mounts
-    const fetchFollowStatus = async () => {
-      try {
-        // Reference to the current user's document
-        const userDocRef = doc(db, 'userCollection', dummyId);
-        const userDocSnap = await getDoc(userDocRef);
-        
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          const followList = userData.follow || [];
-          
-          // Check if the current production house/talent is in the follow list
-          const isFollowing = followList.includes(docID);
-          
-          setConnectionStatus(isFollowing ? 'Following' : 'Follow');
-        }
-      } catch (error) {
-        console.error("Error fetching follow status:", error);
-      }
-    };
-
-    fetchFollowStatus();
-  }, [docID]);
-
   const handleFollow = async () => {
     if (onFollow) {
       setIsConnecting(true);
       try {
-        // Reference to the current user's document
-        const userDocRef = doc(db, 'userCollection', dummyId);
-        
-        // Get current user's document
+        const userID = currentUser?.uid || "YTHetwednqeLYoraizuJ4PLFFlp2";
+        const userDocRef = doc(db, 'userCollection', userID);
         const userDocSnap = await getDoc(userDocRef);
         
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           const followList = userData.follow || [];
-          
-          // Check if already following
           const isCurrentlyFollowing = followList.includes(docID);
           
           if (isCurrentlyFollowing) {
-            // Unfollow logic
             await updateDoc(userDocRef, {
               follow: arrayRemove(docID)
             });
             setConnectionStatus('Follow');
           } else {
-            // Follow logic
             await updateDoc(userDocRef, {
               follow: arrayUnion(docID)
             });
@@ -283,6 +348,27 @@ const TalentCards = ({
       }
     }
   };
+
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      try {
+        const userID = currentUser?.uid || "YTHetwednqeLYoraizuJ4PLFFlp2";
+        const userDocRef = doc(db, 'userCollection', userID);
+        const userDocSnap = await getDoc(userDocRef);
+        
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          const followList = userData.follow || [];
+          const isFollowing = followList.includes(docID);
+          setConnectionStatus(isFollowing ? 'Following' : 'Follow');
+        }
+      } catch (error) {
+        console.error("Error fetching follow status:", error);
+      }
+    };
+
+    fetchFollowStatus();
+  }, [docID, currentUser]);
 
   return (
     <div className="md:overflow-hidden">
@@ -341,11 +427,17 @@ const TalentCards = ({
               )}
             </button>
             {landingtalent ? (
-              <div className="rounded-full border 2xl:mt-5 p-2 ml-3">
+              <div 
+                onClick={initializeChat}
+                className="rounded-full border 2xl:mt-5 p-2 ml-3 cursor-pointer hover:bg-gray-100"
+              >
                 <IoMailOutline className="2xl:text-4xl text-3xl" />
               </div>
             ) : (
-              <div className="ml-3 mr-3 p-2 border border-gray-400 rounded-full flex justify-center items-center">
+              <div 
+                onClick={initializeChat}
+                className="ml-3 mr-3 p-2 border border-gray-400 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-100"
+              >
                 <IoMailOutline className="text-2xl" />
               </div>
             )}

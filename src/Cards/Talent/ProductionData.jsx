@@ -73,18 +73,19 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import '../../CSS/Connections.css';
+import { useAuth } from "../../Context/AuthContext";
 
-const ProductionData = ({ 
-  productionData, 
-  onFollow, 
-  connectionStatus 
+const ProductionData = ({
+  productionData,
+  onFollow,
+  connectionStatus
 }) => {
   // Validate input data
   if (!productionData || !Array.isArray(productionData)) {
     console.error("productionData is not a valid array.");
     return <p>No data available</p>;
   }
-
+  const { currentUser } = useAuth();
   const production = true;
 
   return (
@@ -107,7 +108,7 @@ const ProductionData = ({
         >
           {productionData.map((data) => {
             // Determine the connection status for this specific production house
-            const status = typeof connectionStatus === 'object' 
+            const status = typeof connectionStatus === 'object'
               ? connectionStatus[data.docID] || 'Follow'
               : 'Follow';
 
@@ -118,6 +119,7 @@ const ProductionData = ({
               >
                 <TalentCards
                   production={production}
+                  currentUser={currentUser}
                   {...data}
                   onFollow={() => onFollow(data)}
                   connectionStatus={status}
