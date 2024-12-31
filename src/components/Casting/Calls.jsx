@@ -12,7 +12,7 @@ const Calls = () => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const callpage = false;
-  console.log("allCallsNUsers",allCallsNUsers)
+  // console.log("allCallsNUsers",allCallsNUsers)
   return (
     isLoading ? (
       <Loader />

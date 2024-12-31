@@ -14,7 +14,7 @@ const Applied = () => {
 
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false); // State to handle sheet visibility
-  console.log(userAppliedCastingCalls)
+  // console.log(userAppliedCastingCalls)
   return (
     isLoading ? (
       <Loader />
@@ -57,6 +57,7 @@ const Applied = () => {
                     // crew={userdata[selectedCardIndex].crew}
                     // username={userdata[selectedCardIndex].username}
                     // applied={userdata[selectedCardIndex].applied}
+                    callId={userAppliedCastingCalls[selectedCardIndex].id}
                     title={userAppliedCastingCalls[selectedCardIndex].title}
                     img={userAppliedCastingCalls[selectedCardIndex]?.user?.image || land4cardimg}
                     des={userAppliedCastingCalls[selectedCardIndex].description}
@@ -88,6 +89,7 @@ const Applied = () => {
               {
                 selectedCardIndex !== null && selectedCardIndex < userAppliedCastingCalls.length &&  (
                   <UserDescription
+                  callId={userAppliedCastingCalls[selectedCardIndex].id}
                     title={userAppliedCastingCalls[selectedCardIndex].title}
                     img={userAppliedCastingCalls[selectedCardIndex]?.user?.image}
                     des={userAppliedCastingCalls[selectedCardIndex].description}

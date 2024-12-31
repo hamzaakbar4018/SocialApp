@@ -10,9 +10,9 @@ import { ImSpinner2 } from 'react-icons/im';
 import Loader from '../Loader/Loader'
 import Payment from '../../Cards/Payment';
 import { useAuth } from '../../Context/AuthContext';
-
+import NoData from '../Loader/NoData'
 const MyCasting = () => {
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const UserId = currentUser.uid;
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -182,7 +182,8 @@ const MyCasting = () => {
 
       setCreateCasting(false);
       toast.success("Casting call created successfully!")
-      window.location.reload();
+      fetchMyCasting();
+      // window.location.reload();
 
 
     } catch (error) {
@@ -282,20 +283,28 @@ const MyCasting = () => {
       <Loader />
     ) : (
       <div className='bg-gray-100 flex mt-1 '>
-        <div className='left overflow-y-auto h-screen flex flex-col gap-1 md:w-1/3 w-full'>
-          <div className='bg-white p-3'>
+        <div className={`left overflow-y-auto h-screen flex flex-col gap-1 ${myCasting.length > 0 ? 'md:w-1/3 w-full' : 'w-full'}`}>
+          <div className='create bg-white p-3'>
             <button onClick={handleCasting} className='bg-black px2 py-3 flex justify-center items-center gap-2 rounded-full text-white font-semibold w-full'><span className='text-3xl font-light'>+</span> Create Casting Call</button>
           </div>
           {
-
-            myCasting.map((data, index) => (
-              <div key={index} onClick={() => {
-                setSelectedCardIndex(index);
-                setIsSheetOpen(true);
-              }}>
-                <UserCard date={data.createdAt} {...data} mycasting={mycasting} isSelected={selectedCardIndex === index} />
-              </div>
-            ))
+            myCasting.length === 0 ? (
+              <NoData />
+            ) : (
+              myCasting.map((data, index) => (
+                <div key={index} onClick={() => {
+                  setSelectedCardIndex(index);
+                  setIsSheetOpen(true);
+                }}>
+                  <UserCard
+                    date={data.createdAt}
+                    {...data}
+                    mycasting={mycasting}
+                    isSelected={selectedCardIndex === index}
+                  />
+                </div>
+              ))
+            )
           }
         </div>
         <div className='right md:block hidden flex-grow'>
