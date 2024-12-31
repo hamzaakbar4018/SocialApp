@@ -29,6 +29,7 @@ const Main = () => {
     const { currentUser, userData, logout } = useAuth();
     const dummyID = currentUser.uid;
     const [author, setAuthor] = useState('');
+    const [postLoading, setPostLoading] = useState(false);
 
     const fetchAuthor = async () => {
         try {
@@ -78,6 +79,7 @@ const Main = () => {
     const [thoughts, setThoughts] = useState('');
     const handlePosts = async (authorID) => {
         try {
+            setPostLoading(true);
             console.log("Attempting to create post with authorID:", authorID);
 
             if (!authorID || !thoughts) {
@@ -103,15 +105,22 @@ const Main = () => {
             console.log(newPost);
             setPostModel(false);
             toast.success("Post uploaded successfully!");
-            window.location.reload();
+            // window.location.reload();
+            setPostModel(false);
+            setTextModel(false);
+            fetchPostsAndUsers();
+            setPostLoading(false);
         } catch (error) {
             console.error('Error creating post: ', error);
             toast.error("Error uploading post. Please try again."); // Log any errors
+        }finally{
+            setPostLoading(false);
         }
     };
     const { notifyData } = useContext(NotificatinData);
-    console.log("notifyData",notifyData)
+    console.log("notifyData", notifyData)
     const postData = useContext(PostData) || [];
+    const {fetchPostsAndUsers, fetchUsersWhoLikedPost} = postData;
 
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -123,6 +132,7 @@ const Main = () => {
     };
     const [showRightbar, setShowRightbar] = useState(false);
     const [postModel, setPostModel] = useState(false);
+    const [textModel, setTextModel] = useState(false);
     const [tagPeople, setTagPeople] = useState(false);
     const [search, setSearch] = useState(false);
 
@@ -151,6 +161,10 @@ const Main = () => {
         setPostModel(!postModel);
         setTagPeople(false);
     };
+
+    const handleTextModel = () => {
+        setTextModel(!textModel);
+    }
 
     const admin = [
         {
@@ -278,7 +292,7 @@ const Main = () => {
                                                                 </div>
                                                             </div>
                                                         ))
-                                                    ): (
+                                                    ) : (
                                                         <div className="text-center text-gray-400 text-sm">
                                                             No notifications available
                                                         </div>
@@ -314,7 +328,7 @@ const Main = () => {
                                     </div>
                                     <div className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl cursor-pointer gap-1 justify-center items-center'>
                                         <img src={textadmin} className='w-5 mb-1' alt="text" />
-                                        <button>Text</button>
+                                        <button onClick={handleTextModel}>Text</button>
                                     </div>
                                 </div>
                             </div>
@@ -348,7 +362,82 @@ const Main = () => {
                 </div>
             )}
 
-            
+            {textModel && (
+                <div className="fixed inset-0 bg-black bg-opacity-65 z-40 flex justify-center items-center">
+                    <dialog id="my_modal_3" className="modal z-90 " open>
+                        <div className="modal-box">
+                            <form method="dialog">
+                                <button
+                                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                    onClick={handleTextModel}
+                                >
+                                    ✕
+                                </button>
+                            </form>
+                            <div>
+                                {postingData.map((data, index) => (
+                                    <div key={index}>
+                                        <div className="content flex gap-2">
+                                            <img
+                                                src={author && author[0] ? author[0].image : ''}
+                                                className="rounded-full w-12 h-12"
+                                                alt={author && author[0] ? author[0].firstName : 'User'}
+                                            />
+                                            <div className="items-center">
+                                                <h1 className="font-semibold">{author && author[0] ? author[0].firstName : 'Anonymous'}</h1>
+                                                <h1 className="text-gray-400">Creating Post</h1>
+                                            </div>
+                                        </div>
+                                        <div className={`mt-5 ${!PostImage && 'h-20'}`}>
+                                            <input onChange={(e) => {
+                                                setThoughts(e.target.value
+                                                    , console.log(e.target.value)
+                                                )
+                                            }} type='text' placeholder='Write your thoughts here...' className="text-gray-400 outline-none w-full text-wrap" />
+                                            {/* {PostImage && (
+                                                <div className='mt-3 flex-shrink-0'>
+                                                    <img src={PostImage} alt="Post" className="w-full object-contain" />
+                                                </div>
+                                            )
+                                            }
+                                            <input
+                                                type="file"
+                                                className="hidden"
+                                                onChange={handleImageChange}
+                                                ref={postRef}
+                                            /> */}
+                                        </div>
+                                        <div className="flex mt-4 flex-wrap md:flex-row gap-3">
+                                            <div className="flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-1">
+                                                <img className="w-5" src={photoadmin} alt="Photo Icon" />
+                                                <button disabled={uploading} onClick={handlePostRef}>
+                                                    {uploading ? "Uploading..." : "Photo"}
+                                                </button>
+                                            </div>
+                                            <div className="flex bg-[#FF602E1A] px-3 py-2 rounded-3xl gap-1">
+                                                <img className="w-5" src={tag} alt="Tag Icon" />
+                                                <button>Tag People</button>
+                                            </div>
+                                            <div className="flex-grow flex md:justify-end">
+                                                <button
+                                                    disabled={!(PostImage || thoughts)}
+                                                    onClick={() => handlePosts(dummyID)}
+                                                    className={`p-3 rounded-3xl w-full md:w-auto text-white ${PostImage || thoughts ? 'bg-black' : 'bg-gray-600'}`}
+                                                >
+                                                    {
+                                                        postLoading ? "Posting..." : "Post Now"
+                                                    }
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
+            )}
 
             {postModel && (
                 <div className="fixed inset-0 bg-black bg-opacity-65 z-40 flex justify-center items-center">
@@ -412,7 +501,9 @@ const Main = () => {
                                                     onClick={() => handlePosts(dummyID)}
                                                     className={`p-3 rounded-3xl w-full md:w-auto text-white ${PostImage || thoughts ? 'bg-black' : 'bg-gray-600'}`}
                                                 >
-                                                    Post Now
+                                                    {
+                                                        postLoading ? "Posting..." : "Post Now"
+                                                    }
                                                 </button>
 
                                             </div>

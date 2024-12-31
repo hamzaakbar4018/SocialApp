@@ -87,7 +87,7 @@ const PostContext = ({ children }) => {
   }, []);
 
   return (
-    <PostData.Provider value={{ posts, fetchUsersWhoLikedPost }}>
+    <PostData.Provider value={{ posts, fetchUsersWhoLikedPost , fetchPostsAndUsers }}>
       {children}
     </PostData.Provider>
   );

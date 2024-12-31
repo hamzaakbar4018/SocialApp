@@ -184,11 +184,11 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                 </div>
                             </div>
                         </div>
-                        <div className='flex font-bold text-2xl w-full justify-end'>
+                        {/* <div className='flex font-bold text-2xl w-full justify-end'>
                             <div className='flex px-3 bg-white cursor-pointer rounded-full justify-center items-center'>
                                 <HiOutlineDotsVertical className='text-lg' />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='p-3'>
                         <h2>{data}</h2>
