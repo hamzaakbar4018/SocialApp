@@ -337,7 +337,11 @@ const App = () => {
           <Route path='profileabout' element={<ProfileAbout />} />
           <Route path='profilemywork' element={<ProfileMywork />} />
         </Route>
-        <Route path="/userprofile/:id/*" element={<Profilee />}>
+        <Route path="/userprofile/:id/*" element={
+          <ProtectedRoute>
+            <Profilee />
+          </ProtectedRoute>
+        }>
           <Route path="userprofileactivity" element={<UserActivity />} />
           <Route path="userprofileabout" element={<UserAbout />} />
           <Route path="userprofilemywork" element={<UserMywork />} />

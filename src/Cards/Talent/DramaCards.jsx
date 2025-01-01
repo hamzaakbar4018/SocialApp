@@ -22,7 +22,10 @@ const TalentCards = ({
   const { currentUser } = useAuth();
   const dummyId = currentUser ? currentUser.uid : null;
   const navigate = useNavigate();
+  const handleProfile = (uid) => {
+    navigate(`/userprofile/${uid}`);
 
+  }
   const fetchConnectionStatus = async () => {
     try {
       const currentUserQuery = query(
@@ -179,8 +182,9 @@ const TalentCards = ({
           <div className={`${landingtalent && 'flex flex-col justify-center items-center text-xl gap-4'}`}>
             <div className="flex-shrink-0">
               <img
+              onClick={() => handleProfile(docID)}
                 src={image}
-                className={`rounded-full w-20 h-20 object-cover ${landingtalent && 'w-32 h-32'}`}
+                className={`rounded-full w-20 cursor-pointer h-20 object-cover ${landingtalent && 'w-32 h-32'}`}
                 alt="User img"
               />
             </div>

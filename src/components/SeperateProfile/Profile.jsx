@@ -144,7 +144,7 @@ const Profile = () => {
                                                     className={`w-6 h-6 transition-all ${isActive ? '' : 'opacity-60'}`}
                                                     alt="My Work"
                                                 />
-                                                <span>My Work</span>
+                                                <span>Work</span>
                                             </>
                                         )}
                                     </NavLink>

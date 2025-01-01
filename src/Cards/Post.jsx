@@ -170,8 +170,13 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                             <div className='flex gap-2 items-center'>
                                 <div className='flex-shrink-0'>
                                     {
-                                        activity ? (<img src={author?.image} className='rounded-full min-w-12  h-12 max-w-12 object-cover' alt="" />) : (
-                                            <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover max-w-12' alt="" />
+                                        activity ? (<img 
+                                            onClick={()=>{
+                                                handleProfile(author?.docID)
+                                            }} src={author?.image} className='rounded-full cursor-pointer min-w-12  h-12 max-w-12 object-cover' alt="" />) : (
+                                            <img onClick={()=>{
+                                                handleProfile(userDetails?.docID)
+                                            }} src={userDetails?.image} className='rounded-full cursor-pointer min-w-12  h-12 object-cover max-w-12' alt="" />
 
                                         )
                                     }
@@ -179,10 +184,14 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                 <div className=''>
                                     {
                                         activity ? (
-                                            <h1 className='font-semibold'>{author?.firstName}</h1>
+                                            <h1 onClick={()=>{
+                                                handleProfile(userDetails?.docID)
+                                            }} className='font-semibold cursor-pointer'>{author?.firstName}</h1>
 
                                         ) : (
-                                            <h1 className='font-semibold'>{userDetails?.firstName}</h1>
+                                            <h1 onClick={()=>{
+                                                handleProfile(userDetails?.docID)
+                                            }} className='font-semibold cursor-pointer'>{userDetails?.firstName}</h1>
 
                                         )
                                     }

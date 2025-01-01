@@ -182,11 +182,11 @@ import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../Services/Firebase";
-import { 
-  doc, 
-  getDoc, 
-  updateDoc, 
-  arrayUnion, 
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
   arrayRemove,
   setDoc,
   serverTimestamp
@@ -209,7 +209,10 @@ const TalentCards = ({
   const navigate = useNavigate();
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus || "Follow");
-  
+  const handleProfile = (uid) => {
+    navigate(`/userprofile/${uid}`);
+
+  }
   const initializeChat = async () => {
     try {
       const userID = currentUser?.uid  // Use currentUser.uid if available
@@ -271,16 +274,16 @@ const TalentCards = ({
         ]);
 
         // Navigate to chat with the selected chat data
-        navigate('/chat', { 
-          state: { 
+        navigate('/chat', {
+          state: {
             selectedChat: currentUserChatData
           }
         });
       } else {
         // If chat exists, just navigate to it
         const existingChatData = existingChatSnap.data();
-        navigate('/chat', { 
-          state: { 
+        navigate('/chat', {
+          state: {
             selectedChat: {
               ...existingChatData,
               id: docID,
@@ -323,12 +326,12 @@ const TalentCards = ({
         const userID = currentUser?.uid || "YTHetwednqeLYoraizuJ4PLFFlp2";
         const userDocRef = doc(db, 'userCollection', userID);
         const userDocSnap = await getDoc(userDocRef);
-        
+
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           const followList = userData.follow || [];
           const isCurrentlyFollowing = followList.includes(docID);
-          
+
           if (isCurrentlyFollowing) {
             await updateDoc(userDocRef, {
               follow: arrayRemove(docID)
@@ -355,7 +358,7 @@ const TalentCards = ({
         const userID = currentUser?.uid || "YTHetwednqeLYoraizuJ4PLFFlp2";
         const userDocRef = doc(db, 'userCollection', userID);
         const userDocSnap = await getDoc(userDocRef);
-        
+
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           const followList = userData.follow || [];
@@ -381,8 +384,9 @@ const TalentCards = ({
           {landingtalent ? (
             <div className="flex md:gap-0 gap-2 flex-col mt-3 justify-center items-center">
               <img
+                
                 src={image}
-                className="rounded-full w-20 h-20 2xl:w-40 2xl:h-40"
+                className="rounded-full cursor-pointer w-20 h-20 2xl:w-40 2xl:h-40"
                 alt="User img"
               />
               <h2 className="2xl:mt-8 mt-4 2xl:text-2xl font-bold text-center">{firstName}</h2>
@@ -396,18 +400,19 @@ const TalentCards = ({
             <div>
               <div className="flex-shrink-0">
                 <img
+                onClick={() => handleProfile(docID)}
                   src={image}
-                  className="rounded-full w-20 h-20 object-cover"
+                  className="rounded-full cursor-pointer w-20 h-20 object-cover"
                   alt="User img"
                 />
               </div>
               <h2 className="mt-2 text-lg font-bold">{firstName}</h2>
               <div className="flex flex-wrap gap-2">
-              {
-                Array.isArray(categoryName) && categoryName.map((cat, index) => (
-                  <p key={index} className="text-gray-400">{cat}</p>
-                ))
-              }
+                {
+                  Array.isArray(categoryName) && categoryName.map((cat, index) => (
+                    <p key={index} className="text-gray-400">{cat}</p>
+                  ))
+                }
               </div>
             </div>
           )}
@@ -427,14 +432,14 @@ const TalentCards = ({
               )}
             </button>
             {landingtalent ? (
-              <div 
+              <div
                 onClick={initializeChat}
                 className="rounded-full border 2xl:mt-5 p-2 ml-3 cursor-pointer hover:bg-gray-100"
               >
                 <IoMailOutline className="2xl:text-4xl text-3xl" />
               </div>
             ) : (
-              <div 
+              <div
                 onClick={initializeChat}
                 className="ml-3 mr-3 p-2 border border-gray-400 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-100"
               >
