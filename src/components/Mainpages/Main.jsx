@@ -186,7 +186,7 @@ const Main = () => {
 
 
     const handleSearch = () => {
-        console.log("Search button clicked");
+        // console.log("Search button clicked");
         setSearch(!search);
     }
 

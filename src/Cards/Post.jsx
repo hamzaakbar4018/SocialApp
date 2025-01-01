@@ -10,10 +10,15 @@ import { addDoc, arrayRemove, arrayUnion, collection, doc, getDocs, query, serve
 import { db } from '../Services/Firebase';
 import { ImSpinner2 } from 'react-icons/im';
 import { useAuth } from '../Context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 // import Comments from './Comments';
 const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData }) => {
     const { currentUser, userData, logout } = useAuth();
+    const navigate = useNavigate();
+    const handleProfile = (uid) => {
+        navigate(`/userprofile/${uid}`);
 
+    }
     const currentUserId = currentUser.uid;
     const [comments, setComments] = useState([]);
     const [Author, setAuthor] = useState([]);
@@ -167,6 +172,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                     {
                                         activity ? (<img src={author?.image} className='rounded-full min-w-12  h-12 max-w-12 object-cover' alt="" />) : (
                                             <img src={userDetails?.image} className='rounded-full min-w-12  h-12 object-cover max-w-12' alt="" />
+
                                         )
                                     }
                                 </div>

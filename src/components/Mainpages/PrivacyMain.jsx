@@ -9,6 +9,7 @@ import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
+import SearchBar from '../SearchBar.jsx';
 const PrivacyMain = () => {
     const [privacyData, setPrivacyData] = useState([])
     const fetchPrivacy = async () => {
@@ -82,7 +83,7 @@ const PrivacyMain = () => {
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
                     <div className={`flex ${search && 'm-3'} justify-end gap-2 md:gap-5 items-center w-full z-20`}>
-                        <div
+                        {/* <div
                             ref={searchRef}
                             className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
                         >
@@ -98,7 +99,6 @@ const PrivacyMain = () => {
                             {search && (
                                 <img src={Arrow} onClick={handleSearch} className='w-9 p-1 h-9 bg-black rounded-full cursor-pointer' />
                             )}
-
                             {search && (
                                 <div className='bg-white absolute md:right-2 right-0 top-full mt-3 w-full md:w-[98%] rounded-lg p-4'>
                                     <div className="recent flex items-center justify-between mx-1">
@@ -115,7 +115,9 @@ const PrivacyMain = () => {
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
+
+                        <SearchBar search={search} setSearch={setSearch}/>
 
                         <div
                             onClick={() => {
@@ -179,6 +181,7 @@ const PrivacyMain = () => {
                     </div>
 
 
+
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='mt-[2px]'>
@@ -190,7 +193,6 @@ const PrivacyMain = () => {
                                         <h2 className='font-bold'>1.Introduction</h2>
                                         {privacyData.map((data, index) => (
                                             <p className='text-gray-400 mt-2'>
-                                                {/* At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey. */}
                                                 {data.data}
                                             </p>
                                         ))}
@@ -201,25 +203,6 @@ const PrivacyMain = () => {
                             ) : (
                                 <Loader />
                             )}
-
-                            {/* <div className='mt-5'>
-                                <div className='mt-3'>
-                                    <h2 className='font-bold'>2.Information We Collect</h2>
-                                    <p className='text-gray-400 mt-2'>
-                                        At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey.
-                                    </p>
-
-                                </div>
-                            </div>
-                            <div className='mt-5'>
-                                <div className='mt-3'>
-                                    <h2 className='font-bold'>3.Sharing</h2>
-                                    <p className='text-gray-400 mt-2'>
-                                        At YouTooArt, we believe in the transformative power of art to inspire and connect people across the globe. Our mission is to create a platform that celebrates creativity, fosters artistic expression, and brings unique artworks to a broader audience. Whether you're an artist looking to showcase your work or an art enthusiast searching for something extraordinary, we're here to support and elevate your artistic journey.
-                                    </p>
-
-                                </div>
-                            </div> */}
                         </div>
 
                     </div>

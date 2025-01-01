@@ -214,6 +214,10 @@ import WishlistCasting from './components/Casting/WishlistCasting';
 import ProtectedRoute from './pages/ProtectedRoute';
 import Public_terms from './pages/Public_terms';
 import NotFound from './pages/NotFound';
+import Profilee from './components/SeperateProfile/Profile'
+import UserActivity from './components/SeperateProfile/UserActivity'
+import UserAbout from './components/SeperateProfile/UserAbout'
+import UserMywork from './components/SeperateProfile/UserMywork'
 
 const MainLayout = () => (
   <div className='routing flex bg-white'>
@@ -332,6 +336,12 @@ const App = () => {
           <Route path='profileactivity' element={<ProfileActivity />} />
           <Route path='profileabout' element={<ProfileAbout />} />
           <Route path='profilemywork' element={<ProfileMywork />} />
+        </Route>
+        <Route path="/userprofile/:id/*" element={<Profilee />}>
+          <Route path="userprofileactivity" element={<UserActivity />} />
+          <Route path="userprofileabout" element={<UserAbout />} />
+          <Route path="userprofilemywork" element={<UserMywork />} />
+          {/* Add more nested routes as needed */}
         </Route>
         <Route
           path='/casting'

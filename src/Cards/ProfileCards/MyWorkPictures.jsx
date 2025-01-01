@@ -14,7 +14,7 @@ const Spinner = () => (
     </div>
 );
 
-const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts }) => {
+const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts,seperate }) => {
     const [title, setTitle] = useState('');
     const [pictureLink, setPictureLink] = useState('');
     const [image, setImage] = useState(null);
@@ -167,7 +167,7 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
                         {/* <p className='text-sm text-gray-400'>1 Hour ago</p> */}
                     </div>
                     <div className='flex gap-2 md:p-0 py-3 px-4'>
-                        <div className='bg-[#B3FCE2] rounded-full flex justify-center items-center p-3'>
+                        <div className={`bg-[#B3FCE2] rounded-full flex justify-center items-center p-3 ${seperate && 'hidden'}`}>
                             <img
                                 onClick={() => {
                                     setEditingPicture(null);
