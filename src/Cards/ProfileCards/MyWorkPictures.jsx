@@ -15,8 +15,6 @@ const Spinner = () => (
 );
 
 const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts }) => {
-    //   const userId = "GFPNB660GaVlJfnmbMdzFIjba4A3";
-    console.log(userId)
     const [title, setTitle] = useState('');
     const [pictureLink, setPictureLink] = useState('');
     const [image, setImage] = useState(null);
@@ -56,9 +54,11 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
             if (refreshPictures) {
                 refreshPictures();
             }
+            toast.success("Deleted Successfully !")
             fetchAuthorAndPosts();
 
         } catch (err) {
+            toast.error("Please try again !")
             console.error('Error deleting picture:', err);
             setError('Failed to delete picture');
         } finally {
@@ -67,7 +67,6 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
     };
 
     const handleEditStart = (picture) => {
-        // Prepare the picture for editing
         setEditingPicture(picture);
         setTitle(picture.title);
         setPictureLink(picture.pictureLink || '');
@@ -75,11 +74,20 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
         setAddPicture(true);
     };
 
+    const resetForm = () => {
+        setTitle('');
+        setPictureLink('');
+        setImage(null);
+        setImagePreview(null);
+        setAddPicture(false);
+        setEditingPicture(null);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validate inputs
-        if (!title || !image) {
+        if (!title || (!editingPicture && !image)) {
             setError('Please add a title and an image');
             return;
         }
@@ -90,13 +98,15 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
 
             let imageUrl = editingPicture ? editingPicture.image : null;
 
-            // Upload image
-            const storage = getStorage();
-            const imageName = `${Date.now()}_${image.name}`;
-            const storageRef = ref(storage, `YooTooArt/userModule/${imageName}`);
+            if (image) { // Only upload if a new image is selected
+                // Upload image
+                const storage = getStorage();
+                const imageName = `${Date.now()}_${image.name}`;
+                const storageRef = ref(storage, `YooTooArt/userModule/${imageName}`);
 
-            const snapshot = await uploadBytes(storageRef, image);
-            imageUrl = await getDownloadURL(snapshot.ref);
+                const snapshot = await uploadBytes(storageRef, image);
+                imageUrl = await getDownloadURL(snapshot.ref);
+            }
 
             // Reference to the user's imageCollection
             const userDocRef = doc(db, 'userCollection', userId);
@@ -128,18 +138,10 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
                 });
             }
 
-            setAddPicture(false);
-
             // Reset form and state
-            setTitle('');
-            setPictureLink('');
-            setImage(null);
-            setImagePreview(null);
-            setAddPicture(false);
-            setEditingPicture(null);
-            // window.location.reload();
+            resetForm();
             fetchAuthorAndPosts();
-            toast.success("Added Successfully !")
+            toast.success(editingPicture ? "Updated Successfully!" : "Added Successfully!");
 
             // Refresh pictures if callback is provided
             if (refreshPictures) {
@@ -147,10 +149,11 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
             }
 
         } catch (err) {
-            toast.error("Please try again !")
+            toast.error("Please try again!");
             console.error('Error:', err);
             setError(err.message);
         } finally {
+            resetForm();
             setLoading(false);
         }
     };
@@ -273,7 +276,7 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
                                             className='w-full h-full object-cover rounded-xl'
                                         />
                                     ) : (
-                                        <p className='text-red-400'>Click to add Image here!</p>
+                                        <p className='font-bold'>Click to add Image here!</p>
                                     )}
                                 </div>
                             </div>

@@ -13,8 +13,6 @@ const Spinner = () => (
 );
 
 const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts }) => {
-  console.log(userId)
-  // const userId = "GFPNB660GaVlJfnmbMdzFIjba4A3";
   const [title, setTitle] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [image, setImage] = useState(null);
@@ -55,9 +53,11 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts }) => {
       if (refreshVideos) {
         refreshVideos();
       }
+      toast.success("Deleted Successfully !")
       fetchAuthorAndPosts();
 
     } catch (err) {
+      toast.error("Please try again !")
       console.error('Error deleting video:', err);
       setError('Failed to delete video');
     } finally {
@@ -139,7 +139,7 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts }) => {
 
       // window.location.reload();
       fetchAuthorAndPosts();
-      toast.success("Added Successfully !")
+      toast.success("Updated Successfully !")
 
       // Refresh videos if callback is provided
       if (refreshVideos) {
@@ -152,6 +152,13 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts }) => {
       setError(err.message);
     } finally {
       setLoading(false);
+      setTitle('');
+      setVideoLink('');
+      setImage(null);
+      setImagePreview(null);
+      setAddVideo(false);
+      setEditingVideo(null);
+      setAddVideo(false);
     }
   };
 
@@ -271,7 +278,7 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts }) => {
                       className='w-full h-full object-cover rounded-xl'
                     />
                   ) : (
-                    <p className='text-red-400'>Click to add Image here!</p>
+                    <p className='font-bold'>Click to add Image here!</p>
                   )}
                 </div>
               </div>

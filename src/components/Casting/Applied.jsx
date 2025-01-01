@@ -33,7 +33,7 @@ const Applied = () => {
                     setIsSheetOpen(true); // Open the sheet when a card is clicked on small screens
                   }}
                 >
-                  <UserCard {...data} img={data.user?.image || null} isSelected={selectedCardIndex === index} />
+                  <UserCard {...data} type={data.roleTitle} day={data.duration} location={data.city} img={data.user?.image || null} isSelected={selectedCardIndex === index} />
                 </div>
               ))
             }
@@ -57,6 +57,8 @@ const Applied = () => {
                     // crew={userdata[selectedCardIndex].crew}
                     // username={userdata[selectedCardIndex].username}
                     // applied={userdata[selectedCardIndex].applied}
+                    type={userAppliedCastingCalls[selectedCardIndex].roleTitle}
+
                     callId={userAppliedCastingCalls[selectedCardIndex].id}
                     title={userAppliedCastingCalls[selectedCardIndex].title}
                     img={userAppliedCastingCalls[selectedCardIndex]?.user?.image || land4cardimg}
@@ -89,6 +91,8 @@ const Applied = () => {
               {
                 selectedCardIndex !== null && selectedCardIndex < userAppliedCastingCalls.length &&  (
                   <UserDescription
+                  type={userAppliedCastingCalls[selectedCardIndex].roleTitle}
+
                   callId={userAppliedCastingCalls[selectedCardIndex].id}
                     title={userAppliedCastingCalls[selectedCardIndex].title}
                     img={userAppliedCastingCalls[selectedCardIndex]?.user?.image}

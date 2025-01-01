@@ -161,7 +161,7 @@ const MyCasting = () => {
       });
 
       await updateDoc(doc(db, "castingCallCollection", docRef.id), {
-        docID: docRef.id, // Add the docID field
+        docID: docRef.id,
       });
       setTitle('');
       setDescription('');
@@ -297,6 +297,7 @@ const MyCasting = () => {
                   setIsSheetOpen(true);
                 }}>
                   <UserCard
+                  type={data.roleTitle} day={data.duration} location={data.city}
                     date={data.createdAt}
                     {...data}
                     mycasting={mycasting}
@@ -471,6 +472,14 @@ const MyCasting = () => {
                     </select>
                   </div>
 
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Height</label>
+                    <input
+                      value={height} onChange={(e) => setHeight(e.target.value)}
+                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='5ft' />
+                  </div>
+
                   <div className='flex flex-col gap-2 mt-3'>
                     <label htmlFor="">Shoot Details</label>
 
@@ -486,6 +495,13 @@ const MyCasting = () => {
                       value={budget} // Set the value from the state
                       onChange={(e) => setBudget(e.target.value)}
                       type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Your Budget' />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="">Duration Days</label>
+                    <input
+                      value={duration} onChange={(e) => setDuration(e.target.value)}
+                      type="number" className='bg-gray-100 p-2 rounded-3xl' placeholder='7' />
                   </div>
 
 

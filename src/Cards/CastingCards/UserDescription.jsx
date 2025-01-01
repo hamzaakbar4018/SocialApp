@@ -1313,7 +1313,7 @@ const UserDescription = ({
               </div>
               <div className='md:px-4'>
                 <h2 className='text-gray-400'>Duration</h2>
-                <p>{day ? day : "N/A"} Days</p>
+                <p>{day ? day + ' Days' : "N/A"}</p>
               </div>
               <div className='md:px-4'>
                 <h2 className='text-gray-400'>Budget</h2>

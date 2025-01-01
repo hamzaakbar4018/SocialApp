@@ -61,7 +61,7 @@ const UserCard = ({ title, img, type, duration, location, budget, description, u
                 <div className={` ${mycasting ? 'md:ml-0' : 'md:ml-0 ml-4'}`}>
                     <div>
                         <h2 className='text-gray-400'>Shoot</h2>
-                        <h1 className='font-bold'>{day ? day : "N/A"} Days</h1>
+                        <h1 className='font-bold'>{day ? day + ' Days' : "N/A"}</h1>
 
                     </div>
                     <div>

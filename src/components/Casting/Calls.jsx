@@ -29,17 +29,18 @@ const Calls = () => {
                     setIsSheetOpen(true);
                   }}
                 >
-                  <UserCard {...data} img={data.user.image} isSelected={selectedCardIndex === index} />
+                  <UserCard {...data} type={data.roleTitle} day={data.duration} location={data.city} img={data.user.image} isSelected={selectedCardIndex === index} />
                 </div>
               ))
             }
           </div>
-  
+
           <div className='right md:block hidden flex-grow'>
             <div className="pl-1">
               {
                 selectedCardIndex !== null && selectedCardIndex < allCallsNUsers.length && (
                   <UserDescription
+                    type={allCallsNUsers[selectedCardIndex].roleTitle}
                     callId={allCallsNUsers[selectedCardIndex].docID}
                     title={allCallsNUsers[selectedCardIndex].title}
                     img={allCallsNUsers[selectedCardIndex].user.image}
@@ -58,7 +59,7 @@ const Calls = () => {
               }
             </div>
           </div>
-  
+
           {/* Sliding sheet for small screens */}
           <div className={`fixed top-0 z-40 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
             <button
@@ -67,11 +68,13 @@ const Calls = () => {
             >
               <IoMdArrowBack className='text-2xl mb-1 mt-3' />
             </button>
-  
+
             <div className="">
               {
                 selectedCardIndex !== null && selectedCardIndex < allCallsNUsers.length && (
                   <UserDescription
+                    type={allCallsNUsers[selectedCardIndex].roleTitle}
+
                     title={allCallsNUsers[selectedCardIndex].title}
                     img={allCallsNUsers[selectedCardIndex].user.image}
                     des={allCallsNUsers[selectedCardIndex].description}
@@ -84,7 +87,7 @@ const Calls = () => {
                     crew={allCallsNUsers[selectedCardIndex].crew}
                     username={allCallsNUsers[selectedCardIndex].user.firstName}
                     time={allCallsNUsers[selectedCardIndex].createdAt}
-  
+
                   />
                 )
               }
@@ -92,7 +95,7 @@ const Calls = () => {
           </div>
         </div>
       ) : (
-        <NoDataFound/>
+        <NoDataFound />
       )
     )
   );
