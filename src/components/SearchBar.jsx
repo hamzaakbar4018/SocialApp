@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  collection,
-  getDocs
-} from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
-import debounce from 'lodash.debounce';
+import { collection, getDocs } from 'firebase/firestore';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { db } from '../Services/Firebase';
-import reactStringReplace from 'react-string-replace';
 
 const SearchBar = ({ search, setSearch }) => {
   const searchRef = useRef(null);
@@ -14,148 +9,111 @@ const SearchBar = ({ search, setSearch }) => {
   const [users, setUsers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [dataLoading, setDataLoading] = useState(true); // New state
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Load all users at once and handle search locally
-  const getUsers = async () => {
-    try {
-      const usersRef = collection(db, 'userCollection');
-      const usersSnapshot = await getDocs(usersRef);
-      const usersList = usersSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        // Normalize the data to ensure consistent search
-        return {
-          id: doc.id,
-          docID: data.docID || doc.id,
-          firstName: (data.firstName || '').trim(),
-          lastName: (data.lastName || '').trim(),
-          city: (data.city || '').trim(),
-          country: data.country || '',
-          image: data.image || '',
-          isVerified: !!data.isVerified,
-          // Optional: Add lowercase fields for better search performance
-          firstName_lower: (data.firstName || '').toLowerCase().trim(),
-          lastName_lower: (data.lastName || '').toLowerCase().trim(),
-          city_lower: (data.city || '').toLowerCase().trim(),
-          ...data
-        };
-      });
-      setUsers(usersList);
-      console.log("Loaded users:", usersList);
-    } catch (err) {
-      console.error("Error loading users:", err);
-      setError('Failed to load users.');
-    } finally {
-      setDataLoading(false); // Update loading state
-    }
-  };
-
+  // Load initial recent searches
   useEffect(() => {
-    getUsers();
+    const stored = localStorage.getItem('recentSearches');
+    if (stored) {
+      try {
+        setRecentSearches(JSON.parse(stored));
+      } catch (e) {
+        console.error('Error parsing recent searches:', e);
+        localStorage.removeItem('recentSearches');
+      }
+    }
   }, []);
 
-  const normalizeString = (str) => {
-    return (str || '').toLowerCase().trim();
-  };
-
-  const performSearch = async (value) => {
-    const searchValue = normalizeString(value);
-    console.log('Performing search with value:', searchValue);
-
-    if (!searchValue || searchValue.length < 2) {
-      setSearchResults([]);
-      setError(null);
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      // Search through all loaded users
-      const results = users.filter(user => {
-        // Normalize all searchable fields
-        const firstName = user.firstName_lower || normalizeString(user.firstName);
-        const lastName = user.lastName_lower || normalizeString(user.lastName);
-        const city = user.city_lower || normalizeString(user.city);
-        const fullName = `${firstName} ${lastName}`;
-
-        // Check if any field contains the search value
-        return firstName.includes(searchValue) || 
-               lastName.includes(searchValue) || 
-               fullName.includes(searchValue) ||
-               city.includes(searchValue);
-      });
-
-      console.log("Search results count:", results.length);
-      console.log("Search results:", results);
-
-      if (results.length === 0) {
-        setError('No results found');
-        setSearchResults([]);
-      } else {
-        setSearchResults(results);
+  // Update recent searches when location changes
+  useEffect(() => {
+    const checkAndUpdateRecent = async () => {
+      const match = location.pathname.match(/\/userprofile\/(.+)/);
+      if (match && users.length > 0) {
+        const userId = match[1];
+        const user = users.find(u => (u.docID || u.id) === userId);
+        if (user) {
+          const updatedSearches = [
+            user,
+            ...recentSearches.filter(u => u.id !== user.id)
+          ].slice(0, 5);
+          setRecentSearches(updatedSearches);
+          localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+        }
       }
+    };
+    checkAndUpdateRecent();
+  }, [location.pathname, users]);
 
-    } catch (err) {
-      console.error('Error searching users:', err);
-      setError('An error occurred while searching. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      try {
+        const querySnapshot = await getDocs(collection(db, "userCollection"));
+        const userData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setUsers(userData);
+      } catch (err) {
+        setError("Failed to fetch users");
+        console.error("Error fetching users:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
 
-  const debouncedSearch = useRef(
-    debounce((value) => {
-      performSearch(value);
-    }, 300)
-  ).current;
-
-  const handleSearchInput = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    setError(null);
-
-    if (value.trim().length >= 2) {
-      debouncedSearch(value);
+  useEffect(() => {
+    if (searchTerm.trim()) {
+      const filtered = users.filter(user => {
+        const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+        const location = user.city ? `${user.city} ${user.country}`.toLowerCase() : '';
+        const searchLower = searchTerm.toLowerCase();
+        return fullName.includes(searchLower) || location.includes(searchLower);
+      });
+      setSearchResults(filtered);
     } else {
-      debouncedSearch.cancel();
       setSearchResults([]);
-      setError(null);
-      setIsLoading(false);
     }
-  };
+  }, [searchTerm, users]);
 
   const handleUserSelect = (user) => {
-    const newRecent = [user, ...recentSearches.filter(r => r.id !== user.id)].slice(0, 5);
-    setRecentSearches(newRecent);
-    localStorage.setItem('recentSearches', JSON.stringify(newRecent));
-    // Use docID for navigation if available, fallback to id
-    const navigationId = user.docID || user.id;
-    navigate(`/userprofile/${navigationId}`);
+    navigate(`/userprofile/${user.docID || user.id}`);
+    const updatedSearches = [
+      user,
+      ...recentSearches.filter(u => u.id !== user.id)
+    ].slice(0, 5);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
     setSearch(false);
     setSearchTerm('');
     setSearchResults([]);
   };
 
-  const highlightText = (text, highlight) => {
-    if (!highlight) return text;
-    const regex = new RegExp(`(${highlight})`, 'gi');
-    return reactStringReplace(text, regex, (match, i) => (
-      <span key={i} className="bg-yellow-200">
-        {match}
-      </span>
-    ));
+  const handleSearchInput = (e) => {
+    setSearchTerm(e.target.value);
+    setError(null);
+  };
+
+  const highlightText = (text, query) => {
+    if (!query) return text;
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return parts.map((part, i) => 
+      part.toLowerCase() === query.toLowerCase() ? 
+        <span key={i} className="bg-yellow-200">{part}</span> : part
+    );
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setSearch(false);
+        setSearchTerm('');
+        setSearchResults([]);
       }
     };
 
@@ -163,30 +121,15 @@ const SearchBar = ({ search, setSearch }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [setSearch]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem('recentSearches');
-    if (saved) {
-      try {
-        setRecentSearches(JSON.parse(saved));
-      } catch (err) {
-        console.error('Error parsing recent searches from localStorage:', err);
-        localStorage.removeItem('recentSearches');
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    return () => debouncedSearch.cancel();
-  }, [debouncedSearch]);
-
+  // Rest of the component remains the same...
   return (
     <div
       ref={searchRef}
+      onClick={() => setSearch(true)}
       className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${
         search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'
       }`}
     >
-      {/* Search Icon */}
       <div className={`w-5 h-5 md:w-6 md:h-6 ${isLoading ? 'animate-spin' : ''}`}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-full h-full">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -194,22 +137,19 @@ const SearchBar = ({ search, setSearch }) => {
         </svg>
       </div>
 
-      {/* Search Input */}
       <input
         type="search"
         placeholder="Search by name or city..."
         value={searchTerm}
         onChange={handleSearchInput}
         onClick={() => setSearch(true)}
-        disabled={dataLoading} // Disable while data is loading
         className={`outline-none flex bg-transparent rounded px-2 py-1 w-full transition-all duration-300 ease-in-out ${
           search ? 'block' : 'hidden md:flex'
-        } ${dataLoading ? 'opacity-50 cursor-not-allowed' : ''}`} // Visual feedback
+        }`}
       />
 
-      {/* Results Dropdown */}
       {search && (searchResults.length > 0 || error || recentSearches.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+        <div className="absolute top-full left-0 right-2 mt-2 bg-white rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
           {isLoading && (
             <div className="p-4 text-center text-gray-500">Loading...</div>
           )}
@@ -267,13 +207,9 @@ const SearchBar = ({ search, setSearch }) => {
                     />
                   )}
                   <div>
-                    <div className="font-medium">
-                      {highlightText(`${user.firstName} ${user.lastName}`, searchTerm.trim())}
-                    </div>
+                    <div className="font-medium">{`${user.firstName} ${user.lastName}`}</div>
                     {user.city && (
-                      <div className="text-sm text-gray-500">
-                        {highlightText(`${user.city}, ${user.country}`, searchTerm.trim())}
-                      </div>
+                      <div className="text-sm text-gray-500">{`${user.city}, ${user.country}`}</div>
                     )}
                   </div>
                   {user.isVerified && (
@@ -288,7 +224,6 @@ const SearchBar = ({ search, setSearch }) => {
         </div>
       )}
 
-      {/* Close Button */}
       {search && (
         <button
           onClick={() => {
@@ -297,7 +232,7 @@ const SearchBar = ({ search, setSearch }) => {
             setSearchResults([]);
             setError(null);
           }}
-          className="w-9 h-9 bg-black rounded-full cursor-pointer flex items-center justify-center"
+          className="min-w-9 h-9 bg-black rounded-full cursor-pointer flex items-center justify-center"
         >
           <svg className="w-5 h-5 text-white transform rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 12H5M12 19l-7-7 7-7" />

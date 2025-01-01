@@ -24,6 +24,7 @@ import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'fireb
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../Context/AuthContext.jsx';
+import SearchBar from '../SearchBar.jsx';
 
 const Main = () => {
     const { currentUser, userData, logout } = useAuth();
@@ -211,7 +212,7 @@ const Main = () => {
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
                     <div className={`flex ${search && 'm-3'} justify-end gap-2 md:gap-5 items-center w-full z-20`}>
-                        <div
+                        {/* <div
                             ref={searchRef}
                             className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
                         >
@@ -244,8 +245,8 @@ const Main = () => {
                                     </div>
                                 </div>
                             )}
-                        </div>
-
+                        </div> */}
+<SearchBar search={search} setSearch={setSearch}/>
                         <div
                             onClick={() => {
                                 if (window.innerWidth <= 640) {
