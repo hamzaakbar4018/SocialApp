@@ -529,14 +529,12 @@ import {
 } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
 import Loader from "../Loader/Loader.jsx";
+import SearchBar from "../SearchBar.jsx";
 
 const ChatMain = () => {
   const { currentUser } = useAuth();
   const userID = currentUser.uid;
 
-  // ─────────────────────────────────────────────
-  // NEW: Track the selected chat by ID, not just index
-  // ─────────────────────────────────────────────
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 
@@ -545,7 +543,6 @@ const ChatMain = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [usersCharMsgs, setUsersCharMsgs] = useState([]);
 
-  // For notifications, popups, sidebars, etc.
   const notifyData = useContext(NotificatinData);
   const [popup, setpopup] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -556,7 +553,6 @@ const ChatMain = () => {
 
   const searchRef = useRef(null);
 
-  // Helper function to format Firestore Timestamp
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return 'Unknown time';
 
@@ -590,9 +586,6 @@ const ChatMain = () => {
     return 'Unknown time';
   };
 
-  // ─────────────────────────────────────────────
-  // Listen for recent chats, order by "time" DESC
-  // ─────────────────────────────────────────────
   useEffect(() => {
     const fetchRecentChats = () => {
       try {
@@ -600,7 +593,6 @@ const ChatMain = () => {
         const recentChatsRef = collection(db, "messages", userID, "recent_chats");
         const recentChatsQuery = query(recentChatsRef, orderBy("time", "desc"));
 
-        // Use onSnapshot for real-time updates
         const unsubscribe = onSnapshot(
           recentChatsQuery,
           async (snapshot) => {
@@ -615,7 +607,6 @@ const ChatMain = () => {
             if (recentChatsIds.length > 0) {
               setRecentChats(recentChatsIds);
 
-              // Fetch messages for each chat
               const userMessagesPromises = recentChatsIds.map(async (chat) => {
                 const messagesRef = collection(
                   db,
@@ -644,7 +635,6 @@ const ChatMain = () => {
               const usersCharMsgs = await Promise.all(userMessagesPromises);
               setUsersCharMsgs(usersCharMsgs);
 
-              // Fetch user data for each recent chat
               const userPromises = recentChatsIds.map(async (element) => {
                 const getUserDataSnapshot = await getDoc(
                   doc(db, "users", element.id)
@@ -659,7 +649,6 @@ const ChatMain = () => {
               const usersData = await Promise.all(userPromises);
               setUsersData(usersData.filter((user) => user !== null));
             } else {
-              // No recent chats found
               setRecentChats([]);
               setUsersCharMsgs([]);
             }
@@ -686,31 +675,17 @@ const ChatMain = () => {
     };
   }, [userID]);
 
-  // ─────────────────────────────────────────────
-  // Keep the same selected chat ID after reorder
-  // ─────────────────────────────────────────────
   useEffect(() => {
     if (selectedChatId && recentChats.length > 0) {
       const newIndex = recentChats.findIndex(
         (chat) => chat.id === selectedChatId
       );
       setSelectedCardIndex(newIndex !== -1 ? newIndex : null);
-    } else {
-      // If you want a default (open the first chat if none selected), do so here:
-      // if (!selectedChatId && recentChats.length > 0) {
-      //   setSelectedChatId(recentChats[0].id);
-      //   setSelectedCardIndex(0);
-      // }
     }
   }, [recentChats, selectedChatId]);
 
-  // ─────────────────────────────────────────────
-  // Example: handle send message
-  // ─────────────────────────────────────────────
-  // This shows how to update the Firestore 'time' so the chat reorders to index 0.
   const handleSendMessage = async (otherUserId, textMessage) => {
     try {
-      // 1) Add a new message to subcollection
       const timeNow = Timestamp.now();
       await addDoc(
         collection(db, "messages", userID, "recent_chats", otherUserId, "messages"),
@@ -720,7 +695,6 @@ const ChatMain = () => {
           senderId: userID,
         }
       );
-      // 2) Update the parent's "time" and "recentMessage" so that chat goes to top
       await updateDoc(
         doc(db, "messages", userID, "recent_chats", otherUserId),
         {
@@ -729,7 +703,6 @@ const ChatMain = () => {
         }
       );
 
-      // If you also want the receiving user to see it at the top, do the same for them:
       await addDoc(
         collection(db, "messages", otherUserId, "recent_chats", userID, "messages"),
         {
@@ -745,12 +718,24 @@ const ChatMain = () => {
           recentMessage: textMessage,
         }
       );
+
+      // Update the recentChats state to move the chat to the top
+      setRecentChats((prevChats) => {
+        const updatedChats = prevChats.map((chat) =>
+          chat.id === otherUserId
+            ? { ...chat, data: { ...chat.data, time: formatTimestamp(timeNow), recentMessage: textMessage } }
+            : chat
+        );
+        return updatedChats.sort((a, b) => b.data.time - a.data.time);
+      });
+
+      // Update the selected chat index to the top
+      setSelectedCardIndex(0);
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
 
-  // Popup, sidebar, and search handlers
   const handlePopup = () => {
     setpopup(!popup);
   };
@@ -786,7 +771,6 @@ const ChatMain = () => {
   return (
     <div className="flex">
       <div className="w-full h-dvh overflow-hidden">
-        {/* Navbar / Top Section */}
         <div className="flex px-0 bg-white justify-between items-center border-b py-4">
           <h1
             onClick={handleSidebarToggle}
@@ -820,59 +804,8 @@ const ChatMain = () => {
           <div
             className={`flex ${search && "m-3"} justify-end gap-2 md:gap-5 items-center w-full z-10`}
           >
-            {/* Search Bar */}
-            <div
-              ref={searchRef}
-              className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${
-                search ? "w-full rounded-xl bg-[#F5F5F5]" : "md:w-[300px]"
-              }`}
-            >
-              <img
-                onClick={handleSearch}
-                src={searchi}
-                className="w-5 h-5 md:w-6 md:h-6 cursor-pointer"
-                alt="Search"
-              />
+            <SearchBar search={search} setSearch={setSearch}/>
 
-              <input
-                onClick={handleSearch}
-                type="search"
-                placeholder="Search"
-                className={`outline-none flex bg-transparent rounded px-2 py-1 w-full transition-all duration-300 ease-in-out ${
-                  search ? "block" : "hidden md:flex"
-                }`}
-              />
-
-              {search && (
-                <img
-                  src={Arrow}
-                  onClick={handleSearch}
-                  className="w-9 p-1 h-9 bg-black rounded-full cursor-pointer"
-                  alt="Close Search"
-                />
-              )}
-
-              {search && (
-                <div className="bg-white absolute md:right-2 right-0 top-full mt-3 w-full md:w-[98%] rounded-lg p-4">
-                  <div className="recent flex items-center justify-between mx-1">
-                    <div>
-                      <h2 className="text-gray-400 text-sm">Recent</h2>
-                    </div>
-                    <div>
-                      <button className="text-[#399AF3] text-sm">
-                        Clear all
-                      </button>
-                    </div>
-                  </div>
-                  <div className="users flex justify-between items-center m-1">
-                    <h1>Hamza Akbar</h1>
-                    <h1 className="cursor-pointer">✕</h1>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Notifications / Pencil Icon */}
             <div
               onClick={() => {
                 if (window.innerWidth <= 640) {
@@ -898,7 +831,6 @@ const ChatMain = () => {
               )}
             </div>
 
-            {/* Popup Notifications for Mobile */}
             {popup && (
               <div className="bg-black bg-opacity-50 inset-0 fixed top-0">
                 <dialog className="modal" open>
@@ -939,7 +871,6 @@ const ChatMain = () => {
           </div>
         </div>
 
-        {/* Main Chat Area */}
         {isLoading ? (
           <Loader />
         ) : (
@@ -949,7 +880,6 @@ const ChatMain = () => {
             } flex`}
             style={{ height: "calc(100dvh - 5.2rem)" }}
           >
-            {/* Left (Chat List) */}
             <div className="left p-[4px] bg-[#F5F5F5] w-full md:w-auto md:min-w-[25%] rounded overflow-y-auto">
               {recentChats.map((usr, index) => (
                 <AllUsers
@@ -959,12 +889,9 @@ const ChatMain = () => {
                   otherID={usr.data.otherID}
                   recentMessage={usr.data.recentMessage}
                   time={usr.data.time}
-                  // Chat is active if indexes match
                   isActive={selectedCardIndex === index}
                   isSelected={selectedCardIndex === index}
                   onClick={() => {
-                    // Instead of setting selectedCardIndex = index,
-                    // set the selected chat ID:
                     setSelectedChatId(usr.id);
                     setIsSheetOpen(true);
                   }}
@@ -972,7 +899,6 @@ const ChatMain = () => {
               ))}
             </div>
 
-            {/* Right (Chat Window) - Desktop */}
             <div
               className="right py-[4px] px-[2px] bg-[#F5F5F5] hidden min-h-full flex-shrink md:block flex-grow"
               style={{ maxHeight: "calc(100vh - 4rem)" }}
@@ -985,13 +911,11 @@ const ChatMain = () => {
                   usersCharMsgs={usersCharMsgs}
                   selectedCardIndex={selectedCardIndex}
                   recentChats={recentChats}
-                  // Example of how you'd pass handleSendMessage down:
                   onSendMessage={handleSendMessage}
                 />
               )}
             </div>
 
-            {/* Bottom Sheet / Drawer on Mobile */}
             <div
               className={`fixed top-0 z-40 right-0 h-full bg-white shadow-lg transition-transform transform ${
                 isSheetOpen ? "translate-x-0" : "translate-x-full"
@@ -1045,7 +969,6 @@ const ChatMain = () => {
         )}
       </div>
 
-      {/* Rightbar */}
       {showRightbar && (
         <div className="w-[26%] h-dvh">
           <Rightbar />

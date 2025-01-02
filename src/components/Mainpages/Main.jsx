@@ -409,12 +409,12 @@ const Main = () => {
                                             /> */}
                                         </div>
                                         <div className="flex mt-4 flex-wrap md:flex-row gap-3">
-                                            <div className="flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-1">
+                                            {/* <div className="flex bg-[#399AF31A] px-3 py-2 rounded-3xl gap-1">
                                                 <img className="w-5" src={photoadmin} alt="Photo Icon" />
                                                 <button disabled={uploading} onClick={handlePostRef}>
                                                     {uploading ? "Uploading..." : "Photo"}
                                                 </button>
-                                            </div>
+                                            </div> */}
                                             <div className="flex bg-[#FF602E1A] px-3 py-2 rounded-3xl gap-1">
                                                 <img className="w-5" src={tag} alt="Tag Icon" />
                                                 <button>Tag People</button>

@@ -14,6 +14,7 @@ import MyWork from '../../assets/Icons SVG/MyWork.svg'
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
+import SearchBar from '../SearchBar.jsx';
 
 
 
@@ -78,7 +79,7 @@ const ProfileMain = () => {
                         <div className='fixed inset-0 top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
                     )}
                     <div className={`flex ${search && 'm-3'} justify-end gap-2 md:gap-5 items-center w-full z-20`}>
-                        <div
+                        {/* <div
                             ref={searchRef}
                             className={`relative flex border-gray-300 border justify-end items-center md:bg-[#F5F5F5] rounded-3xl px-3 md:py-2 py-3 space-x-2 transition-all duration-300 ease-in-out ${search ? 'w-full rounded-xl bg-[#F5F5F5]' : 'md:w-[300px]'}`}
                         >
@@ -111,8 +112,8 @@ const ProfileMain = () => {
                                     </div>
                                 </div>
                             )}
-                        </div>
-
+                        </div> */}
+<SearchBar search={search} setSearch={setSearch}/>
                         <div
                             onClick={() => {
                                 if (window.innerWidth <= 640) {
