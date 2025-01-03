@@ -54,7 +54,10 @@ const Footer = () => {
                     <h1 className='md:text-base text-[17px]'>&copy;YouTooArt - All Rights Reserved</h1>
                 </div>
                 <div className="term flex md:justify-start justify-center ">
+                    <Link to="/terms">
+                    
                     <h1 className='md:text-base text-[17px]'>Privacy  .  Terms & Conditions</h1>
+                    </Link>
                 </div>
                 <div className="icon text-white">
                     <ul className='flex md:text-2xl text-4xl md:justify-start justify-center gap-5  md:gap-5'>
