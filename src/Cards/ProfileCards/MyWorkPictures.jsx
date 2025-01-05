@@ -26,7 +26,14 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
     const [editingPicture, setEditingPicture] = useState(null);
 
     const fileInputRef = useRef(null);
-
+    const clearForm = () => {
+        setTitle('');
+        setPictureLink('');
+        setImage(null);
+        setImagePreview(null);
+        setError(null);
+        setEditingVideo(null);
+      }
     const handleImageChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
@@ -172,6 +179,7 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
                                 onClick={() => {
                                     setEditingPicture(null);
                                     setAddPicture(true);
+                                    clearForm();
                                 }}
                                 src={Add}
                                 className='w-7 h-7 cursor-pointer'

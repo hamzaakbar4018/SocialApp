@@ -5,7 +5,7 @@ import { updateDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { app, db } from '../../Services/Firebase';
 
-const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
+const EditProfileModal = ({ author, onClose, handleProfileUpdate }) => {
   const [formData, setFormData] = useState({
     firstName: author?.firstName || '',
     lastName: author?.lastName || '',
@@ -56,8 +56,8 @@ const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
 
       const userRef = doc(db, 'userCollection', author.id);
       await updateDoc(userRef, updatedData);
-    //   window.location.reload();
-    handleProfileUpdate();
+      handleProfileUpdate();
+      setFormData('');
       handleClose();
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex justify-center mb-4">
             <input
               type="file"
@@ -92,7 +92,7 @@ const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
               placeholder="First Name"
               className="input input-bordered w-full"
               value={formData.firstName}
-              onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             />
 
             <input
@@ -100,14 +100,14 @@ const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
               placeholder="Last Name"
               className="input input-bordered w-full"
               value={formData.lastName}
-              onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             />
 
             <textarea
               placeholder="Bio"
               className="textarea textarea-bordered w-full"
               value={formData.bio}
-              onChange={(e) => setFormData({...formData, bio: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             />
 
             <input
@@ -115,13 +115,13 @@ const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
               placeholder="City"
               className="input input-bordered w-full"
               value={formData.city}
-              onChange={(e) => setFormData({...formData, city: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
             />
 
             <Select
               options={countries}
               value={countries.find(country => country.value === formData.country)}
-              onChange={(option) => setFormData({...formData, country: option.value})}
+              onChange={(option) => setFormData({ ...formData, country: option.value })}
               placeholder="Select Country"
             />
 
@@ -129,7 +129,7 @@ const EditProfileModal = ({ author, onClose ,handleProfileUpdate }) => {
               placeholder="Experience"
               className="textarea textarea-bordered w-full"
               value={formData.experience}
-              onChange={(e) => setFormData({...formData, experience: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
             />
           </div>
 

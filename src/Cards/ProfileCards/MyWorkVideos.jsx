@@ -5,14 +5,14 @@ import Edit from '../../assets/Icons SVG/Edit.svg';
 import Add from '../../assets/Icons SVG/Add.svg';
 import { RiDeleteBinLine } from "react-icons/ri";
 import { db } from '../../Services/Firebase';
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 const Spinner = () => (
   <div className="flex justify-center items-center">
     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white"></div>
   </div>
 );
 
-const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts, seperate }) => {
+const MyWorkCard = ({ videos, refreshVideos, userId, fetchAuthorAndPosts, seperate }) => {
   const [title, setTitle] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [image, setImage] = useState(null);
@@ -24,7 +24,14 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts, sepera
   const [editingVideo, setEditingVideo] = useState(null);
 
   const fileInputRef = useRef(null);
-
+  const clearForm = () => {
+    setTitle('');
+    setVideoLink('');
+    setImage(null);
+    setImagePreview(null);
+    setError(null);
+    setEditingVideo(null);
+  }
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -162,9 +169,13 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts, sepera
     }
   };
 
+  const handleClearForm = () => {
+    clearForm();
+  }
+
   return (
     <div className='alldata w-full bg-white m-[2px] md:p-6'>
-      <ToastContainer/>
+      <ToastContainer />
       <div className="videos">
         <div className='flex justify-between items-center mb-4'>
           <div className='flex-1 md:p-0 py-3 px-2'>
@@ -177,6 +188,7 @@ const MyWorkCard = ({ videos, refreshVideos ,userId ,fetchAuthorAndPosts, sepera
                 onClick={() => {
                   setEditingVideo(null);
                   setAddVideo(true);
+                  clearForm();
                 }}
                 src={Add}
                 className='w-7 h-7 cursor-pointer'

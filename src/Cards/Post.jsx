@@ -405,9 +405,9 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                             <p className='text-gray-400'>{formattedDate}</p>
                                         </div>
                                     </div>
-                                    <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
+                                    {/* <div className='flex w-10 h-10 m-4 px-3 border cursor-pointer rounded-full justify-center items-center'>
                                         <HiOutlineDotsVertical className='text-lg' />
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className='p-3'>
                                     <h2 className='text-wrap break-words'>{postData?.data}</h2>
