@@ -8,7 +8,7 @@ import { db } from '../../Services/Firebase';
 import NoDataFound from '../Loader/NoData';
 
 const UserActivity = () => {
-  const { id } = useParams(); // Extract 'id' from URL parameters
+  const { id } = useParams();
   const [author, setAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +68,8 @@ const UserActivity = () => {
         <Post
           key={data.id}
           author={author}
-          postId={data.id}
+          Aimage={author?.image} Aname={author?.firstName}
+          postID={data.id}
           activity={activity}
           {...data}
           likesC={data.likes}

@@ -8,7 +8,7 @@ const activity = true;
 const ProfileActivity = () => {
     const {authorInfo} = useAuthor();
     const { author, posts, loading, error } = authorInfo;
-
+    console.log(author);
 
     if (loading) {
         return <Load />;
@@ -20,7 +20,7 @@ const ProfileActivity = () => {
     return (
         <div className='flex flex-col gap-2 p-[2px]'>
             {posts.map((data) => (
-                <Post key={data.id} author={author} postId={data.id} activity={activity} {...data} likesC={data.likes} />
+                <Post key={data.id} author={author} Aimage={author?.image} Aname={author?.firstName} postID={data.id} activity={activity} {...data} likesC={data.likes}  />
             ))}
         </div>
     )

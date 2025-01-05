@@ -13,7 +13,6 @@ import { db } from '../../Services/Firebase';
  // Ensure you have a Firebase config file exporting `db`
 
 const ProfileCard = ({ id }) => {
-    console.log(id)
     const dummyID = id;
     const [authorInfo, setAuthorInfo] = useState({
         author: null,
@@ -27,7 +26,6 @@ const ProfileCard = ({ id }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     
     const fetchAuthorAndPosts = async () => {
-        console.log("id", dummyID)
         try {
             // Define queries
             const userQueryInstance = query(

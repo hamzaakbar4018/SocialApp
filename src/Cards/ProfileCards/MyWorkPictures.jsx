@@ -32,7 +32,6 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
         setImage(null);
         setImagePreview(null);
         setError(null);
-        setEditingVideo(null);
       }
     const handleImageChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -196,7 +195,7 @@ const MyWorkPictures = ({ pictures, refreshPictures, userId, fetchAuthorAndPosts
                                 className="carousel-item relative border rounded-lg md:w-1/2 lg:w-1/3 p-2 flex-shrink-0"
                             >
                                 <div className='text-blue-500 cursor-pointer absolute top-4 right-4'>
-                                    <div className='flex gap-2 md:p-0 py-3 px-4'>
+                                    <div className={`flex gap-2 md:p-0 py-3 px-4 ${seperate && 'hidden'}`}>
                                         <div
                                             className='rounded-full flex justify-center items-center p-3 bg-[#D6EBFF]'
                                             onClick={() => handleEditStart(picture)}

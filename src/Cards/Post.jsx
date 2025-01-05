@@ -12,7 +12,7 @@ import { ImSpinner2 } from 'react-icons/im';
 import { useAuth } from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 // import Comments from './Comments';
-const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData }) => {
+const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData ,Aimage ,Aname }) => {
     const { currentUser, userData, logout } = useAuth();
     const navigate = useNavigate();
     const handleProfile = (uid) => {
@@ -48,7 +48,6 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
             const userSnapshot = await getDocs(collection(db, 'userCollection'));
             const userDoc = userSnapshot.docs.find(doc => doc.id === currentUserId);
 
-            console.log("author", userDoc ? userDoc.data() : null);
             setAuthor(userDoc ? userDoc.data() : null);
 
             const sortedComments = fetchedComments.sort((a, b) =>
@@ -399,9 +398,9 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                             <div className="left hidden md:block fixed top-0 left-0 w-[60%] h-full overflow-y-auto 2xl:overflow-hidden bg-white">
                                 <div className='flex justify-between'>
                                     <div className='flex p-4 gap-2'>
-                                        <img className='rounded-full w-16 h-16' src={postData?.userDetails?.image} alt="User Image" />
+                                        <img className='rounded-full w-16 h-16' src={postData?.userDetails?.image ? postData?.userDetails?.image : Aimage} alt="User Image" />
                                         <div className='flex flex-col justify-center'>
-                                            <h2 className='font-bold text-xl'>{postData?.userDetails?.firstName}</h2>
+                                            <h2 className='font-bold text-xl'>{postData?.userDetails?.firstName ? postData?.userDetails?.firstName : Aname}</h2>
                                             <p className='text-gray-400'>{formattedDate}</p>
                                         </div>
                                     </div>

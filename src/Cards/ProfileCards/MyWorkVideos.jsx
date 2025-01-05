@@ -23,6 +23,7 @@ const MyWorkCard = ({ videos, refreshVideos, userId, fetchAuthorAndPosts, sepera
   const [addVideo, setAddVideo] = useState(false);
   const [editingVideo, setEditingVideo] = useState(null);
 
+
   const fileInputRef = useRef(null);
   const clearForm = () => {
     setTitle('');
@@ -207,13 +208,13 @@ const MyWorkCard = ({ videos, refreshVideos, userId, fetchAuthorAndPosts, sepera
                 <div className='text-blue-500 cursor-pointer absolute top-4 right-4'>
                   <div className='flex gap-2 md:p-0 py-3 px-4'>
                     <div
-                      className='rounded-full flex justify-center items-center p-3 bg-[#D6EBFF]'
+                      className={`rounded-full flex justify-center items-center p-3 bg-[#D6EBFF] ${seperate && 'hidden'}`}
                       onClick={() => handleEditStart(video)}
                     >
                       <img src={Edit} className='w-7 h-7' />
                     </div>
                     <div
-                      className='bg-[#f4c0c0e4] rounded-full flex justify-center items-center p-3'
+                      className={`bg-[#f4c0c0e4] rounded-full flex justify-center items-center p-3 ${seperate && 'hidden'}`}
                       onClick={() => handleDelete(video.docID)}
                     >
                       {deleting === video.docID ? (
