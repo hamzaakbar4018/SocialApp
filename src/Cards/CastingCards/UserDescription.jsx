@@ -891,10 +891,10 @@ const UserDescription = ({
   shoot,
   type,
   time,
-  isDeleting
+  isDeleting,
+  fetchCallsData
 }) => {
   const { applicationCollection, setApplicationCollection } = useContext(ApplicationData);
-  const { fetchCallsData } = useFetchCastingCall();
   const { currentUser } = useAuth();
   const dummyID = currentUser.uid;
 
@@ -976,7 +976,7 @@ const UserDescription = ({
       setApplicationDate(null);
       setApplicationId(null);
       toast.success("Application withdrawn successfully");
-      fetchCallsData();
+      fetchCallsData()
     } catch (error) {
       console.error('Error withdrawing application:', error);
       toast.error("Failed to withdraw application");

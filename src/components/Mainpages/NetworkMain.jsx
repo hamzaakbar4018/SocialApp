@@ -10,70 +10,117 @@ import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { IndustryData } from '../../Context/IndustryContext.jsx';
 import Load from '../Loader/Load.jsx';
-import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, getDocs, query, updateDoc, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
 import { useAuth } from '../../Context/AuthContext.jsx';
 import SearchBar from '../SearchBar.jsx';
+
 const NetworkMain = () => {
+    const networkpage = true;
     const talentData = useContext(IndustryData);
     const { currentUser } = useAuth();
     const dummyID = currentUser.uid;
     const [isInitialLoading, setIsInitialLoading] = useState(true);
-
     const [reqUsers, setReqUsers] = useState([]);
     const [UsersFriend, setUsersFriend] = useState([]);
+    console.log("setUsersFriend", UsersFriend)
 
+    // Updated UserFriends function with real-time listeners
+    useEffect(() => {
+        setIsInitialLoading(true);
 
-    const UserFriends = async () => {
-        try {
-            setIsInitialLoading(true)
-            const reqUsersQuery = query(
-                collection(db, 'userCollection'),
-                where("docID", "==", dummyID)
-            );
+        // Query to fetch the current user's document
+        const currentUserQuery = query(
+            collection(db, 'userCollection'),
+            where("docID", "==", dummyID)
+        );
 
-            const querySnapShot = await getDocs(reqUsersQuery);
-            const users = querySnapShot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-
-            setReqUsers(users);
-            console.log("Users:", users);
-
-            const friendsList = users.flatMap((user) => user.friends || []);
-            // console.log("Friends List:", friendsList);
-
-            if (friendsList.length === 0) {
-                console.log("No friends found.");
+        // Set up a real-time listener for the current user's document
+        const unsubscribeCurrentUser = onSnapshot(currentUserQuery, (querySnapshot) => {
+            if (querySnapshot.empty) {
+                console.log("No user found with the given docID.");
+                setReqUsers([]);
+                setUsersFriend([]);
+                setIsInitialLoading(false);
                 return;
             }
 
-            const allFriendsData = await Promise.all(
-                friendsList.map(async (friendId) => {
-                    const friendQuery = query(
-                        collection(db, "userCollection"),
-                        where("docID", "==", friendId)
-                    );
+            const userDoc = querySnapshot.docs[0];
+            const userData = {
+                id: userDoc.id,
+                ...userDoc.data(),
+            };
 
-                    const querySnap = await getDocs(friendQuery);
-                    return querySnap.docs.map((doc) => ({
+            setReqUsers([userData]);
+            console.log("User Data Updated:", userData);
+
+            const friendsList = userData.friends || [];
+
+            if (friendsList.length === 0) {
+                console.log("No friends found.");
+                setUsersFriend([]);
+                setIsInitialLoading(false);
+                return;
+            }
+
+            // Firestore 'in' queries can handle up to 10 items. Split the friendsList into chunks of 10.
+            const chunkSize = 10;
+            const chunks = [];
+            for (let i = 0; i < friendsList.length; i += chunkSize) {
+                chunks.push(friendsList.slice(i, i + chunkSize));
+            }
+
+            // Array to hold unsubscribe functions for friends listeners
+            const unsubscribeFriendsList = [];
+
+            // Function to handle each chunk
+            chunks.forEach((chunk) => {
+                const friendsQuery = query(
+                    collection(db, "userCollection"),
+                    where("docID", "in", chunk)
+                );
+
+                const unsubscribe = onSnapshot(friendsQuery, (friendSnapshot) => {
+                    const allFriendsData = friendSnapshot.docs.map(doc => ({
                         id: doc.id,
                         ...doc.data(),
-                    }))[0]; // Return the first match
-                })
-            );
+                    }));
 
-            setUsersFriend(allFriendsData);
-            // console.log("All Friends Data:", allFriendsData);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        } finally {
+                    setUsersFriend(prevFriends => {
+                        // Create a map for existing friends to avoid duplicates
+                        const friendsMap = new Map(prevFriends.map(friend => [friend.id, friend]));
+                        allFriendsData.forEach(friend => {
+                            friendsMap.set(friend.id, friend);
+                        });
+                        return Array.from(friendsMap.values());
+                    });
+
+                    console.log("Friends List Updated:", allFriendsData);
+                }, (error) => {
+                    console.error("Error fetching friends:", error);
+                });
+
+                unsubscribeFriendsList.push(unsubscribe);
+            });
+
+            // Cleanup function for friends listeners
+            return () => {
+                unsubscribeFriendsList.forEach(unsub => unsub());
+            };
+        }, (error) => {
+            console.error("Error fetching current user:", error);
             setIsInitialLoading(false);
-        }
-    };
+        });
 
+        // Cleanup function for current user listener
+        return () => {
+            unsubscribeCurrentUser();
+            setIsInitialLoading(false);
+        };
+    }, [dummyID]);
+
+    // ... rest of your component code remains unchanged ...
 
     const [connectionRequests, setConnectionRequests] = useState([]);
 
@@ -172,8 +219,8 @@ const NetworkMain = () => {
             setConnectionRequests(prevRequests =>
                 prevRequests.filter(request => request.docID !== requestUser.docID)
             );
-            console.log("updated")
-            // UserFriends();
+            console.log("Connection request processed:", action);
+            // No need to call UserFriends(); the real-time listener will handle updates
         } catch (error) {
             console.error("Error handling connection request:", error);
         } finally {
@@ -183,8 +230,10 @@ const NetworkMain = () => {
 
     useEffect(() => {
         fetchRequests();
-        UserFriends();
     }, []);
+
+    // ... rest of your component code remains unchanged ...
+
     const notifyData = useContext(NotificatinData);
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -219,8 +268,6 @@ const NetworkMain = () => {
         console.log("Search button clicked");
         setSearch(!search);
     };
-
-
 
     const network = true;
     return (
@@ -276,7 +323,7 @@ const NetworkMain = () => {
                                 </div>
                             )}
                         </div> */}
-                        <SearchBar search={search} setSearch={setSearch}/>
+                        <SearchBar search={search} setSearch={setSearch} />
 
                         <div
                             onClick={() => {
@@ -369,7 +416,7 @@ const NetworkMain = () => {
                                             <div className='ml-4 pb-2 flex justify-center items-center'>
                                                 <p className='text-gray-600 font-bold'>No connection requests :</p>
                                             </div>
-                                            
+
                                         )}
                                     </div>
                                 </div>
@@ -403,13 +450,18 @@ const NetworkMain = () => {
                                         // Show the grid of connections if there are any
                                         <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid-cols-3 mt-3">
                                             {UsersFriend.map((data) => (
-                                                <TalentCards key={data.id} network={network} {...data} />
+                                                <TalentCards
+                                                    key={data.id}
+                                                    network={network}
+                                                    currentUser={currentUser}
+                                                    {...data}
+                                                />
                                             ))}
                                         </div>
                                     ) : (
                                         // Show a message if there are no connections
                                         <div className="mt-3">
-                                            <h2 className="font-semibold text-gray-600">No connections yet</h2>
+                                            <h2 className="font-semibold text-gray-600">No connections yet :</h2>
                                         </div>
                                     )}
                                 </div>
