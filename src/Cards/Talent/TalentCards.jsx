@@ -48,56 +48,41 @@ const TalentCards = ({
         nanoseconds: 'numeric',
         hour12: true
       });
-
+  
       // Check if chat already exists
       const existingChatRef = doc(db, "messages", userID, "recent_chats", docID);
       const existingChatSnap = await getDoc(existingChatRef);
-
+  
       if (!existingChatSnap.exists()) {
-        // Create initial message
-        const initialMessageId = now.toISOString().replace(/[:.]/g, '-');
-        const messageData = {
-          docID: initialMessageId,
-          fromID: userID,
-          toID: docID,
-          messageBody: "👋 Hello!",
-          isRead: false,
-          time: formattedTime,
-          timestamp,
-          sortTime: now.getTime() * 1000
-        };
-
-        // Create chat documents for both users
+        // Create chat documents for both users without initial message
         const currentUserChatData = {
           id: docID,
           otherID: docID,
           otherName: firstName,
           otherImage: image,
-          recentMessage: "👋 Hello!",
+          recentMessage: "",
           time: formattedTime,
           timestamp,
           sortTime: now.getTime() * 1000
         };
-
+  
         const otherUserChatData = {
           id: userID,
           otherID: userID,
           otherName: currentUser?.displayName || "Current User",
           otherImage: currentUser?.photoURL || "",
-          recentMessage: "👋 Hello!",
+          recentMessage: "",
           time: formattedTime,
           timestamp,
           sortTime: now.getTime() * 1000
         };
-
-        // Create new chat documents and initial message
+  
+        // Create new chat documents without initial message
         await Promise.all([
           setDoc(doc(db, "messages", userID, "recent_chats", docID), currentUserChatData),
-          setDoc(doc(db, "messages", docID, "recent_chats", userID), otherUserChatData),
-          setDoc(doc(db, "messages", userID, "recent_chats", docID, "messages", initialMessageId), messageData),
-          setDoc(doc(db, "messages", docID, "recent_chats", userID, "messages", initialMessageId), messageData)
+          setDoc(doc(db, "messages", docID, "recent_chats", userID), otherUserChatData)
         ]);
-
+  
         // Navigate to chat with the selected chat data
         navigate('/chat', {
           state: {
@@ -148,7 +133,7 @@ const TalentCards = ({
     if (onFollow) {
       setIsConnecting(true);
       try {
-        const userID = currentUser?.uid || "YTHetwednqeLYoraizuJ4PLFFlp2";
+        const userID = currentUser?.uid;
         const userDocRef = doc(db, 'userCollection', userID);
         const userDocSnap = await getDoc(userDocRef);
 
@@ -201,7 +186,7 @@ const TalentCards = ({
   return (
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-2xl p-5 h-auto w-[255px] 
-        ${network && 'md:min-w-[255px] h-auto w-auto'} 
+        ${networkpage && 'md:min-w-[255px] h-auto w-auto'} 
         ${landingtalent && '2xl:min-h-[433px] md:min-w-auto md:h-auto h-[340px] w-[300px] 2xl:min-w-[356px]'} 
         ${connect && 'w-[222px] tracking-tighter'} 
         min-h-min h-[250px] `}>

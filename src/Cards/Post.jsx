@@ -11,8 +11,9 @@ import { db } from '../Services/Firebase';
 import { ImSpinner2 } from 'react-icons/im';
 import { useAuth } from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import SharePopup from './SharePopup';
 // import Comments from './Comments';
-const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData ,Aimage ,Aname }) => {
+const Post = ({ author, postID, data, image, activity, userDetails, createdAt, likesC, shareCount, postData, Aimage, Aname }) => {
     const { currentUser, userData, logout } = useAuth();
     const navigate = useNavigate();
     const handleProfile = (uid) => {
@@ -107,7 +108,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
         month: "short",
         day: "numeric",
     });
-
+    const [showShare, setShowShare] = useState(false);
     const handleLike = async () => {
         try {
             const postRef = doc(db, 'postCollection', postID);
@@ -169,11 +170,11 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                             <div className='flex gap-2 items-center'>
                                 <div className='flex-shrink-0'>
                                     {
-                                        activity ? (<img 
-                                            onClick={()=>{
+                                        activity ? (<img
+                                            onClick={() => {
                                                 handleProfile(author?.docID)
                                             }} src={author?.image} className='rounded-full cursor-pointer min-w-12  h-12 max-w-12 object-cover' alt="" />) : (
-                                            <img onClick={()=>{
+                                            <img onClick={() => {
                                                 handleProfile(userDetails?.docID)
                                             }} src={userDetails?.image} className='rounded-full cursor-pointer min-w-12  h-12 object-cover max-w-12' alt="" />
 
@@ -183,12 +184,12 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                 <div className=''>
                                     {
                                         activity ? (
-                                            <h1 onClick={()=>{
+                                            <h1 onClick={() => {
                                                 handleProfile(userDetails?.docID)
                                             }} className='font-semibold cursor-pointer'>{author?.firstName}</h1>
 
                                         ) : (
-                                            <h1 onClick={()=>{
+                                            <h1 onClick={() => {
                                                 handleProfile(userDetails?.docID)
                                             }} className='font-semibold cursor-pointer'>{userDetails?.firstName}</h1>
 
@@ -243,12 +244,21 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                             <FaRegComment onClick={handleClick}
                                 className='text-2xl cursor-pointer text-[#227BCD]' />
                         </div>
-                        <div className='flex gap-1'>
+                        <div
+                            onClick={() => setShowShare(true)}
+                            className='flex gap-1'>
                             <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
                         </div>
                     </div>
                 </div>
             </>
+
+            {showShare && (
+                <SharePopup
+                    url={window.location.href}
+                    onClose={() => setShowShare(false)}
+                />
+            )}
 
             {likes && (
                 <div className='inset-0 bg-black bg-opacity-65 fixed z-30 flex justify-center items-center'>

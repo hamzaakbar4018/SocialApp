@@ -443,11 +443,9 @@ const NetworkMain = () => {
                                     <h1 className="font-bold">My Connections ({UsersFriend.length})</h1>
 
                                     {isInitialLoading ? (
-                                        // Show loading indicator while data is being fetched
                                         <Load />
                                     ) : UsersFriend.length > 0 ? (
-                                        // Show the grid of connections if there are any
-                                        <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid-cols-3 mt-3">
+                                        <div className="grid grid-cols-2 gap-2 2xl:grid-cols-4 md:grid-cols-3 mt-3 ">
                                             {UsersFriend.map((data) => (
                                                 <TalentCards
                                                     key={data.id}
@@ -458,7 +456,6 @@ const NetworkMain = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        // Show a message if there are no connections
                                         <div className="mt-3">
                                             <h2 className="font-semibold text-gray-600">No connections yet :</h2>
                                         </div>
@@ -471,7 +468,6 @@ const NetworkMain = () => {
                 }
             </div>
 
-            {/* Right Sidebar */}
             {showRightbar && (
                 <div className='w-[26%]'>
                     <Rightbar />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { IoMailOutline } from "react-icons/io5";
-import { collection, query, where, getDocs, doc, setDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../Services/Firebase.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
@@ -20,17 +20,19 @@ const TalentCards = ({
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('Connect');
   const { currentUser } = useAuth();
-  const dummyId = currentUser ? currentUser.uid : null;
   const navigate = useNavigate();
+  
   const handleProfile = (uid) => {
     navigate(`/userprofile/${uid}`);
+  };
 
-  }
   const fetchConnectionStatus = async () => {
+    if (!currentUser) return;
+    
     try {
       const currentUserQuery = query(
         collection(db, 'userCollection'),
-        where("docID", "==", dummyId)
+        where("docID", "==", currentUser.uid)
       );
       const currentUserSnapshot = await getDocs(currentUserQuery);
 
@@ -55,7 +57,7 @@ const TalentCards = ({
 
   useEffect(() => {
     fetchConnectionStatus();
-  }, [docID, dummyId]);
+  }, [docID, currentUser]);
 
   const initializeChat = async () => {
     if (!currentUser) {
@@ -65,60 +67,55 @@ const TalentCards = ({
 
     try {
       const now = new Date();
+      const timestamp = Timestamp.now();
+      const sortTimeValue = now.getTime();
+      
       const formattedTime = now.toLocaleString('en-US', {
         month: '2-digit',
         day: '2-digit',
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
-        miliseconds: '2-digit',
-        nanoseconds: '2-digit',
         hour12: true
       });
 
-      // Create initial message
-      const initialMessageId = now.toISOString().replace(/[:.]/g, '-');
-      const messageData = {
-        docID: initialMessageId,
-        fromID: currentUser.uid,
-        toID: docID,
-        messageBody: "👋 Hello!",
-        isRead: false,
-        time: formattedTime,
-        sortTime: now.getTime() * 1000
-      };
-
-      // Create chat documents for both users
+      // Chat data structure for current user
       const currentUserChatData = {
-        id: docID,
         otherID: docID,
         otherName: firstName,
         otherImage: image,
-        recentMessage: "👋 Hello!",
         time: formattedTime,
-        sortTime: now.getTime() * 1000
+        sortTime: sortTimeValue,
+        timestamp: timestamp,
+        lastActivity: timestamp
       };
 
+      // Chat data structure for other user
       const otherUserChatData = {
-        id: currentUser.uid,
         otherID: currentUser.uid,
         otherName: currentUser.displayName || "User",
         otherImage: currentUser.photoURL || "",
-        recentMessage: "👋 Hello!",
         time: formattedTime,
-        sortTime: now.getTime() * 1000
+        sortTime: sortTimeValue,
+        timestamp: timestamp,
+        lastActivity: timestamp
       };
 
-      // Create chat documents and initial message
+      // Create chat documents for both users
       await Promise.all([
         setDoc(doc(db, "messages", currentUser.uid, "recent_chats", docID), currentUserChatData),
-        setDoc(doc(db, "messages", docID, "recent_chats", currentUser.uid), otherUserChatData),
-        setDoc(doc(db, "messages", currentUser.uid, "recent_chats", docID, "messages", initialMessageId), messageData),
-        setDoc(doc(db, "messages", docID, "recent_chats", currentUser.uid, "messages", initialMessageId), messageData)
+        setDoc(doc(db, "messages", docID, "recent_chats", currentUser.uid), otherUserChatData)
       ]);
 
-      navigate('/chat', { state: { selectedChat: currentUserChatData } });
+      // Navigate to chat with selected chat data
+      navigate('/chat', { 
+        state: { 
+          selectedChat: {
+            ...currentUserChatData,
+            id: docID
+          }
+        } 
+      });
     } catch (error) {
       console.error("Error initializing chat:", error);
     }
@@ -133,6 +130,7 @@ const TalentCards = ({
       navigate('/login');
       return;
     }
+    
     if (onConnect) {
       setIsConnecting(true);
       try {
@@ -154,6 +152,11 @@ const TalentCards = ({
   };
 
   const handleFollow = async () => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    
     if (onFollow) {
       setIsConnecting(true);
       try {
@@ -185,7 +188,7 @@ const TalentCards = ({
           <div className={`${landingtalent && 'flex flex-col justify-center items-center text-xl gap-4'}`}>
             <div className="flex-shrink-0">
               <img
-              onClick={() => handleProfile(docID)}
+                onClick={() => handleProfile(docID)}
                 src={image}
                 className={`rounded-full w-20 cursor-pointer h-20 object-cover ${landingtalent && 'w-32 h-32'}`}
                 alt="User img"
@@ -224,7 +227,10 @@ const TalentCards = ({
                 connectionStatus
               )}
             </button>
-            <div onClick={handleMailClick} className="ml-3 mr-3 cursor-pointer p-2 border border-gray-400 rounded-full flex justify-center items-center">
+            <div 
+              onClick={handleMailClick} 
+              className="ml-3 mr-3 cursor-pointer p-2 border border-gray-400 rounded-full flex justify-center items-center"
+            >
               <IoMailOutline className="text-2xl" />
             </div>
           </div>
