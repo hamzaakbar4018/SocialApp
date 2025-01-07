@@ -72,8 +72,8 @@ const TalentCards = ({
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        milisecond: '2-digit',
-        nanosecond: '2-digit',
+        miliseconds: '2-digit',
+        nanoseconds: '2-digit',
         hour12: true
       });
 

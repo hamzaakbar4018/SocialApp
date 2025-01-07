@@ -269,7 +269,6 @@ const NetworkMain = () => {
         setSearch(!search);
     };
 
-    const network = true;
     return (
         <div className='flex bg-gray-100'>
             <div className='flex-grow p-[2px] bg-gray-100 '>
@@ -452,7 +451,7 @@ const NetworkMain = () => {
                                             {UsersFriend.map((data) => (
                                                 <TalentCards
                                                     key={data.id}
-                                                    network={network}
+                                                    networkpage={networkpage}
                                                     currentUser={currentUser}
                                                     {...data}
                                                 />

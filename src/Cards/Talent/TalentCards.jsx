@@ -30,7 +30,7 @@ const TalentCards = ({
 }) => {
   const navigate = useNavigate();
   const [isConnecting, setIsConnecting] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus || "Connected");
+  const [connectionStatus, setConnectionStatus] = useState(initialConnectionStatus || "Follow");
   const handleProfile = (uid) => {
     navigate(`/userprofile/${uid}`);
 
