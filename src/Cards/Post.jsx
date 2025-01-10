@@ -109,6 +109,13 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
         day: "numeric",
     });
     const [showShare, setShowShare] = useState(false);
+    const getPostUrl = () => {
+        // Get the base URL of your website
+        const baseUrl = window.location.origin;
+        // Create the full post URL using postID
+        return `${baseUrl}/post/${postID}`;
+      };
+    
     const handleLike = async () => {
         try {
             const postRef = doc(db, 'postCollection', postID);
@@ -255,7 +262,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
 
             {showShare && (
                 <SharePopup
-                    url={window.location.href}
+                    url={getPostUrl()}
                     onClose={() => setShowShare(false)}
                 />
             )}

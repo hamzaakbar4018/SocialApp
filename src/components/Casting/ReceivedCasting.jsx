@@ -34,8 +34,8 @@ const ReceivedCasting = () => {
             // Fetch casting call data directly using myCallID
             const castingCallDocRef = doc(db, "castingCallCollection", myCallID);
             const castingCallSnapshot = await getDoc(castingCallDocRef);
-            const castingCallData = castingCallSnapshot.exists() 
-                ? { id: castingCallSnapshot.id, ...castingCallSnapshot.data() } 
+            const castingCallData = castingCallSnapshot.exists()
+                ? { id: castingCallSnapshot.id, ...castingCallSnapshot.data() }
                 : null;
 
             const enrichedApplications = await Promise.all(
@@ -64,6 +64,7 @@ const ReceivedCasting = () => {
             );
 
             setReceivedUser(enrichedApplications);
+            console.log("Received Applicants", enrichedApplications)
             setIsLoading(false);
 
         } catch (error) {
@@ -71,9 +72,9 @@ const ReceivedCasting = () => {
             setIsLoading(false);
         }
     }, [myCallID]);
-
+    console.log(receivedUser)
     const handleStatusUpdate = (applicationId, status) => {
-        setReceivedUser(prevUsers => 
+        setReceivedUser(prevUsers =>
             prevUsers.filter(user => user.id !== applicationId)
         );
     };
@@ -104,7 +105,7 @@ const ReceivedCasting = () => {
                                 image={data.userData?.image}
                                 applied={`on ${new Date(data.createdAt?.toDate()).toLocaleDateString('en-US', { weekday: 'long' })}`}
                                 castingCallData={data.castingCallData}
-                                onStatusUpdate={handleStatusUpdate} // Pass update method
+                                onStatusUpdate={handleStatusUpdate}
                             />
                         ))
                     ) : (

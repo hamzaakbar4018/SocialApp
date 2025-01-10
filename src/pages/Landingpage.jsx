@@ -91,12 +91,23 @@ const Landingpage = () => {
             </button>
           </div>
           <div className="flex justify-center md:justify-start gap-4 mt-10 md:mt-44">
-            <img src={appstore} className="md:w-[25%] w-[45%] shadow-xl" alt="App Store" />
-            <img
-              src={playstore}
-              className="md:w-[25%] w-[45%] shadow-xl"
-              alt="Play Store"
-            />
+            <a
+              href="https://apps.apple.com/pk/app/traffic-racer/id547101139"
+              target="_blank"
+              className="md:w-[25%] w-[45%] shadow-xl">
+              <img src={appstore} className="" alt="App Store" />
+
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
+              target="_blank"
+              className="md:w-[25%] w-[45%] shadow-xl">
+              <img
+                src={playstore}
+                className=""
+                alt="Play Store"
+              />
+            </a>
           </div>
         </div>
         <div className="right hidden md:block md:w-1/2">
@@ -391,8 +402,21 @@ const Landingpage = () => {
               step.
             </p>
             <div className="flex justify-center md:mt-0 mt-[242%] md:static w-full absolute md:justify-start md:w-[60%] gap-4">
-              <img src={appstore} className="md:w-[40%] w-[45%] shadow-xl" alt="" />
-              <img src={playstore} className="md:w-[40%] w-[45%] shadow-xl" alt="" />
+              <a
+                href="https://apps.apple.com/pk/app/traffic-racer/id547101139"
+                target="_blank"
+                className="md:w-[40%] w-[45%] shadow-xl"
+              >
+                <img src={appstore} className="" alt="" />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
+                target="_blank"
+                className="md:w-[40%] w-[45%] shadow-xl"
+
+              >
+                <img src={playstore} className="" alt="" />
+              </a>
             </div>
           </div>
         </div>
@@ -411,10 +435,10 @@ const Landingpage = () => {
             </p>
           </div>
           <div>
-         
-              <button onClick={handleContact} className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-3xl border-gray-600 mt-7 mb-20">
-                Contact Us
-              </button>
+
+            <button onClick={handleContact} className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-3xl  border-gray-600 mt-7 mb-20">
+              Contact Us
+            </button>
           </div>
         </div>
       </div>

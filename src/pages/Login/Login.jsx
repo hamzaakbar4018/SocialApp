@@ -353,7 +353,7 @@ const Login = () => {
                 alert('An error occurred. Please try again.');
             }
             setIsLoading(false);
-        }finally {
+        } finally {
             setIsLoading(false);
         }
     };
@@ -404,7 +404,7 @@ const Login = () => {
             <div ref={recaptchaContainerRef} style={{ visibility: 'hidden' }}></div>
 
             <div className='flex h-screen'>
-                <ToastContainer/>
+                <ToastContainer />
                 <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
                     <div className='flex md:justify-start ml-5 md:ml-0 gap-2 items-center'>
                         <Link to='/'>
@@ -450,7 +450,7 @@ const Login = () => {
                                             : 'bg-gray-400 cursor-not-allowed'
                                             }`}
                                     >
-                                        {isRecaptchaReady ? ( IsLoading ? (
+                                        {isRecaptchaReady ? (IsLoading ? (
                                             <div className='flex gap-1 justify-center items-center'>
                                                 <ImSpinner2 className='animate-spin' />
                                                 Sending OTP...
@@ -522,15 +522,18 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="last px-5 md:px-10 mt-32 md:mt-52">
-                        <Link to="/terms">
-                            <p>
-                                <span className='text-gray-500'>by</span>
-                                <span className='font-bold'> Signing In</span>,
-                                <span className='text-gray-500'> you agree with the </span>
-                                <span className='text-[#399AF3] font-bold'>Terms & Conditions </span>
-                                <span className='text-gray-500'>of You2Art</span>
-                            </p>
-                        </Link>
+
+                        <p>
+                            <span className='text-gray-500'>by</span>
+                            <span className='font-bold'> Signing In</span>,
+                            <span className='text-gray-500'> you agree with the </span>
+                            <span className='text-[#399AF3] font-bold'>
+                                <Link to="/terms">Terms</Link> & Conditions </span>
+                            {/* <span className='text-gray-500'>of YouTooArt</span> */}
+                            <Link to="/"><span className='text-gray-500'>of YouTooArt</span></Link>
+
+                        </p>
+
                     </div>
                 </div>
                 <div className="right hidden md:block w-[70%] m-5">

@@ -33,6 +33,7 @@ import Profilee from './components/SeperateProfile/Profile'
 import UserActivity from './components/SeperateProfile/UserActivity'
 import UserAbout from './components/SeperateProfile/UserAbout'
 import UserMywork from './components/SeperateProfile/UserMywork'
+import PostDetail from './components/PostDetail';
 
 const MainLayout = () => (
   <div className='routing flex bg-white'>
@@ -62,6 +63,7 @@ const App = () => {
         <Route path='/verify' element={<Verify />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/terms' element={<Public_terms />} />
+        <Route path="/post/:postID" element={<PostDetail />} />
         <Route path='*' element={<NotFound />} />
       </Route>
 

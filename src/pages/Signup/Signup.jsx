@@ -306,7 +306,7 @@ const Signup = () => {
             console.error("Error sending OTP:", error);
             alert(`Failed to send OTP: ${error.message}`);
             setIsLoading(false);
-        }finally{
+        } finally {
             setIsLoading(false);
         }
     };
@@ -317,7 +317,7 @@ const Signup = () => {
             <div ref={recaptchaContainerRef} style={{ visibility: 'hidden' }}></div>
 
             <div className='flex h-screen'>
-                <ToastContainer/>
+                <ToastContainer />
                 <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
                     <div className='flex md:justify-start ml-5 md:ml-0 gap-2 items-center'>
                         <Link to='/'>
@@ -362,7 +362,7 @@ const Signup = () => {
                             >
                                 {isRecaptchaReady ? (IsLoading ? (
                                     <div className='flex items-center justify-center gap-1'>
-                                        <ImSpinner2 className='animate-spin'/>
+                                        <ImSpinner2 className='animate-spin' />
                                         Sending OTP...
                                     </div>
                                 ) : ('Send OTP')) : 'Loading...'}
@@ -378,15 +378,14 @@ const Signup = () => {
                         </div>
                     </div>
                     <div className="last px-5 md:px-10 mt-20 md:mt-52">
-                        <Link to="/terms">
-                            <p>
-                                <span className='text-gray-500'>By </span>
-                                <span className='font-bold'>Signing In</span>,
-                                <span className='text-gray-500'> you agree with the </span>
-                                <span className='text-[#399AF3] font-bold'>Terms & Conditions </span>
-                                <span className='text-gray-500'>of You2Art</span>
-                            </p>
-                        </Link>
+                        <p>
+                            <span className='text-gray-500'>By </span>
+                            <span className='font-bold'>Signing In</span>,
+                            <span className='text-gray-500'> you agree with the </span>
+                            <span className='text-[#399AF3] font-bold'>
+                                <Link to="/terms"> Terms </Link> & Conditions </span>
+                            <Link to="/"><span className='text-gray-500'>of YouTooArt</span></Link>
+                        </p>
                     </div>
                 </div>
                 <div className="right hidden md:block w-[70%] m-5">

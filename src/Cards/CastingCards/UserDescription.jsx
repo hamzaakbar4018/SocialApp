@@ -1231,6 +1231,7 @@ const UserDescription = ({
                 </div>
               ) : (
                 <button
+                disabled={hasApplied}
                   className='bg-black md:block hidden text-white rounded-3xl px-3 py-2'
                   onClick={(e) => {
                     handleApplyClick();

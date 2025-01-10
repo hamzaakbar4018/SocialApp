@@ -113,7 +113,7 @@ const ProfileMain = () => {
                                 </div>
                             )}
                         </div> */}
-<SearchBar search={search} setSearch={setSearch}/>
+                        <SearchBar search={search} setSearch={setSearch} />
                         <div
                             onClick={() => {
                                 if (window.innerWidth <= 640) {

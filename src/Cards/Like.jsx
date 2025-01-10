@@ -45,7 +45,7 @@ const UserDummy = ({ postID }) => {
                         <img 
                             src={user.image} 
                             alt={user.name || 'User'} 
-                            className="min-w-12 h-12 object-fill rounded-full" 
+                            className="min-w-12 max-w-12 h-12 object-fill rounded-full" 
                         />
                     </div>
                     <div className="flex flex-col ml-4">

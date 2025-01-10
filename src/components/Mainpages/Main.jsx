@@ -31,9 +31,10 @@ const Main = () => {
     const dummyID = currentUser.uid;
     const [author, setAuthor] = useState('');
     const [postLoading, setPostLoading] = useState(false);
-
+    const [loading, setloading] = useState(false);
     const fetchAuthor = async () => {
         try {
+            setloading(true);
             const userQuery = query(
                 collection(db, "userCollection"),
                 where("docID", "==", dummyID)
@@ -44,8 +45,11 @@ const Main = () => {
                 ...doc.data(),
             }));
             setAuthor(data);
+            setloading(false);
         } catch (error) {
             console.log("Author Error", error);
+        } finally {
+            setloading(false);
         }
     }
     useEffect(() => {
@@ -114,14 +118,14 @@ const Main = () => {
         } catch (error) {
             console.error('Error creating post: ', error);
             toast.error("Error uploading post. Please try again."); // Log any errors
-        }finally{
+        } finally {
             setPostLoading(false);
         }
     };
     const { notifyData } = useContext(NotificatinData);
     console.log("notifyData", notifyData)
     const postData = useContext(PostData) || [];
-    const {fetchPostsAndUsers, fetchUsersWhoLikedPost} = postData;
+    const { fetchPostsAndUsers, fetchUsersWhoLikedPost } = postData;
 
     const [popup, setpopup] = useState(false);
     const handlePopup = () => {
@@ -197,7 +201,21 @@ const Main = () => {
         <div className='flex'>
             <div className='flex-grow p-[2px] bg-gray-100'>
                 <div className='flex px-0 bg-white justify-between items-center border-b py-4'>
-                    <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>{author && author[0] && author[0].firstName ? `Hi ${author[0].firstName}!` : "Hi there!"}</h1>
+
+                    {
+                        loading ? (<header className="flex items-center justify-between p-4 animate-pulse">
+                            <h1 className="flex items-center gap-2">
+                                <span className="md:hidden block">
+                                    <div className="w-12 h-12 bg-gray-300 rounded"></div>
+                                </span>
+                                <div className="w-24 h-6 bg-gray-300 rounded"></div>
+                            </h1>
+
+                        </header>) : (<h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}> <span className='md:hidden block'><FiMenu className='text-3xl' /></span>{author && author[0] && author[0].firstName ? `Hi ${author[0].firstName}!` : "Hi there!"}</h1>)
+                    }
+
+
+
                     {showSidebar && (
                         <dialog id="my_modal_3" className="modal" open>
                             <div className="w-full h-full ">
@@ -246,7 +264,7 @@ const Main = () => {
                                 </div>
                             )}
                         </div> */}
-<SearchBar search={search} setSearch={setSearch}/>
+                        <SearchBar search={search} setSearch={setSearch} />
                         <div
                             onClick={() => {
                                 if (window.innerWidth <= 640) {
@@ -315,11 +333,17 @@ const Main = () => {
                         <div className='bg-white p-4'>
                             <div>
                                 <div className='flex gap-4 items-center'>
-                                    <img
-                                        src={author && author[0] ? author[0].image : ''}
-                                        className="rounded-full w-12 h-12"
-                                        alt={author && author[0] ? author[0].firstName : 'User'}
-                                    />
+                                    {
+                                        loading ? (
+                                            <div className="flex w-12 bg-gray-300 h-12 rounded-full items-center gap-2 animate-pulse"></div>
+                                        ) : (
+                                            <img
+                                                src={author && author[0] ? author[0].image : ''}
+                                                className="rounded-full w-12 h-12"
+                                                alt={author && author[0] ? author[0].firstName : 'User'}
+                                            />
+                                        )
+                                    }
                                     <p className='text-[#808080]'>Have You Something to Share?</p>
                                 </div>
                                 <div className='flex items-center mt-5 gap-5 p-2'>
