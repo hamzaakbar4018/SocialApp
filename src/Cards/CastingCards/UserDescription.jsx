@@ -861,7 +861,7 @@ import ReceivedGrey from '../../assets/Icons SVG/ReceivedGrey.svg';
 import RejectedBlue from '../../assets/Icons SVG/RejectedBlue.svg';
 import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg';
 import { IoMdArrowBack } from "react-icons/io";
-import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc,getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { GiCrossMark } from "react-icons/gi";
@@ -894,10 +894,10 @@ const UserDescription = ({
   isDeleting,
   fetchCallsData
 }) => {
-  const { applicationCollection, setApplicationCollection } = useContext(ApplicationData);
+  const { applicationCollection, setApplicationCollection , setMyCallID } = useContext(ApplicationData);
   const { currentUser } = useAuth();
+  setMyCallID(callId);
   const dummyID = currentUser.uid;
-
   const [contactNumber, setContactNumber] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
@@ -909,45 +909,78 @@ const UserDescription = ({
   const [isWithdrawing, setIsWithdrawing] = useState(false);
   const [applicationId, setApplicationId] = useState(null);
 
+  // const checkApplicationStatus = async () => {
+  //   if (!callId || !dummyID) return;
+
+  //   try {
+  //     const applicationsCollectionRef = collection(
+  //       db,
+  //       'castingCallCollection',
+  //       callId,
+  //       'applicationCollection'
+  //     );
+
+  //     const q = query(
+  //       applicationsCollectionRef,
+  //       where('userID', '==', dummyID)
+  //     );
+
+  //     const querySnapshot = await getDocs(q);
+
+  //     // console.log(`Found ${querySnapshot.size} application(s) for user ${dummyID} in call ${callId}`);
+
+  //     if (!querySnapshot.empty) {
+  //       const applicationDoc = querySnapshot.docs[0];
+  //       const applicationData = applicationDoc.data();
+  //       // console.log('Application Data:', applicationData);
+  //       setHasApplied(true);
+  //       setApplicationDate(applicationData.createdAt);
+  //       setApplicationId(applicationDoc.id);
+  //     } else {
+  //       setHasApplied(false);
+  //       setApplicationDate(null);
+  //       setApplicationId(null);
+  //       console.log('No applications found for the user.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error checking application status:', error);
+  //     toast.error("Error checking application status");
+  //   }
+  // };
+
   const checkApplicationStatus = async () => {
     if (!callId || !dummyID) return;
 
     try {
-      const applicationsCollectionRef = collection(
-        db,
-        'castingCallCollection',
-        callId,
-        'applicationCollection'
-      );
-
-      const q = query(
-        applicationsCollectionRef,
-        where('userID', '==', dummyID)
-      );
-
-      const querySnapshot = await getDocs(q);
-
-      // console.log(`Found ${querySnapshot.size} application(s) for user ${dummyID} in call ${callId}`);
-
-      if (!querySnapshot.empty) {
-        const applicationDoc = querySnapshot.docs[0];
-        const applicationData = applicationDoc.data();
-        // console.log('Application Data:', applicationData);
-        setHasApplied(true);
-        setApplicationDate(applicationData.createdAt);
-        setApplicationId(applicationDoc.id);
-      } else {
-        setHasApplied(false);
-        setApplicationDate(null);
-        setApplicationId(null);
-        console.log('No applications found for the user.');
-      }
+        // Get the casting call document reference
+        const castingCallRef = doc(db, 'castingCallCollection', callId);
+        
+        // Get the casting call document
+        const castingCallDoc = await getDoc(castingCallRef);
+        
+        if (castingCallDoc.exists()) {
+            const castingCallData = castingCallDoc.data();
+            
+            // Check if appliedUsers array exists and includes the user ID
+            if (castingCallData.appliedUsers?.includes(dummyID)) {
+                setHasApplied(true);
+                // Note: We won't have application date since we're not querying the applications collection
+            } else {
+                setHasApplied(false);
+                setApplicationDate(null);
+                setApplicationId(null);
+            }
+        } else {
+            console.log('Casting call not found');
+            setHasApplied(false);
+            setApplicationDate(null);
+            setApplicationId(null);
+        }
     } catch (error) {
-      console.error('Error checking application status:', error);
-      toast.error("Error checking application status");
+        console.error('Error checking application status:', error);
+        toast.error("Error checking application status");
     }
-  };
-
+};
   const handleWithdraw = async () => {
     // console.log('Attempting to withdraw application');
     // console.log('callId:', callId);
@@ -1010,7 +1043,7 @@ const UserDescription = ({
 
     // Basic validation
     if (!contactNumber || !email) {
-      setSubmitError('Please provide contact number and email');
+      // setSubmitError('Please provide contact number and email');
       return;
     }
 
@@ -1078,6 +1111,7 @@ const UserDescription = ({
       setIsSubmitting(false);
     }
   };
+
 
   // Fetch application collection (optional, based on your usage)
   const fetchApplicationCollection = async (id) => {
@@ -1434,7 +1468,7 @@ const UserDescription = ({
                       >
                         {({ isActive }) => (
                           <>
-                            <GiCrossMark className={`mt-1 ${isActive ? 'text-[#FF0000]' : 'text-gray-500'}`} />
+                            <GiCrossMark className={`mt-1 ${isActive ? RejectedBlue : RejectedGrey}`} />
                             <h1>Rejected</h1>
                           </>
                         )}
@@ -1527,11 +1561,11 @@ const UserDescription = ({
               />
               <form onSubmit={handleApplicationSubmit} className='pt-5 px-5'>
                 {/* Error handling */}
-                {submitError && (
+                {/* {submitError && (
                   <div className="text-red-500 mb-4">
                     {submitError}
                   </div>
-                )}
+                )} */}
 
                 {/* Form fields */}
                 <div className='flex flex-col gap-2 mt-4'>

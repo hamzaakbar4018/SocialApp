@@ -74,7 +74,6 @@ const Calls = () => {
                 selectedCardIndex !== null && selectedCardIndex < allCallsNUsers.length && (
                   <UserDescription
                     type={allCallsNUsers[selectedCardIndex].roleTitle}
-
                     title={allCallsNUsers[selectedCardIndex].title}
                     img={allCallsNUsers[selectedCardIndex].user.image}
                     des={allCallsNUsers[selectedCardIndex].description}

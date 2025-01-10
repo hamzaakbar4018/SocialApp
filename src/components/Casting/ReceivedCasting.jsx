@@ -11,7 +11,6 @@ const ReceivedCasting = () => {
     const { applicationCollection, myCallID } = useContext(ApplicationData);
     const [receivedUser, setReceivedUser] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
     const fetchData = useCallback(async () => {
         if (!myCallID) {
             console.error("Casting call ID is missing");

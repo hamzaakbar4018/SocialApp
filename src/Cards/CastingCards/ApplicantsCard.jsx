@@ -3,7 +3,7 @@ import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { ImSpinner2 } from 'react-icons/im';
@@ -20,7 +20,8 @@ const ApplicantsCard = ({
     rejected, 
     WishlistCasting,
     castingCallData,
-    onStatusUpdate
+    onStatusUpdate,
+    userID
 }) => {
     const { myCallID } = useContext(ApplicationData);
     const [isLoading, setIsLoading] = useState({
@@ -79,18 +80,22 @@ const ApplicantsCard = ({
         }
     };
 
-    const handleReject = async () => {
-        // Start loading for reject
-        setIsLoading(prev => ({ ...prev, reject: true }));
 
+    const handleReject = async () => {
+        setIsLoading(prev => ({ ...prev, reject: true }));
+    
         try {
             if (!castingCallData || !castingCallData.id) {
                 throw new Error("Casting Call Data is missing");
             }
 
+            if (!userID) {
+                throw new Error("User ID is missing");
+            }
+    
             const castingCallId = castingCallData.id;
             const applicationId = id;
-
+    
             // Reference to the specific application document
             const applicationRef = doc(
                 db,
@@ -99,33 +104,51 @@ const ApplicantsCard = ({
                 "applicationCollection",
                 applicationId
             );
+    
+            // Reference to the casting call document
+            const castingCallRef = doc(db, "castingCallCollection", castingCallId);
+            
+    
+            // Perform all operations in parallel
+            await Promise.all([
+                // Delete the application document
+                // deleteDoc(applicationRef),
 
-            // Update the document to mark as rejected
-            await updateDoc(applicationRef, {
-                isAccepted: false,
-                isRejected: true,
-                isPending: false
-            });
+                updateDoc(applicationRef, {
+                    isRejected: true,
+                    isPending: false,
+                    isAccepted: false
+                }),
+                
+                // Remove the user ID from appliedUsers array using the dynamic userID
+                updateDoc(castingCallRef, {
+                    appliedUsers: arrayRemove(userID)
+                })
+                
+            ]);
 
             // Call the parent component's update method
             if (onStatusUpdate) {
                 onStatusUpdate(applicationId, 'rejected');
             }
-
-            // Show success toast
+    
             toast.success('Application Rejected Successfully!', {
                 position: 'top-right',
                 autoClose: 3000,
             });
-
+    
         } catch (error) {
-            console.error("Detailed Reject Error:", error);
+            console.error("Detailed Reject Error:", {
+                message: error.message,
+                code: error.code,
+                stack: error.stack
+            });
+            
             toast.error(`Failed to reject application: ${error.message}`, {
                 position: 'top-right',
                 autoClose: 3000,
             });
         } finally {
-            // Stop loading for reject
             setIsLoading(prev => ({ ...prev, reject: false }));
         }
     };

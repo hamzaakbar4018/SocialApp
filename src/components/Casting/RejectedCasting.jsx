@@ -40,7 +40,7 @@ const RejectedCasting = () => {
                 ? { id: castingCallSnapshot.id, ...castingCallSnapshot.data() } 
                 : null;
 
-            console.log("Casting Call Data:", castingCallData);
+            // console.log("Casting Call Data:", castingCallData);
 
             // Fetch additional user details
             const enrichedApplications = await Promise.all(
@@ -104,6 +104,7 @@ const RejectedCasting = () => {
                             rejected={data.isRejected || true}
                             received={true}
                             castingCallData={data.castingCallData}
+                            
                         />
                     ))
                 ) : (
