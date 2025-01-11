@@ -21,7 +21,8 @@ const ApplicantsCard = ({
     WishlistCasting,
     castingCallData,
     onStatusUpdate,
-    userID
+    userID,
+    fetchData
 }) => {
     const { myCallID } = useContext(ApplicationData);
     const [isLoading, setIsLoading] = useState({
@@ -67,6 +68,8 @@ const ApplicantsCard = ({
                 position: 'top-right',
                 autoClose: 3000,
             });
+
+            fetchData();
 
         } catch (error) {
             console.error("Detailed Accept Error:", error);
@@ -136,6 +139,8 @@ const ApplicantsCard = ({
                 position: 'top-right',
                 autoClose: 3000,
             });
+
+            fetchData();
     
         } catch (error) {
             console.error("Detailed Reject Error:", {

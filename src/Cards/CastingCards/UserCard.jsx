@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 
 const UserCard = ({ title, img, type, duration, location, budget, description, username, city, isSelected, landingpage, apply, mycasting, date, castingtab, age, day, crew, height, gender, des, deletepop }) => {
     const dayDate = date && date.toDate ? date.toDate().toLocaleDateString('en-US', { weekday: 'long' }) : 'Unknown Date';
+
+    console.log(type)
     return (
         <div className={`cursor-pointer p-4 ${deletepop ? '!bg-[#E6E7E854] p-0' : ''} ${castingtab ? '!bg-[#E6E7E854]' : ''} ${apply && '!bg-gray-100'} ${landingpage && 'md:w-full w-auto min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>

@@ -11,7 +11,7 @@ import ReceivedGrey from '../../assets/Icons SVG/ReceivedGrey.svg';
 import RejectedBlue from '../../assets/Icons SVG/RejectedBlue.svg';
 import RejectedGrey from '../../assets/Icons SVG/RejectedGrey.svg';
 import { IoMdArrowBack } from "react-icons/io";
-import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc,getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import { ApplicationData } from '../../Context/ApplicationContext';
 import { GiCrossMark } from "react-icons/gi";
@@ -44,7 +44,7 @@ const UserDescription = ({
   isDeleting,
   fetchCallsData
 }) => {
-  const { applicationCollection, setApplicationCollection , setMyCallID } = useContext(ApplicationData);
+  const { applicationCollection, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
   const { currentUser } = useAuth();
   setMyCallID(callId);
   const dummyID = currentUser.uid;
@@ -97,40 +97,40 @@ const UserDescription = ({
   //     toast.error("Error checking application status");
   //   }
   // };
-
+  console.log("Type", type , shoot);  
   const checkApplicationStatus = async () => {
     if (!callId || !dummyID) return;
 
     try {
-        // Get the casting call document reference
-        const castingCallRef = doc(db, 'castingCallCollection', callId);
-        
-        // Get the casting call document
-        const castingCallDoc = await getDoc(castingCallRef);
-        
-        if (castingCallDoc.exists()) {
-            const castingCallData = castingCallDoc.data();
-            
-            // Check if appliedUsers array exists and includes the user ID
-            if (castingCallData.appliedUsers?.includes(dummyID)) {
-                setHasApplied(true);
-                // Note: We won't have application date since we're not querying the applications collection
-            } else {
-                setHasApplied(false);
-                setApplicationDate(null);
-                setApplicationId(null);
-            }
+      // Get the casting call document reference
+      const castingCallRef = doc(db, 'castingCallCollection', callId);
+
+      // Get the casting call document
+      const castingCallDoc = await getDoc(castingCallRef);
+
+      if (castingCallDoc.exists()) {
+        const castingCallData = castingCallDoc.data();
+
+        // Check if appliedUsers array exists and includes the user ID
+        if (castingCallData.appliedUsers?.includes(dummyID)) {
+          setHasApplied(true);
+          // Note: We won't have application date since we're not querying the applications collection
         } else {
-            console.log('Casting call not found');
-            setHasApplied(false);
-            setApplicationDate(null);
-            setApplicationId(null);
+          setHasApplied(false);
+          setApplicationDate(null);
+          setApplicationId(null);
         }
+      } else {
+        console.log('Casting call not found');
+        setHasApplied(false);
+        setApplicationDate(null);
+        setApplicationId(null);
+      }
     } catch (error) {
-        console.error('Error checking application status:', error);
-        toast.error("Error checking application status");
+      console.error('Error checking application status:', error);
+      toast.error("Error checking application status");
     }
-};
+  };
   const handleWithdraw = async () => {
     // console.log('Attempting to withdraw application');
     // console.log('callId:', callId);
@@ -415,7 +415,7 @@ const UserDescription = ({
                 </div>
               ) : (
                 <button
-                disabled={hasApplied}
+                  disabled={hasApplied}
                   className='bg-black md:block hidden text-white rounded-3xl px-3 py-2'
                   onClick={(e) => {
                     handleApplyClick();
@@ -552,6 +552,7 @@ const UserDescription = ({
               </div>
 
               <div>
+                
                 {
                   <UserCard
                     img={img}
@@ -577,7 +578,7 @@ const UserDescription = ({
                   <ul className='flex py-4 px-3 border-gray-300 border-b justify-between items-center'>
                     <li>
                       <NavLink
-                        to="/casting/mycalls/received"
+                        to={`/casting/mycalls/${callId}/received`}  // Use absolute path
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
                       >
@@ -594,7 +595,7 @@ const UserDescription = ({
                     </li>
                     <li>
                       <NavLink
-                        to="/casting/mycalls/wishlist"
+                        to={`/casting/mycalls/${callId}/wishlist`}  // Use absolute path
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
                       >
@@ -609,10 +610,9 @@ const UserDescription = ({
                         )}
                       </NavLink>
                     </li>
-
                     <li>
                       <NavLink
-                        to="/casting/mycalls/rejected"
+                        to={`/casting/mycalls/${callId}/rejected`}  // Use absolute path
                         className='flex gap-1 font-semibold'
                         style={({ isActive }) => (isActive ? activeStyle : defaultStyle)}
                       >
@@ -624,7 +624,6 @@ const UserDescription = ({
                         )}
                       </NavLink>
                     </li>
-
                   </ul>
                   <Outlet />
                 </div>
@@ -708,6 +707,8 @@ const UserDescription = ({
                 budget={budget}
                 username={username}
                 apply={apply}
+                shoot={shoot}
+                location={location}
               />
               <form onSubmit={handleApplicationSubmit} className='pt-5 px-5'>
                 {/* Error handling */}

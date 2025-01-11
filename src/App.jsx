@@ -163,22 +163,15 @@ const App = () => {
           <Route path="userprofilemywork" element={<UserMywork />} />
           {/* Add more nested routes as needed */}
         </Route>
-        <Route
-          path='/casting'
-          element={
-            <ProtectedRoute>
-              <Casting />
-            </ProtectedRoute>
-          }
-        >
-          <Route path='calls' element={<Calls />} />
-          <Route path='applied' element={<Applied />} />
-          <Route path='mycalls' element={<MyCasting />}>
-            <Route path='received' element={<ReceivedCasting />} />
-            <Route path='rejected' element={<RejectedCasting />} />
-            <Route path='wishlist' element={<WishlistCasting />} />
-          </Route>
-        </Route>
+        <Route path='/casting' element={<ProtectedRoute><Casting /></ProtectedRoute>}>
+  <Route path='calls' element={<Calls />} />
+  <Route path='applied' element={<Applied />} />
+  <Route path='mycalls/:callId?' element={<MyCasting />}> {/* Changed this line */}
+    <Route path='received' element={<ReceivedCasting />} />
+    <Route path='rejected' element={<RejectedCasting />} />
+    <Route path='wishlist' element={<WishlistCasting />} />
+  </Route>
+</Route>
       </Route>
     </Routes>
   );

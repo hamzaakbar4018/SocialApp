@@ -1,53 +1,58 @@
-import { useContext, useEffect, useState, useCallback } from 'react';
-import { ApplicationData } from '../../Context/ApplicationContext';
+// ReceivedCasting.jsx
+import React, { useEffect, useState, useCallback } from 'react';
 import ApplicantsCard from '../../Cards/CastingCards/ApplicantsCard';
-import { collection, getDocs, query, where, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, doc as firestoreDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../Services/Firebase';
 import Load from '../Loader/Load';
+import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ReceivedCasting = () => {
-    const { applicationCollection, myCallID } = useContext(ApplicationData);
-    const [receivedUser, setReceivedUser] = useState([]);
+    const { callId } = useParams(); // Get callId from URL
+    const [receivedUsers, setReceivedUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
     const fetchData = useCallback(async () => {
-        if (!myCallID) {
+        if (!callId) {
             console.error("Casting call ID is missing");
             return;
         }
 
         setIsLoading(true);
         try {
+            // Fetch applications where isPending is true
             const applicationsQuery = query(
-                collection(db, "castingCallCollection", myCallID, "applicationCollection"),
+                collection(db, "castingCallCollection", callId, "applicationCollection"),
                 where("isPending", "==", true)
             );
 
             const applicationSnapshot = await getDocs(applicationsQuery);
-            const applications = applicationSnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
+            const applications = applicationSnapshot.docs.map((applicationDoc) => ({
+                id: applicationDoc.id,
+                ...applicationDoc.data(),
             }));
 
-            // Fetch casting call data directly using myCallID
-            const castingCallDocRef = doc(db, "castingCallCollection", myCallID);
+            // Fetch casting call data directly using callId
+            const castingCallDocRef = firestoreDoc(db, "castingCallCollection", callId);
             const castingCallSnapshot = await getDoc(castingCallDocRef);
             const castingCallData = castingCallSnapshot.exists()
                 ? { id: castingCallSnapshot.id, ...castingCallSnapshot.data() }
                 : null;
 
+            // Fetch additional user details
             const enrichedApplications = await Promise.all(
                 applications.map(async (application) => {
                     try {
+                        // Fetch user data
                         const userQuery = query(
                             collection(db, "userCollection"),
                             where("docID", "==", application.userID)
                         );
                         const userSnapshot = await getDocs(userQuery);
-                        const userData = userSnapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            ...doc.data(),
+                        const userData = userSnapshot.docs.map((userDoc) => ({
+                            id: userDoc.id,
+                            ...userDoc.data(),
                         }))[0];
 
                         return {
@@ -62,56 +67,49 @@ const ReceivedCasting = () => {
                 })
             );
 
-            setReceivedUser(enrichedApplications);
-            console.log("Received Applicants", enrichedApplications)
+            setReceivedUsers(enrichedApplications);
             setIsLoading(false);
 
         } catch (error) {
             console.error("Error fetching casting data:", error);
+            toast.error("Failed to fetch received applicants.");
             setIsLoading(false);
         }
-    }, [myCallID]);
-    console.log(receivedUser)
-    const handleStatusUpdate = (applicationId, status) => {
-        setReceivedUser(prevUsers =>
-            prevUsers.filter(user => user.id !== applicationId)
-        );
-    };
+    }, [callId]);
 
     useEffect(() => {
-        if (myCallID) {
+        if (callId) {
             fetchData();
         }
-    }, [myCallID, fetchData]);
+    }, [callId, fetchData]);
+
+    if (isLoading) return <Load />;
 
     return (
         <>
             <ToastContainer />
-            {isLoading ? (
-                <Load />
-            ) : (
-                <div className='mb-20'>
-                    {receivedUser.length > 0 ? (
-                        receivedUser.map((data, index) => (
-                            <ApplicantsCard
-                                key={data.id || index}
-                                {...data}
-                                name={data.userData?.firstName || 'Unknown'}
-                                age={data?.castingCallData?.age}
-                                height={data?.castingCallData?.height}
-                                gender={data?.castingCallData?.gender}
-                                experience={data.userData?.experience || 'N/A'}
-                                image={data.userData?.image}
-                                applied={`on ${new Date(data.createdAt?.toDate()).toLocaleDateString('en-US', { weekday: 'long' })}`}
-                                castingCallData={data.castingCallData}
-                                onStatusUpdate={handleStatusUpdate}
-                            />
-                        ))
-                    ) : (
-                        <p className='text-center font-bold mt-2'>No pending applicants found for this casting call.</p>
-                    )}
-                </div>
-            )}
+            <div className='mb-20'>
+                {receivedUsers.length > 0 ? (
+                    receivedUsers.map((data, index) => (
+                        <ApplicantsCard
+                            key={data.id || index}
+                            {...data}
+                            name={data.userData?.firstName || 'Unknown'}
+                            age={data.castingCallData?.age}
+                            height={data.castingCallData?.height}
+                            gender={data.castingCallData?.gender}
+                            experience={data.userData?.experience || 'N/A'}
+                            image={data.userData?.image}
+                            applied={data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'Unknown date'}
+                            ReceivedCasting={true}
+                            castingCallData={data.castingCallData}
+                            fetchData={fetchData}
+                        />
+                    ))
+                ) : (
+                    <p className='text-center font-bold mt-2'>No received applicants found.</p>
+                )}
+            </div>
         </>
     );
 };

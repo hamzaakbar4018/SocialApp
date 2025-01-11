@@ -11,6 +11,7 @@ import Loader from '../Loader/Loader'
 import Payment from '../../Cards/Payment';
 import { useAuth } from '../../Context/AuthContext';
 import NoData from '../Loader/NoData'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 const MyCasting = () => {
   const { currentUser } = useAuth();
   const UserId = currentUser.uid;
@@ -66,7 +67,8 @@ const MyCasting = () => {
 
       setAuthor(authorData);
       setMyCasting(myCalls);
-      // console.log("MYCALLS", myCalls)
+      console.log("MYCALLS", myCalls)
+
     } catch (error) {
       console.error("Error fetching casting calls:", error);
     } finally {
@@ -76,6 +78,22 @@ const MyCasting = () => {
   useEffect(() => {
     fetchMyCasting();
   }, [])
+  const navigate = useNavigate();
+  const { callId } = useParams();
+
+  const handleSelectCastingCall = (id) => {
+    // Update to use the full path
+    navigate(`/casting/mycalls/${id}/received`);
+  };
+
+  const location = useLocation();
+  useEffect(() => {
+    // After casting calls are fetched
+    if (!isLoading && myCasting.length > 0 && location.pathname === '/casting/mycalls') {
+      navigate(`/casting/mycalls/${myCasting[0].id}/received`);
+    }
+  }, [isLoading, myCasting, location.pathname, navigate]);
+
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -295,9 +313,10 @@ const MyCasting = () => {
                 <div key={index} onClick={() => {
                   setSelectedCardIndex(index);
                   setIsSheetOpen(true);
+                  handleSelectCastingCall(data.id);
                 }}>
                   <UserCard
-                  type={data.roleTitle} day={data.duration} location={data.city}
+                    type={data.roleTitle} day={data.duration} location={data.city}
                     date={data.createdAt}
                     {...data}
                     mycasting={mycasting}
@@ -327,7 +346,7 @@ const MyCasting = () => {
                   location={myCasting[selectedCardIndex].city}
                   day={myCasting[selectedCardIndex].duration}
                   crew={myCasting[selectedCardIndex].crew}
-                  type={myCasting[selectedCardIndex].type}
+                  type={myCasting[selectedCardIndex].roleTitle}
                   username={author[0].firstName}
                   time={myCasting[selectedCardIndex].createdAt}
                   onDelete={() => handleDelete(myCasting[selectedCardIndex].id)}
@@ -338,6 +357,7 @@ const MyCasting = () => {
               )
             }
           </div>
+          {/* {callId && <Outlet />} */}
         </div>
         <div className={`fixed z-40 top-0 right-0 h-full bg-white shadow-lg transition-transform transform ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden w-full sm:w-2/3`}>
           <button
@@ -351,7 +371,7 @@ const MyCasting = () => {
             {
               selectedCardIndex !== null && selectedCardIndex < myCasting.length && (
                 <UserDescription
-                  myCallId={myCasting[selectedCardIndex].docID}
+                  callId={myCasting[selectedCardIndex].docID}
                   isDeleting={isDeleting}
                   mycasting={mycasting}
                   sendData={handleDataSend}
