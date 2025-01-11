@@ -1,112 +1,187 @@
+// import React, { useContext } from 'react';
+// import { IndustryData } from '../../Context/IndustryContext';
+// import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/pagination";
+// import "swiper/css/scrollbar";
+// import '../../CSS/Connections.css';
+// import DramaCards from './DramaCards';
+// import Conneections from '../Conneections';
+// import { useAuth } from '../../Context/AuthContext';
+// const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus , landingtalent }) => {
+//     const talentData = useContext(IndustryData);
+//     const { currentUser } = useAuth();
+
+//     const dummyId = currentUser ? currentUser.uid : null;
+//     const getConnectionStatus = (user) => {
+//         // If network prop is true, use reqData
+//         const dataToUse = network ? reqData : talentData;
+
+//         // Check if the current user's ID is in the targeted user's requested array
+//         if (user.received && user.received.includes(dummyId)) {
+//             return 'requested';
+//         }
+
+//         // Check if the current user's ID is in the targeted user's connected array
+//         if (user.connected && user.connected.includes(dummyId)) {
+//             return 'connected';
+//         }
+
+//         return 'connect';
+//     };
+
+//     return (
+//         <div className="container overflow-x-hidden ">
+//             <div className="swiper-grid-container">
+//                 <Swiper
+//                     modules={[Navigation, Pagination, Scrollbar, A11y]}
+//                     spaceBetween={`${landingtalent ? '60' : '10'}`}
+//                     navigation={false}
+//                     loop={true}
+//                     loopFillGroupWithBlank={true}
+//                     scrollbar={{ draggable: true }}
+//                     className={`swiper-container w-full overflow-hidden`}
+//                     breakpoints={{
+//                         640: { slidesPerView: 1 },
+//                         768: { slidesPerView: 2 },
+//                         1024: { slidesPerView: 3 },
+//                         1280: { slidesPerView: 6 },
+//                     }}
+//                 >
+//                     {
+//                         network ? (
+//                             reqData.map((data, index) => (
+//                                 <SwiperSlide key={index} className="!w-auto max-w-[17%] min-w-[260px]">
+//                                     <Conneections
+//                                         image={data.image}
+//                                         username={data.username}
+//                                         description={data.description}
+//                                         network={network}
+//                                         user={data.user}
+//                                         onAccept={onAccept}
+//                                         onReject={onReject}
+//                                         connectionStatus={connectionStatus}
+
+//                                     />
+//                                 </SwiperSlide>
+//                             ))
+//                         ) : (
+//                             <div>
+//                                 {
+//                                     talentData.map((data) => (
+//                                         <SwiperSlide key={data.id} className={`!w-auto max-w-[17%] min-w-[260px] ${
+//                                             landingtalent ? '!w-auto md:max-w-[30%] md:min-w-[260px] hove:scale-[1.1] transition-transform duration-300 ease-in-out ' : ''
+//                                           }`}>
+//                                             <DramaCards
+//                                             image={data.image}
+//                                             firstName={data.firstName}
+//                                             categoryName={data.categoryName}
+//                                             docID={data.docID}
+//                                             onConnect={onConnect}
+//                                             connectionStatus={getConnectionStatus(data)}
+//                                             network={network}
+//                                             landingtalent={landingtalent}
+//                                             // landingtalent={!network}
+//                                         />
+//                                         </SwiperSlide>
+//                                     ))
+
+//                                 }
+//                                 {/* {(network ? reqData : talentData).map((data) => (
+//                                     <SwiperSlide key={data.docID}>
+//                                         <TalentCards
+//                                             image={data.image}
+//                                             firstName={data.firstName}
+//                                             categoryName={data.categoryName}
+//                                             docID={data.docID}
+//                                             onConnect={onConnect}
+//                                             connectionStatus={getConnectionStatus(data)}
+//                                             network={network}
+//                                             landingtalent={!network}
+//                                         />
+//                                     </SwiperSlide>
+//                                 ))} */}
+//                             </div>
+//                         )
+//                     }
+//                 </Swiper>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default IndustryPage;
 import React, { useContext } from 'react';
 import { IndustryData } from '../../Context/IndustryContext';
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import '../../CSS/Connections.css';
+import { useAuth } from '../../Context/AuthContext';
 import DramaCards from './DramaCards';
 import Conneections from '../Conneections';
-import { useAuth } from '../../Context/AuthContext';
-const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus , landingtalent }) => {
+
+const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus, landingtalent }) => {
     const talentData = useContext(IndustryData);
     const { currentUser } = useAuth();
-
     const dummyId = currentUser ? currentUser.uid : null;
-    const getConnectionStatus = (user) => {
-        // If network prop is true, use reqData
-        const dataToUse = network ? reqData : talentData;
 
-        // Check if the current user's ID is in the targeted user's requested array
+    const getConnectionStatus = (user) => {
         if (user.received && user.received.includes(dummyId)) {
             return 'requested';
         }
-
-        // Check if the current user's ID is in the targeted user's connected array
         if (user.connected && user.connected.includes(dummyId)) {
             return 'connected';
         }
-
         return 'connect';
     };
 
+    const items = network ? reqData : talentData;
+
     return (
-        <div className="container overflow-x-hidden ">
-            <div className="swiper-grid-container">
-                <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={`${landingtalent ? '60' : '10'}`}
-                    navigation={false}
-                    loop={true}
-                    loopFillGroupWithBlank={true}
-                    scrollbar={{ draggable: true }}
-                    className={`swiper-container w-full overflow-hidden`}
-                    breakpoints={{
-                        640: { slidesPerView: 1 },
-                        768: { slidesPerView: 2 },
-                        1024: { slidesPerView: 3 },
-                        1280: { slidesPerView: 6 },
-                    }}
-                >
-                    {
-                        network ? (
-                            reqData.map((data, index) => (
-                                <SwiperSlide key={index} className="!w-auto max-w-[17%] min-w-[260px]">
-                                    <Conneections
-                                        image={data.image}
-                                        username={data.username}
-                                        description={data.description}
-                                        network={network}
-                                        user={data.user}
-                                        onAccept={onAccept}
-                                        onReject={onReject}
-                                        connectionStatus={connectionStatus}
-
-                                    />
-                                </SwiperSlide>
-                            ))
+        <div className={`md:w-[78vw] w-[100vw] 2xl:w-[80vw] overflow-x-auto hide-scrollbar ${landingtalent && 'min-w-[98vw]'}`}>
+            <div className={`carousel flex gap-4 px-4 py-2 pb-4 ${landingtalent && 'gap-24'}`}>
+                {items.map((data, index) => (
+                    <div
+                        key={network ? index : data.id}
+                        className={`
+                            carousel-item flex-shrink-0
+                            ${landingtalent 
+                                ? 'w-[65vw] md:w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] hover:scale-105' 
+                                : 'w-[65vw] md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(20%-1rem)]'}
+                            min-w-[260px] max-w-[300px]
+                            transition-transform duration-300 ease-in-out
+                            relative
+                        `}
+                        style={{
+                            scrollSnapAlign: 'start'
+                        }}
+                    >
+                        {network ? (
+                            <Conneections
+                                image={data.image}
+                                username={data.username}
+                                description={data.description}
+                                network={network}
+                                user={data.user}
+                                onAccept={onAccept}
+                                onReject={onReject}
+                                connectionStatus={connectionStatus}
+                            />
                         ) : (
-                            <div>
-                                {
-                                    talentData.map((data) => (
-                                        <SwiperSlide key={data.id} className={`!w-auto max-w-[17%] min-w-[260px] ${
-                                            landingtalent ? '!w-auto md:max-w-[30%] md:min-w-[260px] hove:scale-[1.1] transition-transform duration-300 ease-in-out ' : ''
-                                          }`}>
-                                            <DramaCards
-                                            image={data.image}
-                                            firstName={data.firstName}
-                                            categoryName={data.categoryName}
-                                            docID={data.docID}
-                                            onConnect={onConnect}
-                                            connectionStatus={getConnectionStatus(data)}
-                                            network={network}
-                                            landingtalent={landingtalent}
-                                            // landingtalent={!network}
-                                        />
-                                        </SwiperSlide>
-                                    ))
-
-                                }
-                                {/* {(network ? reqData : talentData).map((data) => (
-                                    <SwiperSlide key={data.docID}>
-                                        <TalentCards
-                                            image={data.image}
-                                            firstName={data.firstName}
-                                            categoryName={data.categoryName}
-                                            docID={data.docID}
-                                            onConnect={onConnect}
-                                            connectionStatus={getConnectionStatus(data)}
-                                            network={network}
-                                            landingtalent={!network}
-                                        />
-                                    </SwiperSlide>
-                                ))} */}
-                            </div>
-                        )
-                    }
-                </Swiper>
+                            <DramaCards
+                                image={data.image}
+                                firstName={data.firstName}
+                                categoryName={data.categoryName}
+                                docID={data.docID}
+                                onConnect={onConnect}
+                                connectionStatus={getConnectionStatus(data)}
+                                network={network}
+                                landingtalent={landingtalent}
+                            />
+                        )}
+                    </div>
+                ))}
+                {/* Add empty div at the end to prevent sidebar hiding */}
+                <div className="w-4 flex-shrink-0" aria-hidden="true" />
             </div>
         </div>
     );

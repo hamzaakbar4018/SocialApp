@@ -8,4 +8,17 @@
         outline: 1px solid red;
  }  */
 
-
+ .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+      }
+      
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .carousel {
+        scroll-padding: 0 16px;
+      }
