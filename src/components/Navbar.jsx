@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/Icons SVG/logo.svg';
 import { HiMenu, HiX } from 'react-icons/hi';
 import '../CSS/Navbar.css';
+import { useAuth } from '../Context/AuthContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,8 @@ const Navbar = () => {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const {currentUser} = useAuth();
 
     const contactEmail = "support@youtooart.com";
     const subject = encodeURIComponent("Inquiry from YouTooArt Website");
@@ -31,7 +34,7 @@ const Navbar = () => {
                         <li><Link to="/categories" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Categories</Link></li>
                         <li><Link to="/home" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Content</Link></li>
                         <li><a href="#how-it-works" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>How it Works</a></li>
-                        <li><Link to="/download" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Download</Link></li>
+                        {/* <li><Link to="/download" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Download</Link></li> */}
                         <li><a 
                         href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
                         className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Contact Us</a></li>
@@ -39,7 +42,7 @@ const Navbar = () => {
                 </div>
                 <div className="hidden md:block signup px-3">
                     <Link to="/signup">
-                        <button className='p-3 mr-5 border rounded-3xl border-gray-600'>Sign Up</button>
+                        <button className={`p-3 mr-5 border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>Sign Up</button>
                     </Link>
                 </div>
                 <div className='flex items-center justify-center px-3 md:hidden'>
@@ -86,7 +89,7 @@ const Navbar = () => {
                     </ul>
                     <div className='w-full absolute mt-2 bottom-5 left-0'>
                         <Link to="/signup" className='px-4 flex justify-center'>
-                            <button className='text-2xl p-3 rounded-full border w-full border-black'>
+                            <button className={`text-2xl p-3 rounded-full border w-full border-black ${currentUser ? 'hidden' : 'block'}`}>
                                 Signup
                             </button>
                         </Link>

@@ -30,6 +30,9 @@ const Landingpage = () => {
       navigate("/login");
     }
   }
+  const contactEmail = "support@youtooart.com";
+  const subject = encodeURIComponent("Inquiry from YouTooArt Website");
+  const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
 
   const handleContact = () => {
     if (UserID) {
@@ -435,10 +438,13 @@ const Landingpage = () => {
             </p>
           </div>
           <div>
-
-            <button onClick={handleContact} className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-3xl  border-gray-600 mt-7 mb-20">
-              Contact Us
-            </button>
+            <div className="md:mt-10 mb-20">
+              <a
+                href={`mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
+                className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-full  border-gray-600 mt-7 mb-20">
+                Contact Us
+            </a>
+            </div>
           </div>
         </div>
       </div>

@@ -25,7 +25,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../Context/AuthContext.jsx';
 import SearchBar from '../SearchBar.jsx';
-
+import NoData from '../Loader/NoData.jsx'
 const Main = () => {
     const { currentUser, userData, logout } = useAuth();
     const dummyID = currentUser.uid;
@@ -80,6 +80,8 @@ const Main = () => {
             }
         }
     };
+
+
 
     const [thoughts, setThoughts] = useState('');
     const handlePosts = async (authorID) => {
@@ -292,31 +294,29 @@ const Main = () => {
                                                 <h3 className="font-bold mb-4 text-lg">Notifications</h3>
                                             </div>
                                             <div className="px-6 flex mb-2 flex-col justify-center gap-3">
-                                                {
-                                                    notifyData.length > 0 ? (
-                                                        notifyData.map((data, index) => (
-                                                            <div className="flex items-center gap-2" key={index}>
-                                                                <img
-                                                                    className="w-14 h-14 rounded-full"
-                                                                    src={data.fromImage}
-                                                                    alt="image"
-                                                                />
-                                                                <div className="flex flex-col justify-center">
-                                                                    <h1 className="font-semibold">
-                                                                        {data.fromName} <span className="font-light">{data.title}</span>
-                                                                    </h1>
-                                                                    <p className="text-[#9B9B9B] text-sm">
-                                                                        {data.createdAt ? format(new Date(data.createdAt), 'MMM dd, yyyy, hh:mm a') : 'Date not available'}
-                                                                    </p>
-                                                                </div>
+                                                {notifyData.length > 0 ? (
+                                                    notifyData.map((data, index) => (
+                                                        <div className="flex items-center gap-2" key={index}>
+                                                            <img
+                                                                className="w-14 h-14 rounded-full"
+                                                                src={data.fromImage}
+                                                                alt="image"
+                                                            />
+                                                            <div className="flex flex-col justify-center">
+                                                                <h1 className="font-semibold">
+                                                                    {data.fromName} <span className="font-light">{data.title}</span>
+                                                                </h1>
+                                                                <p className="text-[#9B9B9B] text-sm">
+                                                                    {data.relativeTime}
+                                                                </p>
                                                             </div>
-                                                        ))
-                                                    ) : (
-                                                        <div className="text-center text-gray-400 text-sm">
-                                                            No notifications available
                                                         </div>
-                                                    )
-                                                }
+                                                    ))
+                                                ) : (
+                                                    <div className="text-center text-gray-400 text-sm">
+                                                        No notifications available
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </dialog>
@@ -361,16 +361,27 @@ const Main = () => {
                         <div className='rounded mt-2'>
 
                             {
-                                postData.posts && postData.posts.length > 0 ? (
-                                    <div>
-                                        {postData.posts.map((data, indx) => (
-                                            <Post {...data} postData={data} postId={postData.docs} key={data.docID} likesC={data.likes} />
-                                        ))}
-                                    </div>
+                                postData.posts ? (
+                                    postData.posts.length > 0 ? (
+                                        <div>
+                                            {postData.posts.map((data, indx) => (
+                                                <Post
+                                                    {...data}
+                                                    postData={data}
+                                                    postId={postData.docs}
+                                                    key={data.docID}
+                                                    likesC={data.likes}
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <NoData />
+                                    )
                                 ) : (
                                     <Loader />
                                 )
                             }
+
                         </div>
                     </div>
                 </div>

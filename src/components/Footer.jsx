@@ -45,7 +45,9 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div className="signup flex items-center px-3">
+                    <Link to="/signup">
                     <button className='p-3 md:text-base text-xl border rounded-3xl border-gray-600'>Sign Up</button>
+                    </Link>
                 </div>
             </div>
             <div className='border-t mt-3 w-full border-gray-600'></div>

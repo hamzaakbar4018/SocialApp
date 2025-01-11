@@ -18,6 +18,7 @@ import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/fire
 import { db } from '../../Services/Firebase.jsx';
 import { useAuth } from '../../Context/AuthContext.jsx';
 import SearchBar from '../SearchBar.jsx';
+import NoDataFound from '../Loader/NoData.jsx';
 
 
 const TalentMain = () => {
@@ -320,26 +321,34 @@ const TalentMain = () => {
                     <div className=" bg-white pl-1 flex-grow-0 py-4  space-y-2">
                         <h3 className="text-2xl md:px-0 md:pl-4 px-2">People in Drama Industry</h3>
                         {
-                            talentData.length > 0 ? (
-                                <IndustryPage className=""
-                                    onConnect={(user) => handleConnect(user, 'connect')}
-                                    connectionStatus={connectionStatus}
-                                    setConnectionStatus={setConnectionStatus}
-                                />
+                            talentData ? (
+                                talentData.length > 0 ? (
+                                    <IndustryPage className=""
+                                        onConnect={(user) => handleConnect(user, 'connect')}
+                                        connectionStatus={connectionStatus}
+                                        setConnectionStatus={setConnectionStatus}
+                                    />
+                                ) : (
+                                    <NoDataFound />
+                                )
                             ) : (
                                 <Loader />
-                            )
-                        }
+                            )}
+
                     </div>
                     <div className=" bg-white flex-grow-0 pl-1 py-4 space-y-2">
                         <h3 className="text-2xl md:px-0 md:pl-4 px-2">Popular Production houses</h3>
                         {
-                            productionData.length > 0 ? (
-                                <ProductionData
-                                    onFollow={(user) => handleFollow(user, 'follow')}
-                                    productionData={productionData}
-                                    connectionStatus={connectionStatus}
-                                />
+                            productionData ? (
+                                productionData.length > 0 ? (
+                                    <ProductionData
+                                        onFollow={(user) => handleFollow(user, 'follow')}
+                                        productionData={productionData}
+                                        connectionStatus={connectionStatus}
+                                    />
+                                ) : (
+                                    <NoDataFound />
+                                )
                             ) : (
                                 <Loader />
                             )
