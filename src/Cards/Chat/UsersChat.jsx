@@ -44,7 +44,7 @@ const UsersChat = ({ userImg, username, time, usersCharMsgs, selectedCardIndex }
       "messages"
     );
 
-    const messagesQuery = query(messagesRef, orderBy('sortTime', 'asc'));
+    const messagesQuery = query(messagesRef, orderBy('time', 'asc'));
 
     messagesListenerRef.current = onSnapshot(
       messagesQuery,
