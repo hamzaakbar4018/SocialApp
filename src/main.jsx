@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import IndustryContext from './Context/IndustryContext.jsx';
 import NotificationContext from './Context/NotificatinContext.jsx';
 import PostContext from './Context/PostContext.jsx';
@@ -10,7 +10,7 @@ import { AuthProvider } from './Context/AuthContext.jsx';
 import { CastingProvider } from './Context/CastingContext.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+  <HashRouter>
     <AuthProvider>
       <CastingProvider>
         <ApplicationContext>
@@ -24,5 +24,5 @@ createRoot(document.getElementById('root')).render(
         </ApplicationContext>
       </CastingProvider>
     </AuthProvider>
-  </BrowserRouter>
+  </HashRouter>
 );
