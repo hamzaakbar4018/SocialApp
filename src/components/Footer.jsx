@@ -6,8 +6,9 @@ import { FaSquareInstagram } from "react-icons/fa6";
 import { FaTwitterSquare } from "react-icons/fa";
 import { FiYoutube } from "react-icons/fi";
 import '../CSS/Navbar.css'
+import { useAuth } from '../Context/AuthContext';
 const Footer = () => {
-
+    const { currentUser } = useAuth();
     const contactEmail = "support@youtooart.com";
     const subject = encodeURIComponent("Inquiry from YouTooArt Website");
     const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
@@ -46,7 +47,7 @@ const Footer = () => {
                 </div>
                 <div className="signup flex items-center px-3">
                     <Link to="/signup">
-                    <button className='p-3 md:text-base text-xl border rounded-3xl border-gray-600'>Sign Up</button>
+                        <button className={`p-3 md:text-base text-xl border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>Sign Up</button>
                     </Link>
                 </div>
             </div>
@@ -57,16 +58,31 @@ const Footer = () => {
                 </div>
                 <div className="term flex md:justify-start justify-center ">
                     <Link to="/terms">
-                    
-                    <h1 className='md:text-base text-[17px]'>Privacy  .  Terms & Conditions</h1>
+
+                        <h1 className='md:text-base text-[17px]'>Privacy  .  Terms & Conditions</h1>
                     </Link>
                 </div>
                 <div className="icon text-white">
                     <ul className='flex md:text-2xl text-4xl md:justify-start justify-center gap-5  md:gap-5'>
-                        <li><FaSquareFacebook /></li>
-                        <li><FaSquareInstagram /></li>
-                        <li><FiYoutube /></li>
-                        <li><FaTwitterSquare /></li>
+                        <a href="https://www.facebook.com/"
+                            target='_blank'
+                        ><li><FaSquareFacebook /></li>
+                        </a>
+                        <a href="https://www.instagram.com/"
+                            target='_blank'
+                        >
+                            <li><FaSquareInstagram /></li>
+                        </a>
+                        <a href="https://www.youtube.com/"
+                            target='_blank'
+                        >
+                            <li><FiYoutube /></li>
+                        </a>
+                        <a href="https://www.twitter.com/"
+                            target='_blank'
+                        >
+                            <li><FaTwitterSquare /></li>
+                        </a>
                     </ul>
                 </div>
             </div>
