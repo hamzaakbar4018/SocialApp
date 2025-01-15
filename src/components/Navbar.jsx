@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/Icons SVG/logo.svg';
+//  import logo from '../assets/Icons SVG/Cinetrooplogo.png';
+
 import { HiMenu, HiX } from 'react-icons/hi';
 import '../CSS/Navbar.css';
 import { useAuth } from '../Context/AuthContext';

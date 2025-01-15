@@ -383,7 +383,7 @@ const Signup = () => {
                             <span className='font-bold'>Signing In</span>,
                             <span className='text-gray-500'> you agree with the </span>
                             <span className='text-[#399AF3] font-bold'>
-                                <Link to="/terms"> Terms </Link> & Conditions </span>
+                                <Link to="/terms"> Terms & Conditions </Link> </span>
                             <Link to="/"><span className='text-gray-500'>of YouTooArt</span></Link>
                         </p>
                     </div>

@@ -351,7 +351,7 @@ const Main = () => {
                                         <img src={photoadmin} className='w-5 mb-1 mt-1' alt="photo" />
                                         <button className='' onClick={handlePostModel}>Photo</button>
                                     </div>
-                                    <div className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl cursor-pointer gap-1 justify-center items-center'>
+                                    <div onClick={handleTextModel} className='flex bg-[#FF602E1A] px-3 py-2 rounded-3xl cursor-pointer gap-1 justify-center items-center'>
                                         <img src={textadmin} className='w-5 mb-1' alt="text" />
                                         <button onClick={handleTextModel}>Text</button>
                                     </div>

@@ -461,7 +461,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
                                         <FaRegComment onClick={handleClick}
                                             className='text-2xl cursor-pointer text-[#227BCD]' />
                                     </div>
-                                    <div className='flex gap-1'>
+                                    <div onClick={() => setShowShare(true)} className='flex gap-1'>
                                         <TbShare3 className='text-2xl cursor-pointer text-[#227BCD]' />
                                     </div>
                                 </div>

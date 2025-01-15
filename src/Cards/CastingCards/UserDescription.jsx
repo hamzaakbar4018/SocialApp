@@ -241,7 +241,14 @@ const UserDescription = ({
         appliedUsers: arrayUnion(dummyID)
       });
 
-      toast.success("Applied Successfully!");
+      toast.success("Applied Successfully!", {
+        autoClose: 3000, 
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 
       // Reset form and show success
       setContactNumber('');

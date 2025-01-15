@@ -409,6 +409,7 @@ const NetworkMain = () => {
                                                     Loading={Loading}
                                                     onAccept={(user) => handleConnectionRequest(user, 'accept')}
                                                     onReject={(user) => handleConnectionRequest(user, 'reject')}
+                                                    showRightbar={showRightbar}
                                                 />
                                             </div>
                                         ) : (

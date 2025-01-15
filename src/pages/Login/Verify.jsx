@@ -364,7 +364,7 @@ const Verify = () => {
                         </div>
                     </div>
                     <div className="last px-5 md:px-10 mt-20 md:mt-52">
-                        <p><span className='text-gray-500'>by</span> <span className='font-bold'>Signing In</span>, <span className='text-gray-500'>you agree with the </span><span className='text-[#399AF3] font-bold'>Terms & Conditions </span> <span className='text-gray-500'>of You2Art</span></p>
+                        <p><span className='text-gray-500'>by</span> <span className='font-bold'>Signing In</span>, <span className='text-gray-500'>you agree with the </span><span className='text-[#399AF3] font-bold'><Link to="/terms"> Terms & Conditions</Link> </span> <span className='text-gray-500'>of You2Art</span></p>
                     </div>
                 </div>
 

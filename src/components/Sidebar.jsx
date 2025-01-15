@@ -322,6 +322,8 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import sidebarLogo from '../assets/Icons SVG/logo.svg';
+// import sidebarLogo from '../assets/Icons SVG/Cinetrooplogo.png';
+
 import { FaAngleDown } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import HomeIcon from '../assets/Icons SVG/Home.svg';

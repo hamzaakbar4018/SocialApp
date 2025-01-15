@@ -113,16 +113,27 @@
 // };
 
 // export default IndustryPage;
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // Importing the icons
 import { IndustryData } from '../../Context/IndustryContext';
 import { useAuth } from '../../Context/AuthContext';
 import DramaCards from './DramaCards';
 import Conneections from '../Conneections';
 
-const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connectionStatus, landingtalent }) => {
+const IndustryPage = ({
+    network,
+    reqData,
+    onAccept,
+    onConnect,
+    connectionStatus,
+    landingtalent,
+    showRightbar
+}) => {
     const talentData = useContext(IndustryData);
     const { currentUser } = useAuth();
     const dummyId = currentUser ? currentUser.uid : null;
+
+    const carouselRef = useRef(null);
 
     const getConnectionStatus = (user) => {
         if (user.received && user.received.includes(dummyId)) {
@@ -136,9 +147,62 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
 
     const items = network ? reqData : talentData;
 
+    // State to manage button disable states
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    // Function to check scroll position and update button states
+    const checkScrollPosition = () => {
+        const carousel = carouselRef.current;
+        if (carousel) {
+            const { scrollLeft, scrollWidth, clientWidth } = carousel;
+            setCanScrollLeft(scrollLeft > 0);
+            setCanScrollRight(scrollLeft + clientWidth < scrollWidth);
+        }
+    };
+
+    useEffect(() => {
+        const carousel = carouselRef.current;
+        if (carousel) {
+            carousel.addEventListener('scroll', checkScrollPosition);
+            checkScrollPosition(); // Initial check
+            return () => {
+                carousel.removeEventListener('scroll', checkScrollPosition);
+            };
+        }
+    }, [items]);
+
+    const scrollCarousel = (direction) => {
+        const carousel = carouselRef.current;
+        if (carousel) {
+            const scrollAmount = carousel.offsetWidth * 0.8; // Adjust the multiplier as needed
+            carousel.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth',
+            });
+        }
+    };
+
     return (
-        <div className={`md:w-[78vw] w-[100vw] 2xl:w-[80vw] overflow-x-auto hide-scrollbar ${landingtalent && 'min-w-[98vw]'}`}>
-            <div className={`carousel flex gap-4 px-4 py-2 pb-4 ${landingtalent && 'gap-24'}`}>
+        <div className={`relative ${showRightbar && 'md:max-w-[62vw]'} md:max-w-[79vw] w-[100vw] 2xl:w-[80vw] overflow-x-hidden hide-scrollbar ${landingtalent && 'min-w-[98vw]'}`}>
+            {/* Previous Button */}
+            <button
+                onClick={() => scrollCarousel('left')}
+                disabled={!canScrollLeft}
+                className={`absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none transition-opacity ${
+                    !canScrollLeft ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                }`}
+                aria-label="Scroll Left"
+            >
+                <ChevronLeft size={24} /> {/* Using the ChevronLeft icon */}
+            </button>
+
+            {/* Carousel Container */}
+            <div
+                ref={carouselRef}
+                className={`carousel flex gap-4 px-4 py-2 pb-4 ${landingtalent && 'gap-24'} overflow-x-auto scroll-smooth hide-scrollbar`}
+                style={{ scrollSnapType: 'x mandatory' }}
+            >
                 {items.map((data, index) => (
                     <div
                         key={network ? index : data.id}
@@ -163,7 +227,6 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
                                 network={network}
                                 user={data.user}
                                 onAccept={onAccept}
-                                onReject={onReject}
                                 connectionStatus={connectionStatus}
                             />
                         ) : (
@@ -183,6 +246,18 @@ const IndustryPage = ({ network, reqData, onAccept, onReject, onConnect, connect
                 {/* Add empty div at the end to prevent sidebar hiding */}
                 <div className="w-4 flex-shrink-0" aria-hidden="true" />
             </div>
+
+            {/* Next Button */}
+            <button
+                onClick={() => scrollCarousel('right')}
+                disabled={!canScrollRight}
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none transition-opacity ${
+                    !canScrollRight ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                }`}
+                aria-label="Scroll Right"
+            >
+                <ChevronRight size={24} /> {/* Using the ChevronRight icon */}
+            </button>
         </div>
     );
 };
