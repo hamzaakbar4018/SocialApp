@@ -95,14 +95,14 @@ const Landingpage = () => {
           </div>
           <div className="flex justify-center md:justify-start gap-4 mt-10 md:mt-44">
             <a
-              href="https://apps.apple.com/pk/app/traffic-racer/id547101139"
+              href="https://apps.apple.com"
               target="_blank"
               className="md:w-[25%] w-[45%] shadow-xl">
               <img src={appstore} className="" alt="App Store" />
 
             </a>
             <a
-              href="https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
+              href="https://play.google.com"
               target="_blank"
               className="md:w-[25%] w-[45%] shadow-xl">
               <img
@@ -406,14 +406,14 @@ const Landingpage = () => {
             </p>
             <div className="flex justify-center md:mt-0 mt-[242%] md:static w-full absolute md:justify-start md:w-[60%] gap-4">
               <a
-                href="https://apps.apple.com/pk/app/traffic-racer/id547101139"
+                href="https://apps.apple.com"
                 target="_blank"
                 className="md:w-[40%] w-[45%] shadow-xl"
               >
                 <img src={appstore} className="" alt="" />
               </a>
               <a
-                href="https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
+                href="https://play.google.com"
                 target="_blank"
                 className="md:w-[40%] w-[45%] shadow-xl"
 
