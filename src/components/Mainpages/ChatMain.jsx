@@ -893,6 +893,8 @@ const handleSendMessage = async (otherUserId, textMessage) => {
                   userImg={recentChats.find(chat => chat.id === selectedChatId)?.data?.otherImage}
                   username={recentChats.find(chat => chat.id === selectedChatId)?.data?.otherName}
                   time={recentChats.find(chat => chat.id === selectedChatId)?.data?.formattedTime}
+                  otherImage={recentChats.find(chat => chat.id === selectedChatId)?.data?.otherImage}
+                  otherName={recentChats.find(chat => chat.id === selectedChatId)?.data?.otherName}
                   onSendMessage={handleSendMessage}
                 />
               )}

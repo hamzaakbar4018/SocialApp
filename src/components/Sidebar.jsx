@@ -321,7 +321,7 @@
 // src/components/Sidebar.js
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import sidebarLogo from '../assets/Icons SVG/logo.svg';
+import sidebarLogo from '../assets/Icons SVG/clogob.png';
 // import sidebarLogo from '../assets/Icons SVG/Cinetrooplogo.png';
 
 import { FaAngleDown } from "react-icons/fa6";
@@ -358,7 +358,7 @@ const Sidebar = () => {
         <div className='w-full bg-[#FFFFFF] md:h-full h-screen  overflow-y-auto flex flex-col md:border-r md:border-gray-300'>
             <Link to="/">
                 <div className='logo p-5 mx-3 flex gap-3 items-center'>
-                    <img src={sidebarLogo} alt="Sidebar Logo" className='w-44' />
+                    <img src={sidebarLogo} alt="Sidebar Logo" className='w-56' />
                 </div>
             </Link>
 

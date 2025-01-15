@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logof from '../assets/Icons SVG/logof.svg'
+import logof from '../assets/Icons SVG/clogow.png'
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaTwitterSquare } from "react-icons/fa";
@@ -17,7 +17,7 @@ const Footer = () => {
             <div className=' w-full flex justify-between text-white'>
                 <div className="logo px-3 items-center flex">
                     <div className=' flex gap-3 justify-center items-center'>
-                        <img src={logof} className='w-40' alt="" />
+                        <img src={logof} className='md:w-52 w-40' alt="" />
                     </div>
                 </div>
                 <div className="pages  items-center hidden md:flex">

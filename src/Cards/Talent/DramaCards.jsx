@@ -436,7 +436,7 @@ const TalentCards = ({
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-xl p-5 h-auto w-[255px] 
         ${network && 'md:min-w-[255px] h-auto w-auto'} 
-        ${landingtalent && '2xl:min-h-[350px] md:min-w-[300px] rounded-xl md:w-auto md:h-auto h-[340px] w-[300px] 2xl:min-w-auto'} 
+        ${landingtalent && '2xl:min-h-[350px] md:min-w-[300px]  rounded-xl md:w-auto md:h-auto h-[340px] max-w-[300px] 2xl:min-w-auto'} 
         ${connectionStatus === 'Connect' && 'w-[222px] tracking-tighter'} 
         min-h-min h-[250px]`}>
         <div className="flex flex-col gap-3 space-y-2 h-full">

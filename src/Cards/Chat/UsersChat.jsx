@@ -309,7 +309,7 @@ import {
 import { db } from "../../Services/Firebase.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx";
 
-const UsersChat = ({ otherUserId, userImg, username, time, onSendMessage }) => {
+const UsersChat = ({ otherUserId, userImg, username, time, onSendMessage, otherName, otherImage }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const messagesContainerRef = useRef(null);

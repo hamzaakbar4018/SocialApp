@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/Icons SVG/logo.svg';
+import logo from '../assets/Icons SVG/clogob.png';
 //  import logo from '../assets/Icons SVG/Cinetrooplogo.png';
 
 import { HiMenu, HiX } from 'react-icons/hi';
@@ -25,7 +25,7 @@ const Navbar = () => {
         <>
             <div className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 shadow-lg right-0 w-full bg-[#FFFFFF] flex justify-between md:px-6 py-3">
                 <div className="logo px-3">
-                    <img className='md:w-40 w-36' src={logo} alt="Logo" />
+                    <img className='md:w-52 w-40' src={logo} alt="Logo" />
                 </div>
                 <div className="pages hidden md:block">
                     <ul className='flex gap-8 underline-offset-4 p-3'>
