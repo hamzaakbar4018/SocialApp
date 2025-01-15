@@ -85,7 +85,7 @@ const AllUsers = ({ otherName, otherImage, otherID, recentMessage, time, hasUnre
 
         {/* Unread Message Indicator */}
         {hasUnread && (
-          <span className="absolute top-4 right-4 w-3 h-3 bg-red-500 rounded-full"></span>
+          <span className="absolute top-4 right-4 w-3 h-3 bg-blue-500 rounded-full"></span>
         )}
       </div>
     </div>
@@ -93,3 +93,4 @@ const AllUsers = ({ otherName, otherImage, otherID, recentMessage, time, hasUnre
 };
 
 export default AllUsers;
+

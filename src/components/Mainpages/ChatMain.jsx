@@ -498,7 +498,8 @@
 
 // export default ChatMain;
 // ChatMain.jsx
-// ChatMain.jsx
+
+
 import React, { useContext, useEffect, useState, useRef } from "react";
 import Rightbar from "../Rightbar";
 import AllUsers from "../../Cards/Chat/AllUsers";
@@ -653,55 +654,57 @@ const ChatMain = () => {
   }, [recentChats, selectedChatId]);
 
   // Function to handle sending messages
-  const handleSendMessage = async (otherUserId, textMessage) => {
-    if (!userID || !otherUserId || !textMessage.trim()) return;
+// In the sender's handleSendMessage function
+const handleSendMessage = async (otherUserId, textMessage) => {
+  if (!userID || !otherUserId || !textMessage.trim()) return;
 
-    try {
-      const timeNow = Timestamp.now();
+  try {
+    const timeNow = Timestamp.now();
 
-      // Add message to sender's and receiver's message collections
-      await Promise.all([
-        addDoc(
-          collection(db, "messages", userID, "recent_chats", otherUserId, "messages"),
-          {
-            text: textMessage,
-            time: timeNow,
-            senderId: userID,
-          }
-        ),
-        addDoc(
-          collection(db, "messages", otherUserId, "recent_chats", userID, "messages"),
-          {
-            text: textMessage,
-            time: timeNow,
-            senderId: userID,
-          }
-        )
-      ]);
+    // Add message to sender's and receiver's message collections
+    await Promise.all([
+      addDoc(
+        collection(db, "messages", userID, "recent_chats", otherUserId, "messages"),
+        {
+          text: textMessage,
+          time: timeNow,
+          senderId: userID,
+        }
+      ),
+      addDoc(
+        collection(db, "messages", otherUserId, "recent_chats", userID, "messages"),
+        {
+          text: textMessage,
+          time: timeNow,
+          senderId: userID,
+        }
+      )
+    ]);
 
-      // Update recent chats for both users
-      await Promise.all([
-        updateDoc(
-          doc(db, "messages", userID, "recent_chats", otherUserId),
-          {
-            sortTime: timeNow,
-            recentMessage: textMessage,
-          }
-        ),
-        updateDoc(
-          doc(db, "messages", otherUserId, "recent_chats", userID),
-          {
-            sortTime: timeNow,
-            recentMessage: textMessage,
-          }
-        )
-      ]);
+    // Update recent chats for both users
+    await Promise.all([
+      updateDoc(
+        doc(db, "messages", userID, "recent_chats", otherUserId),
+        {
+          sortTime: timeNow,
+          recentMessage: textMessage,
+        }
+      ),
+      updateDoc(
+        doc(db, "messages", otherUserId, "recent_chats", userID),
+        {
+          sortTime: timeNow,
+          recentMessage: textMessage,
+        }
+      )
+    ]);
 
-      // Optionally, rely on Firestore's onSnapshot listener to update the UI
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
-  };
+    // Optionally, rely on Firestore's onSnapshot listener to update the UI
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
+};
+
 
   // UI Handlers
   const handlePopup = () => {

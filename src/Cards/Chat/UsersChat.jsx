@@ -357,6 +357,7 @@ const UsersChat = ({ otherUserId, userImg, username, time, onSendMessage }) => {
     return 'Unknown time';
   };
 
+  // Fetch and listen to messages in real-time
   useEffect(() => {
     if (!otherUserId || !userID) {
       setMessages([]);
@@ -421,6 +422,7 @@ const UsersChat = ({ otherUserId, userImg, username, time, onSendMessage }) => {
     }
   };
 
+  // If no chat is selected, display a placeholder
   if (!otherUserId) {
     return (
       <div className="flex flex-col h-full bg-white justify-center items-center">
