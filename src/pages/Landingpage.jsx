@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
-import land1 from "../assets/Icons SVG/land1.png";
+import land1 from "../assets/Icons SVG/land5img.png";
 import land2 from "../assets/Icons SVG/land2.png";
 import appstore from "../assets/Icons SVG/appstore.png";
 import playstore from "../assets/Icons SVG/playstore.png";
-import land5img from "../assets/Icons SVG/land5img.png";
+import land5img from "../assets/Icons SVG/land1.png";
 import land6plus from "../assets/Icons SVG/land6plus.svg";
 import land6minus from "../assets/Icons SVG/land6minus.svg";
 import land8img from "../assets/Icons SVG/land8img.png";
@@ -187,7 +187,7 @@ const Landingpage = () => {
         </div>
         <div className="data md:m-20 m-3 md:flex md:w-[80%]">
           <div className="left md:block hidden md:w-1/2">
-            <img src={land5img} alt="" />
+            <img className="w-[95%] h-[98%]" src={land5img} alt="" />
           </div>
           <div className="right md:mt-0 mt-16 md:w-1/2 flex flex-col gap-5 lg:ml-10">
             <div className="border-b block flex-col gap-2 border-gray-300">

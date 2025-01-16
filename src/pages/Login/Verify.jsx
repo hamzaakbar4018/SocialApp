@@ -3,7 +3,7 @@ import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginPageimg from '../../assets/Icons SVG/loginPageimg.png';
-import logo from '../../assets/Icons SVG/logo.svg';
+import logo from '../../assets/Icons SVG/clogob.png';
 import verifyTick from '../../assets/Icons SVG/verifytick.svg';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import upload from '../../assets/Icons SVG/Upload.svg';
@@ -311,7 +311,7 @@ const Verify = () => {
                 <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
                     <div className='flex md:justify-start ml-5 md:ml-0 gap-2 items-center'>
                         <Link to='/'>
-                            <img className='md:pl-10 md:w-60 w-52' src={logo} alt="Logo" />
+                            <img className='md:pl-10 md:w-72 w-52' src={logo} alt="Logo" />
                         </Link>
                     </div>
 
@@ -364,7 +364,7 @@ const Verify = () => {
                         </div>
                     </div>
                     <div className="last px-5 md:px-10 mt-20 md:mt-52">
-                        <p><span className='text-gray-500'>by</span> <span className='font-bold'>Signing In</span>, <span className='text-gray-500'>you agree with the </span><span className='text-[#399AF3] font-bold'><Link to="/terms"> Terms & Conditions</Link> </span> <span className='text-gray-500'>of You2Art</span></p>
+                        <p><span className='text-gray-500'>by</span> <span className='font-bold'>Signing In</span>, <span className='text-gray-500'>you agree with the </span><span className='text-[#399AF3] font-bold'><Link to="/terms"> Terms & Conditions</Link> </span> <span className='text-gray-500'>of CineTroop</span></p>
                     </div>
                 </div>
 

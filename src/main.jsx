@@ -10,7 +10,7 @@ import { AuthProvider } from './Context/AuthContext.jsx';
 import { CastingProvider } from './Context/CastingContext.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <HashRouter>
+  <BrowserRouter>
     <AuthProvider>
       <CastingProvider>
         <ApplicationContext>
@@ -24,5 +24,5 @@ createRoot(document.getElementById('root')).render(
         </ApplicationContext>
       </CastingProvider>
     </AuthProvider>
-  </HashRouter>
+  </BrowserRouter>
 );

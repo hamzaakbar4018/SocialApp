@@ -246,7 +246,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 import loginPageimg from '../../assets/Icons SVG/loginPageimg.png';
-import logo from '../../assets/Icons SVG/logo.svg';
+import logo from '../../assets/Icons SVG/clogob.png';
 import {
     auth,
     db,
@@ -403,12 +403,12 @@ const Login = () => {
         <>
             <div ref={recaptchaContainerRef} style={{ visibility: 'hidden' }}></div>
 
-            <div className='flex h-screen'>
+            <div className='flex h-screen max-w-screen'>
                 <ToastContainer />
                 <div className='md:w-[30%] flex flex-col justify-between md:justify-start left py-4'>
                     <div className='flex md:justify-start ml-5 md:ml-0 gap-2 items-center'>
                         <Link to='/'>
-                            <img className='md:pl-10 md:w-60 w-52' src={logo} alt="Logo" />
+                            <img className=' md:w-72 w-52' src={logo} alt="Logo" />
                         </Link>
                     </div>
 
@@ -530,7 +530,7 @@ const Login = () => {
                             <span className='text-[#399AF3] font-bold'>
                                 <Link to="/terms">Terms & Conditions </Link></span>
                             {/* <span className='text-gray-500'>of YouTooArt</span> */}
-                            <Link to="/"><span className='text-gray-500'>of YouTooArt</span></Link>
+                            <Link to="/"><span className='text-gray-500'>of CineTroop</span></Link>
 
                         </p>
 
