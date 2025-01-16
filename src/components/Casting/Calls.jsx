@@ -94,7 +94,7 @@ const Calls = () => {
           </div>
         </div>
       ) : (
-        <NoDataFound />
+        <NoDataFound/>
       )
     )
   );

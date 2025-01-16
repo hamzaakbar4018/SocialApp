@@ -113,7 +113,7 @@ const Applied = () => {
             </div>
           </div>
         ) : (
-          <NoData />
+          <NoData data={"You dont have applied for any casting call."}/>
         )
     )
 

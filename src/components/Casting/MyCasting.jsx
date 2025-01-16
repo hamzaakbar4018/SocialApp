@@ -307,7 +307,7 @@ const MyCasting = () => {
           </div>
           {
             myCasting.length === 0 ? (
-              <NoData />
+              <NoData data={"You have not created any casting call."}/>
             ) : (
               myCasting.map((data, index) => (
                 <div key={index} onClick={() => {

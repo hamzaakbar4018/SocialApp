@@ -114,7 +114,7 @@ const Landingpage = () => {
           </div>
         </div>
         <div className="right hidden md:block md:w-1/2">
-          <img className="md:w-[100%]" src={land1} alt="" />
+          <img className="md:w-[92%]" src={land1} alt="" />
         </div>
       </div>
 

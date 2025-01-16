@@ -30,16 +30,16 @@ const Navbar = () => {
                 <div className="pages hidden md:block">
                     <ul className='flex gap-8 underline-offset-4 p-3'>
                         {/* Navigation Links */}
-                        <li><Link to="/" className='border-b-2 border-[#C02C2C] transition-all'>Home</Link></li>
-                        <li><Link to="/talent" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Talent</Link></li>
-                        <li><Link to="/casting/calls" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Casting Calls</Link></li>
-                        <li><Link to="/categories" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Categories</Link></li>
-                        <li><Link to="/home" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Content</Link></li>
-                        <li><a href="#how-it-works" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>How it Works</a></li>
+                        <li><Link to="/" className='border-b-2 border-[#d6587f] transition-all'>Home</Link></li>
+                        <li><Link to="/talent" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Talent</Link></li>
+                        <li><Link to="/casting/calls" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Casting Calls</Link></li>
+                        <li><Link to="/categories" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Categories</Link></li>
+                        <li><Link to="/home" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Content</Link></li>
+                        <li><a href="#how-it-works" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>How it Works</a></li>
                         {/* <li><Link to="/download" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Download</Link></li> */}
                         <li><a 
                         href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
-                        className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Contact Us</a></li>
+                        className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Contact Us</a></li>
                     </ul>
                 </div>
                 <div className="hidden md:block signup px-3">
@@ -61,31 +61,31 @@ const Navbar = () => {
                 </div>
                 <div className="flex justify-between flex-col items-start">
                     <ul className='flex text-3xl font-semibold flex-col gap-3'>
-                        <li className=' border-l-2 p-2 border-[#C02C2C]'>
-                            <Link to="/" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Home</Link>
+                        <li className=' border-l-2 p-2 border-[#d6587f]'>
+                            <Link to="/" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Home</Link>
                             </li>
-                        <li className='hover:border-l-2 p-2 hover:border-[#C02C2C]'>
-                            <Link to="/talent" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Talent</Link>
+                        <li className='hover:border-l-2 p-2 hover:border-[#d6587f]'>
+                            <Link to="/talent" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Talent</Link>
                         </li>
-                        <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
-                            <Link to="/casting/calls" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Casting Calls</Link>
+                        <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
+                            <Link to="/casting/calls" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Casting Calls</Link>
                         </li>
-                        <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
-                            <Link to="/categories" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Categories</Link>
+                        <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
+                            <Link to="/categories" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Categories</Link>
                         </li>
-                        <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
-                            <Link to="/home" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Content</Link>
+                        <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
+                            <Link to="/home" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Content</Link>
                         </li>
-                        <li className='hover:border-l-2 p-2 hover:border-[#C02C2C]'>
-                            <a href="#how-it-works" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>How it Works</a>
+                        <li className='hover:border-l-2 p-2 hover:border-[#d6587f]'>
+                            <a href="#how-it-works" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>How it Works</a>
                         </li>
-                        <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
-                            <Link to="/download" className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Download</Link>
+                        <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
+                            <Link to="/download" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Download</Link>
                         </li>
-                        <li className='p-2 hover:border-l-2 hover:border-[#C02C2C]'>
+                        <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
                             <a 
                             href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
-                            className='text-lg ml-3 hover:text-[#C02C2C]' onClick={toggleMenu}>Contact Us</a>
+                            className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Contact Us</a>
                         </li>
                        
                     </ul>
