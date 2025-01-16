@@ -234,7 +234,7 @@ const Verify = () => {
                 default:
                     setError(`Verification failed: ${error.message}`);
             }
-        } finally{
+        } finally {
             setIsLoadingV(false);
 
         }
@@ -243,7 +243,7 @@ const Verify = () => {
 
     const handleComplete = async () => {
         // Validate required fields
-        if (!firstName || !lastName || !country || !city) {
+        if (!firstName || !country || !city) {
             alert("Please fill in all required fields");
             return;
         }
@@ -540,7 +540,10 @@ const Verify = () => {
                                 </div>
                                 <div className='flex flex-wrap gap-2 mt-2 '>
                                     <div className='flex flex-col gap-2 w-full'>
-                                        <label className='font-semibold' htmlFor="firstName">First Name</label>
+                                        <label className='font-semibold' htmlFor="firstName">
+                                            First Name <span className='text-red-500' aria-hidden="true">*</span>
+                                            <span className='sr-only'>required</span>
+                                        </label>
                                         <input
                                             className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]'
                                             type="text"
@@ -567,7 +570,10 @@ const Verify = () => {
 
                                 <div className='md:flex gap-2 mt-2 '>
                                     <div className='flex flex-col gap-2 w-full'>
-                                        <label className='font-semibold' htmlFor="country">Country</label>
+                                        <label className='font-semibold' htmlFor="country">
+                                            Country <span className='text-red-500' aria-hidden="true">*</span>
+                                            <span className='sr-only'>required</span>
+                                        </label>
                                         <Select
                                             id="country"
                                             options={countryOptions}
@@ -595,7 +601,10 @@ const Verify = () => {
                                         />
                                     </div>
                                     <div className='flex flex-col mt-2 md:mt-0 gap-2 w-full'>
-                                        <label className='font-semibold' htmlFor="city">City</label>
+                                        <label className='font-semibold' htmlFor="city">
+                                            City <span className='text-red-500' aria-hidden="true">*</span>
+                                            <span className='sr-only'>required</span>
+                                        </label>
                                         <input
                                             type="text"
                                             className='px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14]'
