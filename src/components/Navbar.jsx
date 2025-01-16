@@ -25,9 +25,9 @@ const Navbar = () => {
         <>
             <div className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 shadow-lg right-0 w-full bg-[#FFFFFF] flex justify-between md:px-6 py-3">
                 <div className="logo px-3">
-                    <img className='md:w-52 w-40' src={logo} alt="Logo" />
+                    <img className='md:w-60 w-40' src={logo} alt="Logo" />
                 </div>
-                <div className="pages hidden md:block">
+                <div className="pages md:mt-2 hidden md:block">
                     <ul className='flex gap-8 underline-offset-4 p-3'>
                         {/* Navigation Links */}
                         <li><Link to="/" className='border-b-2 border-[#d6587f] transition-all'>Home</Link></li>
@@ -46,6 +46,11 @@ const Navbar = () => {
                     <Link to="/signup">
                         <button className={`p-3 mr-5 border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>Sign Up</button>
                     </Link>
+                    {
+                        currentUser && (
+                            <div className='md:w-40'></div>
+                        )
+                    }
                 </div>
                 <div className='flex items-center justify-center px-3 md:hidden'>
                     {

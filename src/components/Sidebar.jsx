@@ -358,7 +358,7 @@ const Sidebar = () => {
         <div className='w-full bg-[#FFFFFF] md:h-full h-screen  overflow-y-auto flex flex-col md:border-r md:border-gray-300'>
             <Link to="/">
                 <div className='logo p-5 mx-3 flex gap-3 items-center'>
-                    <img src={sidebarLogo} alt="Sidebar Logo" className='w-56' />
+                    <img src={sidebarLogo} alt="Sidebar Logo" className='w-80' />
                 </div>
             </Link>
 

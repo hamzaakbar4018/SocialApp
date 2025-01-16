@@ -49,6 +49,12 @@ const Footer = () => {
                     <Link to="/signup">
                         <button className={`p-3 md:text-base text-xl border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>Sign Up</button>
                     </Link>
+
+                    {
+                        currentUser && (
+                            <div className='md:w-40'></div>
+                        )
+                    }
                 </div>
             </div>
             <div className='border-t mt-3 w-full border-gray-600'></div>

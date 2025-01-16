@@ -77,14 +77,14 @@ const Landingpage = () => {
       <Navbar className="" />
       <div className="abe flex md:flex md:flex-row pt-10 md:pl-10 mt-5">
         <div className="left md:ml-8 md:w-1/2">
-          <h1 className="abe text-[43px] tracking-tight md:mt-4 md:ml-0 ml-3 md:text-start md:text-4xl lg:text-6xl">
+          <h1 className="abe text-[43px] tracking-tight md:mt-4 md:ml-0 ml-3 md:text-start md:text-4xl lg:text-4xl">
             Connect, Collaborate, Create:
           </h1>
-          <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-6xl md:mt-3">
+          <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-5xl md:mt-3">
             <span className="text-[#FC3F3F] ">YouTooArt</span>-Your Artistic
             Marketplace.
           </h1>
-          <p className=" abe 2xl:mt-8 mt-5 md:text-xl md:m-0 m-3 text-start text-[#252525]">
+          <p className=" abe 2xl:mt-8 mt-5 md:text-lg md:m-0 m-3 text-start text-[#252525]">
             Empowering artists to forge meaningful connections and bring
             creative visions to life.Join the artistic revolution at YouTooArt.
           </p>

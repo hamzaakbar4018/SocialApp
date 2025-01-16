@@ -200,7 +200,7 @@ const IndustryPage = ({
             {/* Carousel Container */}
             <div
                 ref={carouselRef}
-                className={`carousel flex gap-4 px-4 py-2 pb-4 ${landingtalent && 'gap-24'} overflow-x-auto scroll-smooth hide-scrollbar`}
+                className={`carousel flex gap-4 px-4 py-2 pb-4 ${landingtalent && ''} overflow-x-auto scroll-smooth hide-scrollbar`}
                 style={{ scrollSnapType: 'x mandatory' }}
             >
                 {items.map((data, index) => (
@@ -209,7 +209,7 @@ const IndustryPage = ({
                         className={`
                             carousel-item flex-shrink-0
                             ${landingtalent 
-                                ? 'w-[65vw] md:min-w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] hover:scale-105' 
+                                ? 'w-[100vw] hover:scale-105' 
                                 : 'w-[65vw] md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(20%-1rem)]'}
                             min-w-[260px] max-w-[300px]
                             transition-transform duration-300 ease-in-out
