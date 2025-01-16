@@ -89,7 +89,7 @@ const Main = () => {
             setPostLoading(true);
             console.log("Attempting to create post with authorID:", authorID);
 
-            if (!authorID || !thoughts) {
+            if (!authorID) {
                 console.error("Missing Data:");
                 return;
             }
