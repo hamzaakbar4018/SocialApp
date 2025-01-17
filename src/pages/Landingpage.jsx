@@ -74,7 +74,7 @@ const Landingpage = () => {
     );
   };
   return (
-    <div className="land md:w-full  ">
+    <div id="top" className="land md:w-full  ">
       <Navbar className="" />
       <div className="abe flex md:flex md:flex-row pt-10 md:pl-10 mt-5">
         <div className="left md:ml-8 md:w-1/2">
@@ -247,7 +247,7 @@ const Landingpage = () => {
             <div className="change md:block hidden number w-[20%]">01</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                What is CineTroop.com about?
+                What is cineTroop.com about?
               </h1>
               {visibleSections[0] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
@@ -277,7 +277,7 @@ const Landingpage = () => {
             <div className="change md:block hidden number w-[20%]">02</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe  md:text-xl text-[24px] font-semibold mb-4">
-                How does CineTroop.com work?
+                How does cineTroop.com work?
               </h1>
               {visibleSections[1] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
@@ -307,7 +307,7 @@ const Landingpage = () => {
             <div className=" number md:block hidden number w-[20%]">03</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                How does CineTroop.com help a certain user with a particular
+                How does cineTroop.com help a certain user with a particular
                 interest in some art category?
               </h1>
               {visibleSections[2] && (
@@ -338,7 +338,7 @@ const Landingpage = () => {
             <div className=" number md:block hidden number w-[20%]">04</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                How does CineTroop.com help people who are trying to perceive a
+                How does cineTroop.com help people who are trying to perceive a
                 full-time career in arts?
               </h1>
               {visibleSections[3] && (
@@ -369,7 +369,7 @@ const Landingpage = () => {
             <div className=" number md:block hidden number w-[20%]">05</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                Anything else from CineTroop.com?
+                Anything else from cineTroop.com?
               </h1>
               {visibleSections[4] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">

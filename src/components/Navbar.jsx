@@ -14,32 +14,40 @@ const Navbar = () => {
         setIsOpen(!isOpen);
     };
 
-    const {currentUser} = useAuth();
+    const { currentUser } = useAuth();
 
     const contactEmail = "support@youtooart.com";
     const subject = encodeURIComponent("Inquiry from YouTooArt Website");
     const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
-    
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', 
+        });
+    };
 
     return (
         <>
             <div className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 shadow-lg right-0 w-full bg-[#FFFFFF] flex justify-between md:px-6 py-3">
                 <div className="logo px-3">
-                    <img className='md:w-60 w-40' src={logo} alt="Logo" />
+                    {/* <a href="#top">
+                        <img className='md:w-60 w-40' src={logo} alt="Logo" />
+                    </a> */}
+                    <img onClick={scrollToTop} className='md:w-60 w-40 cursor-pointer' src={logo} alt="Logo" />
                 </div>
                 <div className="pages md:mt-2 hidden md:block">
                     <ul className='flex gap-8 underline-offset-4 p-3'>
                         {/* Navigation Links */}
-                        <li><Link to="/" className='border-b-2 border-[#d6587f] transition-all'>Home</Link></li>
+                        <li onClick={scrollToTop}><Link to="/" className='border-b-2 border-[#d6587f] transition-all'>Home</Link></li>
                         <li><Link to="/talent" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Talent</Link></li>
                         <li><Link to="/casting/calls" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Casting Calls</Link></li>
                         <li><Link to="/categories" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Categories</Link></li>
                         <li><Link to="/home" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Content</Link></li>
                         <li><a href="#how-it-works" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>How it Works</a></li>
                         {/* <li><Link to="/download" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Download</Link></li> */}
-                        <li><a 
-                        href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
-                        className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Contact Us</a></li>
+                        <li><a
+                            href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
+                            className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Contact Us</a></li>
                     </ul>
                 </div>
                 <div className="hidden md:block signup px-3">
@@ -68,7 +76,7 @@ const Navbar = () => {
                     <ul className='flex text-3xl font-semibold flex-col gap-3'>
                         <li className=' border-l-2 p-2 border-[#d6587f]'>
                             <Link to="/" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Home</Link>
-                            </li>
+                        </li>
                         <li className='hover:border-l-2 p-2 hover:border-[#d6587f]'>
                             <Link to="/talent" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Talent</Link>
                         </li>
@@ -88,11 +96,11 @@ const Navbar = () => {
                             <Link to="/download" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Download</Link>
                         </li>
                         <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
-                            <a 
-                            href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
-                            className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Contact Us</a>
+                            <a
+                                href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
+                                className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Contact Us</a>
                         </li>
-                       
+
                     </ul>
                     <div className='w-full absolute mt-2 bottom-5 left-0'>
                         <Link to="/signup" className='px-4 flex justify-center'>
