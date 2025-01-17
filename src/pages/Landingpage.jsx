@@ -18,6 +18,7 @@ import MockupHandR from '../assets/Icons SVG/MockupHandR.png'
 import IndustryPage from "../Cards/Talent/IndustryPage";
 import { useAuth } from "../Context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import SearchLand from "../components/SearchLand";
 const Landingpage = () => {
   const talentData = useContext(IndustryData);
   const { currentUser } = useAuth();
@@ -81,13 +82,20 @@ const Landingpage = () => {
             Connect, Collaborate, Create:
           </h1>
           <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-5xl md:mt-3">
-            <span className="text-[#FC3F3F] ">YouTooArt</span>-Your Artistic
+            <span className="text-[#d6587f] ">YouTooArt</span>-Your Artistic
             Marketplace.
           </h1>
           <p className=" abe 2xl:mt-8 mt-5 md:text-lg md:m-0 m-3 text-start text-[#252525]">
             Empowering artists to forge meaningful connections and bring
             creative visions to life.Join the artistic revolution at YouTooArt.
           </p>
+
+          <div className="md:flex hidden justify-start items-start mt-4">
+            <div className="w-full max-w-2xl">
+              <SearchLand />
+            </div>
+          </div>
+
           <div className="flex md:text-base text-xl md:ml-0 ml-3 justify-start">
             <button onClick={handleHome} className="p-3 border rounded-3xl border-gray-600 mt-7">
               Get Started
@@ -443,7 +451,7 @@ const Landingpage = () => {
                 href={`mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
                 className="segoe md:text-base text-xl p-3 border 2xl:text-xl rounded-full  border-gray-600 mt-7 mb-20">
                 Contact Us
-            </a>
+              </a>
             </div>
           </div>
         </div>
