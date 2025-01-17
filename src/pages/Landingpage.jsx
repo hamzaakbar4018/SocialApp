@@ -81,8 +81,8 @@ const Landingpage = () => {
           <h1 className="abe text-[43px] tracking-tight md:mt-4 md:ml-0 ml-3 md:text-start md:text-4xl lg:text-4xl">
             Connect, Collaborate, Create:
           </h1>
-          <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-5xl md:mt-3">
-            <span className="text-[#d6587f] ">YouTooArt</span>-Your Artistic
+          <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-6xl md:mt-3">
+            <span className="text-[#d6587f] ">CineTroop</span>-Your Artistic
             Marketplace.
           </h1>
           <p className=" abe 2xl:mt-8 mt-5 md:text-lg md:m-0 m-3 text-start text-[#252525]">
@@ -212,7 +212,7 @@ const Landingpage = () => {
                 Discover, Apply, Shine.
               </h1>
               <p className="segoe text-[20px] md:text-base change text-[#7E8B9A] mb-4">
-                Unlock a world of opportunities through YouTooArt's diverse
+                Unlock a world of opportunities through CineTroop's diverse
                 casting calls. From indie projects to collaborations with ren
               </p>
             </div>
@@ -221,7 +221,7 @@ const Landingpage = () => {
                 Connect, Collaborate, Create.
               </h1>
               <p className="segoe change text-[20px] md:text-base text-[#7E8B9A] mb-4">
-                YouTooArt revolutionizes artistic collaboration with powerful
+              CineTroop revolutionizes artistic collaboration with powerful
                 tools. Seamlessly connect with fellow artists, discuss projects
               </p>
 
@@ -247,11 +247,11 @@ const Landingpage = () => {
             <div className="change md:block hidden number w-[20%]">01</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                What is youtooart.com about?
+                What is CineTroop.com about?
               </h1>
               {visibleSections[0] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
-                  Youtooart.com is an online networking platform that allows
+                  CineTroop.com is an online networking platform that allows
                   people of various artistic interests to communicate,
                   collaborate and come up with their own artworks.
                 </p>
@@ -277,11 +277,11 @@ const Landingpage = () => {
             <div className="change md:block hidden number w-[20%]">02</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe  md:text-xl text-[24px] font-semibold mb-4">
-                How does youtooart.com work?
+                How does CineTroop.com work?
               </h1>
               {visibleSections[1] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
-                  Youtooart.com is an online networking platform that allows
+                  CineTroop.com is an online networking platform that allows
                   people of various artistic interests to communicate,
                   collaborate and come up with their own artworks.
                 </p>
@@ -307,12 +307,12 @@ const Landingpage = () => {
             <div className=" number md:block hidden number w-[20%]">03</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                How does youtooart.com help a certain user with a particular
+                How does CineTroop.com help a certain user with a particular
                 interest in some art category?
               </h1>
               {visibleSections[2] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
-                  Youtooart.com is an online networking platform that allows
+                  CineTroop.com is an online networking platform that allows
                   people of various artistic interests to communicate,
                   collaborate and come up with their own artworks.
                 </p>
@@ -338,12 +338,12 @@ const Landingpage = () => {
             <div className=" number md:block hidden number w-[20%]">04</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                How does youtooart.com help people who are trying to perceive a
+                How does CineTroop.com help people who are trying to perceive a
                 full-time career in arts?
               </h1>
               {visibleSections[3] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
-                  Youtooart.com is an online networking platform that allows
+                  CineTroop.com is an online networking platform that allows
                   people of various artistic interests to communicate,
                   collaborate and come up with their own artworks.
                 </p>
@@ -369,11 +369,11 @@ const Landingpage = () => {
             <div className=" number md:block hidden number w-[20%]">05</div>
             <div className="data md:w-[60%] w-full md:m-0 ml-3 cursor-pointer">
               <h1 className="segoe md:text-xl text-[24px] font-semibold mb-4">
-                Anything else from Youtooart.com?
+                Anything else from CineTroop.com?
               </h1>
               {visibleSections[4] && (
                 <p className="segoe 2xl:text-xl change text-base md:text-sm mb-4 text-gray-500">
-                  Youtooart.com is an online networking platform that allows
+                  CineTroop.com is an online networking platform that allows
                   people of various artistic interests to communicate,
                   collaborate and come up with their own artworks.
                 </p>
@@ -404,10 +404,10 @@ const Landingpage = () => {
         <div className="right flex justify-center w-full items-center p-3 md:w-1/2">
           <div className="flex flex-col items-center">
             <h1 className="segoe text-[45px] md:mt-0 mt-20 lg:text-6xl text-center md:text-start md:w-[60%]">
-              Download The YouTooArt App
+              Download The CineTroop App
             </h1>
             <p className="change lg:text-xl md:text-start text-center text-wrap md:text-base text-[20px] md:w-[60%] text-gray-500 mt-3">
-              Elevate your artistry with the YouTooArt app. Download now to
+              Elevate your artistry with the CineTroop app. Download now to
               explore casting calls, connect with fellow artists, and
               collaborate on the go. Your masterpiece awaits – take the first
               step.

@@ -10,7 +10,7 @@
   position: relative;
 }
 .loader::after {
-  content: 'YouTooArt';
+  content: 'CineTroop';
   position: absolute;
   left: 0;
   top: 0;
