@@ -9,9 +9,9 @@ import '../CSS/Navbar.css'
 import { useAuth } from '../Context/AuthContext';
 const Footer = () => {
     const { currentUser } = useAuth();
-    const contactEmail = "support@youtooart.com";
+    const contactEmail = "support@cinetroop.com";
     const subject = encodeURIComponent("Inquiry from YouTooArt Website");
-    const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
+    const body = encodeURIComponent("Hello CineTroop Team,\n\nI would like to inquire about...");
     return (
         <div className="main w-full  bg-[#1C1C1C]  p-8" >
             <div className=' w-full flex justify-between text-white'>

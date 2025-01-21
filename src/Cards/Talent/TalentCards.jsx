@@ -130,6 +130,11 @@ const TalentCards = ({
   };
 
   const handleFollow = async () => {
+    if (!currentUser) {
+      window.location.href = '/login';
+      return false;
+  }
+  
     if (onFollow) {
       setIsConnecting(true);
       try {

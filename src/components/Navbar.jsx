@@ -16,13 +16,16 @@ const Navbar = () => {
 
     const { currentUser } = useAuth();
 
-    const contactEmail = "support@youtooart.com";
+    // const contactEmail = "support@youtooart.com";
+    // const subject = encodeURIComponent("Inquiry from YouTooArt Website");
+    // const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
+    const contactEmail = "support@cinetroop.com";
     const subject = encodeURIComponent("Inquiry from YouTooArt Website");
-    const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
+    const body = encodeURIComponent("Hello CineTroop Team,\n\nI would like to inquire about...");
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
-            behavior: 'smooth', 
+            behavior: 'smooth',
         });
     };
 

@@ -14,7 +14,7 @@ import NoData from '../Loader/NoData'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 const MyCasting = () => {
   const { currentUser } = useAuth();
-  const UserId = currentUser.uid;
+  const UserId = currentUser?.uid;
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -257,6 +257,11 @@ const MyCasting = () => {
 
 
   const handleCasting = () => {
+    if (!currentUser) {
+      window.location.href = "/login";
+      return false;
+    }
+
     if (myCasting.length >= castingCallLimit) {
       setShowPaymentModal(true);
       return;
@@ -307,7 +312,7 @@ const MyCasting = () => {
           </div>
           {
             myCasting.length === 0 ? (
-              <NoData data={"You have not created any casting call."}/>
+              <NoData data={"You have not created any casting call."} />
             ) : (
               myCasting.map((data, index) => (
                 <div key={index} onClick={() => {

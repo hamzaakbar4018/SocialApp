@@ -830,7 +830,7 @@ const UserDescription = ({
   const { applicationCollection, setApplicationCollection, setMyCallID } = useContext(ApplicationData);
   const { currentUser } = useAuth();
   setMyCallID(callId);
-  const dummyID = currentUser.uid;
+  const dummyID = currentUser?.uid;
   const [contactNumber, setContactNumber] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
@@ -1061,6 +1061,10 @@ const UserDescription = ({
   const [apply, setApply] = useState(false);
   const [casting, setCasting] = useState(false);
   const handleApplyClick = () => {
+    if (!currentUser) {
+      window.location.href = "/login";
+      return false;
+    }
     setApply(!apply);
   };
   const handleCasting = () => {

@@ -31,9 +31,9 @@ const Landingpage = () => {
       navigate("/login");
     }
   }
-  const contactEmail = "support@youtooart.com";
+  const contactEmail = "support@cinetroop.com";
   const subject = encodeURIComponent("Inquiry from YouTooArt Website");
-  const body = encodeURIComponent("Hello YouTooArt Team,\n\nI would like to inquire about...");
+  const body = encodeURIComponent("Hello CineTroop Team,\n\nI would like to inquire about...");
 
   const handleContact = () => {
     if (UserID) {
@@ -87,7 +87,7 @@ const Landingpage = () => {
           </h1>
           <p className=" abe 2xl:mt-8 mt-5 md:text-lg md:m-0 m-3 text-start text-[#252525]">
             Empowering artists to forge meaningful connections and bring
-            creative visions to life.Join the artistic revolution at YouTooArt.
+            creative visions to life.Join the artistic revolution at CineTroop.
           </p>
 
           <div className="md:flex hidden justify-start items-start mt-4">
@@ -203,7 +203,7 @@ const Landingpage = () => {
                 Craft Your Identity,Share Your Passion
               </h1>
               <p className="segoe text-[20px] md:text-base change text-[#7E8B9A]  mb-4">
-                Your artistic journey begins with YouTooArt's personalized
+                Your artistic journey begins with CineTroop's personalized
                 profile
               </p>
             </div>
@@ -438,7 +438,7 @@ const Landingpage = () => {
           <img className="md:w-[35%] md:pt-2 pt-10 w-[55%]" src={land8img} alt="" />
           <div className="flex justify-center items-center flex-col mt-8">
             <h1 className=" segoe md:mx-0 mx-3 md:text-4xl  2xl:text-5xl text-[38px] md:w-[70%] text-center">
-              Connect with Us – Let's Shape Your YouTooArt Experience.
+              Connect with Us – Let's Shape Your CineTroop Experience.
             </h1>
             <p className=" segoe md:text-base text-[20px]  lg:mt-8 mt-5 md:m-0 m-10 2xl:text-xl text-center md:text-start">
               Have questions, suggestions, or need assistance? We're here for

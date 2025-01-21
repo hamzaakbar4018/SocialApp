@@ -1,5 +1,5 @@
 // import { useState, useEffect } from 'react';
-// import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+// import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 // import { db } from '../Services/Firebase';
 // import { useAuth } from '../Context/AuthContext';
 
@@ -15,7 +15,7 @@
 
 //   const fetchCallsData = async () => {
 //     if (!currentUser?.uid) {
-//       console.error("No current user found");
+//       // console.error("No current user found");
 //       return;
 //     }
 
@@ -23,8 +23,13 @@
 //     setError(null);
     
 //     try {
-//       // Fetch all casting calls
-//       const castingCallsSnapshot = await getDocs(collection(db, "castingCallCollection"));
+//       // Create a query with orderBy 'createdAt' in descending order
+//       const castingCallsQuery = query(
+//         collection(db, "castingCallCollection"),
+//         orderBy("createdAt", "desc") // Order by createdAt descending
+//       );
+
+//       const castingCallsSnapshot = await getDocs(castingCallsQuery);
 //       const castingCalls = castingCallsSnapshot.docs.map((doc) => ({
 //         id: doc.id,
 //         ...doc.data(),
@@ -62,7 +67,7 @@
 //         }));
 
 //         setAllCallsNUsers(enrichedCastingCalls);
-//         console.log("All Data : ", enrichedCastingCalls);
+//         // console.log("All Data : ", enrichedCastingCalls);
 
 //         // Find calls where the user has applied
 //         const appliedCalls = enrichedCastingCalls.filter(call => 
@@ -71,11 +76,11 @@
 //         );
 
 //         setUserAppliedCastingCalls(appliedCalls);
-//         console.log("User Applied Calls : ", appliedCalls);
+//         // console.log("User Applied Calls : ", appliedCalls);
 //       }
 
 //     } catch (error) {
-//       console.error("Error fetching casting calls:", error);
+//       // console.error("Error fetching casting calls:", error);
 //       setError(error);
 //     } finally {
 //       setIsLoading(false);
@@ -107,7 +112,8 @@
 //     error,
 //     hasUserApplied,
 //     getAppliedCall,
-//     refetch: fetchCallsData
+//     refetch: fetchCallsData,
+//     fetchCallsData
 //   };
 // };
 
@@ -124,15 +130,9 @@ const useFetchCastingCall = () => {
   const [userAppliedCastingCalls, setUserAppliedCastingCalls] = useState([]);
   const [error, setError] = useState(null);
   
-  // Move useAuth to the top level
   const { currentUser } = useAuth();
 
   const fetchCallsData = async () => {
-    if (!currentUser?.uid) {
-      // console.error("No current user found");
-      return;
-    }
-
     setIsLoading(true);
     setError(null);
     
@@ -140,7 +140,7 @@ const useFetchCastingCall = () => {
       // Create a query with orderBy 'createdAt' in descending order
       const castingCallsQuery = query(
         collection(db, "castingCallCollection"),
-        orderBy("createdAt", "desc") // Order by createdAt descending
+        orderBy("createdAt", "desc")
       );
 
       const castingCallsSnapshot = await getDocs(castingCallsQuery);
@@ -181,20 +181,18 @@ const useFetchCastingCall = () => {
         }));
 
         setAllCallsNUsers(enrichedCastingCalls);
-        // console.log("All Data : ", enrichedCastingCalls);
 
-        // Find calls where the user has applied
-        const appliedCalls = enrichedCastingCalls.filter(call => 
-          Array.isArray(call.appliedUsers) && 
-          call.appliedUsers.includes(currentUser.uid)
-        );
-
-        setUserAppliedCastingCalls(appliedCalls);
-        // console.log("User Applied Calls : ", appliedCalls);
+        // Only set applied calls if user is logged in
+        if (currentUser?.uid) {
+          const appliedCalls = enrichedCastingCalls.filter(call => 
+            Array.isArray(call.appliedUsers) && 
+            call.appliedUsers.includes(currentUser.uid)
+          );
+          setUserAppliedCastingCalls(appliedCalls);
+        }
       }
 
     } catch (error) {
-      // console.error("Error fetching casting calls:", error);
       setError(error);
     } finally {
       setIsLoading(false);
@@ -202,10 +200,9 @@ const useFetchCastingCall = () => {
   };
 
   useEffect(() => {
-    if (currentUser?.uid) {
-      fetchCallsData();
-    }
-  }, [currentUser]); // Add currentUser as dependency
+    // Fetch data regardless of user login status
+    fetchCallsData();
+  }, []); // Remove currentUser dependency
 
   // Helper function to check if user has applied to a specific casting call
   const hasUserApplied = (castingCallId) => {

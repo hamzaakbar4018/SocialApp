@@ -354,6 +354,8 @@ const Sidebar = () => {
         setLogout(!logout);
     };
 
+    const { currentUser } = useAuth();
+
     return (
         <div className='w-full bg-[#FFFFFF] md:h-full h-screen  overflow-y-auto flex flex-col md:border-r md:border-gray-300'>
             <Link to="/">
@@ -615,10 +617,16 @@ const Sidebar = () => {
 
             {/* Logout Section */}
             <div className="p-3 mb-4 hidden md:block m-3 mx-5 md:mb-4 text-[#FF4E4E] cursor-pointer hover:text-red-600 transition-colors duration-300 flex-shrink-0">
-                <div onClick={toggleLogout} className="flex items-center gap-2">
-                    <CiLogout className="text-2xl font-bold" />
-                    <h1 className="text-lg font-medium">Logout</h1>
-                </div>
+                {
+                    currentUser ? (
+                        <div onClick={toggleLogout} className="flex items-center gap-2">
+                            <CiLogout className="text-2xl font-bold" />
+                            <h1 className="text-lg font-medium">Logout</h1>
+                        </div>
+                    ) : (
+                        ''
+                    )
+                }
                 {logout && (
 
                     <Modal onClose={toggleLogout}>
