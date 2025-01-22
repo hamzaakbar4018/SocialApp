@@ -44,18 +44,18 @@ const Landingpage = () => {
   }
 
   const handleTalent = async () => {
-    if (UserID) {
-      navigate("/talent");
-    } else {
+    // if (UserID) {
+    //   navigate("/talent");
+    // } else {
       navigate("/login");
-    }
+    // }
   }
   const handleCalls = async () => {
-    if (UserID) {
-      navigate("/casting/calls");
-    } else {
+    // if (UserID) {
+    //   navigate("/casting/calls");
+    // } else {
       navigate("/login");
-    }
+    // }
   }
 
   const landingtalent = true;

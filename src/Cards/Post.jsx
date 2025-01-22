@@ -20,7 +20,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
         navigate(`/userprofile/${uid}`);
 
     }
-    const currentUserId = currentUser.uid;
+    const currentUserId = currentUser?.uid;
     const [comments, setComments] = useState([]);
     const [Author, setAuthor] = useState([]);
 

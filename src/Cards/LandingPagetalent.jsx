@@ -13,7 +13,7 @@ import Load from './../components/Loader/Load'
 
 const LandingPagetalent = ({landingpage}) => {
   const { isLoading, allCallsNUsers } = useFetchCastingCall();
-    
+        // consol   e.log("data", allCallsNUsers);
       // const landingpage = true;
       return (
         isLoading ? (
@@ -27,8 +27,8 @@ const LandingPagetalent = ({landingpage}) => {
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={10}
                     scrollbar={{ draggable: true }}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log("slide change")}
+                    // onSwiper={(swiper) => console.log(swiper)}
+                    // onSlideChange={() => console.log("slide change")}
                     className={`swiper-container ${landingpage && 'min-w-[300px] md:pl-[66px]'} w-full overflow-hidden`}
                     breakpoints={{
                         640: {
@@ -47,7 +47,7 @@ const LandingPagetalent = ({landingpage}) => {
                 >
                     {allCallsNUsers.map((data) => (
                         <SwiperSlide key={data.id} className={`md:min-w-[350px] 2xl:min-w-[440px] 2xl:min-h-[400px] md:min-h-[300px] ${landingpage ? 'p-4 hover:scale-105 hover-rounded-2xl transition-transform duration-300' : ''}`}>
-                            <UserCard {...data} img={data?.user?.image} landingpage={landingpage}/>
+                            <UserCard {...data} location={data?.city} day={data?.duration} type={data?.roleTitle} img={data?.user?.image} landingpage={landingpage}/>
                         </SwiperSlide>
                     ))}
                 </Swiper>

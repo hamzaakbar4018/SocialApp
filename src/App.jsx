@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import Landingpage from './pages/Landingpage';
 import Login from './pages/Login/Login';
 import Verify from './pages/Login/Verify';
@@ -36,6 +36,7 @@ import UserMywork from './components/SeperateProfile/UserMywork';
 import PostDetail from './components/PostDetail';
 import AllCategories from './pages/AllCategories';
 import UserList from './pages/UserList';
+import Content from './pages/Content';
 
 const MainLayout = () => (
   <div className='routing flex bg-white'>
@@ -73,6 +74,7 @@ const App = () => {
       <Route element={<AuthLayout />}>
         <Route path='/' element={<Landingpage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/content' element={<Content />} />
         <Route path='/verify' element={<Verify />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/terms' element={<Public_terms />} />
@@ -81,10 +83,14 @@ const App = () => {
         <Route path="/users/:categoryName" element={<UserList />} />
         <Route path='*' element={<NotFound />} />
         <Route path="/userprofile/:id/*" element={<Profilee />}>
-          <Route path="userprofileactivity" element={<UserActivity />} />
-          <Route path="userprofileabout" element={<UserAbout />} />
-          <Route path="userprofilemywork" element={<UserMywork />} />
-        </Route>
+        {/* Default Route Redirect */}
+        <Route index element={<Navigate to="userprofileactivity" replace />} />
+
+        {/* Sub-routes */}
+        <Route path="userprofileactivity" element={<UserActivity />} />
+        <Route path="userprofileabout" element={<UserAbout />} />
+        <Route path="userprofilemywork" element={<UserMywork />} />
+      </Route>
       </Route>
 
       {/* Public Routes with Sidebar */}

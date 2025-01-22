@@ -45,7 +45,7 @@ const Navbar = () => {
                         <li><Link to="/talent" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Talent</Link></li>
                         <li><Link to="/casting/calls" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Casting Calls</Link></li>
                         <li><Link to="/categories" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Categories</Link></li>
-                        <li><Link to="/home" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Content</Link></li>
+                        <li><Link to="/content" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>Content</Link></li>
                         <li><a href="#how-it-works" className='hover:border-b-2 hover:border-[#d6587f] transition-all'>How it Works</a></li>
                         {/* <li><Link to="/download" className='hover:border-b-2 hover:border-[#C02C2C] transition-all'>Download</Link></li> */}
                         <li><a

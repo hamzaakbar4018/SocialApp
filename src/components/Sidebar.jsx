@@ -410,11 +410,35 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         {/* Network Link */}
-                        <li>
+                        {
+                            !currentUser && (
+                                <li>
+                            <NavLink
+                                to='/categories'
+                                className={({ isActive }) =>
+                                    `flex  items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                            >
+                                {({ isActive }) => (
+                                    <>
+                                        <img
+                                            src={NetworkIcon}
+                                            alt="Network"
+                                            style={{ filter: isActive ? activeIconFilter : '' }}
+                                            className='w-6 h-6 mb-1'
+                                        />
+                                        Categories
+                                    </>
+                                )}
+                            </NavLink>
+                        </li>
+                            )
+                        }
+                        <li className={`${!currentUser && 'hidden'} `}>
                             <NavLink
                                 to='/network'
                                 className={({ isActive }) =>
-                                    `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                    `flex  items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
                                 }
                             >
                                 {({ isActive }) => (
@@ -474,7 +498,7 @@ const Sidebar = () => {
                         {/* Account Section */}
                         <div
                             onClick={toggleAccount}
-                            className='flex cursor-pointer justify-between items-center mt-4'
+                            className={`flex cursor-pointer justify-between items-center mt-4  ${!currentUser && 'hidden'}`}
                         >
                             <h2 className='text-gray-500 mx-3'>My Account</h2>
                             <div className={`transition-transform duration-300 ${account ? 'rotate-180' : 'rotate-0'}`}>
@@ -482,13 +506,13 @@ const Sidebar = () => {
                             </div>
                         </div>
                         {account && (
-                            <div className='flex flex-col gap-2 mt-2'>
+                            <div className={`flex flex-col gap-2 mt-2`}>
                                 {/* Profile Link */}
                                 <li>
                                     <NavLink
                                         to='/profile'
                                         className={({ isActive }) =>
-                                            `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                            `flex items-center  gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
                                         }
                                     >
                                         {({ isActive }) => (

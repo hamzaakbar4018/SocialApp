@@ -1,11 +1,20 @@
 import React from 'react'
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/AuthContext';
 
 const UserCard = ({ title, img, type, duration, location, budget, description, username, city, isSelected, landingpage, apply, mycasting, date, castingtab, age, day, crew, height, gender, des, deletepop }) => {
     const dayDate = date && date.toDate ? date.toDate().toLocaleDateString('en-US', { weekday: 'long' }) : 'Unknown Date';
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
+    const handleApplyClick = () => {
+        if (!currentUser) {
+            navigate('/login');
+        } else {
+            navigate('/casting/calls');
+        }
+    };
 
-    console.log(type)
     return (
         <div className={`cursor-pointer p-4 ${deletepop ? '!bg-[#E6E7E854] p-0' : ''} ${castingtab ? '!bg-[#E6E7E854]' : ''} ${apply && '!bg-gray-100'} ${landingpage && 'md:w-full w-auto min-h-full rounded-2xl'}  ${isSelected ? 'bg-[#ECF5FE] border-l-2 border-gray-700' : 'bg-white'}`}>
             <div className='flex justify-between'>
@@ -72,7 +81,7 @@ const UserCard = ({ title, img, type, duration, location, budget, description, u
                     </div>
                 </div>
             </div>
-            {
+            {/* {
                 landingpage && (
                     <Link to="/casting/calls" className='md:w-auto w-full'>
                         <button className='p-3 w-full md:w-auto rounded-3xl bg-black text-white mt-5'>
@@ -80,7 +89,15 @@ const UserCard = ({ title, img, type, duration, location, budget, description, u
                         </button>
                     </Link>
                 )
-            }
+            } */}
+            {landingpage && (
+                <button
+                    onClick={handleApplyClick}
+                    className="p-3 w-full md:w-auto rounded-3xl bg-black text-white mt-5"
+                >
+                    Apply Now
+                </button>
+            )}
         </div>
     )
 }

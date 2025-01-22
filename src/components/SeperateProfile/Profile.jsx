@@ -11,9 +11,40 @@ import Sidebar from '../Sidebar.jsx';
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import TopData from './TopData.jsx';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../Services/Firebase.jsx';
 
 const Profile = () => {
   const { id } = useParams();
+  const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        const userRef = doc(db, "userCollection", id);
+        const userSnap = await getDoc(userRef);
+        console.log("getting")
+        if (userSnap.exists()) {
+          setUserData(userSnap.data());
+        } else {
+          setError("No such document exists!");
+        }
+      } catch (error) {
+        setError("Error fetching user data: " + error.message);
+        console.error("Error getting document:", error);
+      } finally {
+        setLoading(false);
+      }
+    }; if (id) {
+      fetchUserData();
+    }
+  }, [id]);
+
+  console.log(userData)
+
   const navigate = useNavigate(); // Initialize useNavigate
   const notifyData = useContext(NotificatinData);
   const [popup, setpopup] = useState(false);
@@ -77,7 +108,7 @@ const Profile = () => {
 
             {/* Profile Title with Menu Toggle */}
             <h1 onClick={handleSidebarToggle} className={`${search ? 'hidden' : 'text-xl text-nowrap font-bold items-center p-3 flex gap-2'}`}>
-              <span className='md:hidden block'><FiMenu className='text-3xl' /></span><span className='md:ml-5'>Profile</span>
+              <span className='md:hidden block'><FiMenu className='text-3xl' /></span><span className='md:ml-5'>I am {userData?.categoryName?.length > 0 ? userData.categoryName[0] : 'User'}</span>
             </h1>
           </div>
 
