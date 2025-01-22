@@ -1163,7 +1163,7 @@ const TalentMain = () => {
                                 isLoggedIn={!!currentUser}
                             />
                         ) : (
-                            <NoDataFound />
+                            <NoDataFound data={"No production houses yet"}/>
                         )}
                     </div>
                 </div>
