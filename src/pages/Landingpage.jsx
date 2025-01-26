@@ -45,16 +45,16 @@ const Landingpage = () => {
 
   const handleTalent = async () => {
     // if (UserID) {
-      navigate("/talent");
+    navigate("/talent");
     // } else {
-      // navigate("/login");
+    // navigate("/login");
     // }
   }
   const handleCalls = async () => {
     // if (UserID) {
-      navigate("/casting/calls");
+    navigate("/casting/calls");
     // } else {
-      // navigate("/login");
+    // navigate("/login");
     // }
   }
 
@@ -81,13 +81,11 @@ const Landingpage = () => {
           <h1 className="abe text-[43px] tracking-tight md:mt-4 md:ml-0 ml-3 md:text-start md:text-4xl lg:text-4xl">
             Connect, Collaborate, Create:
           </h1>
-          <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-6xl md:mt-3">
-            <span className="text-[#d6587f] ">CineTroop</span>-Your Artistic
-            Marketplace.
+          <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-5xl xl:text-6xl md:mt-3">
+            <span className="text-[#d6587f] ">CineTroop</span>-Connecting every creative mind!
           </h1>
-          <p className=" abe 2xl:mt-8 mt-5 md:text-lg md:m-0 m-3 text-start text-[#252525]">
-            Empowering artists to forge meaningful connections and bring
-            creative visions to life.Join the artistic revolution at CineTroop.
+          <p className="md:w-[95%] abe 2xl:mt-8 mt-5 md:text-lg md:m-0 m-3 text-start text-[#252525]">
+            Empowering film professionals to showcase their art profiles, forge meaningful connections to collaborate and create content. Join the artistic revolution at cinetroop.com !
           </p>
 
           <div className="md:flex hidden justify-start items-start mt-4">
@@ -147,10 +145,10 @@ const Landingpage = () => {
         <div className="md:m-20 mx-3 pb-10 md:w-[80%] md:mb-10 md:flex">
           <div className="">
             <h1 className="segoe change text-[45px] text-start lg:text-6xl">
-              Find The Right Talent
+              Find The Right Talent !
             </h1>
-            <p className="change mt-5 md:mt-10 text-start lg:text-xl">
-              Find the right talent for your new project.
+            <p className="change mt-5 md:mt-10 text-start md:ml-0 ml-2 lg:text-xl">
+              Find talented film professionals for your upcoming short films, feature films, Web series, shows and gigs ! If you are an art Talent, create your art profile at cinetroop.com !
             </p>
           </div>
         </div>
@@ -168,11 +166,10 @@ const Landingpage = () => {
             <h1
 
               className="segoe text-[45px] text-start lg:text-6xl">
-              Find The Right Casting Call
+              Find The Right Casting Call !
             </h1>
-            <p className="change mt-6 md:mt-10 lg:text-xl text-start">
-              Find the latest casting calls and apply for the roles that match
-              your skills.
+            <p className="change mt-6 md:ml-0 ml-1 md:mt-10 lg:text-xl text-start">
+              Find the right casting and crew calls and apply for the roles that match your artistic skills. If you are looking for casting or crew for your projects, create a casting/crew call at cinetroop.com !
             </p>
           </div>
         </div>
@@ -200,20 +197,22 @@ const Landingpage = () => {
           <div className="right md:mt-0 mt-16 md:w-1/2 flex flex-col gap-5 lg:ml-10">
             <div className="border-b block flex-col gap-2 border-gray-300">
               <h1 className="segoe text-[28px] font-semibold change md:text-2xl">
-                Craft Your Identity,Share Your Passion
+                Craft Your Identity,Share Your Passion !
               </h1>
               <p className="segoe text-[20px] md:text-base change text-[#7E8B9A]  mb-4">
-                Your artistic journey begins with CineTroop's personalized
-                profile
+                {/* Your artistic journey begins with CineTroop's personalized
+                profile */}
+                If you are an aspiring actor, director, musician or have any artistic interests, create your personalized profile under your artistic category
               </p>
             </div>
             <div className="border-b flex flex-col gap-2 border-gray-300">
               <h1 className="segoe text-[28px] font-semibold change md:text-2xl">
-                Discover, Apply, Shine.
+                Discover, Apply & Shine.
               </h1>
               <p className="segoe text-[20px] md:text-base change text-[#7E8B9A] mb-4">
-                Unlock a world of opportunities through CineTroop's diverse
-                casting calls. From indie projects to collaborations with ren
+                {/* Unlock a world of opportunities through CineTroop's diverse
+                casting calls. From indie projects to collaborations with ren */}
+                Unlock a world of opportunities through Cinetroop’s diverse casting and crew calls. From Indie projects to collaborations with renowned Production houses, we bring to you a wide range of Casting and crew opportunities from the film and art world.
               </p>
             </div>
             <div>
@@ -221,8 +220,9 @@ const Landingpage = () => {
                 Connect, Collaborate, Create.
               </h1>
               <p className="segoe change text-[20px] md:text-base text-[#7E8B9A] mb-4">
-              CineTroop revolutionizes artistic collaboration with powerful
-                tools. Seamlessly connect with fellow artists, discuss projects
+                {/* CineTroop revolutionizes artistic collaboration with powerful
+                tools. Seamlessly connect with fellow artists, discuss projects */}
+                Connect with other art talent at cinetroop and expand your art network to collaborate and create.
               </p>
 
               <Link to="/login">
