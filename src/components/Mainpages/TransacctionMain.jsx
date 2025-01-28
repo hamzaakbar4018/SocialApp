@@ -213,7 +213,7 @@ const TransacctionMain = () => {
                                         ) : (
                                             <div>
                                                 {/* <h1 className='font-bold m-2'>No transactions found:</h1> */}
-                                                <NoDataFound />
+                                                <NoDataFound data={"No Transactions yet"}/>
 
                                             </div>
                                         )}

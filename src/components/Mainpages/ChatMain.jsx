@@ -877,7 +877,7 @@ const handleSendMessage = async (otherUserId, textMessage) => {
                     />
                   ))
                 ) : (
-                  <NoData />
+                  <NoData data={"No Chats yet"}/>
                 )
               }
             </div>

@@ -1141,7 +1141,7 @@ const TalentMain = () => {
                                 isLoggedIn={!!currentUser}
                             />
                         ) : (
-                            <NoDataFound />
+                            <NoDataFound data={"No Talent found"}/>
                         )}
                     </div>
 

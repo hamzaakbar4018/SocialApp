@@ -251,6 +251,7 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { RiShareForwardLine } from "react-icons/ri";
 import SharePopup from "../SharePopup.jsx";
+import { getBaseUrl } from "../../config.js";
 const TalentCards = ({
   image,
   firstName,
@@ -435,11 +436,11 @@ const TalentCards = ({
 
   const [showShare, setShowShare] = useState(false);
   const getProfileUrl = () => {
-    const baseUrl = 'https://cinetroop.com' || window.location.origin;
+    const baseUrl = getBaseUrl();
     return `${baseUrl}/userprofile/${docID}`;
   };
 
-  
+
 
 
   return (
@@ -461,8 +462,8 @@ const TalentCards = ({
                 />
 
                 <RiShareForwardLine
-                onClick={() => setShowShare(true)}
-                className={`text-3xl text-gray-400 cursor-pointer  ${landingtalent && 'hidden'}`}/>
+                  onClick={() => setShowShare(true)}
+                  className={`text-3xl text-gray-400 cursor-pointer  ${landingtalent && 'hidden'}`} />
               </div>
             </div>
             <h2 className="mt-2 text-lg font-bold">{firstName}</h2>
@@ -512,11 +513,11 @@ const TalentCards = ({
         </div>
       </div>
       {showShare && (
-                <SharePopup
-                    url={getProfileUrl()}
-                    onClose={() => setShowShare(false)}
-                />
-            )}
+        <SharePopup
+          url={getProfileUrl()}
+          onClose={() => setShowShare(false)}
+        />
+      )}
     </div>
   );
 };

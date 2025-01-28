@@ -242,7 +242,7 @@ const Calls = () => {
       </div>
     </div>
   ) : (
-    <NoDataFound />
+    <NoDataFound data={"No Casting Calls Yet"}/>
   );
 };
 

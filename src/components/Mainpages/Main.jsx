@@ -375,7 +375,7 @@ const Main = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        <NoData />
+                                        <NoData data={"No Posts found"}/>
                                     )
                                 ) : (
                                     <Loader />

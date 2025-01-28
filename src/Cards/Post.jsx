@@ -111,7 +111,7 @@ const Post = ({ author, postID, data, image, activity, userDetails, createdAt, l
     const [showShare, setShowShare] = useState(false);
     const getPostUrl = () => {
         // Get the base URL of your website
-        const baseUrl = 'https://cinetroop.com' || window.location.origin;
+        const baseUrl = window.location.origin || 'https://cinetroop.com';
         // Create the full post URL using postID
         return `${baseUrl}/post/${postID}`;
       };
