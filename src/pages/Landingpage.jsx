@@ -79,7 +79,7 @@ const Landingpage = () => {
       <div className="abe flex md:flex md:flex-row pt-10 md:pl-10 mt-5">
         <div className="left md:ml-8 md:w-1/2">
           <h1 className="abe text-[43px] tracking-tight md:mt-4 md:ml-0 ml-3 md:text-start md:text-4xl lg:text-4xl">
-            Connect, Collaborate, Create:
+            Connect Collaborate Create
           </h1>
           <h1 className="abe tracking-tight text-[43px] md:ml-0 ml-3 text-start md:text-4xl lg:text-5xl xl:text-6xl md:mt-3">
             <span className="text-[#d6587f] ">CineTroop</span>-Connecting every creative mind!

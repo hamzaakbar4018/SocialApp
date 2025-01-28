@@ -378,9 +378,9 @@ const IndustryPage = ({
     : [];
 
   // Debugging: Log the current state of talentData and items
-  console.log("talentData:", talentData);
-  console.log("Is talentData an array?", Array.isArray(talentData));
-  console.log("items:", items);
+  // console.log("talentData:", talentData);
+  // console.log("Is talentData an array?", Array.isArray(talentData));
+  // console.log("items:", items);
 
   // Filter data when searchQuery changes
   useEffect(() => {

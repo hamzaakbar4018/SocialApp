@@ -21,14 +21,14 @@
 //   const [connectionStatus, setConnectionStatus] = useState('Connect');
 //   const { currentUser } = useAuth();
 //   const navigate = useNavigate();
-  
+
 //   const handleProfile = (uid) => {
 //     navigate(`/userprofile/${uid}`);
 //   };
 
 //   const fetchConnectionStatus = async () => {
 //     if (!currentUser) return;
-    
+
 //     try {
 //       const currentUserQuery = query(
 //         collection(db, 'userCollection'),
@@ -69,7 +69,7 @@
 //       const now = new Date();
 //       const timestamp = Timestamp.now();
 //       const sortTimeValue = now.getTime();
-      
+
 //       const formattedTime = now.toLocaleString('en-US', {
 //         month: '2-digit',
 //         day: '2-digit',
@@ -130,7 +130,7 @@
 //       navigate('/login');
 //       return;
 //     }
-    
+
 //     if (onConnect) {
 //       setIsConnecting(true);
 //       try {
@@ -156,7 +156,7 @@
 //       navigate('/login');
 //       return;
 //     }
-    
+
 //     if (onFollow) {
 //       setIsConnecting(true);
 //       try {
@@ -249,7 +249,8 @@ import { collection, query, where, getDocs, doc, setDoc, Timestamp } from "fireb
 import { db } from "../../Services/Firebase.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
-
+import { RiShareForwardLine } from "react-icons/ri";
+import SharePopup from "../SharePopup.jsx";
 const TalentCards = ({
   image,
   firstName,
@@ -265,14 +266,14 @@ const TalentCards = ({
   const [connectionStatus, setConnectionStatus] = useState('Connect');
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleProfile = (uid) => {
     navigate(`/userprofile/${uid}`);
   };
 
   const fetchConnectionStatus = async () => {
     if (!currentUser) return;
-    
+
     try {
       // Query for current user's document
       const currentUserQuery = query(
@@ -324,7 +325,7 @@ const TalentCards = ({
       const now = new Date();
       const timestamp = Timestamp.now();
       const sortTimeValue = now.getTime();
-      
+
       const formattedTime = now.toLocaleString('en-US', {
         month: '2-digit',
         day: '2-digit',
@@ -359,13 +360,13 @@ const TalentCards = ({
         setDoc(doc(db, "messages", docID, "recent_chats", currentUser.uid), otherUserChatData)
       ]);
 
-      navigate('/chat', { 
-        state: { 
+      navigate('/chat', {
+        state: {
           selectedChat: {
             ...currentUserChatData,
             id: docID
           }
-        } 
+        }
       });
     } catch (error) {
       console.error("Error initializing chat:", error);
@@ -381,7 +382,7 @@ const TalentCards = ({
       navigate('/login');
       return;
     }
-    
+
     if (onConnect) {
       setIsConnecting(true);
       try {
@@ -409,7 +410,7 @@ const TalentCards = ({
       navigate('/login');
       return;
     }
-    
+
     if (onFollow) {
       setIsConnecting(true);
       try {
@@ -432,6 +433,15 @@ const TalentCards = ({
     }
   };
 
+  const [showShare, setShowShare] = useState(false);
+  const getProfileUrl = () => {
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/userprofile/${docID}`;
+  };
+
+  
+
+
   return (
     <div className="md:overflow-hidden">
       <div className={`bg-[#ECF5FE] rounded-xl p-5 h-auto w-[255px] 
@@ -442,12 +452,18 @@ const TalentCards = ({
         <div className="flex flex-col gap-3 space-y-2 h-full">
           <div className={`${landingtalent && 'flex flex-col justify-center items-center text-xl gap-4'}`}>
             <div className="flex-shrink-0">
-              <img
-                onClick={() => handleProfile(docID)}
-                src={image}
-                className={`rounded-full w-20 cursor-pointer h-20 object-cover ${landingtalent && 'w-32 h-32'}`}
-                alt="User img"
-              />
+              <div className={`flex justify-between`}>
+                <img
+                  onClick={() => handleProfile(docID)}
+                  src={image}
+                  className={`rounded-full w-20 cursor-pointer h-20 object-cover ${landingtalent && 'w-32 h-32'}`}
+                  alt="User img"
+                />
+
+                <RiShareForwardLine
+                onClick={() => setShowShare(true)}
+                className={`text-3xl text-gray-400 cursor-pointer  ${landingtalent && 'hidden'}`}/>
+              </div>
             </div>
             <h2 className="mt-2 text-lg font-bold">{firstName}</h2>
             <div className="flex flex-wrap gap-2">
@@ -455,6 +471,7 @@ const TalentCards = ({
                 <p key={index} className="text-gray-400">{cat}</p>
               ))}
             </div>
+
           </div>
           <div className="flex justify-between items-center mt-auto">
             <button
@@ -471,11 +488,10 @@ const TalentCards = ({
                 connectionStatus === 'Connected' ||
                 connectionStatus === 'Following'
               }
-              className={`bg-black w-full text-nowrap px-3 tracking-tighter rounded-3xl text-white py-2 ${
-                (connectionStatus === 'Requested' || connectionStatus === 'Connected' || connectionStatus === 'Following') 
-                ? 'opacity-50 cursor-not-allowed' 
+              className={`bg-black w-full text-nowrap px-3 tracking-tighter rounded-3xl text-white py-2 ${(connectionStatus === 'Requested' || connectionStatus === 'Connected' || connectionStatus === 'Following')
+                ? 'opacity-50 cursor-not-allowed'
                 : ''
-              }`}
+                }`}
             >
               {isConnecting ? (
                 <div className="flex gap-1 justify-center items-center">
@@ -486,8 +502,8 @@ const TalentCards = ({
                 connectionStatus
               )}
             </button>
-            <div 
-              onClick={handleMailClick} 
+            <div
+              onClick={handleMailClick}
               className="ml-3 mr-3 cursor-pointer p-2 border border-gray-400 rounded-full flex justify-center items-center"
             >
               <IoMailOutline className="text-2xl" />
@@ -495,6 +511,12 @@ const TalentCards = ({
           </div>
         </div>
       </div>
+      {showShare && (
+                <SharePopup
+                    url={getProfileUrl()}
+                    onClose={() => setShowShare(false)}
+                />
+            )}
     </div>
   );
 };

@@ -95,9 +95,9 @@ const Navbar = () => {
                         <li className='hover:border-l-2 p-2 hover:border-[#d6587f]'>
                             <a href="#how-it-works" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>How it Works</a>
                         </li>
-                        <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
+                        {/* <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
                             <Link to="/download" className='text-lg ml-3 hover:text-[#d6587f]' onClick={toggleMenu}>Download</Link>
-                        </li>
+                        </li> */}
                         <li className='p-2 hover:border-l-2 hover:border-[#d6587f]'>
                             <a
                                 href={`mailto:${contactEmail}?subject=${subject}&body=${body}`}
