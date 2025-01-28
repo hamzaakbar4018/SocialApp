@@ -559,7 +559,7 @@
 //               </div>
 
 //               <div>
-                
+
 //                 {
 //                   <UserCard
 //                     img={img}
@@ -868,7 +868,7 @@ const UserDescription = ({
             where('userID', '==', dummyID)
           );
           const querySnapshot = await getDocs(q);
-          
+
           if (!querySnapshot.empty) {
             const applicationDoc = querySnapshot.docs[0];
             const applicationData = applicationDoc.data();
@@ -1057,13 +1057,13 @@ const UserDescription = ({
     color: 'gray',
     filter: 'brightness(100%)',
   };
+  const navigate = useNavigate();
 
   const [apply, setApply] = useState(false);
   const [casting, setCasting] = useState(false);
   const handleApplyClick = () => {
     if (!currentUser) {
-      window.location.href = "/login";
-      return false;
+      navigate('/login');
     }
     setApply(!apply);
   };
@@ -1074,7 +1074,6 @@ const UserDescription = ({
   const seeApplicants = () => {
     setApplicants(!applicants);
   };
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (locationn.pathname === '/casting/mycalls') {

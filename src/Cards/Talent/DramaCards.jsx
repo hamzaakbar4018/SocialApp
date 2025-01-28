@@ -435,7 +435,7 @@ const TalentCards = ({
 
   const [showShare, setShowShare] = useState(false);
   const getProfileUrl = () => {
-    const baseUrl = window.location.origin;
+    const baseUrl = 'https://cinetroop.com' || window.location.origin;
     return `${baseUrl}/userprofile/${docID}`;
   };
 

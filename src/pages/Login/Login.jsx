@@ -115,6 +115,47 @@ const Login = () => {
         }
     };
 
+    // const handleVerifyOTP = async () => {
+    //     // Additional validation before verification
+    //     if (otp.length !== 6) {
+    //         setOtpError('OTP must be exactly 6 digits.');
+    //         toast.error('OTP must be exactly 6 digits.');
+    //         return;
+    //     }
+
+    //     try {
+    //         setIsLoading(true);
+    //         const result = await confirmationResult.confirm(otp);
+    //         const user = result.user;
+
+    //         console.log("Full User Object:", user);
+    //         console.log("User UID:", user.uid);
+    //         console.log("User Phone Number:", user.phoneNumber);
+
+    //         // Check Firestore document
+    //         const userDocRef = doc(db, 'userCollection', user.uid);
+    //         const userDoc = await getDoc(userDocRef);
+
+    //         console.log("Firestore User Document:", {
+    //             exists: userDoc.exists(),
+    //             data: userDoc.exists() ? userDoc.data() : "No document"
+    //         });
+    //         setIsLoading(false);
+
+    //         navigate('/home');
+    //         toast.success('Login Successful');
+    //     } catch (error) {
+    //         console.error("Detailed OTP Verification Error:", error);
+    //         if (error.code === 'auth/invalid-verification-code') {
+    //             setOtpError('Invalid OTP. Please try again.');
+    //         } else {
+    //             setOtpError('An error occurred during verification. Please try again.');
+    //         }
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+
     const handleVerifyOTP = async () => {
         // Additional validation before verification
         if (otp.length !== 6) {
@@ -122,40 +163,50 @@ const Login = () => {
             toast.error('OTP must be exactly 6 digits.');
             return;
         }
-
+    
         try {
             setIsLoading(true);
             const result = await confirmationResult.confirm(otp);
             const user = result.user;
-
-            console.log("Full User Object:", user);
-            console.log("User UID:", user.uid);
-            console.log("User Phone Number:", user.phoneNumber);
-
+    
             // Check Firestore document
             const userDocRef = doc(db, 'userCollection', user.uid);
             const userDoc = await getDoc(userDocRef);
-
-            console.log("Firestore User Document:", {
-                exists: userDoc.exists(),
-                data: userDoc.exists() ? userDoc.data() : "No document"
+    
+            if (!userDoc.exists()) {
+                // If user document doesn't exist, sign out the user and show error
+                await auth.signOut();
+                toast.error('Please sign up first to continue.');
+                setIsLoading(false);
+                // Optionally redirect to signup page
+                navigate('/signup');
+                return;
+            }
+    
+            // If document exists, proceed with login
+            console.log("User authenticated successfully:", {
+                uid: user.uid,
+                phoneNumber: user.phoneNumber,
+                userData: userDoc.data()
             });
+    
             setIsLoading(false);
-
             navigate('/home');
             toast.success('Login Successful');
+            
         } catch (error) {
             console.error("Detailed OTP Verification Error:", error);
+            setIsLoading(false);
+            
             if (error.code === 'auth/invalid-verification-code') {
                 setOtpError('Invalid OTP. Please try again.');
+                toast.error('Invalid OTP. Please try again.');
             } else {
                 setOtpError('An error occurred during verification. Please try again.');
+                toast.error('An error occurred during verification. Please try again.');
             }
-        } finally {
-            setIsLoading(false);
         }
     };
-
     return (
         <>
             <div ref={recaptchaContainerRef} style={{ visibility: 'hidden' }}></div>

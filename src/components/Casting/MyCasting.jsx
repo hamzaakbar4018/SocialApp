@@ -255,11 +255,9 @@ const MyCasting = () => {
   const [createCast, setCreateCasting] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-
   const handleCasting = () => {
     if (!currentUser) {
-      window.location.href = "/login";
-      return false;
+      navigate('/login')
     }
 
     if (myCasting.length >= castingCallLimit) {

@@ -169,8 +169,7 @@ const UserCard = ({
     };
 
     const getCallUrl = () => {
-        const baseUrl = window.location.origin;
-        // Use the casting call ID instead of docID
+        const baseUrl = 'https://cinetroop.com' || window.location.origin;
         return `${baseUrl}/casting/call/${id}`; // Adjust this path according to your routing structure
     };
 
