@@ -451,7 +451,9 @@ const TalentCards = ({
         ${connectionStatus === 'Connect' && 'w-[222px] tracking-tighter'} 
         min-h-min h-[250px]`}>
         <div className="flex flex-col gap-3 space-y-2 h-full">
-          <div className={`${landingtalent && 'flex flex-col justify-center items-center text-xl gap-4'}`}>
+          <div
+            onClick={() => handleProfile(docID)}
+            className={`cursor-pointer ${landingtalent && 'flex flex-col justify-center items-center text-xl gap-4'}`}>
             <div className="flex-shrink-0">
               <div className={`flex justify-between`}>
                 <img
@@ -462,7 +464,11 @@ const TalentCards = ({
                 />
 
                 <RiShareForwardLine
-                  onClick={() => setShowShare(true)}
+                  // onClick={() => setShowShare(true)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setShowShare(true);
+                  }}
                   className={`text-3xl text-gray-400 cursor-pointer  ${landingtalent && 'hidden'}`} />
               </div>
             </div>
