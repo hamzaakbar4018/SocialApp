@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TabsWithSearch = () => {
-  const [activeTab, setActiveTab] = useState("Categories"); // Default active tab
-  const [searchQuery, setSearchQuery] = useState(""); // Controlled input for the search bar
-  const navigate = useNavigate(); // For navigation
+  const [activeTab, setActiveTab] = useState("Categories"); 
+  const [searchQuery, setSearchQuery] = useState(""); 
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     const queryParam = searchQuery.trim() ? `?q=${encodeURIComponent(searchQuery)}` : "";
     
-    // Redirect to the active tab's page with or without the search query
     switch (activeTab) {
       case "Categories":
         navigate(`/categories${queryParam}`);
@@ -25,7 +24,7 @@ const TabsWithSearch = () => {
     }
   };
 
-  const tabs = ["Categories", "Talent", "Casting Call"]; // Tab options
+  const tabs = ["Categories", "Talent", "Casting Call"]; 
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white p-4 shadow-md rounded-lg">

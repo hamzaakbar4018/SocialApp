@@ -56,7 +56,7 @@ const ProfileCard = () => {
             <div className='p-6 md:flex md:flex-row flex flex-col justify-center md:justify-between md:items-start items-center gap-3'>
                 <img src={author?.image || 'https://example.com/path/to/defaultanonymousimage.png'}
                     alt=""
-                    className='rounded-full max-w-36 h-36 border' />
+                    className='rounded-full max-w-36 min-w-36 max-h-36 border' />
                 <div className='w-full flex flex-col items-center md:items-start'>
                     <h1 className='font-bold text-xl'>{author?.firstName}</h1>
                     <p className='text-gray-400 max-w-[70%]'>{author?.bio}</p>

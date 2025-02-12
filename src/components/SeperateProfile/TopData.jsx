@@ -160,7 +160,7 @@ const ProfileCard = ({ id }) => {
                 <img 
                     src={author?.image || 'https://example.com/path/to/defaultanonymousimage.png'}
                     alt={`${author?.firstName}'s profile`}
-                    className='rounded-full min-w-36 max-w-36 h-36 border' 
+                    className='rounded-full max-w-36 min-w-36 max-h-36 border' 
                 />
                 <div className='w-full flex flex-col items-center md:items-start'>
                     <h1 className='font-bold text-xl'>{author?.firstName}</h1>

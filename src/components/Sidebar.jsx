@@ -413,25 +413,25 @@ const Sidebar = () => {
                         {
                             !currentUser && (
                                 <li>
-                            <NavLink
-                                to='/categories'
-                                className={({ isActive }) =>
-                                    `flex  items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
-                                }
-                            >
-                                {({ isActive }) => (
-                                    <>
-                                        <img
-                                            src={NetworkIcon}
-                                            alt="Network"
-                                            style={{ filter: isActive ? activeIconFilter : '' }}
-                                            className='w-6 h-6 mb-1'
-                                        />
-                                        Categories
-                                    </>
-                                )}
-                            </NavLink>
-                        </li>
+                                    <NavLink
+                                        to='/categories'
+                                        className={({ isActive }) =>
+                                            `flex  items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                        }
+                                    >
+                                        {({ isActive }) => (
+                                            <>
+                                                <img
+                                                    src={NetworkIcon}
+                                                    alt="Network"
+                                                    style={{ filter: isActive ? activeIconFilter : '' }}
+                                                    className='w-6 h-6 mb-1'
+                                                />
+                                                Categories
+                                            </>
+                                        )}
+                                    </NavLink>
+                                </li>
                             )
                         }
                         <li className={`${!currentUser && 'hidden'} `}>
@@ -476,7 +476,7 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         {/* Chat Link */}
-                        <li>
+                        <li className={`${!currentUser && 'hidden'} `}>
                             <NavLink
                                 to='/chat'
                                 className={({ isActive }) =>
