@@ -79,22 +79,24 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/terms' element={<Public_terms />} />
         <Route path="/post/:postID" element={<PostDetail />} />
-        <Route path="/categories" element={<AllCategories />} />
+        {/* <Route path="/categories" element={<AllCategories />} /> */}
         <Route path="/users/:categoryName" element={<UserList />} />
         <Route path='*' element={<NotFound />} />
         <Route path="/userprofile/:id/*" element={<Profilee />}>
-        {/* Default Route Redirect */}
-        <Route index element={<Navigate to="userprofileactivity" replace />} />
+          {/* Default Route Redirect */}
+          <Route index element={<Navigate to="userprofileactivity" replace />} />
 
-        {/* Sub-routes */}
-        <Route path="userprofileactivity" element={<UserActivity />} />
-        <Route path="userprofileabout" element={<UserAbout />} />
-        <Route path="userprofilemywork" element={<UserMywork />} />
-      </Route>
+          {/* Sub-routes */}
+          <Route path="userprofileactivity" element={<UserActivity />} />
+          <Route path="userprofileabout" element={<UserAbout />} />
+          <Route path="userprofilemywork" element={<UserMywork />} />
+        </Route>
       </Route>
 
       {/* Public Routes with Sidebar */}
       <Route element={<VisibleLayout />}>
+        <Route path="/categories" element={<AllCategories />} />
+
         <Route path="/talent" element={<Talent />} />
         <Route path="/casting" element={<Casting />}>
           <Route path="calls" element={<Calls />} />
