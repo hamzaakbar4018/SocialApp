@@ -9,19 +9,30 @@ import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
+import NoData from '../Loader/NoData.jsx';
+
 import SearchBar from '../SearchBar.jsx';
 const PrivacyMain = () => {
+    const [Loading, setLoading] = useState(false);
+
     const [privacyData, setPrivacyData] = useState([])
     const fetchPrivacy = async () => {
         try {
+            setLoading(true);
+
             const querySnapshot = await getDocs(collection(db, "privacyPolicyCollection"));
             const data = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
             setPrivacyData(data);
+            setLoading(false);
+
         } catch (error) {
             console.error("Error fetching privacy data:", error);
+        } finally {
+            setLoading(false);
+
         }
     };
     useEffect(() => {
@@ -117,7 +128,7 @@ const PrivacyMain = () => {
                             )}
                         </div> */}
 
-                        <SearchBar search={search} setSearch={setSearch}/>
+                        <SearchBar search={search} setSearch={setSearch} />
 
                         <div
                             onClick={() => {
@@ -185,25 +196,29 @@ const PrivacyMain = () => {
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='mt-[2px]'>
-                        <div className='bg-white p-4'>
-                            {privacyData.length > 0 ? (
-                                <div>
-                                    <h1 className='text-2xl md:text-base font-bold'>Privacy Policy</h1>
-                                    <div className='mt-3'>
-                                        <h2 className='font-bold'>1.Introduction</h2>
-                                        {privacyData.map((data, index) => (
-                                            <p className='text-gray-400 mt-2'>
-                                                {data.data}
-                                            </p>
-                                        ))}
+                        {
+                            Loading ? (<Loader />) : (
+                                <div className='bg-white p-4'>
+                                    {privacyData.length > 0 ? (
+                                        <div>
+                                            <h1 className='text-2xl md:text-base font-bold'>Privacy Policy</h1>
+                                            <div className='mt-3'>
+                                                <h2 className='font-bold'>1.Introduction</h2>
+                                                {privacyData.map((data, index) => (
+                                                    <p className='text-gray-400 mt-2'>
+                                                        {data.data}
+                                                    </p>
+                                                ))}
 
-                                    </div>
+                                            </div>
 
+                                        </div>
+                                    ) : (
+                                        <NoData />
+                                    )}
                                 </div>
-                            ) : (
-                                <Loader />
-                            )}
-                        </div>
+                            )
+                        }
 
                     </div>
                 </div>

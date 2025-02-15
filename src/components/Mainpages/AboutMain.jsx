@@ -10,18 +10,27 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
 import SearchBar from '../SearchBar.jsx';
+import NoData from '../Loader/NoData.jsx';
+
 const AboutMain = () => {
+    const [Loading, setLoading] = useState(false);
 
     const [aboutData, setAboutData] = useState([]);
 
     const fetchAbout = async () => {
         try {
+            setLoading(true);
+
             const qureySnapShot = await getDocs(collection(db, "aboutUsCollection"));
             const data = qureySnapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
             setAboutData(data);
             console.log(data);
+            setLoading(false);
+
         } catch (error) {
             console.log("Error while fetching aboutus data ", error)
+        } finally {
+            setLoading(false);
         }
 
     }
@@ -121,7 +130,7 @@ const AboutMain = () => {
                                 </div>
                             )}
                         </div> */}
-<SearchBar search={search} setSearch={setSearch}/>
+                        <SearchBar search={search} setSearch={setSearch} />
                         <div
                             onClick={() => {
                                 if (window.innerWidth <= 640) {
@@ -187,7 +196,8 @@ const AboutMain = () => {
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='mt-[2px]'>
-                        <div className=' bg-white p-4'>
+
+                        {Loading ? (<Loader />) : (<div className=' bg-white p-4'>
                             {aboutData.length > 0 ? (<div>
                                 <h1 className='text-2xl md:text-base font-bold'>About Us</h1>
                                 <div className='mt-3'>
@@ -202,7 +212,7 @@ const AboutMain = () => {
                                 </div>
 
                             </div>) : (
-                                <Loader />
+                                <NoData />
                             )}
                             {/* <div className='mt-5'>
                                 <div className='mt-3'>
@@ -222,7 +232,7 @@ const AboutMain = () => {
 
                                 </div>
                             </div> */}
-                        </div>
+                        </div>)}
 
                     </div>
                 </div>

@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { FaSearch, FaTimes, FaCheck, FaArrowRight } from 'react-icons/fa';
 import { db } from '../Services/Firebase';
 import { useAuth } from '../Context/AuthContext';
-
+import ProfileIcon from '../assets/Icons SVG/Profile.svg';
+import TermsConditionIcon from '../assets/Icons SVG/Terms_Conditions.svg';
+import TransactionHistoryIcon from '../assets/Icons SVG/Transaction_History.svg';
+import SupportIcon from '../assets/Icons SVG/Support.svg';
+import AboutUsIcon from '../assets/Icons SVG/Aboutus.svg';
 const SearchBar = ({ search, setSearch }) => {
   const searchRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,6 +37,12 @@ const SearchBar = ({ search, setSearch }) => {
   const { currentUser } = useAuth();
   const [Author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [profile, setprofile] = useState(false);
+
+
+  const handleProfile = () => {
+    setprofile(!profile);
+  }
 
   const fetchAuthor = async () => {
     if (currentUser?.uid) {
@@ -181,6 +191,31 @@ const SearchBar = ({ search, setSearch }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [setSearch]);
 
+  const profileRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setprofile(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('recentSearches');
+    if (stored) {
+      try {
+        setRecentSearches(JSON.parse(stored));
+      } catch (e) {
+        console.error('Error parsing recent searches:', e);
+        localStorage.removeItem('recentSearches');
+      }
+    }
+  }, []);
+  const activeIconFilter = 'invert(32%) sepia(80%) saturate(462%) hue-rotate(169deg) brightness(94%) contrast(101%)';
+
   console.log("Author", Author);
   console.log("Current user", currentUser);
   return (
@@ -310,25 +345,199 @@ const SearchBar = ({ search, setSearch }) => {
             }}
             className="min-w-9 h-9 bg-black rounded-full cursor-pointer flex items-center justify-center"
           >
-            <FaArrowRight className="w-5 h-5 text-white" onClick={()=>{setSearch(false)}} />
+            <FaArrowRight className="w-5 h-5 text-white" onClick={() => { setSearch(false) }} />
           </button>
         )}
       </div>
 
-      {loading ? (
-        <div className="w-12 h-12 bg-gray-100 rounded-full animate-pulse"></div>
-      ) : (
-        Author?.image ? (
-          <img
-            src={Author.image}
-            alt="Author"
-            className="w-12 cursor-pointer max-h-12 rounded-full object-cover"
-            onClick={() => navigate(`/profile`)}
-          />
-        ) : (
-          <div className="w-12 h-12 bg-gray-100 rounded-full"></div>
-        )
-      )}
+      {
+        <div className='relative'
+          ref={profileRef}
+        >
+          {
+            currentUser && (
+              <>
+                {loading ? (
+                  <div className={`w-12 h-12 bg-gray-100 rounded-full animate-pulse hidden md:block `}></div>
+                ) : (
+                  Author?.image ? (
+                    <img
+                      src={Author.image}
+                      alt="Author"
+                      className="w-12 cursor-pointer max-h-12 rounded-full object-cover"
+                      onClick={() => handleProfile()}
+                    />
+
+                  ) : (
+                    <div onClick={() => handleProfile()} className="w-12 h-12 relative bg-gray-100 rounded-full"></div>
+                  )
+                )}
+
+                {
+                  profile && (
+                    <div className='absolute top-14 right-0 bg-white rounded-lg shadow-lg py-2 w-auto min-w-[250px] z-50'>
+                      <div className='m-3'>
+                        {loading ? (
+                          <div className={`w-12 h-12 bg-gray-100 rounded-full animate-pulse hidden md:block `}></div>
+                        ) : (
+                          Author?.image ? (
+                            <div className='flex gap-2 '>
+                              <img
+                                src={Author.image}
+                                alt="Author"
+                                className="w-16 cursor-pointer max-h-16 rounded-full object-cover"
+                                onClick={() => handleProfile()}
+                              />
+                              <div className='mt-1'>
+                                <h1 className='font-bold text-lg'>{Author.firstName}</h1>
+                                <p className='text-gray-400'>{Author.categoryName}</p>
+                              </div>
+                            </div>
+
+                          ) : (
+                            <div onClick={() => handleProfile()} className="w-16 h-16 relative bg-gray-100 rounded-full"></div>
+                          )
+                        )}
+                        <ul className='border-t mt-2 border-gray-300 '>
+                          <div className={`flex flex-col gap-2 `}>
+                            {/* Profile Link */}
+                            <li>
+                              <NavLink
+                                to='/profile'
+                                className={({ isActive }) =>
+                                  `flex items-center  gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                              >
+                                {({ isActive }) => (
+                                  <>
+                                    <img
+                                      src={ProfileIcon}
+                                      alt="Profile"
+                                      style={{ filter: isActive ? activeIconFilter : '' }}
+                                      className='w-6 h-6 mb-1'
+                                    />
+                                    My Profile
+                                  </>
+                                )}
+                              </NavLink>
+                            </li>
+                            {/* Transactions Link */}
+                            <li>
+                              <NavLink
+                                to='/transaction'
+                                className={({ isActive }) =>
+                                  `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                              >
+                                {({ isActive }) => (
+                                  <>
+                                    <img
+                                      src={TransactionHistoryIcon}
+                                      alt="Transactions"
+                                      style={{ filter: isActive ? activeIconFilter : '' }}
+                                      className='w-6 h-6 mb-1'
+                                    />
+                                    Transactions
+                                  </>
+                                )}
+                              </NavLink>
+                            </li>
+                            {/* Support Link */}
+                            <li>
+                              <NavLink
+                                to='/support'
+                                className={({ isActive }) =>
+                                  `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                              >
+                                {({ isActive }) => (
+                                  <>
+                                    <img
+                                      src={SupportIcon}
+                                      alt="Support"
+                                      style={{ filter: isActive ? activeIconFilter : '' }}
+                                      className='w-6 h-6 mb-1'
+                                    />
+                                    Support
+                                  </>
+                                )}
+                              </NavLink>
+                            </li>
+                            {/* About Us Link */}
+                            <li>
+                              <NavLink
+                                to='/about'
+                                className={({ isActive }) =>
+                                  `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                              >
+                                {({ isActive }) => (
+                                  <>
+                                    <img
+                                      src={AboutUsIcon}
+                                      alt="About Us"
+                                      style={{ filter: isActive ? activeIconFilter : '' }}
+                                      className='w-6 h-6 mb-1'
+                                    />
+                                    About Us
+                                  </>
+                                )}
+                              </NavLink>
+                            </li>
+                            {/* Terms & Conditions Link */}
+                            <li>
+                              <NavLink
+                                to='/term-policy'
+                                className={({ isActive }) =>
+                                  `flex items-center tracking-tight gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                              >
+                                {({ isActive }) => (
+                                  <>
+                                    <img
+                                      src={TermsConditionIcon}
+                                      alt="Terms & Conditions"
+                                      style={{ filter: isActive ? activeIconFilter : '' }}
+                                      className='w-6 h-6 mb-1'
+                                    />
+                                    Terms & Conditions
+                                  </>
+                                )}
+                              </NavLink>
+                            </li>
+                            {/* Privacy Policy Link */}
+                            <li>
+                              <NavLink
+                                to='/privacy'
+                                className={({ isActive }) =>
+                                  `flex items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                              >
+                                {({ isActive }) => (
+                                  <>
+                                    <img
+                                      src={TermsConditionIcon} // Assuming you want a different icon
+                                      alt="Privacy Policy"
+                                      style={{ filter: isActive ? activeIconFilter : '' }}
+                                      className='w-6 h-6 mb-1'
+                                    />
+                                    Privacy Policy
+                                  </>
+                                )}
+                              </NavLink>
+                            </li>
+                          </div>
+                        </ul>
+
+                      </div>
+                    </div>
+                  )
+                }
+              </>
+            )
+          }
+        </div>
+      }
 
 
     </>

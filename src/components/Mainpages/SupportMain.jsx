@@ -11,19 +11,26 @@ import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx';
 import Loader from '../Loader/Loader.jsx';
+import NoData from '../Loader/NoData.jsx';
 import SearchBar from '../SearchBar.jsx';
 
 const SupportMain = () => {
 
     const [supportData, setSupportData] = useState([]);
+    const [Loading, setLoading] = useState(false);
     const fetchSupport = async () => {
         try {
+            setLoading(true);
             const querySnapShot = await getDocs(collection(db, "faqCollection"));
             const data = querySnapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
             setSupportData(data);
             console.log(querySnapShot.docs.data);
+            setLoading(false);
         } catch (error) {
+            set
             console.log("Error in fetching support data ", error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -128,7 +135,7 @@ const SupportMain = () => {
                                 </div>
                             )}
                         </div> */}
-<SearchBar search={search} setSearch={setSearch}/>
+                        <SearchBar search={search} setSearch={setSearch} />
                         <div
                             onClick={() => {
                                 if (window.innerWidth <= 640) {
@@ -197,68 +204,70 @@ const SupportMain = () => {
                         <div className=' bg-white p-4'>
 
 
-                            <div className="details flex flex-col">
-                                {supportData.length > 0 ? (
-                                    <div>
-                                        <h1 className="font-bold text-gray-400">
-                                            Frequently Asked Questions
-                                        </h1>
-                                        {supportData.map((data, index) => (
-                                            <div
-                                                onClick={() => handleVisible(index)}
-                                                key={index}
-                                                className="one mt-7 border-b border-gray-300 flex w-full"
-                                            >
-                                                <div className="data w-full">
-                                                    <h1
-                                                        className="changes text-xl mb-4"
+                            {
+                                Loading ? (<Loader />) : (<div className="details flex flex-col">
+                                    {supportData.length > 0 ? (
+                                        <div>
+                                            <h1 className="font-bold text-gray-400">
+                                                Frequently Asked Questions
+                                            </h1>
+                                            {supportData.map((data, index) => (
+                                                <div
+                                                    onClick={() => handleVisible(index)}
+                                                    key={index}
+                                                    className="one mt-7 border-b border-gray-300 flex w-full"
+                                                >
+                                                    <div className="data w-full">
+                                                        <h1
+                                                            className="changes text-xl mb-4"
 
-                                                    >
-                                                        {data.question}
-                                                    </h1>
-                                                    {visibleSections[index] && (
-                                                        <p className="changes text-sm mb-4 text-gray-500">
-                                                            {data.answer}
-                                                        </p>
-                                                    )}
-                                                </div>
-                                                <div className="w-[20%] flex justify-end items-start">
-                                                    {!visibleSections[index] ? (
-                                                        <button
-                                                            onClick={() => handleVisible(index)}
-                                                            className="changes"
                                                         >
-                                                            <img
+                                                            {data.question}
+                                                        </h1>
+                                                        {visibleSections[index] && (
+                                                            <p className="changes text-sm mb-4 text-gray-500">
+                                                                {data.answer}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <div className="w-[20%] flex justify-end items-start">
+                                                        {!visibleSections[index] ? (
+                                                            <button
                                                                 onClick={() => handleVisible(index)}
-                                                                className="w-5"
-                                                                src={land6plus}
-                                                                style={{
-                                                                    filter: "invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)",
-                                                                }}
-                                                                alt=""
-                                                            />
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            onClick={() => handleVisible(index)}
-                                                            className="changes"
-                                                        >
-                                                            <img
+                                                                className="changes"
+                                                            >
+                                                                <img
+                                                                    onClick={() => handleVisible(index)}
+                                                                    className="w-5"
+                                                                    src={land6plus}
+                                                                    style={{
+                                                                        filter: "invert(44%) sepia(4%) saturate(2457%) hue-rotate(171deg) brightness(92%) contrast(92%)",
+                                                                    }}
+                                                                    alt=""
+                                                                />
+                                                            </button>
+                                                        ) : (
+                                                            <button
                                                                 onClick={() => handleVisible(index)}
-                                                                className="w-5"
-                                                                src={land6minus}
-                                                                alt=""
-                                                            />
-                                                        </button>
-                                                    )}
+                                                                className="changes"
+                                                            >
+                                                                <img
+                                                                    onClick={() => handleVisible(index)}
+                                                                    className="w-5"
+                                                                    src={land6minus}
+                                                                    alt=""
+                                                                />
+                                                            </button>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <Loader />
-                                )}
-                            </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <NoData />
+                                    )}
+                                </div>)
+                            }
                         </div>
                     </div>
                 </div>

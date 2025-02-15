@@ -1,5 +1,6 @@
 import React from 'react';
 import Main from '../components/Mainpages/Main';
+import BottomBar from '../components/BottomBar';
 
 const Home = () => {
     return (
@@ -7,6 +8,7 @@ const Home = () => {
             <div className='flex-grow'>
                 <Main />
             </div>
+                {/* <BottomBar /> */}
         </div>
     );
 };

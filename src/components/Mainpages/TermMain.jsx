@@ -10,12 +10,17 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Services/Firebase.jsx'
 import Loader from '../Loader/Loader.jsx';
 import SearchBar from '../SearchBar.jsx';
+import NoData from '../Loader/NoData.jsx';
+
 const TermMain = () => {
 
     const [termsData, setTermsData] = useState([]);
+    const [Loading, setLoading] = useState(false);
 
     const fetchTerms = async () => {
         try {
+            setLoading(true);
+
             const querySnapshot = await getDocs(collection(db, "termsConditionCollection"));
             const data = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
@@ -23,8 +28,12 @@ const TermMain = () => {
             }));
             setTermsData(data);
             console.log(querySnapshot)
+            setLoading(false);
+
         } catch (error) {
             console.error("Error fetching terms and policies: ", error);
+        }finally{
+            setLoading(false);
         }
     };
 
@@ -189,7 +198,9 @@ const TermMain = () => {
                 </div>
                 <div className={`showcard transition-all ${showRightbar ? 'm-[]' : 'mr-[2px]'}`}>
                     <div className='mt-[2px]'>
-                        <div className='bg-white p-4'>
+                       {
+                        Loading ? (<Loader/>) : (
+                            <div className='bg-white p-4'>
                             {termsData.length > 0 ? (
                                 <div>
                                     <h1 className='text-2xl md:text-base font-bold'>Terms & Conditions</h1>
@@ -206,7 +217,7 @@ const TermMain = () => {
 
                                 </div>
                             ) : (
-                                <Loader />
+                                <NoData />
                             )}
                             {/* <div className='mt-5'>
                                 <div className='mt-3'>
@@ -227,6 +238,8 @@ const TermMain = () => {
                                 </div>
                             </div> */}
                         </div>
+                        )
+                       }
 
                     </div>
                 </div>

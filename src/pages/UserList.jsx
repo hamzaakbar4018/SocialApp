@@ -158,24 +158,28 @@ const UserList = () => {
                             users.map((user) => (
                                 <div
                                     key={user.docID}
-                                    className="bg-[#ECF5FE] rounded-xl p-5 h-auto min-w-[255px] max-w-[300px] shadow-md text-center cursor-pointer"
+                                    className="bg-[#ECF5FE] rounded-xl p-5 h-auto min-w-[255px] max-w-[300px] shadow-md cursor-pointer"
                                     onClick={() => navigate(`/userprofile/${user.docID}`)} // Navigate to user profile
                                 >
                                     {/* User Image */}
-                                    <img
-                                        src={user.image}
-                                        alt={user.firstName}
-                                        className="w-20 h-20 rounded-full mx-auto mb-4 bg-gray-400"
-                                    />
+                                    <div>
+                                        <img
+                                            src={user.image}
+                                            alt={user.firstName}
+                                            className="w-20 h-20 rounded-full mb-4 bg-gray-400"
+                                        />
+                                    </div>
                                     {/* User Name */}
-                                    <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                                        {`${user.firstName} ${user.lastName}`}
-                                    </h3>
-                                    {/* User Bio */}
-                                    <div className="text-wrap">
-                                        <p className="text-gray-600 text-sm break-words">
-                                            {user.bio || 'No bio available'}
-                                        </p>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                                            {`${user.firstName} ${user.lastName}`}
+                                        </h3>
+                                        {/* User Bio */}
+                                        <div className="text-wrap">
+                                            <p className="text-gray-600 text-sm break-words">
+                                                {user.bio || 'No bio available'}
+                                            </p>
+                                        </div>
                                     </div>
 
                                 </div>

@@ -308,23 +308,28 @@ const AllCategories = () => {
             ) : (
               <div
                 ref={carouselRef}
-                className="carousel flex gap-4 px-4 py-2 pb-4 overflow-x-auto scroll-smooth hide-scrollbar"
+                className="carousel flex gap-5 px-4 py-2 pb-4 overflow-x-auto scroll-smooth hide-scrollbar"
                 style={{ scrollSnapType: "x mandatory" }}
               >
                 {filteredCategories.map((category) => (
                   <div
                     key={category.docID}
-                    onClick={() => handleCategoryClick(category.name)}
-                    className={`carousel-item mt-10 flex-shrink-0 w-[calc(33.333%-1rem)] min-w-[255px] max-w-[255px] cursor-pointer bg-[#ECF5FE] p-6 rounded-lg shadow-md text-center transition-transform duration-300 ease-in-out hover:scale-105 `}
+                    // onClick={() => handleCategoryClick(category.name)}
+                    className={`carousel-item mt-10 flex-shrink-0 w-[calc(33.333%-1rem)] min--[235px] max-w-[200px] bg-[#ECF5FE] p-6 rounded-lg shadow-md text-center transition-transform duration-300 ease-in-out hover:scale-105 `}
                     style={{ scrollSnapAlign: "start" }}
                   >
-                    <div className='flex justify-center bg-[#ECF5FE] rounded-xl p-5 h-auto w-full items-center flex-col'>
-                      <div className="w-20 h-20 mx-auto mb-4 bg-gray-400 rounded-full flex items-center justify-center">
+                    <div className='flex bg-[#ECF5FE] rounded-xl h-auto  w-full flex-col'>
+
+                      <div onClick={() => handleCategoryClick(category.name)}  className="w-24 cursor-pointer h-24  mb-4 bg-gray-400 rounded-full flex items-center justify-center">
                         <span className="text-white text-lg">{category.name.charAt(0)}</span>
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                        {highlightText(category.name, searchTerm)}
-                      </h3>
+
+                      <div className='flex flex-col items-start'>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                          {highlightText(category.name, searchTerm)}
+                        </h3>
+                        <button onClick={() => handleCategoryClick(category.name)} className='bg-black text-white w-full p-2 text-sm rounded-full'>View Profiles</button>
+                      </div>
                     </div>
                   </div>
                 ))}
