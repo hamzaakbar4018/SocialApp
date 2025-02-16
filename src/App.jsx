@@ -70,7 +70,7 @@ const VisibleLayout = () => (
 
 const App = () => {
   const location = useLocation();
-  
+
   return (
     <>
       <Routes>
@@ -86,6 +86,19 @@ const App = () => {
           {/* <Route path="/categories" element={<AllCategories />} /> */}
           <Route path="/users/:categoryName" element={<UserList />} />
           <Route path='*' element={<NotFound />} />
+          {/* <Route path="/userprofile/:id/*" element={<Profilee />}>
+            <Route index element={<Navigate to="userprofileactivity" replace />} />
+
+            <Route path="userprofileactivity" element={<UserActivity />} />
+            <Route path="userprofileabout" element={<UserAbout />} />
+            <Route path="userprofilemywork" element={<UserMywork />} />
+          </Route> */}
+        </Route>
+
+        {/* Public Routes with Sidebar */}
+        <Route element={<VisibleLayout />}>
+          <Route path="/categories" element={<AllCategories />} />
+
           <Route path="/userprofile/:id/*" element={<Profilee />}>
             {/* Default Route Redirect */}
             <Route index element={<Navigate to="userprofileactivity" replace />} />
@@ -95,11 +108,6 @@ const App = () => {
             <Route path="userprofileabout" element={<UserAbout />} />
             <Route path="userprofilemywork" element={<UserMywork />} />
           </Route>
-        </Route>
-
-        {/* Public Routes with Sidebar */}
-        <Route element={<VisibleLayout />}>
-          <Route path="/categories" element={<AllCategories />} />
 
           <Route path="/talent" element={<Talent />} />
           <Route path="/casting" element={<Casting />}>
@@ -136,7 +144,7 @@ const App = () => {
           </Route>
         </Route>
       </Routes>
-      
+
       {location.pathname !== '/' && <BottomBar />}
     </>
   );

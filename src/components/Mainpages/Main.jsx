@@ -26,6 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../Context/AuthContext.jsx';
 import SearchBar from '../SearchBar.jsx';
 import NoData from '../Loader/NoData.jsx'
+import { Link } from 'react-router-dom';
 const Main = () => {
     const { currentUser, userData, logout } = useAuth();
     const dummyID = currentUser.uid;
@@ -337,11 +338,13 @@ const Main = () => {
                                         loading ? (
                                             <div className="flex w-12 bg-gray-300 h-12 rounded-full items-center gap-2 animate-pulse"></div>
                                         ) : (
-                                            <img
-                                                src={author && author[0] ? author[0].image : ''}
-                                                className="rounded-full w-12 h-12"
-                                                alt={author && author[0] ? author[0].firstName : 'User'}
-                                            />
+                                            <Link to={'/profile'}>
+                                                <img
+                                                    src={author && author[0] ? author[0].image : ''}
+                                                    className="rounded-full w-12 h-12"
+                                                    alt={author && author[0] ? author[0].firstName : 'User'}
+                                                />
+                                            </Link>
                                         )
                                     }
                                     <p className='text-[#808080]'>Have You Something to Share?</p>
@@ -375,7 +378,7 @@ const Main = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        <NoData data={"No Posts to show"}/>
+                                        <NoData data={"No Posts to show"} />
                                     )
                                 ) : (
                                     <Loader />

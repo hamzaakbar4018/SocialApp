@@ -35,6 +35,7 @@ import { db } from "../../Services/Firebase.jsx";
 // Assets
 import searchi from "../../assets/Icons SVG/Search.svg";
 import Notifications from "../../assets/Icons SVG/Notifications.svg";
+import { Link } from "react-router-dom";
 
 const TalentMain = () => {
     // Context
@@ -49,7 +50,6 @@ const TalentMain = () => {
     const [showRightbar, setShowRightbar] = useState(false);
     const [search, setSearch] = useState(false);
     const [connectionStatus, setConnectionStatus] = useState({});
-
     // Refs
     const searchRef = useRef(null);
 
@@ -195,13 +195,22 @@ const TalentMain = () => {
                             onClick={() =>
                                 window.innerWidth <= 640 ? handlePopup() : handleBar()
                             }
-                            className={`${search
-                                    ? "hidden"
-                                    : "rounded-full cursor-pointer p-3 mr-4 border border-gray-300"
+                            className={`${!currentUser && "hidden"} ${search
+                                ? "hidden"
+                                : "rounded-full cursor-pointer p-3 mr-4  border border-gray-300"
                                 }`}
                         >
                             <img src={Notifications} alt="Notifications" />
                         </div>
+                        {
+                            !currentUser && (
+                                <div className="cursor-pointer ml-[-30px] mr-4 hidden md:block">
+                                    <Link to="/signup">
+                                        <button className={`p-3 mr-5 border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>SignIn / Signup</button>
+                                    </Link>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
 
@@ -225,7 +234,7 @@ const TalentMain = () => {
                                 isLoggedIn={!!currentUser}
                             />
                         ) : (
-                            <NoDataFound data={"No Talent found"}/>
+                            <NoDataFound data={"No Talent found"} />
                         )}
                     </div>
 
@@ -247,7 +256,7 @@ const TalentMain = () => {
                                 isLoggedIn={!!currentUser}
                             />
                         ) : (
-                            <NoDataFound data={"No production houses yet"}/>
+                            <NoDataFound data={"No production houses yet"} />
                         )}
                     </div>
                 </div>

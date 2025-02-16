@@ -16,7 +16,7 @@ const TabsWithSearch = () => {
       case "Talent":
         navigate(`/talent${queryParam}`);
         break;
-      case "Casting Call":
+      case "Casting Calls":
         navigate(`/casting/calls${queryParam}`);
         break;
       default:
@@ -24,7 +24,7 @@ const TabsWithSearch = () => {
     }
   };
 
-  const tabs = ["Categories", "Talent", "Casting Call"]; 
+  const tabs = ["Categories", "Talent", "Casting Calls"]; 
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white p-4 shadow-md rounded-lg">

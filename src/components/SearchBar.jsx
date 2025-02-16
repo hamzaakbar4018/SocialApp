@@ -47,6 +47,7 @@ const SearchBar = ({ search, setSearch }) => {
   const fetchAuthor = async () => {
     if (currentUser?.uid) {
       try {
+        setLoading(true);
         const userQuery = query(
           collection(db, 'userCollection'),
           where('docID', '==', currentUser.uid)

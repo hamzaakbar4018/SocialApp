@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import logo from '../assets/Icons SVG/clogob.png';
 //  import logo from '../assets/Icons SVG/Cinetrooplogo.png';
 
 import { HiMenu, HiX } from 'react-icons/hi';
 import '../CSS/Navbar.css';
 import { useAuth } from '../Context/AuthContext';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../Services/Firebase';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +17,51 @@ const Navbar = () => {
     };
 
     const { currentUser } = useAuth();
+    const [Author, setAuthor] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const fetchAuthor = async () => {
+        if (currentUser?.uid) {
+            try {
+                setLoading(true);
+                const userQuery = query(
+                    collection(db, 'userCollection'),
+                    where('docID', '==', currentUser.uid)
+                );
+
+                const querySnapshot = await getDocs(userQuery);
+                const userData = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                if (userData.length > 0) {
+                    console.log("Fetched User Data:", userData[0]); // Debugging log
+                    setAuthor(userData[0]);
+                } else {
+                    console.log("No user found with UID:", currentUser.uid);
+                    setAuthor(null);
+                }
+            } catch (err) {
+                console.error('Error fetching author:', err);
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            setLoading(false);
+        }
+    };
+    const navigate = useNavigate(); // Hook for programmatic navigation
+
+    const handleNavigation = () => {
+        navigate("/home");
+    };
+
+
+    console.log("Author", Author);
+
+    useEffect(() => {
+        fetchAuthor();
+    }, [currentUser?.uid]);
 
     // const contactEmail = "support@youtooart.com";
     // const subject = encodeURIComponent("Inquiry from YouTooArt Website");
@@ -55,13 +102,22 @@ const Navbar = () => {
                 </div>
                 <div className="hidden md:block signup px-3">
                     <Link to="/signup">
-                        <button className={`p-3 mr-5 border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>Sign Up</button>
+                        <button className={`p-3 mr-5 border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>SignIn / Signup</button>
                     </Link>
-                    {
-                        currentUser && (
-                            <div className='md:w-40'></div>
-                        )
-                    }
+                    <div className='flex items-center justify-center mt-1 md:w-36'>
+                        {
+                            currentUser && (
+                                Author?.image ? (
+                                    <img
+                                        src={Author.image}
+                                        alt="Author"
+                                        className="w-12 cursor-pointer max-h-12 rounded-full object-cover"
+                                        onClick={handleNavigation}
+                                    />
+                                ) : ('')
+                            )
+                        }
+                    </div>
                 </div>
                 <div className='flex items-center justify-center px-3 md:hidden'>
                     {
@@ -69,6 +125,11 @@ const Navbar = () => {
                     }
                 </div>
             </div>
+
+
+
+
+
 
             {/* Sliding Menu Sheet */}
             <div className={`fixed top-0 left-0 w-full h-full bg-white shadow-lg z-50 transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:hidden`}>
@@ -111,6 +172,8 @@ const Navbar = () => {
                                 Signup
                             </button>
                         </Link>
+
+
                     </div>
                 </div>
             </div>

@@ -78,12 +78,22 @@ const EditProfileModal = ({ author, onClose, handleProfileUpdate }) => {
           </div>
 
           <div className="flex justify-center mb-4">
+            {/* Hidden file input */}
             <input
               type="file"
-              className="file-input  rounded-xl w-full max-w-xs"
+              id="profilePicInput"
+              className="hidden" // Hides the default file input
               accept="image/*"
               onChange={handleImageChange}
             />
+
+            {/* Custom Button */}
+            <label
+              htmlFor="profilePicInput"
+              className="cursor-pointer bg-black text-white  py-2 px-4 rounded-full hover:bg-gray-700"
+            >
+              Change Profile Picture
+            </label>
           </div>
 
           <div className="space-y-4">

@@ -4,12 +4,13 @@ import Rightbar from '../Rightbar';
 import searchi from '../../assets/Icons SVG/Search.svg'
 import Notifications from '../../assets/Icons SVG/Notifications.svg'
 import { PiStarFourBold } from "react-icons/pi";
-import { NavLink, Outlet, Navigate, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, Navigate, useLocation , Link } from 'react-router-dom';
 import { BsPatchCheck } from "react-icons/bs";
 import Sidebar from '../Sidebar.jsx'
 import { FiMenu } from 'react-icons/fi';
 import { NotificatinData } from '../../Context/NotificatinContext.jsx';
 import SearchBar from '../SearchBar.jsx';
+import { useAuth } from '../../Context/AuthContext.jsx';
 
 const CastingMain = () => {
     const notifyData = useContext(NotificatinData);
@@ -17,6 +18,7 @@ const CastingMain = () => {
     const handlePopup = () => {
         setpopup(!popup)
     }
+    const { currentUser } = useAuth();
     const [showSidebar, setShowSidebar] = useState(false);
     const handleSidebarToggle = () => {
         setShowSidebar(!showSidebar);
@@ -113,10 +115,19 @@ const CastingMain = () => {
                                     handleBar();
                                 }
                             }}
-                            className={`${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}
+                            className={`${!currentUser && "hidden"} ${search ? 'hidden' : 'rounded-full cursor-pointer p-3 mr-4 border border-gray-300'}`}
                         >
                             <img src={Notifications} alt="Notifications" />
                         </div>
+                        {
+                            !currentUser && (
+                                <div className="cursor-pointer ml-[-30px] mr-4 hidden md:block">
+                                    <Link to="/signup">
+                                        <button className={`p-3 mr-5 border rounded-3xl border-gray-600 ${currentUser && 'hidden'}`}>SignIn / Signup</button>
+                                    </Link>
+                                </div>
+                            )
+                        }
                         {
                             popup && (
                                 <div className='bg-black bg-opacity-50 inset-0 fixed top-0'>
