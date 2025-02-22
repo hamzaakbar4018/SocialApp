@@ -145,7 +145,7 @@ const App = () => {
         </Route>
       </Routes>
 
-      {location.pathname !== '/' && <BottomBar />}
+      {location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/signup' && <BottomBar />}
     </>
   );
 };

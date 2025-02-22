@@ -116,11 +116,11 @@ const MyCasting = () => {
     e.preventDefault();
     setIsSubmitting(true);
     if (
-      !title || !description || !roleTitle || !roleDescription || !age ||
-      !gender || !shootDetails || !budget || !crew || !city ||
-      !contactEmail || !contactNumber
+      !title || !description ||
+      !gender || !crew || !city || !height
     ) {
-      alert("Please fill out all required fields.");
+      alert("Please fill out all required fieldssss.");
+      console.log(crew)
       setIsSubmitting(false);
 
       return;
@@ -290,14 +290,39 @@ const MyCasting = () => {
     }
   };
 
+  const [cat, setCat] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const categoriesQuery = query(
+        collection(db, "categoryCollection"),
+        orderBy("name")
+      );
+
+      const querySnapshot = await getDocs(categoriesQuery);
+      const categories = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCat(categories);
+    } catch (error) {
+      if (error.code === 'failed-precondition') {
+        console.error("This query requires an index. Please add it in the Firebase Console");
+      } else {
+        console.error("Error fetching categories:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // Extract just the names from the categories for crewData
+  const crewData = cat.map(category => category.name);
 
 
-
-  const crewData = ['Actor', 'Director', 'Producer']
   const genderData = ['Male', 'Female']
-
-
-
 
   return (
     isLoading ? (
@@ -407,132 +432,168 @@ const MyCasting = () => {
                 <h3 className="font-bold text-lg mb-4">Create Casting Call</h3>
               </div>
               <div className="flex-grow overflow-auto">
-
                 <div className='pt-5 px-5'>
                   <div className='flex flex-col gap-2 mt-4'>
-                    <label htmlFor="">Project Title</label>
-                    <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Project Title' />
+                    <label htmlFor="title">Project Title <span className="text-red-500">*</span></label>
+                    <input
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='Enter Project Title'
+                    />
                   </div>
-                  <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Short Description</label>
 
-                    <textarea
-                      value={description} onChange={(e) => setDescription(e.target.value)}
-                      name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Short Description</textarea>
-                  </div>
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Crew Required</label>
+                    <label htmlFor="description">Short Description <span className="text-red-500">*</span></label>
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl'
+                      placeholder='Enter Short Description'
+                    />
+                  </div>
+
+                  <div className='flex flex-col gap-2 mt-3'>
+                    <label htmlFor="crew">Crew Required <span className="text-red-500">*</span></label>
                     <select
                       onChange={(e) => setCrew(e.target.value)}
                       className='bg-gray-100 p-2 rounded-3xl'
-                      name=""
-                      id=""
                     >
                       <option value="" disabled selected>Select Crew</option>
                       {crewData.map((item, index) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
+                        <option key={index} value={item}>{item}</option>
                       ))}
                     </select>
                   </div>
+
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">City Name</label>
+                    <label htmlFor="city">City Name <span className="text-red-500">*</span></label>
                     <input
-                      value={city} onChange={(e) => setCity(e.target.value)}
-                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter City Name' />
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='Enter City Name'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Contact Email</label>
+                    <label htmlFor="contactEmail">Contact Email</label>
                     <input
-                      value={contactEmail} onChange={(e) => setContactEmail(e.target.value)}
-                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact Email' />
+                      value={contactEmail}
+                      onChange={(e) => setContactEmail(e.target.value)}
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='Enter Contact Email'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Contact Number</label>
+                    <label htmlFor="contactNumber">Contact Number</label>
                     <input
-                      value={contactNumber} onChange={(e) => setContactNumber(e.target.value)}
-                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Contact Number' />
+                      value={contactNumber}
+                      onChange={(e) => setContactNumber(e.target.value)}
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='Enter Contact Number'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Role Title</label>
+                    <label htmlFor="roleTitle">Role Title</label>
                     <input
-                      value={roleTitle} onChange={(e) => setRoleTitle(e.target.value)}
-                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Role Title' />
+                      value={roleTitle}
+                      onChange={(e) => setRoleTitle(e.target.value)}
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='Enter Role Title'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Role Description</label>
-
+                    <label htmlFor="roleDescription">Role Description</label>
                     <textarea
-                      value={roleDescription} onChange={(e) => setRoleDescription(e.target.value)}
-                      name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Role Description</textarea>
+                      value={roleDescription}
+                      onChange={(e) => setRoleDescription(e.target.value)}
+                      className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl'
+                      placeholder='Enter Role Description'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Age Required</label>
+                    <label htmlFor="age">Age Required</label>
                     <input
-                      value={age} onChange={(e) => setAge(e.target.value)}
-                      type="number" className='bg-gray-100 p-2 rounded-3xl' placeholder='23' />
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
+                      type="number"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='23'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Gender</label>
+                    <label htmlFor="gender">Gender <span className="text-red-500">*</span></label>
                     <select
                       value={gender}
                       onChange={(e) => setGender(e.target.value)}
                       className='bg-gray-100 p-2 rounded-3xl'
                     >
-
                       <option disabled value="" selected>Select Gender</option>
-                      {
-                        genderData.map((item, index) => (
-                          <option key={index} value={item}>{item}</option>
-                        ))
-                      }
+                      {genderData.map((item, index) => (
+                        <option key={index} value={item}>{item}</option>
+                      ))}
                     </select>
                   </div>
 
-
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Height</label>
+                    <label htmlFor="height">Height <span className="text-red-500">*</span></label>
                     <input
-                      value={height} onChange={(e) => setHeight(e.target.value)}
-                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='5ft' />
+                      value={height}
+                      onChange={(e) => setHeight(e.target.value)}
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='5ft'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Shoot Details</label>
-
+                    <label htmlFor="shootDetails">Shoot Details</label>
                     <textarea
-                      value={shootDetails} // Set the value from the state
-                      onChange={(e) => setShootDetails(e.target.value)} name="" className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl' placeholder='' id="">Enter Shoot Details</textarea>
+                      value={shootDetails}
+                      onChange={(e) => setShootDetails(e.target.value)}
+                      className='bg-gray-100 p-2 py-3 min-h-40 max-h-auto rounded-3xl'
+                      placeholder='Enter Shoot Details'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label
-                      htmlFor="">Budget/Remuneration</label>
+                    <label htmlFor="budget">Budget/Remuneration</label>
                     <input
-                      value={budget} // Set the value from the state
+                      value={budget}
                       onChange={(e) => setBudget(e.target.value)}
-                      type="text" className='bg-gray-100 p-2 rounded-3xl' placeholder='Enter Your Budget' />
+                      type="text"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='Enter Your Budget'
+                    />
                   </div>
 
                   <div className='flex flex-col gap-2 mt-3'>
-                    <label htmlFor="">Duration Days</label>
+                    <label htmlFor="duration">Duration Days</label>
                     <input
-                      value={duration} onChange={(e) => setDuration(e.target.value)}
-                      type="number" className='bg-gray-100 p-2 rounded-3xl' placeholder='7' />
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
+                      type="number"
+                      className='bg-gray-100 p-2 rounded-3xl'
+                      placeholder='7'
+                    />
                   </div>
-
 
                   <div className='mb-20'></div>
                 </div>
+
                 <div className='flex bg-white fixed bottom-0 w-full py-3 px-5 pt-4 items-end justify-center md:justify-end gap-3 mt-4'>
-                  <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center   px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
+                  <div className='bg-[#FFE5E5] text-[#FF0000] md:w-auto w-full md:block flex justify-center px-4 py-3 rounded-full md:rounded-3xl md:text-base text-xl'>
                     <button onClick={handleCasting}>
                       Cancel
                     </button>
