@@ -95,7 +95,7 @@ const IndustryPage = ({
 
       <div
         ref={carouselRef}
-        className="carousel flex gap-4 px-4 py-2 pb-4 overflow-x-auto scroll-smooth hide-scrollbar"
+        className="carousel flex md:gap-4 px-4 py-2 pb-4 overflow-x-auto scroll-smooth hide-scrollbar"
         style={{ scrollSnapType: "x mandatory" }}
       >
         {items.map((data, index) => (
