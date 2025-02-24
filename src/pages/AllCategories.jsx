@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaTimes } from 'react-icons/fa';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { FaSearch } from 'react-icons/fa';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../Services/Firebase';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import NoData from '../components/Loader/NoData';
 import { useAuth } from '../Context/AuthContext';
+
 const AllCategories = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,9 +14,9 @@ const AllCategories = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(true);
   const searchRef = useRef(null);
-  const carouselRef = useRef(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -26,9 +26,16 @@ const AllCategories = () => {
           docID: doc.id,
           ...doc.data(),
         }));
-        const sortedCategories = categoryData.sort((a, b) => a.name.localeCompare(b.name));
-        setCategories(sortedCategories);
+        const validCategories = categoryData.filter(category =>
+          category && category.name && typeof category.name === 'string'
+        );
 
+        // Now sort the filtered categories
+        const sortedCategories = validCategories.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+
+        setCategories(sortedCategories);
         const queryParam = searchParams.get('q');
         if (queryParam) {
           setSearchTerm(queryParam);
@@ -90,24 +97,12 @@ const AllCategories = () => {
     navigate(`/users/${categoryName}`);
   };
 
-  // Carousel scrolling logic
-  const scrollCarousel = (direction) => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      const scrollAmount = carousel.offsetWidth * 0.8;
-      carousel.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-  const {currentUser} = useAuth();
   if (loading) return <Loader />;
 
   return (
     <div className="bg-gray-100 relative">
       <div className="md:p-8 font-sans bg-white mr-1 ml-1">
-        <div className='border-b-2 border-gray-300 items-center flex justify-between'>
+        <div className='border-b-2 border-gray-300 items-center flex justify-center md:justify-between'>
           <h2 className="md:mt-2 mt-6 text-3xl font-bold text-center text-gray-800 mb-7">Categories</h2>
           {
             !currentUser && (
@@ -118,8 +113,8 @@ const AllCategories = () => {
               </div>
             )
           }
-          
         </div>
+        
         <div
           ref={searchRef}
           className="relative flex mt-5 border-gray-100 border justify-end items-center md:bg-[#ECF5FE] rounded-3xl px-3 md:py-2 py-3 space-x-2"
@@ -132,81 +127,45 @@ const AllCategories = () => {
             onChange={handleSearchInput}
             className="outline-none flex bg-transparent rounded px-2 py-1 w-full"
           />
-          {/* {searchTerm && (
-            <button
-              onClick={clearSearch}
-              className="min-w-9 h-9 bg-black rounded-full cursor-pointer flex items-center justify-center"
-            >
-              <FaTimes className="w-5 h-5 text-white" />
-            </button>
-          )} */}
         </div>
 
-        {/* {!hasSearched && categories.length === 0 && <NoData />}
-
-        {hasSearched && filteredCategories.length === 0 && (
-          <div className="w-full"><NoData /></div>
-        )} */}
-
-        {/* Carousel Navigation Buttons */}
-        <button
-          onClick={() => scrollCarousel("left")}
-          className="absolute left-2 top-[66%] transform -translate-y-1/2 z-10 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none transition-opacity"
-          aria-label="Scroll Left"
-        >
-          <ChevronLeft size={24} />
-        </button>
-
-        {/* Carousel Container */}
-        {
-          !hasSearched && categories.length === 0 || hasSearched && filteredCategories.length === 0 ?
-            (
-              <div className='min-w-full'>
-                <NoData />
-              </div>
-            ) : (
+        {!hasSearched && categories.length === 0 || hasSearched && filteredCategories.length === 0 ? (
+          <div className='min-w-full'>
+            <NoData />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6 px-2">
+            {filteredCategories.map((category) => (
               <div
-                ref={carouselRef}
-                className="carousel flex gap-5 px-4 py-2 pb-4 overflow-x-auto scroll-smooth hide-scrollbar"
-                style={{ scrollSnapType: "x mandatory" }}
+                key={category.docID}
+                className="mt-4 bg-[#ECF5FE] p-4 rounded-lg shadow-md text-center transition-transform duration-300 ease-in-out hover:scale-105"
               >
-                {filteredCategories.map((category) => (
-                  <div
-                    key={category.docID}
-                    // onClick={() => handleCategoryClick(category.name)}
-                    className={`carousel-item mt-10 flex-shrink-0 w-[calc(33.333%-1rem)] min--[235px] max-w-[200px] bg-[#ECF5FE] p-6 rounded-lg shadow-md text-center transition-transform duration-300 ease-in-out hover:scale-105 `}
-                    style={{ scrollSnapAlign: "start" }}
+                <div className='flex bg-[#ECF5FE] rounded-xl h-auto w-full flex-col items-center'>
+                  <div 
+                    onClick={() => handleCategoryClick(category.name)} 
+                    className="w-20 h-20 cursor-pointer mb-3 bg-gray-400 rounded-full flex items-center justify-center"
                   >
-                    <div className='flex bg-[#ECF5FE] rounded-xl h-auto  w-full flex-col'>
-
-                      <div onClick={() => handleCategoryClick(category.name)} className="w-24 cursor-pointer h-24  mb-4 bg-gray-400 rounded-full flex items-center justify-center">
-                        <span className="text-white text-lg">{category.name.charAt(0)}</span>
-                      </div>
-
-                      <div className='flex flex-col items-start'>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                          {highlightText(category.name, searchTerm)}
-                        </h3>
-                        <button onClick={() => handleCategoryClick(category.name)} className='bg-black text-white w-full p-2 text-sm rounded-full'>View Profiles</button>
-                      </div>
-                    </div>
+                    <span className="text-white text-lg">{category.name.charAt(0)}</span>
                   </div>
-                ))}
-                <div className="w-4 flex-shrink-0" aria-hidden="true" />
-              </div>
-            )
-        }
 
-        {/* Next Button */}
-        <button
-          onClick={() => scrollCarousel("right")}
-          className="absolute right-2 top-[66%] transform -translate-y-1/2 z-10 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none transition-opacity"
-          aria-label="Scroll Right"
-        >
-          <ChevronRight size={24} />
-        </button>
+                  <div className='flex flex-col items-center w-full'>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                      {highlightText(category.name, searchTerm)}
+                    </h3>
+                    <button 
+                      onClick={() => handleCategoryClick(category.name)} 
+                      className='bg-black text-white w-full p-2 text-sm rounded-full'
+                    >
+                      View Profiles
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-    </div >
+    </div>
   );
 };
 
