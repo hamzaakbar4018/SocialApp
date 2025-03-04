@@ -61,7 +61,7 @@ const Signup = () => {
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                toast.error('Phone number already registered');
+                toast.error('Phone number already registered.Please Login');
                 setIsLoading(false);
                 return;
             }
