@@ -20,6 +20,7 @@ const Verify = () => {
     const [createProfile2, setCreateProfile2] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationId, setVerificationId] = useState('');
+    const [actorProfilePicWarningShown, setActorProfilePicWarningShown] = useState(false);
 
     const [allCategories, setAllCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +37,7 @@ const Verify = () => {
     const [lastName, setLastName] = useState('');
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
+    const [height, setheight] = useState('');
     const [bio, setBio] = useState('');
     const [profileImage, setProfileImage] = useState(null);
 
@@ -76,6 +78,7 @@ const Verify = () => {
                 isVerified: true,
                 isProductionHouse: false,
                 canPost: true,
+                height: "",
                 experience: "",
                 website: "",
                 blockedUsers: [],
@@ -120,13 +123,65 @@ const Verify = () => {
     };
 
     // Validation function
+    // const validateForm = () => {
+    //     const newErrors = {
+
+    //         firstName: '',
+    //         country: '',
+    //         city: ''
+    //     };
+
+    //     if(SelectedCategories == 'Actor' && !profileImage){
+    //             alert('It will be good to have the image as actor!')
+    //     }
+
+    //     let isValid = true;
+
+    //     if (!firstName.trim()) {
+    //         newErrors.firstName = 'First Name is required';
+    //         isValid = false;
+    //     }
+
+    //     if (!country.trim()) {
+    //         newErrors.country = 'Country is required';
+    //         isValid = false;
+    //     }
+
+    //     if (!city.trim()) {
+    //         newErrors.city = 'City is required';
+    //         isValid = false;
+    //     }
+
+    //     setErrors(newErrors);
+    //     return isValid;
+    // };
+
+
+    const [warningShown, setWarningShown] = useState(false);
+
     const validateForm = () => {
         const newErrors = {
             firstName: '',
             country: '',
-            city: ''
+            city: '',
+            height: ''
         };
+
         let isValid = true;
+
+        const isActor = SelectedCategories.includes('Actor');
+
+        if (isActor && !height.trim()) {
+            newErrors.height = 'Height is required for actors';
+            isValid = false;
+        }
+
+        if (isActor && !profileImage && !actorProfilePicWarningShown) {
+            alert('It\'s recommended to have a profile picture for actors to be noticed!');
+            setActorProfilePicWarningShown(true);
+            return; 
+        }
+        
 
         if (!firstName.trim()) {
             newErrors.firstName = 'First Name is required';
@@ -146,6 +201,7 @@ const Verify = () => {
         setErrors(newErrors);
         return isValid;
     };
+
 
     useEffect(() => {
         const options = countryList().getData().map(country => ({
@@ -209,66 +265,6 @@ const Verify = () => {
         }
     };
 
-    // Save user profile to Firestore
-    // const saveUserProfile = async () => {
-    //     try {
-    //         setIsLoading(true);
-
-    //         // Validate required fields
-    //         if (!firstName || !country || !city) {
-    //             alert("Please fill in all required fields");
-    //             return false;
-    //         }
-
-    //         // Get the current authenticated user
-    //         const user = auth.currentUser;
-    //         if (!user) {
-    //             alert("No authenticated user found. Please sign in again.");
-    //             return false;
-    //         }
-
-    //         // Upload profile image or use default
-    //         const imageUrl = await uploadProfileImage(profileImage);
-
-    //         // Prepare user profile data
-    //         const userProfileData = {
-    //             firstName,
-    //             lastName,
-    //             country,
-    //             docID: user.uid,
-    //             city,
-    //             bio: bio || '',
-    //             categoryName: SelectedCategories,
-    //             phoneNumber,
-    //             image: imageUrl, // This will be either the uploaded image URL or default image URL
-    //             isVerified: true,
-    //             isProductionHouse: false,
-    //             canPost: true,
-    //             experience: '',
-    //             website: '',
-    //             blockedUsers: [],
-    //             follow: [],
-    //             friends: [],
-    //             received: [],
-    //             requested: [],
-    //             sent: [],
-    //             blocked: [],
-    //             createdAt: new Date()
-    //         };
-
-    //         // Save to Firestore only when submitting
-    //         const userDocRef = doc(db, 'userCollection', user.uid);
-    //         await setDoc(userDocRef, userProfileData, { merge: true });
-
-    //         return true;
-    //     } catch (error) {
-    //         console.error("Error saving user profile:", error);
-    //         alert("Failed to save profile. Please try again.");
-    //         return false;
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
     const saveUserProfile = async () => {
         try {
             setIsLoading(true);
@@ -310,6 +306,7 @@ const Verify = () => {
                 canPost: true,
                 experience: '',
                 website: '',
+                height: '',
                 blockedUsers: [],
                 follow: [],
                 friends: [],
@@ -346,43 +343,6 @@ const Verify = () => {
         }
     }, [location, navigate]);
 
-    // const handleVerifyOTP = async () => {
-    //     if (otpCode.length !== 6) {
-    //         setError('Please enter a 6-digit OTP');
-    //         return;
-    //     }
-
-    //     try {
-    //         setIsLoadingV(true);
-    //         if (!verificationId) {
-    //             throw new Error('No verification session found. Please restart the process.');
-    //         }
-
-    //         const credential = PhoneAuthProvider.credential(verificationId, otpCode);
-    //         await signInWithCredential(auth, credential);
-    //         setCreateProfile(true);
-    //         setError(null); // Clear any previous errors
-
-    //     } catch (error) {
-    //         console.error("Verification Error:", error);
-    //         if (error.code) {
-    //             switch (error.code) {
-    //                 case 'auth/invalid-verification-code':
-    //                     setError('Invalid OTP. Please check the code and try again.');
-    //                     break;
-    //                 case 'auth/code-expired':
-    //                     setError('OTP has expired. Please request a new OTP.');
-    //                     break;
-    //                 default:
-    //                     setError(`Verification failed: ${error.message}`);
-    //             }
-    //         } else {
-    //             setError(`Verification failed: ${error.message}`);
-    //         }
-    //     } finally {
-    //         setIsLoadingV(false);
-    //     }
-    // };
 
     const handleVerifyOTP = async () => {
         if (otpCode.length !== 6) {
@@ -424,25 +384,6 @@ const Verify = () => {
     };
 
 
-    // const handleComplete = async () => {
-    //     if (!validateForm()) {
-    //         return;
-    //     }
-
-    //     try {
-    //         setIsLoading(true);
-    //         const profileSaved = await saveUserProfile();
-    //         if (profileSaved) {
-    //             setComplete(true);
-    //             setCreateProfile2(false);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error saving profile:", error);
-    //         alert("Failed to save profile. Please try again.");
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
 
     const handleComplete = async () => {
         if (!validateForm()) {
@@ -788,6 +729,33 @@ const Verify = () => {
                                     )}
                                 </div>
                             </div>
+
+                            {SelectedCategories.includes('Actor') && (
+                                <div className='flex flex-col mt-2 md:mt-2 gap-2 w-full'>
+                                    <label className='font-semibold' htmlFor="height">
+                                        Height <span className='text-red-500' aria-hidden="true">*</span>
+                                        <span className='sr-only'>required</span>
+                                    </label>
+                                    <input
+                                        type="number"
+                                        className={`px-3 mt-1 py-2 rounded-full bg-[#1C1C1C14] ${errors.height ? 'border-2 border-red-500' : ''}`}
+                                        value={height}
+                                        onChange={(e) => {
+                                            setheight(e.target.value);
+                                            if (e.target.value.trim()) {
+                                                setErrors(prev => ({ ...prev, height: '' }));
+                                            }
+                                        }}
+                                        placeholder='Enter Height'
+                                        name="height"
+                                        id="height"
+                                        required
+                                    />
+                                    {errors.height && (
+                                        <span className="text-red-500 text-sm ml-2">{errors.height}</span>
+                                    )}
+                                </div>
+                            )}
 
                             <div className='flex md:mb-0 mb-8 flex-col gap-2 mt-2'>
                                 <label className='font-semibold' htmlFor="bio">Short Bio</label>
