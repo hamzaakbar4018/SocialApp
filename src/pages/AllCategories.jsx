@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 import NoData from '../components/Loader/NoData';
 import { useAuth } from '../Context/AuthContext';
-
+import { IoArrowBack } from "react-icons/io5";
 const AllCategories = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,11 +99,15 @@ const AllCategories = () => {
 
   if (loading) return <Loader />;
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="bg-gray-100 relative">
       <div className="md:p-8 font-sans bg-white mr-1 ml-1">
-        <div className='border-b-2 border-gray-300 items-center flex justify-center md:justify-between'>
-          <h2 className="md:mt-2 mt-6 text-3xl font-bold text-center text-gray-800 mb-7">Categories</h2>
+        <div className='relative border-b-2 border-gray-300 items-center flex justify-center md:justify-between'>
+          <h2 className="md:mt-2 mt-5 text-3xl font-bold text-center text-gray-800 mb-7">Categories</h2>
           {
             !currentUser && (
               <div className="cursor-pointer ml-[-30px] mr-4 hidden md:block">
@@ -113,11 +117,17 @@ const AllCategories = () => {
               </div>
             )
           }
+
+          <div className='absolute left-0 top-1 mt-6 ml-4 md:hidden'>
+            <IoArrowBack className='text-2xl' onClick={handleBackClick}/>
+          </div>
         </div>
-        
+
+
+
         <div
           ref={searchRef}
-          className="relative flex mt-5 border-gray-100 border justify-end items-center md:bg-[#ECF5FE] rounded-3xl px-3 md:py-2 py-3 space-x-2"
+          className="relative md:mt-5 m-1 flex mt-5 border-gray-100 border justify-end items-center md:bg-[#ECF5FE] rounded-3xl px-3 md:py-2 py-3 space-x-2"
         >
           <FaSearch className="w-6 h-6 cursor-pointer" />
           <input
@@ -134,15 +144,15 @@ const AllCategories = () => {
             <NoData />
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6 px-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mt-6 px-2">
             {filteredCategories.map((category) => (
               <div
                 key={category.docID}
                 className="mt-4 bg-[#ECF5FE] p-4 rounded-lg shadow-md text-center transition-transform duration-300 ease-in-out hover:scale-105"
               >
                 <div className='flex bg-[#ECF5FE] rounded-xl h-auto w-full flex-col items-center'>
-                  <div 
-                    onClick={() => handleCategoryClick(category.name)} 
+                  <div
+                    onClick={() => handleCategoryClick(category.name)}
                     className="w-20 h-20 cursor-pointer mb-3 bg-gray-400 rounded-full flex items-center justify-center"
                   >
                     <span className="text-white text-lg">{category.name.charAt(0)}</span>
@@ -152,8 +162,8 @@ const AllCategories = () => {
                     <h3 className="text-lg font-semibold text-gray-800 mb-3">
                       {highlightText(category.name, searchTerm)}
                     </h3>
-                    <button 
-                      onClick={() => handleCategoryClick(category.name)} 
+                    <button
+                      onClick={() => handleCategoryClick(category.name)}
                       className='bg-black text-white w-full p-2 text-sm rounded-full'
                     >
                       View Profiles

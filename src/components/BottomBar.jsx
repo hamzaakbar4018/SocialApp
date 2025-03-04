@@ -39,7 +39,7 @@ const BottomBar = () => {
         </li>
 
         {/* Network Link - Conditional rendering based on user state */}
-        <li className={currentUser ? '' : 'hidden'}>
+        {/* <li className={currentUser ? '' : 'hidden'}>
           <NavLink
             to='/network'
             className={({ isActive }) =>
@@ -58,10 +58,10 @@ const BottomBar = () => {
               </div>
             )}
           </NavLink>
-        </li>
+        </li> */}
 
         {/* Categories Link - Show when user is not logged in */}
-        {!currentUser && (
+        {currentUser && (
           <li>
             <NavLink
               to='/categories'
@@ -77,7 +77,7 @@ const BottomBar = () => {
                     style={{ filter: isActive ? activeIconFilter : '' }}
                     className='w-6 h-6'
                   />
-                  <span className='text-xs font-medium'>Network</span>
+                  <span className='text-xs font-medium'>Categories</span>
                 </div>
               )}
             </NavLink>

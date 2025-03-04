@@ -84,7 +84,7 @@ const App = () => {
           <Route path='/terms' element={<Public_terms />} />
           <Route path="/post/:postID" element={<PostDetail />} />
           {/* <Route path="/categories" element={<AllCategories />} /> */}
-          <Route path="/users/:categoryName" element={<UserList />} />
+          {/* <Route path="/users/:categoryName" element={<UserList />} /> */}
           <Route path='*' element={<NotFound />} />
           {/* <Route path="/userprofile/:id/*" element={<Profilee />}>
             <Route index element={<Navigate to="userprofileactivity" replace />} />
@@ -119,6 +119,9 @@ const App = () => {
               <Route path="wishlist" element={<WishlistCasting />} />
             </Route>
           </Route>
+
+          <Route path="/users/:categoryName" element={<UserList />} />
+
         </Route>
 
         {/* Protected Routes */}

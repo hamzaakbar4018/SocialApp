@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { FaSearch, FaTimes, FaCheck, FaArrowRight } from 'react-icons/fa';
+import NetworkIcon from '../assets/Icons SVG/Network.svg';
 import { db } from '../Services/Firebase';
 import { useAuth } from '../Context/AuthContext';
 import ProfileIcon from '../assets/Icons SVG/Profile.svg';
@@ -399,7 +400,9 @@ const SearchBar = ({ search, setSearch }) => {
                             <div onClick={() => handleProfile()} className="w-16 h-16 relative bg-gray-100 rounded-full"></div>
                           )
                         )}
-                        <ul className='border-t mt-2 border-gray-300 '>
+                        <div className='border-t mt-2 border-gray-300 '>
+
+                        <ul className='mt-3'>
                           <div className={`flex flex-col gap-2 `}>
                             {/* Profile Link */}
                             <li>
@@ -422,6 +425,27 @@ const SearchBar = ({ search, setSearch }) => {
                                 )}
                               </NavLink>
                             </li>
+<li className={`${!currentUser && 'hidden'} `}>
+                            <NavLink
+                                to='/network'
+                                className={({ isActive }) =>
+                                    `flex  items-center gap-2 p-2 rounded-md ${isActive ? 'bg-[#E7F3FE] font-bold text-[#227BCD] text-lg' : 'text-lg hover:bg-gray-200'}`
+                                }
+                            >
+                                {({ isActive }) => (
+                                    <>
+                                        <img
+                                            src={NetworkIcon}
+                                            alt="Network"
+                                            style={{ filter: isActive ? activeIconFilter : '' }}
+                                            className='w-6 h-6 mb-1'
+                                        />
+                                        Network
+                                    </>
+                                )}
+                            </NavLink>
+                        </li>
+
                             {/* Transactions Link */}
                             <li>
                               <NavLink
@@ -529,6 +553,7 @@ const SearchBar = ({ search, setSearch }) => {
                             </li>
                           </div>
                         </ul>
+                        </div>
 
                       </div>
                     </div>
